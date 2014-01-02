@@ -2,7 +2,7 @@
   ul.nav.nav-pills
     li(class=(menu === 'index')?'active':'')
       a(href='/') Home
-    if (admin)
+    if (admin || menu ==='admin' || menu==='post')
       li(class=(menu === 'post')?'active':'')
         a(href="/post") Post
       li(class=(menu === 'admin')?'active':'')

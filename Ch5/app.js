@@ -1,21 +1,15 @@
+var express = require('express'),
+  routes = require('./routes'),
+  http = require('http'),
+  path = require('path'),
+  mongoskin = require('mongoskin'),
+  dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/blog',
+  db = mongoskin.db(dbUrl, {safe: true}),
+  collections = {
+    articles: db.collection('articles'),
+    users: db.collection('users')
+  };
 
-/**
- * Module dependencies.
- */
-
-var express = require('express');
-var routes = require('./routes');
-
-var http = require('http');
-var path = require('path');
-
-var mongoskin = require('mongoskin');
-var dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/blog';
-var db = mongoskin.db(dbUrl, {safe: true});
-var collections = {
-  articles: db.collection('articles'),
-  users: db.collection('users')
-};
 
 
 var app = express();
@@ -36,26 +30,12 @@ app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
-app.use(express.cookieParser('3CCC4ACD-6ED1-4844-9217-82131BDCB239'));
-app.use(express.cookieSession({secret: '2C44774A-D649-4D44-9535-46E296EF984F'}))
+
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
-  if (req.session && req.session.admin)
-    res.locals.admin = true;
-  next();
-});
-
-//authorization
-var authorize = function(req, res, next) {
-  if (req.session && req.session.admin) 
-    return next();
-  else 
-    return res.send(401);
-};
 
 // development only
 if ('development' == app.get('env')) {
@@ -69,13 +49,12 @@ app.get('/', routes.index);
 app.get('/login', routes.user.login);
 app.post('/login', routes.user.authenticate);
 app.get('/logout', routes.user.logout);
-app.get('/admin', authorize, routes.article.admin);
-app.get('/post', authorize, routes.article.post);
-app.post('/post', authorize, routes.article.postArticle);
+app.get('/admin',  routes.article.admin);
+app.get('/post',  routes.article.post);
+app.post('/post', routes.article.postArticle);
 app.get('/articles/:slug', routes.article.show);
 
 //REST API ROUTES
-app.all('/api', authorize);
 app.get('/api/articles', routes.article.list)
 app.post('/api/articles', routes.article.add);
 app.put('/api/articles/:id', routes.article.edit);
