@@ -1,0 +1,15 @@
+{
+  "name": "derby-todos-example",
+  "description": "",
+  "version": "0.0.0",
+  "main": "./src/server/index.coffee",
+  "private": true,
+  "dependencies": {
+    "derby": "~0.5.12",
+    "express": "~3.4.8",
+    "coffeeify": "~0.6.0",
+    "livedb-mongo": "~0.3.0",
+    "racer-browserchannel": "~0.1.1",
+    "redis": "~0.10.0"
+  }
+}
