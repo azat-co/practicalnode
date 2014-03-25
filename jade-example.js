@@ -2,10 +2,10 @@ var jade = require('jade'),
   fs = require('fs');
 
 var data = {
-  title: "Practical Node.js",
+  title: 'Practical Node.js',
   author: {
-    twitter: "@azat_co",
-    name: "Azat"
+    twitter: '@azat_co',
+    name: 'Azat'
   },
   tags: ['express', 'node', 'javascript']
 }

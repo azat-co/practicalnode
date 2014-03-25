@@ -39,10 +39,10 @@ everyauth.everymodule.findUserById( function (user, callback) {
 
 
 var app = express();
-app.locals.appTitle = "blog-express";
+app.locals.appTitle = 'blog-express';
 
 app.use(function(req, res, next) {
-  if (!collections.articles || ! collections.users) return next(new Error("No collections."))
+  if (!collections.articles || ! collections.users) return next(new Error('No collections.'))
   req.collections = collections;
   return next();
 });

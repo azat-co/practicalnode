@@ -18,20 +18,17 @@ db.open(function(error, dbConnection){
       console.error(error);
       process.exit(1);
     }
-    console.info("findOne: ", item);
+    console.info('findOne: ', item);
     item.text = 'hi';
     var id = item._id.toString(); // we can store ID in a string
-    console.info("before saving: ", item);
+    console.info('before saving: ', item);
     dbConnection.collection('messages').save(item, function(error, item){
-      console.info("save: ", item);
+      console.info('save: ', item);
       dbConnection.collection('messages').find({_id: new mongo.ObjectID(id)}).toArray(function(error, items){
-        console.info("find: ", items);
+        console.info('find: ', items);
         db.close();
         process.exit(0);
       });
     });
   })
 });
-
-
-
