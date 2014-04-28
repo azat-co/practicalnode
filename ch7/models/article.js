@@ -4,7 +4,7 @@ var articleSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    validate: [function(value) {return value.length<=20}, 'Title is too long (120 max)'],
+    validate: [function(value) {return value.length<=120}, 'Title is too long (120 max)'],
     default: 'New Post'
   },
   text: String,
