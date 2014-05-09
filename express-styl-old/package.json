@@ -1,14 +1,13 @@
 {
-  "name": "blog-express",
+  "name": "application-name",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.4.5",
+    "express": "3.4.6",
     "jade": "*",
-    "mongoskin": "~0.6.1",
-    "stylus": "~0.40.3"
+    "styl": "*"
   }
 }
