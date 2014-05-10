@@ -1,0 +1,24 @@
+{
+  "name": "rest-express",
+  "version": "0.0.1",
+  "description": "REST API application with Express, Mongoskin, MongoDB, Mocha and Superagent",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test -R spec"
+  },
+  "author": "Azat Mardanov",
+  "license": "BSD",
+  "dependencies": {
+    "express": "4.1.2",
+    "mongoskin": "1.4.1",
+    "body-parser": "1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "1.16.2",
+    "superagent": "0.15.7",
+    "expect.js": "0.2.0"
+  }
+}
