@@ -9,7 +9,8 @@ app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
 app.use(logger())
 
-var db = mongoskin.db('localhost:27017/test', {safe: true})
+var db = mongoskin.db('mongodb://@localhost:27017/test', {safe:true})
+var id = mongoskin.helper.toObjectID
 
 app.param('collectionName', function(req, res, next, collectionName){
   req.collection = db.collection(collectionName)
@@ -37,14 +38,14 @@ app.post('/collections/:collectionName', function(req, res, next) {
 })
 
 app.get('/collections/:collectionName/:id', function(req, res, next) {
-  req.collection.findOne({_id: req.collection.id(req.params.id)}, function(e, result){
+  req.collection.findOne({_id: id(req.params.id)}, function(e, result){
     if (e) return next(e)
     res.send(result)
   })
 })
 
 app.put('/collections/:collectionName/:id', function(req, res, next) {
-  req.collection.update({_id: req.collection.id(req.params.id)},
+  req.collection.update({_id: id(req.params.id)},
     {$set: req.body},
     {safe: true, multi: false}, function(e, result){
     if (e) return next(e)
@@ -53,7 +54,7 @@ app.put('/collections/:collectionName/:id', function(req, res, next) {
 })
 
 app.del('/collections/:collectionName/:id', function(req, res, next) {
-  req.collection.remove({_id: req.collection.id(req.params.id)}, function(e, result){
+  req.collection.remove({_id: id(req.params.id)}, function(e, result){
     if (e) return next(e)
     res.send((result === 1) ? {msg:'success'} : {msg:'error'})
   })

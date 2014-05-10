@@ -14,7 +14,8 @@
   "dependencies": {
     "express": "4.1.2",
     "mongoskin": "1.4.1",
-    "body-parser": "1.0.2"
+    "body-parser": "1.0.2",
+    "morgan": "1.0.1"
   },
   "devDependencies": {
     "mocha": "1.16.2",

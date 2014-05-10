@@ -12,8 +12,9 @@
   "author": "Azat Mardanov",
   "license": "BSD",
   "dependencies": {
+    "good": "2.0.0",
     "hapi": "2.1.2",
-    "mongoskin": "~1.4.1"
+    "mongoskin": "1.4.1"
   },
   "devDependencies": {
     "mocha": "1.16.2",

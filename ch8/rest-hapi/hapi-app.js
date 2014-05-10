@@ -2,9 +2,8 @@ var hapi = require('hapi'),
   server = hapi.createServer('localhost', 3000)
   mongoskin = require('mongoskin')
 
-var id = mongoskin.helper.toObjectID
-
 var db = mongoskin.db('mongodb://@localhost:27017/test', {safe:true})
+var id = mongoskin.helper.toObjectID
 
 var loadCollection = function(name, callback) {
   callback(db.collection(name))
@@ -81,5 +80,18 @@ server.route([
     }
   }
 ])
+
+
+var options = {
+  subscribers: {
+    'console': ['ops', 'request', 'log', 'error']
+  }
+};
+
+server.pack.require('good', options, function (err) {
+  if (!err) {
+      // Plugin loaded successfully
+  }
+});
 
 server.start()
