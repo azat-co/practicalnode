@@ -5,7 +5,6 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-
 var app = express();
 
 // view engine setup
@@ -27,13 +26,6 @@ io.sockets.on('connection', function (socket) {
     console.log(data);
     socket.emit('receive', data.message.split('').reverse().join('') );
   });
-});
-
-/// catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
 });
 
 
