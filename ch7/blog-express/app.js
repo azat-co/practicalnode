@@ -12,6 +12,13 @@ var express = require('express'),
 
   everyauth = require('everyauth');
 
+var session = require('express-session'),
+  logger = require('morgan'),
+  errorHandler = require('errorhandler'),
+  cookieParser = require('cookie-parser'),
+  bodyParser = require('body-parser'),
+  methodOverride = require('method-override');
+
 everyauth.debug = true;
 everyauth.twitter
   .consumerKey(TWITTER_CONSUMER_KEY)
@@ -29,6 +36,9 @@ everyauth.twitter
     // return twitterUserMetadata
   })
   .redirectPath('/admin');
+
+//we need it because otherwise the session will be kept alive
+everyauth.everymodule.handleLogout(routes.user.logout);
 
 
 everyauth.everymodule.findUserById( function (user, callback) {
@@ -51,14 +61,14 @@ app.use(function(req, res, next) {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.cookieParser('3CCC4ACD-6ED1-4844-9217-82131BDCB239'));
-app.use(express.session({secret: '2C44774A-D649-4D44-9535-46E296EF984F'}))
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser('3CCC4ACD-6ED1-4844-9217-82131BDCB239'));
+app.use(session({secret: '2C44774A-D649-4D44-9535-46E296EF984F'}))
 app.use(everyauth.middleware());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
+app.use(bodyParser.urlencoded());
+app.use(methodOverride());
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -77,17 +87,16 @@ var authorize = function(req, res, next) {
 };
 
 // development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+if ('development' === app.get('env')) {
+  app.use(errorHandler());
 }
 
 
-app.use(app.router);
 //PAGES&ROUTES
 app.get('/', routes.index);
 app.get('/login', routes.user.login);
 app.post('/login', routes.user.authenticate);
-app.get('/logout', routes.user.logout);
+app.get('/logout', routes.user.logout); //if you use everyauth, this /logout route is overwriting by everyauth automatically, therefore we use custom/additional handleLogout
 app.get('/admin', authorize, routes.article.admin);
 app.get('/post', authorize, routes.article.post);
 app.post('/post', authorize, routes.article.postArticle);
