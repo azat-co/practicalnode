@@ -2,7 +2,9 @@ var hapi = require('hapi'),
   server = hapi.createServer('localhost', 3000)
   mongoskin = require('mongoskin')
 
-var db = mongoskin.db('localhost:27017/test', {safe:true})
+var id = mongoskin.helper.toObjectID
+
+var db = mongoskin.db('mongodb://@localhost:27017/test', {safe:true})
 
 var loadCollection = function(name, callback) {
   callback(db.collection(name))
@@ -45,7 +47,7 @@ server.route([
     path: '/collections/{collectionName}/{id}',
     handler: function(req, reply) {
       loadCollection(req.params.collectionName, function(collection) {
-        collection.findOne({_id: collection.id(req.params.id)}, function(e, result){
+        collection.findOne({_id: id(req.params.id)}, function(e, result){
           if (e) return reply(e)
           reply(result)
         })
@@ -57,7 +59,7 @@ server.route([
     path: '/collections/{collectionName}/{id}',
     handler: function(req, reply) {
       loadCollection(req.params.collectionName, function(collection) {
-        collection.update({_id: collection.id(req.params.id)},
+        collection.update({_id: id(req.params.id)},
           {$set: req.payload},
           {safe: true, multi: false}, function(e, result){
           if (e) return reply(e)
@@ -71,7 +73,7 @@ server.route([
     path: '/collections/{collectionName}/{id}',
     handler: function(req, reply) {
       loadCollection(req.params.collectionName, function(collection) {
-        collection.remove({_id: collection.id(req.params.id)}, function(e, result){
+        collection.remove({_id: id(req.params.id)}, function(e, result){
            if (e) return reply(e)
            reply((result === 1) ? {msg:'success'} : {msg:'error'})
          })
