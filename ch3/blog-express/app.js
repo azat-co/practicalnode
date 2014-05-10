@@ -9,10 +9,8 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(app.router);
-
 app.all('*', function(req, res) {
-  res.render('index', {msg: "Welcome to the Express.js Experience"})
+  res.render('index', {msg: 'Welcome to the Practical Node.js!'})
 })
 
 // http.createServer(app).listen(app.get('port'), function(){
