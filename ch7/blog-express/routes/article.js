@@ -97,7 +97,7 @@ exports.post = function(req, res, next) {
 
 exports.postArticle = function(req, res, next) {
   if (!req.body.title || !req.body.slug || !req.body.text ) {
-    return res.render('post', {error: "Fill title, slug and text."});
+    return res.render('post', {error: 'Fill title, slug and text.'});
   }
   var article = {
     title: req.body.title,
@@ -107,7 +107,7 @@ exports.postArticle = function(req, res, next) {
   };
   req.models.Article.create(article, function(error, articleResponse) {
     if (error) return next(error);
-    res.render('post', {error: "Artical was added. Publish it on Admin page."});
+    res.render('post', {error: 'Artical was added. Publish it on Admin page.'});
   });
 };
 

@@ -96,7 +96,7 @@ if ('development' == app.get('env')) {
   app.use(errorHandler());
 }
 
-//PAGES&ROUTES
+// Pages and routes
 app.get('/', routes.index);
 app.get('/login', routes.user.login);
 app.post('/login', routes.user.authenticate);
@@ -106,9 +106,9 @@ app.get('/post', authorize, routes.article.post);
 app.post('/post', authorize, routes.article.postArticle);
 app.get('/articles/:slug', routes.article.show);
 
-//REST API ROUTES
+// REST API routes
 app.all('/api', authorize);
-app.get('/api/articles', routes.article.list)
+app.get('/api/articles', routes.article.list);
 app.post('/api/articles', routes.article.add);
 app.put('/api/articles/:id', routes.article.edit);
 app.del('/api/articles/:id', routes.article.del);
@@ -132,8 +132,7 @@ var shutdown = function() {
 }
 if (require.main === module) {
   boot();
-}
-else {
+} else {
   console.info('Running app as a module')
   exports.boot = boot;
   exports.shutdown = shutdown;

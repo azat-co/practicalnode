@@ -74,7 +74,7 @@ app.get('/articles/:slug', routes.article.show);
 
 // REST API ROUTES
 app.all('/api', authorize);
-app.get('/api/articles', routes.article.list)
+app.get('/api/articles', routes.article.list);
 app.post('/api/articles', routes.article.add);
 app.put('/api/articles/:id', routes.article.edit);
 app.del('/api/articles/:id', routes.article.del);
@@ -101,8 +101,7 @@ var shutdown = function() {
 }
 if (require.main === module) {
   boot();
-}
-else {
+} else {
   console.info('Running app as a module')
   exports.boot = boot;
   exports.shutdown = shutdown;

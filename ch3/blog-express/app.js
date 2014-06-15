@@ -28,8 +28,7 @@ var shutdown = function() {
 }
 if (require.main === module) {
   boot();
-}
-else {
+} else {
   console.info('Running app as a module')
   exports.boot = boot;
   exports.shutdown = shutdown;
