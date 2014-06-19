@@ -6,8 +6,8 @@ describe('express rest api server', function(){
 
   it('post object', function(done){
     superagent.post('http://localhost:3000/collections/test')
-      .send({ name: 'John'
-        , email: 'john@rpjs.co'
+      .send({ name: 'John',
+        email: 'john@rpjs.co'
       })
       .end(function(e,res){
         // console.log(res.body)
@@ -44,8 +44,8 @@ describe('express rest api server', function(){
 
   it('updates an object', function(done){
     superagent.put('http://localhost:3000/collections/test/'+id)
-      .send({name: 'Peter'
-        , email: 'peter@yahoo.com'})
+      .send({name: 'Peter',
+        email: 'peter@yahoo.com'})
       .end(function(e, res){
         // console.log(res.body)
         expect(e).to.eql(null)
