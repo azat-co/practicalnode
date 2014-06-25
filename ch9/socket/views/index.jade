@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  p Welcome to 
+  p Welcome to
     span.received-message #{title}
   input(type='text', class='message', placeholder='what is on your mind?', onkeyup='send(this)')
   script(src="/socket.io/socket.io.js")
@@ -19,4 +19,3 @@ block content
       socket.emit('messageChange', {message: value});
     }
 
-    
