@@ -107,7 +107,7 @@ exports.postArticle = function(req, res, next) {
   };
   req.models.Article.create(article, function(error, articleResponse) {
     if (error) return next(error);
-    res.render('post', {error: 'Artical was added. Publish it on Admin page.'});
+    res.render('post', {error: 'Article was added. Publish it on Admin page.'});
   });
 };
 
