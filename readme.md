@@ -5,3 +5,7 @@
 The book is in progress, if you would like to receive alpha, email/tweet/Skype/text the author ([@azat_co](http://twitter.com/azat_co)) directly.
 
 <http://practicalnodebook.com>
+
+<http://amzn.to/NuQ0fM>
+
+<http://www.apress.com/9781430265955>
