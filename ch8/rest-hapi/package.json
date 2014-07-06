@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha test -R spec"
   },
-  "author": "Azat Mardanov",
+  "author": "Azat Mardan",
   "license": "BSD",
   "dependencies": {
     "good": "2.0.0",
