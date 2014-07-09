@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="73810d4b-7b87-4809-aba4-4333436ec72f" name="Default" comment="" />
+    <ignored path="mpromise.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="false" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="mpromise" />
+  </component>
+  <component name="FileColors">
+    <fileColor scope="Source" color="Blue" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="promise.test.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/promise.test.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="309" column="0" selection-start="7225" selection-end="7225" vertical-scroll-proportion="0.0" vertical-offset="4774" max-vertical-offset="5304">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="History.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/History.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="18" selection-start="19" selection-end="19" vertical-scroll-proportion="0.033663366" vertical-offset="0" max-vertical-offset="1105">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="MarkdownPreviewEditor">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="207" column="3" selection-start="5480" selection-end="5480" vertical-scroll-proportion="0.0" vertical-offset="3519" max-vertical-offset="3910">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="25" selection-start="243" selection-end="243" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="561">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promise.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/promise.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="337" column="0" selection-start="8620" selection-end="8620" vertical-scroll-proportion="0.0" vertical-offset="3444" max-vertical-offset="3978">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="runner.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/mocha/lib/runner.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="403" column="11" selection-start="8192" selection-end="8192" vertical-scroll-proportion="0.0" vertical-offset="4601" max-vertical-offset="7123">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promise.domain.test.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/promise.domain.test.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="2" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="646">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promises.Aplus.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/promises.Aplus.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="30" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="765">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="vanilla" />
+      </map>
+    </option>
+  </component>
+  <component name="GitLogSettings">
+    <option name="myStructureFilterPaths" />
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/node_modules/promises-aplus-tests/lib/programmaticRunner.js" />
+        <option value="$PROJECT_DIR$/node_modules/promises-aplus-tests/lib/tests/2.2.2.js" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
+        <option value="$PROJECT_DIR$/test/promises-A.js" />
+        <option value="$PROJECT_DIR$/node_modules/mocha-istanbul/README.md" />
+        <option value="$PROJECT_DIR$/html-report/index.html" />
+        <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/test/promise.domain.test.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/test/promises.Aplus.js" />
+        <option value="$PROJECT_DIR$/Makefile" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/lib/promise.js" />
+        <option value="$PROJECT_DIR$/test/promise.test.js" />
+        <option value="$PROJECT_DIR$/History.md" />
+      </list>
+    </option>
+  </component>
+  <component name="NamedScopeManager">
+    <scope name="Source" pattern="file:lib/promise.js" />
+  </component>
+  <component name="NodeJsMochaPackageDirSetting">
+    <data>C:\empeeric\mpromise\node_modules\mocha</data>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="3832" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1096" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript validity issuesJavaScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>FunctionWithInconsistentReturnsJS</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="false" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpromise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpromise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpromise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpromise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpromise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpromise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mpromise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="98" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="103" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="121" />
+    <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="fileColors" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="105" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="734" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="779" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="122" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="121" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="FullScreen" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\empeeric\1\mpromise\test" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Mocha.unit">
+    <configuration default="true" type="NodeunitConfigurationType" factoryName="Nodeunit">
+      <setting name="nodePath" value="c:/node10/node" />
+      <envs />
+      <setting name="passParentEnvVars" value="true" />
+      <setting name="nodeunitModuleDir" value="c:/node10/node_modules/nodeunit" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="testType" value="JS_FILE" />
+      <setting name="jsFile" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSRemoteDebug" factoryName="Node.js Remote Debug">
+      <node-js-remote-debug />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <test-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui>BDD</ui>
+      <require />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <browser start="false" url="" with-js-debugger="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="unit" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <working-directory>$PROJECT_DIR$/</working-directory>
+      <test-directory>$PROJECT_DIR$/test</test-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui>BDD</ui>
+      <require />
+      <recursive>false</recursive>
+      <RunnerSettings RunnerId="MochaDebugRunner" />
+      <RunnerSettings RunnerId="RunnerForMochaJavaScript" />
+      <ConfigurationWrapper RunnerId="MochaDebugRunner" />
+      <ConfigurationWrapper RunnerId="RunnerForMochaJavaScript" />
+      <method />
+    </configuration>
+    <configuration default="false" name="a+ compliance" type="NodeJSConfigurationType" factoryName="Node.js" editBeforeRun="true" singleton="true" path-to-node="c:/node10/node" path-to-js-file="test/promises.Aplus.js" working-dir="$PROJECT_DIR$">
+      <browser start="false" url="" with-js-debugger="false" />
+      <RunnerSettings RunnerId="NodeJS.debug" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="unit tests" type="NodeJSConfigurationType" factoryName="Node.js" singleton="true" path-to-node="c:/node10/node" path-to-js-file="C:/node10/node_modules/mocha/bin/_mocha" application-parameters="test/*.test.js -R spec" working-dir="$PROJECT_DIR$">
+      <browser start="false" url="" with-js-debugger="false" />
+      <RunnerSettings RunnerId="NodeJS.debug" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="cover" type="NodeJSConfigurationType" factoryName="Node.js" singleton="true" path-to-node="c:/node10/node" path-to-js-file="C:/node10/node_modules/mocha/bin/_mocha" application-parameters="test/*.test.js -R &quot;mocha-istanbul&quot;" working-dir="$PROJECT_DIR$">
+      <envs>
+        <env name="EXPRESS_COV" value="1" />
+      </envs>
+      <browser start="false" url="" with-js-debugger="false" />
+      <RunnerSettings RunnerId="NodeJS.debug" />
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method>
+        <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_scripts_generate cov" />
+      </method>
+    </configuration>
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="Mocha.unit" />
+      <item index="1" class="java.lang.String" itemvalue="Node.js.a+ compliance" />
+      <item index="2" class="java.lang.String" itemvalue="Node.js.unit tests" />
+      <item index="3" class="java.lang.String" itemvalue="Node.js.cover" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <recycled_changelist date="1382199553470">
+      <option name="PATH" value="C:\Users\Refael\.WebStorm7\config\shelf\Lost_dependency.patch" />
+      <option name="DESCRIPTION" value="Lost dependency" />
+    </recycled_changelist>
+    <recycled_changelist date="1382799750989">
+      <option name="PATH" value="C:\Users\Refael\.WebStorm7\config\shelf\try_to_make_resolve__tracable.patch" />
+      <option name="DESCRIPTION" value="try to make resolve_ tracable" />
+    </recycled_changelist>
+    <recycled_changelist date="1384715428346">
+      <option name="PATH" value="C:\Users\Refael\.WebStorm7\config\shelf\longjohn_not_compatible_with_0_11_.patch" />
+      <option name="DESCRIPTION" value="longjohn not compatible with 0.11 " />
+    </recycled_changelist>
+  </component>
+  <component name="TodoView" selected-index="3">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="3832" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917964" sideWeight="0.6352135" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28037384" sideWeight="0.59831315" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42263758" sideWeight="0.5988403" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5946231" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19188192" sideWeight="0.6514048" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40115973" sideWeight="0.6514048" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5081708" sideWeight="0.6758039" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.33021808" sideWeight="0.7835588" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24714434" sideWeight="0.6415393" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4053769" sideWeight="0.67117584" order="11" side_tool="false" content_ui="tabs" x="-12" y="369" width="1897" height="260" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30633438" sideWeight="0.5946231" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.6491416" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4348972" sideWeight="0.45482865" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Gerrit" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.6702356" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Jenkins" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22060354" sideWeight="0.5946231" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Heroku" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33190578" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Mongo Runner" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Code Review" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917964" sideWeight="0.6067475" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32977587" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="651" y="71" width="618" height="938" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug2" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3511208" sideWeight="0.6705758" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3485952" sideWeight="0.80337375" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="false" />
+    <MESSAGE value="Tests now pass, with out-of-back ```on('error', fn)``` handler" />
+    <MESSAGE value="Lost dependency" />
+    <MESSAGE value="demonstrate #3" />
+    <MESSAGE value="But only in v0.10" />
+    <MESSAGE value="Still promises-a+ 1.2" />
+    <MESSAGE value="Fix works only for v0.10.x" />
+    <MESSAGE value="Fix #3" />
+    <MESSAGE value="Domains don't work well in v0.8" />
+    <MESSAGE value="Add ```chain```" />
+    <MESSAGE value="can end a promise chain with an error handler" />
+    <MESSAGE value="can end a promise chain with an error handler&#10;" />
+    <MESSAGE value="Longjohn for easier debugging" />
+    <MESSAGE value="try to make resolve_ tracable" />
+    <MESSAGE value="`all`" />
+    <MESSAGE value="longjohn not compatible with 0.11" />
+    <MESSAGE value="longjohn not compatible with 0.11&#10;" />
+    <MESSAGE value="`end` should return the promise for convenience &#10;" />
+    <MESSAGE value="`end` should return the promise for convenience&#10;" />
+    <MESSAGE value="Add a `hook` function draft to be able to wrap existing methods&#10;" />
+    <MESSAGE value="Documanting `end` and `chain`" />
+    <MESSAGE value="Don't enter the same domain" />
+    <MESSAGE value="async-only compatible" />
+    <MESSAGE value="Simplified harness + compatible with travis + compatible with windows" />
+    <MESSAGE value="Fix deps" />
+    <MESSAGE value="Cleanup for 0.4.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup for 0.4.3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$USER_HOME$/.WebStorm7/system/extLibs/nodejs-v0.8.26-src/core-modules-sources/lib/events.js</url>
+          <line>54</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+      </breakpoints>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="71" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/lib/promise.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="109" column="18" selection-start="2666" selection-end="2666" vertical-scroll-proportion="0.0" vertical-offset="1853" max-vertical-offset="7922">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/promise.domain.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="2" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="646">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/promises.Aplus.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="30" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/node10/node_modules/mocha/lib/reporters/spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="9" selection-start="1625" selection-end="1625" vertical-scroll-proportion="0.0" vertical-offset="457" max-vertical-offset="1394" />
+      </provider>
+    </entry>
+    <entry file="file://C:/node10/node_modules/mocha/bin/_mocha">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="349" column="6" selection-start="7854" selection-end="7854" vertical-scroll-proportion="0.0" vertical-offset="5507" max-vertical-offset="7429" />
+      </provider>
+    </entry>
+    <entry file="file://C:/node10/node_modules/mocha/lib/mocha.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="152" column="13" selection-start="3429" selection-end="3429" vertical-scroll-proportion="0.0" vertical-offset="1478" max-vertical-offset="3825" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.WebStorm7/system/extLibs/nodejs-v0.10.22-src/core-modules-sources/lib/module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="379" column="16" selection-start="10634" selection-end="10634" vertical-scroll-proportion="0.0" vertical-offset="5949" max-vertical-offset="9231" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="207" column="3" selection-start="5480" selection-end="5480" vertical-scroll-proportion="0.0" vertical-offset="3230" max-vertical-offset="3910">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="53" selection-end="53" vertical-scroll-proportion="0.01814301" vertical-offset="0" max-vertical-offset="937">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/promise.domain.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="2" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/promises.Aplus.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="30" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="25" selection-start="243" selection-end="243" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="561">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/promise.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="337" column="0" selection-start="8620" selection-end="8620" vertical-scroll-proportion="0.0" vertical-offset="3444" max-vertical-offset="3978">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/mocha/lib/runner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="403" column="11" selection-start="8192" selection-end="8192" vertical-scroll-proportion="0.0" vertical-offset="4601" max-vertical-offset="7123">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/promise.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="309" column="0" selection-start="7225" selection-end="7225" vertical-scroll-proportion="0.0" vertical-offset="4774" max-vertical-offset="5304">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/History.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="18" selection-start="19" selection-end="19" vertical-scroll-proportion="0.033663366" vertical-offset="0" max-vertical-offset="1105">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <last-edited>Source</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+          <order>
+            <scope name="Source" />
+          </order>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
+

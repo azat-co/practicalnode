@@ -1,0 +1,10 @@
+.DS_Store
+*.html
+browser/**
+docs/**
+examples/**
+Makefile
+scripts/**
+tests/**
+.travis.yml
+CONTRIBUTING.md

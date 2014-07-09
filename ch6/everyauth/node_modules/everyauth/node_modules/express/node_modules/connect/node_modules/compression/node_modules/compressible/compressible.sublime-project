@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": "/",
+      "name": "compressible",
+      "file_exclude_patterns": ["*.backup", "*.pxm", "*.png", "*.jpg", "*.ttf"]
+    }
+  ],
+  "settings": {
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true
+  }
+}

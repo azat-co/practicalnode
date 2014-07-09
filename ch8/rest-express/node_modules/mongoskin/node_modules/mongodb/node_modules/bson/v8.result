@@ -1,0 +1,226 @@
+Statistical profiling result from v8.log, (1678 ticks, 13 unaccounted, 0 excluded).
+
+ [Unknown]:
+   ticks  total  nonlib   name
+     13    0.8%
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+    970   57.8%    0.0%  /usr/local/bin/node
+     73    4.4%    0.0%  /usr/lib/system/libsystem_platform.dylib
+     30    1.8%    0.0%  /usr/lib/system/libsystem_pthread.dylib
+      5    0.3%    0.0%  /usr/lib/system/libsystem_malloc.dylib
+      4    0.2%    0.0%  /usr/lib/system/libsystem_m.dylib
+      4    0.2%    0.0%  /usr/lib/system/libsystem_kernel.dylib
+      3    0.2%    0.0%  /usr/lib/system/libsystem_c.dylib
+      1    0.1%    0.0%  /usr/lib/libc++abi.dylib
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+    206   12.3%   35.0%  LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     77    4.6%   13.1%  LazyCompile: *Buffer.write buffer.js:315
+     33    2.0%    5.6%  Stub: InstanceofStub_INLINE
+     22    1.3%    3.7%  LazyCompile: NonNumberToNumber native runtime.js:538
+     22    1.3%    3.7%  LazyCompile: <anonymous> native string.js:36
+     22    1.3%    3.7%  Builtin: A builtin from the snapshot
+     20    1.2%    3.4%  LazyCompile: *isFinite native v8natives.js:103
+     20    1.2%    3.4%  KeyedLoadIC: A keyed load IC from the snapshot
+     15    0.9%    2.6%  Stub: CEntryStub
+     14    0.8%    2.4%  LazyCompile: *indexOf native string.js:118
+     12    0.7%    2.0%  Stub: StringAddStub
+     12    0.7%    2.0%  LazyCompile: toString native v8natives.js:223
+     11    0.7%    1.9%  LazyCompile: *Buffer buffer.js:156
+     10    0.6%    1.7%  Stub: CompareICStub {1}
+      9    0.5%    1.5%  LazyCompile: *toLowerCase native string.js:739
+      8    0.5%    1.4%  Stub: InstanceofStub
+      8    0.5%    1.4%  Stub: BinaryOpStub_MUL_Alloc_SMI
+      7    0.4%    1.2%  LazyCompile: ToObject native runtime.js:567
+      7    0.4%    1.2%  Builtin: A builtin from the snapshot {1}
+      5    0.3%    0.9%  Stub: CompareICStub
+      4    0.2%    0.7%  LazyCompile: *writeIEEE754 /Users/ck/coding/projects/js-bson/lib/bson/float_parser.js:67
+      4    0.2%    0.7%  LazyCompile: *Buffer.copy buffer.js:509
+      3    0.2%    0.5%  Stub: BinaryOpStub_ADD_Alloc_BothStrings
+      3    0.2%    0.5%  LazyCompile: *ceil native math.js:79
+      3    0.2%    0.5%  LazyCompile: *Long.fromNumber /Users/ck/coding/projects/js-bson/lib/bson/long.js:700
+      2    0.1%    0.3%  Stub: TranscendentalCacheStub
+      2    0.1%    0.3%  Stub: BinaryOpStub_ADD_OverwriteLeft_BothStrings
+      2    0.1%    0.3%  LazyCompile: *toString native string.js:48
+      2    0.1%    0.3%  LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+      2    0.1%    0.3%  LazyCompile: *keys native v8natives.js:333
+      2    0.1%    0.3%  LazyCompile: *isArray native array.js:1488
+      2    0.1%    0.3%  LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      2    0.1%    0.3%  LazyCompile: *Long.getLowBits /Users/ck/coding/projects/js-bson/lib/bson/long.js:159
+      1    0.1%    0.2%  Stub: InterruptStub
+      1    0.1%    0.2%  Stub: CompareICStub {2}
+      1    0.1%    0.2%  Stub: CallConstructStub
+      1    0.1%    0.2%  RegExp: ^(\\/?|)([\\s\\S]*?)((?:\\.{1\,2}|[^\\/]+?|)(\\.[^.\\/]*|))(?:[\\/]*)$
+      1    0.1%    0.2%  LazyCompile: ~writeIEEE754 /Users/ck/coding/projects/js-bson/lib/bson/float_parser.js:67
+      1    0.1%    0.2%  LazyCompile: ~value /Users/ck/coding/projects/js-bson/lib/bson/binary.js:237
+      1    0.1%    0.2%  LazyCompile: ~indexOf native string.js:118
+      1    0.1%    0.2%  LazyCompile: ~Buffer.isEncoding buffer.js:245
+      1    0.1%    0.2%  LazyCompile: ~Buffer buffer.js:156
+      1    0.1%    0.2%  LazyCompile: Join native array.js:119
+      1    0.1%    0.2%  LazyCompile: *value /Users/ck/coding/projects/js-bson/lib/bson/binary.js:237
+      1    0.1%    0.2%  LazyCompile: *isNaN native v8natives.js:96
+      1    0.1%    0.2%  LazyCompile: *isBuffer buffer.js:277
+      1    0.1%    0.2%  LazyCompile: *getTime native date.js:374
+      1    0.1%    0.2%  Builtin: A builtin from the snapshot {2}
+
+ [C++]:
+   ticks  total  nonlib   name
+
+ [GC]:
+   ticks  total  nonlib   name
+      4    0.2%
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 2.0% are not shown.
+
+   ticks parent  name
+    970   57.8%  /usr/local/bin/node
+    499   51.4%    LazyCompile: *Buffer.write buffer.js:315
+    499  100.0%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+    321   64.3%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+    231   72.0%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+    231  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     90   28.0%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     90  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+    177   35.5%        LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+    177  100.0%          LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+    120   67.8%            LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     57   32.2%            LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+    123   12.7%    LazyCompile: *keys native v8natives.js:333
+    123  100.0%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     69   56.1%        LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     69  100.0%          LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     54   78.3%            LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     15   21.7%            LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     54   43.9%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     36   66.7%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     36  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     18   33.3%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     18  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+    102   10.5%    LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     81   79.4%      LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     59   72.8%        LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     59  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     59  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+     22   27.2%        LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     22  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     22  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+     19   18.6%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     19  100.0%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     13   68.4%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     13  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      6   31.6%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      6  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     65    6.7%    LazyCompile: *indexOf native string.js:118
+     65  100.0%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     54   83.1%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     37   68.5%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     37  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     17   31.5%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     17  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     11   16.9%        LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     11  100.0%          LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+      9   81.8%            LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      2   18.2%            LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     57    5.9%    LazyCompile: *toLowerCase native string.js:739
+     57  100.0%      LazyCompile: *Buffer.write buffer.js:315
+     57  100.0%        LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     39   68.4%          LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     24   61.5%            LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     15   38.5%            LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     18   31.6%          LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     18  100.0%            LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     23    2.4%    LazyCompile: *Buffer buffer.js:156
+     12   52.2%      LazyCompile: *value /Users/ck/coding/projects/js-bson/lib/bson/binary.js:237
+     12  100.0%        LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     12  100.0%          LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     10   83.3%            LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      2   16.7%            LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     11   47.8%      LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+      9   81.8%        LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      9  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      9  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+      2   18.2%        LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      2  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      2  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+
+    206   12.3%  LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+    136   66.0%    LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     96   70.6%      LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     96  100.0%        LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     96  100.0%          Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+     96  100.0%            LazyCompile: ~Module._compile module.js:374
+     40   29.4%      LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     40  100.0%        LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     40  100.0%          Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+     40  100.0%            LazyCompile: ~Module._compile module.js:374
+     44   21.4%    LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     44  100.0%      LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     38   86.4%        LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     38  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     38  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+      6   13.6%        LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      6  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      6  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+     25   12.1%    LazyCompile: *indexOf native string.js:118
+     25  100.0%      LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     20   80.0%        LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     20  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     20  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+      5   20.0%        LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      5  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      5  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+
+     77    4.6%  LazyCompile: *Buffer.write buffer.js:315
+     77  100.0%    LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     49   63.6%      LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     35   71.4%        LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     35  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     35  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+     14   28.6%        LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     14  100.0%          LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     14  100.0%            Function: ~<anonymous> /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:1
+     28   36.4%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     28  100.0%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     17   60.7%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     17  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     11   39.3%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     11  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+
+     73    4.4%  /usr/lib/system/libsystem_platform.dylib
+     53   72.6%    LazyCompile: *Buffer.write buffer.js:315
+     53  100.0%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     35   66.0%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     24   68.6%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     24  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     11   31.4%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+     11  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+     18   34.0%        LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+     18  100.0%          LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+     13   72.2%            LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      5   27.8%            LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      9   12.3%    LazyCompile: *indexOf native string.js:118
+      9  100.0%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+      9  100.0%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+      6   66.7%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      6  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      3   33.3%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      3  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      4    5.5%    LazyCompile: *Buffer.copy buffer.js:509
+      4  100.0%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+      4  100.0%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+      4  100.0%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      4  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      3    4.1%    LazyCompile: toString native v8natives.js:223
+      3  100.0%      LazyCompile: *serializeInto /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:43
+      3  100.0%        LazyCompile: *serialize /Users/ck/coding/projects/js-bson/lib/bson/bson_new.js:37
+      2   66.7%          LazyCompile: *executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      2  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+      1   33.3%          LazyCompile: ~executeFunction /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:19
+      1  100.0%            LazyCompile: ~executeBenchmark /Users/ck/coding/projects/js-bson/benchmarks/new_benchmarks.js:32
+

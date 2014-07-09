@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+// Load modules
+
+var Optimist = require('optimist');
+var Cli = require('../lib/cli');
+
+
+var argv = Optimist.usage('Usage: $0 -c config.json -l file.log -u url -i broadcastInterval -p usePreviousIndex').argv;
+Cli.start(argv);
+

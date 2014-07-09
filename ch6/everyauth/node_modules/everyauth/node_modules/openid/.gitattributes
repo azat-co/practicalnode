@@ -1,0 +1,5 @@
+# Normalize line endings to LF for text files
+* text=auto
+
+# Explicitly declare JS files as text
+*.js text
