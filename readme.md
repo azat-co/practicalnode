@@ -1,4 +1,4 @@
-> Examples for the Practical Node.js book [2014, Apress]
+> Examples for the Practical Node.js book [Apress, 2014]
 
 # Practical Node.js
 
