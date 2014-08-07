@@ -2,7 +2,7 @@
 
 # Practical Node.js
 
-The book is in progress, if you would like to receive alpha, email/tweet/Skype/text the author ([@azat_co](http://twitter.com/azat_co)) directly.
+![](http://azatzbw4bszzsb.wpengine.netdna-cdn.com/wp-content/uploads/81AIpYkA46L-200.jpeg)
 
 <http://practicalnodebook.com>
 
