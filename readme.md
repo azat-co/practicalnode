@@ -6,9 +6,6 @@ This is the manuscript (draft) and code for Practical Node.js, 2nd Edition [Apre
 
 <http://practicalnodebook.com>
 
-<http://amzn.to/NuQ0fM>
-
-<http://www.apress.com/9781430265955>
 
 # Rights and Publishing
 
@@ -17,3 +14,12 @@ Practical Node, 2nd Edition is a work-in-open book. It means that the book is wr
 If find the content here useful in any form, prefer print version, prefer professionally produced Kindle, ePUB or PDF, or just want to support me and Apress to create more work-in-open projects like Practical Node, 2nd Edition, please purchase the books once they are available for sale, through your normal physical or electronic book stores
 
 If you'd like to contribute financially towards the effort (or any of my other open source work) aside from purchasing the books, or hire me as a speaker, write me an message via [my blog](https://webapplog.com/azat), or through [Twitter, Facebook or LinkedIn](http://azat.co).
+
+# Practical Node.js, 1st Edition (Apress, 2014)
+
+
+![](http://azatzbw4bszzsb.wpengine.netdna-cdn.com/wp-content/uploads/81AIpYkA46L-200.jpeg)
+
+* GitHub: <https://github.com/azat-co/practicalnode/releases/tag/1st-edition>
+* Amazon: <http://amzn.to/NuQ0fM>
+* Apress: <http://www.apress.com/9781430265955>
