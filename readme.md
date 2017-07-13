@@ -51,94 +51,94 @@ Practical Node, 2nd Edition was supported through the Kickstarter campagin (fund
 * **[DevelopIntelligence](http://www.developintelligence.com): Managed learning solutions including training design and development, program delivery and management** - $500
 * Matthew Amacker - $200
 * Jordan Horiuchi - $200
-* Tim Chen - $175.00 
-* Alexey Bushnev - $175.00 
-* Aleksey Maksimov - $175.00 
-* Maurice van Cooten - $175.00 
-* Ryan - $175.00 
+* Tim Chen - $175 
+* Alexey Bushnev - $175 
+* Aleksey Maksimov - $175 
+* Maurice van Cooten - $175 
+* Ryan - $175 
 * Ng Yao Min - $175
-* Elias Yousef - $150.00 
-* Arhuman - $150.00 
-* Javier Armendariz - $150.00 
-* Dave Anderson - $150.00 
-* Edithson Abelard - $150.00 
-* Kommana Karteek - $150.00 
-* Ron Male - $145.00 
-* Win - $145.00 
-* Harold Avilez - $145.00 
-* Moe Joe - $145.00 
-* Guest 1871315922 - $145.00 
-* Philipp Jauss - $145.00 
-* Judy Herilla - $145.00 
-* Jaydev Dhinoja - $145.00 
-* Carlos Rodriguez - $145.00 
-* Pak - $145.00 
-* Jim Texter - $145.00 
-* David Wolff - $145.00 
-* German Yesid Rubiano Romero - $125.00 
-* shannon Johnstone - $125.00 
-* Mani Rana - $125.00 
-* Jeff Anderson - $125.00 
-* Tajinder Pal Singh - $125.00 
-* Sridhar Domakonda - $125.00 
-* Dieter - $125.00 
-* Felix Wang - $125.00 
-* Dan Jensen - $125.00 
-* Joel Register - $125.00 
-* Edgar Sanchez - $125.00 
-* Alexey - $125.00 
-* Peter Sjölin - $125.00 
-* Sksamy - $125.00 
-* Manuel Padrón Martínez - $125.00 
-* William Bartholomew - $125.00 
-* Sukesh Kumar Dash - $125.00 
-* Ross Matthews - $125.00 
-* Elaine David - $125.00 
-* Phil Aylesworth - $125.00 
-* 張大寶 - $125.00 
-* Vishnu - $125.00 
-* Jonathan Jou - $125.00 
-* Ernest Weems - $125.00 
-* Allen Lam - $125.00 
-* Martinerko - $125.00 
-* Sharif H. Khan - $125.00 
-* Larry Statham - $125.00 
-* Syllie - $125.00 
-* Eric J. - $125.00 
-* Jim Tyhurst - $125.00 
-* Oliver Schoenborn - $125.00 
-* Benjamin Sweetnam - $75.00 
-* Ian Partridge - $75.00 
-* Hafeez Syed - $75.00 
-* Chuck Huie - $75.00 
-* Thomas Greenhalgh - $75.00 
-* Sanghee Kim - $75.00 
-* JoeL Ivey - $75.00 
-* Clifford Lum - $75.00 
-* Ben Altieri - $75.00 
-* Patrick - $75.00 
-* Mani S - $75.00 
-* Simon St-Germain - $75.00 
-* Jaiyaramakrishnan Mahendran - $75.00 
-* Kevin Youkhana - $75.00 
-* Eymard Ventura - $75.00 
-* Matt Braun - $75.00 
-* Brent - $75.00 
-* Helio Alves - $75.00 
-* Matthew Winter - $75.00 
-* Omar Gómez Figueroa - $75.00 
-* Herwin Rey - $75.00 
-* Laura Steiner - $75.00 
-* Ben Manning - $75.00 
-* David le Blanc - $75.00 
-* Brian Chirgwin - $75.00 
-* Cédric Donner - $75.00 
-* Gary Poon - $75.00 
-* Mitchell Harpur - $75.00 
-* Beardsley Ruml - $50.00 
-* Swanand Kriyaban - $50.00 
-* Suhas - $50.00 
-* Yong Seok Jeon - $50.00 
+* Elias Yousef - $150 
+* Arhuman - $150 
+* Javier Armendariz - $150 
+* Dave Anderson - $150 
+* Edithson Abelard - $150 
+* Kommana Karteek - $150 
+* Ron Male - $145 
+* Win - $145 
+* Harold Avilez - $145 
+* Moe Joe - $145 
+* Guest 1871315922 - $145 
+* Philipp Jauss - $145 
+* Judy Herilla - $145 
+* Jaydev Dhinoja - $145 
+* Carlos Rodriguez - $145 
+* Pak - $145 
+* Jim Texter - $145 
+* David Wolff - $145 
+* German Yesid Rubiano Romero - $125 
+* shannon Johnstone - $125 
+* Mani Rana - $125 
+* Jeff Anderson - $125 
+* Tajinder Pal Singh - $125 
+* Sridhar Domakonda - $125 
+* Dieter - $125 
+* Felix Wang - $125 
+* Dan Jensen - $125 
+* Joel Register - $125 
+* Edgar Sanchez - $125 
+* Alexey - $125 
+* Peter Sjölin - $125 
+* Sksamy - $125 
+* Manuel Padrón Martínez - $125 
+* William Bartholomew - $125 
+* Sukesh Kumar Dash - $125 
+* Ross Matthews - $125 
+* Elaine David - $125 
+* Phil Aylesworth - $125 
+* 張大寶 - $125 
+* Vishnu - $125 
+* Jonathan Jou - $125 
+* Ernest Weems - $125 
+* Allen Lam - $125 
+* Martinerko - $125 
+* Sharif H. Khan - $125 
+* Larry Statham - $125 
+* Syllie - $125 
+* Eric J. - $125 
+* Jim Tyhurst - $125 
+* Oliver Schoenborn - $125 
+* Benjamin Sweetnam - $75 
+* Ian Partridge - $75 
+* Hafeez Syed - $75 
+* Chuck Huie - $75 
+* Thomas Greenhalgh - $75 
+* Sanghee Kim - $75 
+* JoeL Ivey - $75 
+* Clifford Lum - $75 
+* Ben Altieri - $75 
+* Patrick - $75 
+* Mani S - $75 
+* Simon St-Germain - $75 
+* Jaiyaramakrishnan Mahendran - $75 
+* Kevin Youkhana - $75 
+* Eymard Ventura - $75 
+* Matt Braun - $75 
+* Brent - $75 
+* Helio Alves - $75 
+* Matthew Winter - $75 
+* Omar Gómez Figueroa - $75 
+* Herwin Rey - $75 
+* Laura Steiner - $75 
+* Ben Manning - $75 
+* David le Blanc - $75 
+* Brian Chirgwin - $75 
+* Cédric Donner - $75 
+* Gary Poon - $75 
+* Mitchell Harpur - $75 
+* Beardsley Ruml - $50 
+* Swanand Kriyaban - $50 
+* Suhas - $50 
+* Yong Seok Jeon - $50 
 * Martin Moellenbeck - $45
 * Mikael Wallin - $45
 * Aakash Jain - $35
