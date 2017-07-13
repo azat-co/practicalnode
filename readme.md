@@ -160,6 +160,7 @@ Practical Node, 2nd Edition was supported through the Kickstarter campagin (fund
 
 ![](http://azatzbw4bszzsb.wpengine.netdna-cdn.com/wp-content/uploads/81AIpYkA46L-200.jpeg)
 
+* [1st Edition Manuscript (starting point for 2nd Edition)](https://github.com/azat-co/practicalnode/releases/tag/1st-edition-manuscript)
 * GitHub: <https://github.com/azat-co/practicalnode/releases/tag/1st-edition>
 * Amazon: <http://amzn.to/NuQ0fM>
 * Apress: <http://www.apress.com/9781430265955>
