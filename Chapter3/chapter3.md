@@ -446,7 +446,7 @@ For our Blog app, we can keep the Makefile simple:
 
 Now we can run tests with the `$ make test` command, which allows for more configuration compared with the simple `$ mocha tests` (Figure 3-4).
 
-![alt](media/image4.png)
+![alt](media/Image4.png)
 
 ***Figure 3-4.** Running `make test`*
 
