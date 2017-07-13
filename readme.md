@@ -1,4 +1,4 @@
-This is the manuscript and code for Practical Node.js, 2nd Edition [Apress, 2014, 2017]. For the code of the 1st edition, please visit
+This is the manuscript (draft) and code for Practical Node.js, 2nd Edition [Apress, 2014, 2017]. For the code of the 1st edition, please visit
 
 # Practical Node.js
 
