@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to
+    span.received-message #{title}
+  input(type='text', class='message', placeholder='what is on your mind?', onkeyup='send(this)')
+  script(src="/socket.io/socket.io.js")
+  script.
+    var socket = io.connect('http://localhost');
+    socket.on('receive', function (message) {
+      console.log('received %s', message);
+      document.querySelector('.received-message').innerText = message;
+    });
+    var send = function(input) {
+      console.log(input.value)
+      var value = input.value;
+      console.log('sending %s to server', value);
+      socket.emit('messageChange', {message: value});
+    }
+
