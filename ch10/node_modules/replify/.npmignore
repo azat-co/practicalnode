@@ -1,8 +1,0 @@
-*.swp
-.DS_Store
-.idea
-nohup.out
-npm-debug.log
-logs
-node_modules
-pids
