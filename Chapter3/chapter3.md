@@ -82,7 +82,7 @@ Here is a list of optional parameters (options) that the `$ mocha [options]` com
 
 Figure 3-1 shows an example of nyan cat reporter with the command `$ mocha test-expect.js -R nyan`.
 
-![alt](media/image1.png)
+![alt](media/Image1.png)
 
 ***Figure 3-1.** Mocha nyan reporter*
 
@@ -166,7 +166,7 @@ or
 
 The results of these Mocha commands are shown in Figure 3-2.
 
-![alt](media/image2.png)
+![alt](media/Image2.png)
 
 ***Figure 3-2.** Running Array-type test*
 
@@ -382,7 +382,7 @@ we can refactor into:
 
 To launch the test, simply run `$ mocha tests`. The server should boot and respond to the home page request (`/` route) as shown in Figure 3-3.
 
-![alt](media/image3.png)
+![alt](media/Image3.png)
 
 ***Figure 3-3.** Running $ mocha tests*
 
