@@ -1,7 +1,7 @@
 
 # Practical Node.js
 
-This is the manuscript (draft) and code for Practical Node.js, 2nd Edition [Apress, 2014, 2017]. For the code of the 1st edition, please visit [1st-edition](https://github.com/azat-co/practicalnode/releases/tag/1st-edition).
+This is the manuscript (draft) and code for Practical Node.js, 2nd Edition [Apress, 2014, 2017]. It's work in progress and the draft will be completed in the end of 2017. For the code of the 1st edition, please visit [1st-edition](https://github.com/azat-co/practicalnode/releases/tag/1st-edition).
 
 
 ![](http://azatzbw4bszzsb.wpengine.netdna-cdn.com/wp-content/uploads/81AIpYkA46L-200.jpeg)
