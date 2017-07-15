@@ -547,7 +547,7 @@ The configs now include more Connect/Express middleware, the meanings of most of
 	app.use(require('stylus').middleware(__dirname + '/public'));
 	app.use(express.static(path.join(__dirname, 'public')));
 
-For development, we use the standart Express.js 4 error handler that we imported earlier with `require`:
+For development, we use the standard Express.js 4 error handler that we imported earlier with `require`:
 
 	if ('development' == app.get('env')) {
       app.use(errorHandler());
