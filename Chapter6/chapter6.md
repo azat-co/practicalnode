@@ -793,7 +793,7 @@ The full source code of the `app.js` file after adding the Everyauth Twitter OAu
 
 To run the app, execute `$ make start`, and **don’t forget to replace** the Twitter username, consumer key, and secret with yours. Then when you click on "Sign in with Twitter", you'll be redirected to Twitter to authorize this application. Then you'll be redirected back to the localhost app and should see the admin page menu. We have been authorized by a third-party service provider! Also, the user information is available to your app so it can be stored in the database for future usage. If you already gave permissions, the redirect to and from Twitter might happen very fast. The terminal output is shown in Figure 6-1 shows each step of Everyauth process such as getting tokens and sending responses. Each step can be customized to your app's needs.
 
-![alt](media/image1.png)
+![alt](media/Image1.png)
 
 ***Figure 6-1.** Everyauth Twitter strategy with debug mode in action*
 
