@@ -63,12 +63,12 @@ Practical Node, 2nd Edition was supported through the Kickstarter campaign (fund
 * Maurice van Cooten - $175 
 * Ryan - $175 
 * Ng Yao Min - $175
+* Kommana Karteek - $160 
 * Elias Yousef - $150 
 * Arhuman - $150 
 * Javier Armendariz - $150 
 * Dave Anderson - $150 
 * Edithson Abelard - $150 
-* Kommana Karteek - $150 
 * Ron Male - $145 
 * Win - $145 
 * Harold Avilez - $145 
