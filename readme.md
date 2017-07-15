@@ -32,6 +32,8 @@ If you'd like to contribute financially towards the effort (or any of my other o
 11. [Deploying Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/Chapter11/chapter11.md)
 12. [Publishing Node.js Modules and Contributing to Open Source](https://github.com/azat-co/practicalnode/blob/master/Chapter12/chapter12.md)
 
+(It's work in progress and the draft will be completed in the end of 2017.)
+
 # In-person Training
 
 Practical Node is a work of 30+ in-person courses, workshops and classes delivered by me in-person at various companies (Walmart Labs, Cisco, Intuit, Starbucks, Capital One, OnDeck, HubSpot, VMWare to name just a few), dev schools (Hack Reactor, DevBootcamp, Flat Iron NY, etc.) and conferences (ForwardJS, Node Interactive and others). If you need corporate onsite in-person training delivered by me, then [send me a message](https://webapplog.com/azat).
