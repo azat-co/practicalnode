@@ -498,7 +498,7 @@ The full source code of `practicalnode/ch10/cluster.js` is as follows:
         cluster.worker.process.pid, port);
       var app = express();
       app.get('*', function(req, res) {
-        res.send(200, 'cluser '
+        res.send(200, 'cluster '
           + cluster.worker.process.pid
           + ' responded \n');
       });

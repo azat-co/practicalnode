@@ -34,7 +34,7 @@ If you'd like to contribute financially towards the effort (or any of my other o
 
 # In-person Training
 
-Practical Node is a work of 30+ in-person courses, workshops and classes delivered by me in-person at various companies (Walmart Labs, Cisco, Intuit, Starbucks, Capital One, OnDeck, HubSpot, VMWare to name just a few), dev schools (Hack Reactor, DevBootcampm, Flat Iron NY, etc.) and conferences (ForwardJS, Node Interactive and others). If you need corporate onsite in-person training delivered by me, then [send me a message](https://webapplog.com/azat).
+Practical Node is a work of 30+ in-person courses, workshops and classes delivered by me in-person at various companies (Walmart Labs, Cisco, Intuit, Starbucks, Capital One, OnDeck, HubSpot, VMWare to name just a few), dev schools (Hack Reactor, DevBootcamp, Flat Iron NY, etc.) and conferences (ForwardJS, Node Interactive and others). If you need corporate onsite in-person training delivered by me, then [send me a message](https://webapplog.com/azat).
 
 # Online Video Training
 
@@ -46,7 +46,7 @@ TBD
 
 # Supporters
 
-Practical Node, 2nd Edition was supported through the Kickstarter campagin (funded in just three days). Thank you to the major backers of the book:
+Practical Node, 2nd Edition was supported through the Kickstarter campaign (funded in just three days). Thank you to the major backers of the book:
 
 * **[DevelopIntelligence](http://www.developintelligence.com): Managed learning solutions including training design and development, program delivery and management** - $500
 * Matthew Amacker - $200

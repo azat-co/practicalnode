@@ -242,7 +242,7 @@ To double-check the installation of Express.js and its dependencies, we can run 
 
 # Express.js Scaffolding
 
-So far, we&#39;ve covered Expres.js installation. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app creation mechanism— Express.js Generator!
+So far, we&#39;ve covered Express.js installation. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app creation mechanism— Express.js Generator!
 
 Comparable with Ruby on Rails and many other web frameworks, Express.js comes with a CLI for jump-starting your development process. The CLI generates a basic foundation for the most common cases.
 
