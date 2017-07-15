@@ -34,13 +34,17 @@ If you'd like to contribute financially towards the effort (or any of my other o
 
 (It's work in progress and the draft will be completed in the end of 2017.)
 
-# In-person Training
+# Live Corporate Training
 
-Practical Node is a work of 30+ in-person courses, workshops and classes delivered by me in-person at various companies (Walmart Labs, Cisco, Intuit, Starbucks, Capital One, OnDeck, HubSpot, VMWare to name just a few), dev schools (Hack Reactor, DevBootcamp, Flat Iron NY, etc.) and conferences (ForwardJS, Node Interactive and others). If you need corporate onsite in-person training delivered by me, then [send me a message](https://webapplog.com/azat).
+Practical Node is a work of 30+ in-person courses, workshops and classes delivered by me in-person at various companies (Walmart Labs, Cisco, Intuit, Starbucks, Capital One, OnDeck, HubSpot, VMWare to name just a few), dev schools (Hack Reactor, DevBootcamp, Flat Iron NY, etc.) and conferences (ForwardJS, Node Interactive and others). If you need a corporate remote/online or onsite in-person training delivered by me, then [send me a message](https://webapplog.com/azat).
 
-# Online Video Training
+# Live Public Training
 
-[Node University](https://node.university) is the ultimate, most comprehensive and complete resource on Node.js and full stack JavaScript. [View free courses](https://node.university/courses/category/free) or view [all courses](https://node.university/courses).
+[NodeProgram.com](http://nodeprogram.com) is the place to find out about next live (remote/online) and in-person workshops/seminars/classes.
+
+# Self-Paced Training
+
+[Node University](https://node.university) is the ultimate, most comprehensive and complete resource on Node.js and full stack JavaScript. [View free self-paced courses](https://node.university/courses/category/free) or view [all self-paced courses](https://node.university/courses).
 
 # Contribution
 
