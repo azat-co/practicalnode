@@ -52,7 +52,7 @@ TBD
 
 # Supporters
 
-Practical Node, 2nd Edition was supported through the Kickstarter campaign (funded in just three days). Thank you to the major backers of the book:
+Practical Node, 2nd Edition was supported through [the Kickstarter campaign (funded in just three days)](https://www.kickstarter.com/projects/azat/practical-nodejs-book-2nd-edition-open-sourced-on). Thank you to the major backers of the book:
 
 * **[DevelopIntelligence](http://www.developintelligence.com): Managed learning solutions including training design and development, program delivery and management** - $500
 * Matthew Amacker - $200
