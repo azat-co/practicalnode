@@ -507,13 +507,13 @@ The full source code of `practicalnode/ch10/cluster.js` is as follows:
 
 As usual, to start an app, run `$ node cluster`. There should be four (or two, depending on your machine’s architecture) processes, as shown in Figure 10-1.
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 10-1.** Starting four processes with Cluster*
 
 When we CURL with `$ curl http://localhost:3000`, there are different processes that listen to the *same* port and respond to us (Figure 10-2).
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 10-2.** Server response is rendered by different processes*
 
@@ -933,7 +933,7 @@ To run the task, simply execute `$ grunt` or `$ grunt default`.
 
 The results of running `$ grunt `are shown in Figure 10-3.
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 10-3.** The results of the Grunt default task*
 
@@ -967,7 +967,7 @@ To install Git for your OS, download a package from [the official website](http:
 
 	    git version 1.8.3.2
 
-![alt](media/Image4.png)
+![alt](media/image4.png)
 
 **Figure 10-4.** Configuring and testing the Git installation
 
@@ -997,7 +997,7 @@ To generate SSH keys for GitHub on Mac OS X/Unix machines, do the following:
 
 	    $ pbcopy < ~/.ssh/id_rsa.pub
 
-![alt](media/Image5.png)
+![alt](media/image5.png)
 
 ***Figure 10-5.** Generating an RSA (Ron Rivest (<http://en.wikipedia.org/wiki/Ron_Rivest>), Adi Shamir (<http://en.wikipedia.org/wiki/Adi_Shamir>) and Leonard Adleman (<http://en.wikipedia.org/wiki/Leonard_Adleman>)) key pair for SSH and copying the public RSA key to a clipboard*
 
@@ -1026,7 +1026,7 @@ then everything is set up.
 
 While connecting to GitHub for the first time, you may receive the warning “authenticity of host . . . can’t be established.” Please don’t be confused with this message; just proceed by answering yes, as shown in Figure 10-6.
 
-![alt](media/Image6.png)
+![alt](media/image6.png)
 
 ***Figure 10-6.** Testing the SSH connection to GitHub for the very first
 time*
