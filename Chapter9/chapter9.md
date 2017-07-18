@@ -1,6 +1,6 @@
 Chapter 9
 ---------
-#Real-Time Apps with WebSocket, Socket.IO, and DerbyJS
+# Real-Time Apps with WebSocket, Socket.IO, and DerbyJS
 
 Real-time apps are becoming more and more widespread in gaming, social media, various tools, services, and news. The main factor contributing to this trend is that technologies have become much better. They allow for a greater bandwidth to transmit data, and for more calculations to process and retrieve the data.
 
