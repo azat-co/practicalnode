@@ -52,7 +52,7 @@ To set up Heroku, follow these steps:
 
 	The system asks you for Heroku credentials (username and password), and if you’ve already created the SSH key, it uploads it automatically to the Heroku web site, as shown in Figure 11-1.
 
-	![alt](media/Image1.png)
+	![alt](media/image1.png)
 
 	***Figure 11-1.** The response to a successful `$ heroku login` command*
 
@@ -174,7 +174,7 @@ For official information on setting up environment variables in Heroku, see [Con
 
 There are a multitude of [add-ons for Heroku](https://addons.heroku.com/) (https://addons.heroku.com). Each add-on is like a mini service associated with a particular Heroku app. For example, [MongoHQ](https://addons.heroku.com/mongohq) (https://addons.heroku.com/mongohq) provides MongoDB database, while the [Postgres add-on](https://addons.heroku.com/heroku-postgresql) (https://addons.heroku.com/heroku-postgresql) does the same for the PostgreSQL database, and [SendGrid](https://addons.heroku.com/sendgrid) (https://addons.heroku.com/sendgrid) allows sending transactional e-mails. In Figure 11-2, you can see the beginning of the long list of Heroku add-ons.
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 11-2.** There are a multitude of add-ons for Heroku*
 
@@ -313,13 +313,13 @@ The other fields fill automatically:
     Port Range: 80
     Source: 0.0.0.0/0
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 11-3.** Allowing inbound HTTP traffic on port 80*
 
 Or we can just allow all traffic (again, for development purposes only), as shown in Figure 11-4.
 
-![alt](media/Image4.png)
+![alt](media/image4.png)
 
 ***Figure 11-4**. Allowing all traffic for development mode only*
 

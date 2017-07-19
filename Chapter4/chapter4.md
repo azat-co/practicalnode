@@ -387,7 +387,7 @@ To add a `jade` dependency to your project, or if you&#39;re starting from scrat
 
 - Install and add `jade` to `package.json` with `$ npm install jade –save`. See the results in Figure 4-1.
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 4-1.** Installing Jade*
 
@@ -438,7 +438,7 @@ We can extract these variables from multiple sources (databases, file systems, u
 
 In this way, when we run `$ node jade-example.js 'email body'`, we get the output shown in Figure 4-2.
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 4-2.** The result of `jade-example` output*
 
@@ -770,7 +770,7 @@ Includes or partials templates in Handlebars are interpreted by the `{{> partial
 
 Developers can install Handlebars via NPM with `$ npm install handlebars` or `$ npm install handlebars --save`, assuming there&#39;s either `node_modules` or `package.json` in the current working directory (see the results of a sample installation in Figure 4-3).
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 4-3.** Installing Handlebars*
 
@@ -1098,7 +1098,7 @@ The full code of `index.jade` is as follows:
 
 Figure 4-4 shows how the home page looks after adding style sheets.
 
-![alt](media/Image4.png)
+![alt](media/image4.png)
 
 ***Figure 4-4.** The home page*
 
@@ -1113,7 +1113,7 @@ The individual article page (Figure 4-5) is relatively unsophisticated because m
         h1= title
         p= text
 
-![alt](media/Image5.png)
+![alt](media/image5.png)
 
 ***Figure 4-5.** The article page*
 
@@ -1141,7 +1141,7 @@ Similarly, the login page contains only a form and a button (with the Twitter Bo
 
 Figure 4-6 shows how the login page looks.
 
-![alt](media/Image6.png)
+![alt](media/image6.png)
 
 ***Figure 4-6.** The login page*
 
@@ -1171,7 +1171,7 @@ The post page (Figure 4-7) has another form. This time, the form contains a text
             p
               button.btn.btn-primary(type="submit") Save
 
-![alt](media/Image7.png)
+![alt](media/image7.png)
 
 ***Figure 4-7.** The post page*
 
@@ -1217,7 +1217,7 @@ And, a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used
 
                       span.glyphicon(class=(article.published)?"glyphicon-pause":"glyphicon-play", title=(article.published)?"Unpublish":"Publish")
 
-![alt](media/Image8.png)
+![alt](media/image8.png)
 
 ***Figure 4-8.** The admin page*
 

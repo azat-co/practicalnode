@@ -518,7 +518,7 @@ A slightly better execution is as follows (Figure 8-1):
 
     $ mocha test -R nyan
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 8-1.** Who wouldn&#39;t like a library with Nyan Cat?*
 
@@ -526,7 +526,7 @@ If you really don&#39;t like Mocha and/or BDD (and TDD), CURL is always there fo
 
     curl http://localhost:3000/collections/curl-test
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 8-2.** A GET request made with CURL*
 
@@ -536,7 +536,7 @@ CURLing data to make a POST request is easy (Figure 8-3):
 
     $ curl -d "name=peter&amp;email=peter337@rpjs.co" http://localhost:3000/collections/curl-test
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 8-3.** The result of sending a POST request via CURL*
 

@@ -124,13 +124,13 @@ Again, for reference, here's the full code of `ch9/basic/server.js`:
 
 Start the Node.js server with `$ node server`. Then, open `index.html` in the browser and you should see this message in the JavaScript console (option + command + j on Macs): `server message: XYZ` (Figure 9-1).
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 9-1.** Browser outputs a message received via WebSocket*
 
 While in the terminal, the Node.js server output is `received: front-end message: ABC`, which is illustrated in Figure 9-2.
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 9-2.** The server outputs the browser message received via WebSocket*
 
@@ -279,11 +279,11 @@ Last, our app needs some front-end love in `index.jade`. Nothing fancy; just a f
 
 Again, start the server and open the browser to see real-time communication. Typing text in the browser field logs data on the server without messing up HTTP requests and waiting. The approximate browser results are shown in Figure 9-3; the server logs are shown in Figure 9-4.
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 9-3.** The input of `!stekcoS yields Sockets!`*
 
-![alt](media/Image4.png)
+![alt](media/image4.png)
 
 ***Figure 9-4.** Express.js server catching and processing input in real time*
 
@@ -640,7 +640,7 @@ Let&#39;s install the modules with `$ npm install`. Start the databases with `$ 
 
 Open the first browser window at <http://localhost:3000/> and it should redirect you to a new snippet (with ID in the URL). Open a second browser window at the same location and start typing (Figure 9-5). You should see the code updating in the first window! Congratulations! In just a few minutes, we built an app that might have taken programmers a few months to build back in the 2000s, when front-end JavaScript and AJAX-y web sites were first gaining popularity.
 
-![alt](media/Image5.png)
+![alt](media/image5.png)
 
 ***Figure 9-5.** Collaborative online code editor*
 

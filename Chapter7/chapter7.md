@@ -101,7 +101,7 @@ Here is the full source code for the `mongoose.js` file:
 
 To run this snippet, execute the `$ node mongoose.js` command (MongoDB server must be running in parallel). The results of the script should output the newly created object, as seen in Figure 7-1.
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 7-1.** Running a standalone Mongoose script that creates objects*
 

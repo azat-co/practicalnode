@@ -29,13 +29,13 @@ First, let’s go to <http://nodejs.org> and download a one-click installer for 
 
 The installers come with NPM (Node Package Manager)— an important tool for managing dependencies.
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 1-1.** One-click installers for Node.js*
 
 If there’s no installer for your OS (page http://nodejs.org/download/), you can get the source code and compile it yourself (Figure 1-2).
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 1-2.** Multiple options for downloading*
 
@@ -240,7 +240,7 @@ $ npm -v
 
 You should see the latest versions of Node.js and NPM that you just downloaded and installed, as shown in Figure 1-3.
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 1-3.** Checking Node.js and NPM installations*
 
@@ -267,7 +267,7 @@ The prompt should change from `$` to `>` (or something else, depending on your s
 
 The result of the previous snippet is shown in Figure 1-4.
 
-![alt](media/Image4.png)
+![alt](media/image4.png)
 
 ***Figure 1-4.** Executing JavaScript in Node.js REPL*
 
@@ -535,7 +535,7 @@ So, let’s take a look at the main differences between Node.js and JavaScript.
 
 Each Node.js script that runs is, in essence, a process. For example, `ps aux | grep 'node'` outputs all Node.js programs running on a machine. Conveniently, developers can access useful process information in code with the `process` object (e.g., `node -e "console.log(process.pid)"`), as shown in Figure 1-5.
 
-![alt](media/Image5.png)
+![alt](media/image5.png)
 
 ***Figure 1-5.** Node.js process examples using `pid` (process ID) and `cwd` (current working directory).*
 
@@ -903,7 +903,7 @@ Then, we start Node Inspector with the following (Figure 1-6):
 
     $ node-inspector
 
-![alt](media/Image6.png)
+![alt](media/image6.png)
 
 ***Figure 1-6.** Running the Node Inspector tool*
 
@@ -915,25 +915,25 @@ or
 
     $ node --debug hello-debug.js
 
-![alt](media/Image7.png)
+![alt](media/image7.png)
 
 ***Figure 1-7.** Running node server in `--debug` mode*
 
 Open <http://127.0.0.1:8080/debug?port=5858> (or http://localhost:8080/debug?port=5858) in Chrome (it must be Chrome and not another browser because Node Inspector uses the Web Developer Tools interface). You should be able to see the program halted at a break point. Clicking the blue play button resumes the execution, as shown in Figure 1-8.
 
-![alt](media/Image8.png)
+![alt](media/image8.png)
 
 ***Figure 1-8.** Resuming execution in Node Inspector*
 
 If we let the server run and open <http://localhost:1337/> in a new browser tab, this action pauses the execution on the second break point, which is inside the request handler. From here, we can use Node Inspector’s right GUI and add a `res` watcher (Figure 1-9), which is way better than the terminal window output!
 
-![alt](media/Image9.png)
+![alt](media/image9.png)
 
 ***Figure 1-9.** Inspecting `res` object in Node Inspector*
 
 In addition, we can follow the call stack, explore scope variables, and execute any Node.js command in the console tab (Figure 1-10)!
 
-![alt](media/Image10.png)
+![alt](media/image10.png)
 
 ***Figure 1-10.** Writing to response (i.e., the `res` object) from the Node Inspector console*
 
@@ -941,7 +941,7 @@ In addition, we can follow the call stack, explore scope variables, and execute 
 
 One of the best things about Node.js is that you don’t need to compile the code, because it’s loaded into memory and interpreted by the platform! Therefore, a lightweight text editor is highly recommended, such as Sublime Text (Figure 1-11), vs. a full-blown IDE. However, if you are already familiar and comfortable with the IDE of your choice, such as [Eclipse](http://www.eclipse.org/)(<http://www.eclipse.org/>), [NetBeans](http://netbeans.org/)(<http://netbeans.org/>), or [Aptana](http://aptana.com)(<http://aptana.com/>), feel free to stick with it.
 
-![alt](media/Image11.png)
+![alt](media/image11.png)
 
 ***Figure 1-11.** Sublime Text code editor home page.*
 
@@ -959,13 +959,13 @@ The following is a list of the most popular text editors and IDEs used in web de
 
 - [*WebStorm IDE*](*http://www.jetbrains.com/webstorm/*)(*<http://www.jetbrains.com/webstorm/>*): a feature-rich IDE that allows for Node.js debugging, developed by JetBrains and marketed as “the smartest JavaScript IDE” (Figure 1-12)
 
-![alt](media/Image12.png)
+![alt](media/image12.png)
 
 ***Figure 1-12.** WebStorm IDE home page.*
 
 For most developers, a simple code editor such as Sublime Text 2, TextMate, or Emacs is good enough. However, for programmers who are used to working in IDEs, there’s WebStorm by JetBrains (http://www.jetbrains.com/webstorm). For an example of the WebStorm work space, see Figure 1-13.
 
-![alt](media/Image13.png)
+![alt](media/image13.png)
 
 ***Figure 1-13.** Webstorm IDE work space*
 

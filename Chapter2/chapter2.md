@@ -170,7 +170,7 @@ Of course, we can be more vague and tell NPM to install the latest version of `e
 
 The Figure 2-1 shows us results of running the aforementioned command. Please notice the path in Figure 2-1: `/usr/local/lib/node_modules/express-generator`. This is where, on Max OS X / Linux systems, NPM puts global modules by default. We verify the availability of Express.js CLI by running `$ express –V`.
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 2-1.** The result of running NPM with `-g` and `$ express -V`*
 
@@ -178,7 +178,7 @@ The Figure 2-1 shows us results of running the aforementioned command. Please no
 
 For the local Express.js 4.1.2 module installation, let&#39;s create a new folder `express-cli` somewhere on your computer: `$ mkdir express-cli`. This will be our project folder for the chapter. Now we can open it with `$ cd express-cli`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command (Figure 2-2).
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 2-2.** The result of running `$ npm init`*
 
@@ -228,7 +228,7 @@ The following is the `package.json` file with an added Express.js v4.1.2 depende
 
 In the Figure 2-3, we show the result of install Express.js v4.1.2 locally, into the `node_modules` folder. Please notice the path after the `express@4.1.2` string in Figure 2-3 this time it&#39;s local and not global, as in the case of `express-generator`.
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 2-3.** The result of running $ npm install*
 
@@ -236,7 +236,7 @@ If you want to install Express.js to an existing project and save the dependency
 
 To double-check the installation of Express.js and its dependencies, we can run the `$ npm ls` command, as shown in Figure 2-4.
 
-![alt](media/Image4.png)
+![alt](media/image4.png)
 
 ***Figure 2-4.** The result of running `$ npm ls`*
 
@@ -283,7 +283,7 @@ Then, as the instructions in the terminal tell us (Figure 2-5), type:
 
 Open the browser of your choice at <http://localhost:3000>.
 
-![alt](media/Image5.png)
+![alt](media/image5.png)
 
 ***Figure 2-5.** The result of using Express.js Generator*
 
@@ -452,7 +452,7 @@ Our Blog app consists of five main parts from the user perspective:
 
 - A post article page for adding new content
 
-![alt](media/Image6.png)
+![alt](media/image6.png)
 
 ***Figure 2-6.** The home page of the Blog app*
 
@@ -479,19 +479,19 @@ The source code for this mini-project is under `ch2/hello-world` folder of pract
 
 The first approach is traditional and is considered more search engine optimization friendly, but it takes longer for users (especially on mobile) and is not as smooth as the second approach (Figure 2-7).
 
-![alt](media/Image7.png)
+![alt](media/image7.png)
 
 ***Figure 2-7.** Traditional server-side approach*
 
 Sending and receiving data via REST API/HTTP requests and rendering HTML on the client side is used with front-end frameworks such as Backbone.js, Angular, Ember, and [many others](http://todomvc.com/)(<http://todomvc.com/>) (Figure 2-8). The use of these frameworks is becoming more and more common nowadays because it allows for more efficiency (HTML is rendered on the client side and only the data are transmitted) and better code organization.
 
-![alt](media/Image8.png)
+![alt](media/image8.png)
 
 ***Figure 2-8.** REST API approach diagram*
 
 Under the hood, virtually all front-end frameworks use jQuery&#39;s `ajax()` method. So, to give you a realistic example, the admin page uses REST API end points via jQuery `$.ajax()` calls to manipulate the articles, including publish, unpublish, and remove (Figure 2-9).
 
-![alt](media/Image9.png)
+![alt](media/image9.png)
 
 ***Figure 2-9.** The admin page of Blog*
 
@@ -535,7 +535,7 @@ Let&#39;s choose a project folder `hello-world`, and create these directories wi
 
     mkdir {public,public/css,public/img,public/js,db,views,views/includes,routes}
 
-![alt](media/Image10.png)
+![alt](media/image10.png)
 
 ***Figure 2-10.** Setting up folders*
 
@@ -680,7 +680,7 @@ The next section is where we define routes themselves (the order in `app.js` mat
 
 Figure 2-11 shows how a trivial request might travel across the web and the Express.js app, with the dotted lines being the connection inside it.
 
-![alt](media/Image11.png)
+![alt](media/image11.png)
 
 ***Figure 2-11.** Following a simple request in an Express.js app*
 
@@ -773,7 +773,7 @@ There are more advanced examples of Jade included later in this book; but, for n
 
 When we run the `$ node app` command and open browsers at <http://localhost:3000>, we see what appears in Figure 2-12.
 
-![alt](media/Image12.png)
+![alt](media/image12.png)
 
 ***Figure 2-12.** The Hello World app in action*
 

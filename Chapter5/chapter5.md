@@ -55,7 +55,7 @@ Create a data folder; by default, MongoDB uses `/data/db`. Please note this migh
 
 Figure 5-1 shows how this looks onscreen.
 
-![alt](media/Image1.png)
+![alt](media/image1.png)
 
 ***Figure 5-1.** Initial setup for MongoDB: create the data directory*
 
@@ -75,7 +75,7 @@ Or, if you added `$PATH` for the MongoDB location, type the following:
 
 **Note**        Don&#39;t forget to restart the terminal window after adding a new path to the `$PATH` variable (Figure 5-2).
 
-![alt](media/Image2.png)
+![alt](media/image2.png)
 
 ***Figure 5-2.** Starting up the MongoDB server*
 
@@ -123,7 +123,7 @@ Then, type and execute
 
 Figure 5-3 shows this. If you see that your record is being saved, then everything went well.
 
-![alt](media/Image3.png)
+![alt](media/image3.png)
 
 ***Figure 5-3.** Running MongoDB client and storing sample data*
 
@@ -314,7 +314,7 @@ To double-check the saved object, we use the ObjectID that we saved before in a 
 The full source code of this script is available in the `mongo-native-insert.js` and `mongo-native.js` files. If we run them with `$ node mongo-native-insert` and, respectively, `$ node mongo-native`, while running the `mongod` service the scripts should output something similar to the results in Figure 5-4. There are three documents. The first is without the property text; the second and third documents include it.
 
 
-![alt](media/Image4.png)
+![alt](media/image4.png)
 
 ***Figure 5-4.** Running a simple MongoDB script with a native driver*
 
@@ -1031,11 +1031,11 @@ The full source code of the front-end `admin.js` file is as follows:
 
 To run the app, simply execute `$ node app`, but if you want to seed and test it, execute `$ make db` and `$ make test`, respectively (Figure 5-5). Don&#39;t forget that `$ mongod` service must be running on the localhost and port 27017. The expected result is that all tests now pass (hurray!), and if users visit <http://localhost:3000>, they can see posts and even create new ones on the admin page (<http://localhost:3000/admin>) as shown in Figure 5-6.
 
-![alt](media/Image5.png)
+![alt](media/image5.png)
 
 ***Figure 5-5.** The results of running Mocha tests*
 
-![alt](media/Image6.png)
+![alt](media/image6.png)
 
 ***Figure 5-6.** The admin page with seed data*
 
