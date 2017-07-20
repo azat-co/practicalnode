@@ -1,6 +1,6 @@
 Chapter 8
 ---------
-#Building Node.js REST API Servers with Express.js and Hapi
+# Building Node.js REST API Servers with Express.js and Hapi
 
 Modern-day web development is moving increasingly toward a structure for which there&#39;s a thick client, usually built with frameworks such as Backbone.js(<http://backbonejs.org/>), AngularJS(<https://angularjs.org/>), Ember.js(<http://emberjs.com/>), and the like, and a thin back-end layer typically represented by a representational state transfer (REST) web application programing interface (API) service. This model has become more and more popular, and we&#39;ve seen services such as Parse.com and many others pioneer the back end as a service niche. The advantages of this approach are as follows:
 
