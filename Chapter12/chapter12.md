@@ -3,7 +3,7 @@ class="anchor"></span>
 
 Chapter 12
 ----------
-#Publishing Node.js Modules and Contributing to Open Source
+# Publishing Node.js Modules and Contributing to Open Source
 
 One of the key factors that attributed to the rapid growth of the Node.js module ecosystem is its open-source nature and robust packaging systems (with registry). As of April 2013, JavaScript and Node.js had already surpassed any other language/platform in number of packages contributed per year ([source](http://caines.ca/blog/programming/the-node-js-community-is-quietly-changing-the-face-of-open-source/)):
 
