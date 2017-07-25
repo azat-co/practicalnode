@@ -3,7 +3,7 @@ class="anchor"></span>
 
 Chapter 10
 ----------
-#Getting Node.js Apps Production Ready
+# Getting Node.js Apps Production Ready
 
 <span id="in-this-chapter" class="anchor"></span>Getting Node.js apps to a production-ready state is probably the most undercovered and skipped topic in the Node.js literature, but it’s one of the most important in my humble opinion.
 
