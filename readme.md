@@ -21,17 +21,17 @@ If you'd like to contribute financially towards the effort (or any of my other o
 # Practical Node.js, 2nd Edition Table of Contents
 
 1. [Setting up Node.js and Other Essentials](https://github.com/azat-co/practicalnode/blob/master/chapter1/chapter1.md)
-2. [Using Express.js 4 to Create Node.js Web Apps](https://github.com/azat-co/practicalnode/blob/master/Chapter2/chapter2.md)
-3. [TDD and BDD for Node.js with Mocha](https://github.com/azat-co/practicalnode/blob/master/Chapter3/chapter3.md)
-4. [Template Engines: Jade and Handlebars](https://github.com/azat-co/practicalnode/blob/master/Chapter4/chapter4.md)
-5. [Persistence with MongoDB and Mongoskin](https://github.com/azat-co/practicalnode/blob/master/Chapter5/chapter5.md)
-6. [Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/Chapter6/chapter6.md)
-7. [Boosting Your Node.js Data with the Mongoose ORM Library](https://github.com/azat-co/practicalnode/blob/master/Chapter7/chapter7.md)
-8. [Building Node.js REST API Servers with Express.js and Hapi](https://github.com/azat-co/practicalnode/blob/master/Chapter8/chapter8.md)
-9. [Real-Time Apps with WebSocket, Socket.IO, and DerbyJS](https://github.com/azat-co/practicalnode/blob/master/Chapter9/chapter9.md)
-10. [Getting Node.js Apps Production Ready](https://github.com/azat-co/practicalnode/blob/master/Chapter10/chapter10.md)
-11. [Deploying Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/Chapter11/chapter11.md)
-12. [Publishing Node.js Modules and Contributing to Open Source](https://github.com/azat-co/practicalnode/blob/master/Chapter12/chapter12.md)
+2. [Using Express.js 4 to Create Node.js Web Apps](https://github.com/azat-co/practicalnode/blob/master/chapter2/chapter2.md)
+3. [TDD and BDD for Node.js with Mocha](https://github.com/azat-co/practicalnode/blob/master/chapter3/chapter3.md)
+4. [Template Engines: Jade and Handlebars](https://github.com/azat-co/practicalnode/blob/master/chapter4/chapter4.md)
+5. [Persistence with MongoDB and Mongoskin](https://github.com/azat-co/practicalnode/blob/master/chapter5/chapter5.md)
+6. [Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter6/chapter6.md)
+7. [Boosting Your Node.js Data with the Mongoose ORM Library](https://github.com/azat-co/practicalnode/blob/master/chapter7/chapter7.md)
+8. [Building Node.js REST API Servers with Express.js and Hapi](https://github.com/azat-co/practicalnode/blob/master/chapter8/chapter8.md)
+9. [Real-Time Apps with WebSocket, Socket.IO, and DerbyJS](https://github.com/azat-co/practicalnode/blob/master/chapter9/chapter9.md)
+10. [Getting Node.js Apps Production Ready](https://github.com/azat-co/practicalnode/blob/master/chapter10/chapter10.md)
+11. [Deploying Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter11/chapter11.md)
+12. [Publishing Node.js Modules and Contributing to Open Source](https://github.com/azat-co/practicalnode/blob/master/chapter12/chapter12.md)
 
 (It's work in progress and the draft will be completed in the end of 2017.)
 
