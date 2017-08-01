@@ -644,7 +644,7 @@ Let&#39;s define a few such configurations in `app.js`:
 - `views`: absolute path to the folder with template (views in our example)
 - `view engine`: file extension for the template files (for example, `jade`, `html`)
 
-If we want to use the port number provided in the environmental variables (env vars), this is how to access it: `process.evn.PORT`.
+If we want to use the port number provided in the environmental variables (env vars), this is how to access it: `process.env.PORT`.
 
 So let&#39;s write the code for the settings we listed earlier:
 
