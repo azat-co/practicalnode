@@ -951,6 +951,8 @@ The following is a list of the most popular text editors and IDEs used in web de
 
 - [*Sublime Text*](*http://www.sublimetext.com/*)(*<http://www.sublimetext.com/>*): Mac OS X and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
 
+- [*Visual Studio Code*](*https://code.visualstudio.com*)(*<https://code.visualstudio.com>*): a full-featured free IDE for Mac OS X, Windows, and Linux with auto-complete, debugging, built-in Git, and extensions support
+
 - [*Coda*](*http://panic.com/coda/*)(*<http://panic.com/coda/>*): an all-in-one editor with an FTP browser and preview, has support for development with an iPad
 
 - [*Aptana Studio*](*http://aptana.com/*)(*<http://aptana.com/>*): a full-size IDE with a built-in terminal and many other tools
