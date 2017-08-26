@@ -951,6 +951,10 @@ The following is a list of the most popular text editors and IDEs used in web de
 
 - [*Sublime Text*](*http://www.sublimetext.com/*)(*<http://www.sublimetext.com/>*): Mac OS X and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
 
+- [*Visual Studio Code*](*https://code.visualstudio.com/nodejs*)(*<https://code.visualstudio.com/nodejs>*): a free, cross-platform, feature-rich editor by Microsoft powered by Node.js. It includes a built-in terminal, Node.js debugging, and lots of handy extensions.
+
+- [*Atom*](*https://atom.io/*)(*<https://atom.io/>*): a free, cross-platform editor by GitHub (also powered by Node.js) comparable to Visual Studio Code.
+
 - [*Coda*](*http://panic.com/coda/*)(*<http://panic.com/coda/>*): an all-in-one editor with an FTP browser and preview, has support for development with an iPad
 
 - [*Aptana Studio*](*http://aptana.com/*)(*<http://aptana.com/>*): a full-size IDE with a built-in terminal and many other tools
