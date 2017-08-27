@@ -660,7 +660,7 @@ Next comes the middleware section of the application. Middleware is the backbone
 
 Middleware is a way to organize and reuse code, and, essentially, it is nothing more than a function with three parameters: `request`, `response`, and `next`. We&#39;ll use more middleware (for example, for authorization and for persistence) in Chapter 6, but for now, its use is minimal.
 
-The next components in the `app.js` file are routes. Routes are processed in the order they are defined. Usually, routes are put after middleware, but some middleware may be placed following the routes. A good example of such middleware, found after a routes,, is error handler.
+The next components in the `app.js` file are routes. Routes are processed in the order they are defined. Usually, routes are put after middleware, but some middleware may be placed following the routes. A good example of such middleware, found after routes, is error handler.
 
 An illustration in Figure 2-11 shows how an HTTP request is processed.
 
