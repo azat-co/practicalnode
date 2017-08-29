@@ -204,34 +204,36 @@ This small example tests whether we can connect to a local MongoDB instance from
 
 Here is the code to accomplish these five steps:
 
-	var mongo = require('mongodb'),
-  	  dbHost = '127.0.0.1',
-  	  dbPort = 27017;
+```javascript
+var mongo = require('mongodb'),
+	dbHost = '127.0.0.1',
+	dbPort = 27017;
 
 	var Db = mongo.Db;
 	var Connection = mongo.Connection;
 	var Server = mongo.Server;
 	var db = new Db ('local', new Server(dbHost, dbPort), {safe:true});
 
-	db.open(function(error, dbConnection){
-  	  if (error) {
-        console.error(error);
-        process.exit(1);
-  	  }
-  	  console.log('db state: ', db._state);
-  	  item = {
-    	name: 'Azat'
-  	  }
-  	  dbConnection.collection('messages').insert(item, function(error, item){
-    	if (error) {
-          console.error(error);
-          process.exit(1);
-    	}
-    	console.info('created/inserted: ', item);
-    	db.close();
-    	process.exit(0);
-  	  });
+	db.open(function (error, dbConnection) {
+		if (error) {
+			console.error(error);
+	        	process.exit(1);
+  		  }
+	  	  console.log('db state: ', db._state);
+  		  item = {
+	    		name: 'Azat'
+  	  	}
+		dbConnection.collection('messages').insert(item, function (error, item) {
+			if (error) {
+	  			console.error(error);
+				process.exit(1);
+			}
+			console.info('created/inserted: ', item);
+			db.close();
+			process.exit(0);
+		});
 	});
+```
 
 The full source code of this script is in the `mongo-native-insert.js` file. Another `mongo-native-insert.js` script looks up any object and modifies it:
 
@@ -261,56 +263,60 @@ This is one of the ways to establish a connection to the MongoDB server, in whic
 	var db = new Db ('local', new Server(dbHost, dbPort), {safe:true});
 
 To open a connection, type the following:
-
-	db.open(function(error, dbConnection){
-  	  //do something with the database here
-   	  // console.log (util.inspect(db));
-      console.log(db._state);
-      db.close();
-	});
+```javascript
+db.open(function (error, dbConnection) {
+	//do something with the database here
+	// console.log (util.inspect(db));
+	console.log(db._state);
+	db.close();
+});
+```
 
 It&#39;s always a good practice to check for any errors and exit gracefully:
 
-	db.open(function(error, dbConnection){
-  	  if (error) {
-    	console.error(error);
-    	process.exit(1);
-  	  }
-  	  console.log('db state: ', db._state);
+```javascript
+db.open(function (error, dbConnection) {
+	if (error) {
+		console.error(error);
+		process.exit(1);
+	}
+	console.log('db state: ', db._state);
+```
 
 Now we can proceed to the first step mentioned earlier—getting one item from the `message` collection. This document is in the `item` variable:
-
-  	dbConnection.collection('messages').findOne({}, function(error, item){
-      if (error) {
-        console.error(error);
-        process.exit(1);
-      }
+```javascript
+	dbConnection.collection('messages').findOne({}, function (error, item) {
+		if (error) {
+			console.error(error);
+			process.exit(1);
+      		}
+```
 
 The second step, print the value, is as follows:
-
-    console.info('findOne: ', item);
-
+```javascript
+		console.info('findOne: ', item);
+```
 As you can see, methods in the console and Node.js are not much different.
 
 So let&#39;s proceed to the remaining two steps: adding a new property and saving the document:
-
-        item.text = 'hi';
-        var id = item._id.toString(); // we can store ID in a string
-        console.info('before saving: ', item);
-        dbConnection.collection('messages').save(item, function(error, item){
-          console.info('save: ', item);
-
+```javascript
+		item.text = 'hi';
+		var id = item._id.toString(); // we can store ID in a string
+		console.info('before saving: ', item);
+		dbConnection.collection('messages').save(item, function (error, item) {
+			console.info('save: ', item);
+```
 To double-check the saved object, we use the ObjectID that we saved before in a string format (in a variable `id`) with the `find` method. This method returns a cursor, so we apply `toArray()` to extract the standard JavaScript array:
-
-        	dbConnection.collection('messages').find({_id: new mongo.ObjectID(id)}).toArray(function(error, items){
-          	  console.info('find: ', items);
-              db.close();
-              process.exit(0);
-        	});
-      	  });
-  		})
-  	  });
-
+```javascript
+			dbConnection.collection('messages').find({_id: new mongo.ObjectID(id)}).toArray(function (error, items) {
+				console.info('find: ', items);
+				db.close();
+      				process.exit(0);
+			});
+		});
+  	});
+});
+```
 The full source code of this script is available in the `mongo-native-insert.js` and `mongo-native.js` files. If we run them with `$ node mongo-native-insert` and, respectively, `$ node mongo-native`, while running the `mongod` service the scripts should output something similar to the results in Figure 5-4. There are three documents. The first is without the property text; the second and third documents include it.
 
 
@@ -325,46 +331,46 @@ The full documentation of this library is available at <http://mongodb.github.co
 Mongoskin provides a better API than the native MongoDB driver. To illustrate this, compare this code with the example written using native MongoDB driver for Node.js. As always, to install a module, run NPM with install—for example,`$ npm install mongoskin@0.6.1`.
 
 The connection to the database is a bit easier:
+```javascript
+var mongoskin = require('mongoskin'),
+dbHost = '127.0.0.1',
+dbPort = 27017;
 
-	var mongoskin = require('mongoskin'),
-  	  dbHost = '127.0.0.1',
-  	  dbPort = 27017;
-
-	var db = mongoskin.db(dbHost + ':' + dbPort + '/local', {safe:true});
-
+var db = mongoskin.db(dbHost + ':' + dbPort + '/local', {safe:true});
+```
 We can also create our own methods on collections. This might be useful when implementing an model-view-controller-like (MVC-like) architecture by incorporating app-specific logic into these custom methods:
-
-	db.bind('messages', {
-  	  findOneAndAddText : function (text, fn) {
-    	db.collection('messages').findOne({}, function(error, item){
-      	  if (error) {
-        	console.error(error);
-        	process.exit(1);
-      	  }
-      	  console.info('findOne: ', item);
-          item.text = text;
-          var id = item._id.toString(); // we can store ID in a string
-          console.info('before saving: ', item);
-          db.collection('messages').save(item, function(error, count){
-            console.info('save: ', count);
-            return fn(count, id);
-          });
-      	})
-  	   }
-	 });
-
+```javascript
+db.bind('messages', {
+	findOneAndAddText : function (text, fn) {
+		db.collection('messages').findOne({}, function (error, item) {
+			if (error) {
+				console.error(error);
+				process.exit(1);
+			}
+			console.info('findOne: ', item);
+			item.text = text;
+			var id = item._id.toString(); // we can store ID in a string
+			console.info('before saving: ', item);
+			db.collection('messages').save(item, function (error, count) {
+				console.info('save: ', count);
+				return fn(count, id);
+			});
+		})
+	}
+});
+```
 Last, we call the custom method in a straightforward manner (presumably also used in many other places):
-
-	db.collection('messages').findOneAndAddText('hi', function(count, id){
-        db.collection('messages').find({
-          _id: db.collection('messages').id(id)
-        }).toArray(function(error, items){
-          console.info("find: ", items);
-          db.close();
-          process.exit(0);
-        });
+```javascript
+db.collection('messages').findOneAndAddText('hi', function (count, id) {
+	db.collection('messages').find({
+		_id: db.collection('messages').id(id)
+	}).toArray(function (error, items) {
+		console.info("find: ", items);
+		db.close();
+		process.exit(0);
 	});
-
+});
+```
 Mongoskin is a subset of the native Node.js MongoDB driver, so most of the methods from the latter are available in the former. Here is the list of the main Mongoskin–only methods:
 
 - `findItems(..., callback)`: finds elements and returns an array instead of a cursor
