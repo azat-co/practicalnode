@@ -1,10 +1,12 @@
 Chapter 1
+
 ---------
+
 # Setting up Node.js and Other Essentials
 
 As with many technologies, it’s vital to have the proper foundation set up first, before moving on to solving more complex problems. In this chapter, we cover the following:
 
-- Node.js and (NPM) Node Package Manager installation
+- Node.js and npm (Node package manager) installation
 - Node.js script launches
 - Node.js syntax and basics
 - Node.js integrated development environments (IDEs) and code editors
@@ -13,7 +15,7 @@ As with many technologies, it’s vital to have the proper foundation set up fir
 
 # Installing Node.js and NPM
 
-Although your operating system (OS) might have Node.js installed on it already, you should update to at least 0.10.x. In the following subsection, we examine a few different approaches to installing Node.js:
+Although your operating system (OS) might have Node.js installed on it already, you should update to at least 8.x which is the latest long-term support (LTS) version as of this writing (December 2017). In the following subsection, we examine a few different approaches to installing Node.js:
 
 - *One-click installers*: probably the easiest and fastest way to get started with the platform
 - *Installing with HomeBrew or MacPorts*: straightforward installation for Max OS X users
@@ -23,17 +25,21 @@ Although your operating system (OS) might have Node.js installed on it already, 
 - *Multiversion setup with Nave*: a must-have for developers contributing to projects that use different Node.js versions
 - *Multiversion setup with Node Version Manager* (*NVM*): alternative to Nave (see previous entry)
 
+A note about Long-Term Support (LTS) and non-LTS versions: LTS versions have longer maintenance window. This means that LTS versions will have patches and updates longer than non-LTS versions. Thus LTS versions are recommended for most users and production deployment (not because non-LTS is no proven but simply because LTS has a longer support time). 
+
+LTS versions are even number, such as 4, 6, 8, 10, etc. and non-LTS versions are odd numbers. Non-LTS versions have the latest features before they are rolled out to the next LTS version. We would be using LTS version 8.x. For more information and the current release schedule, please see <https://github.com/nodejs/LTS>.
+
 ## One-Click Installers
 
 First, let’s go to <http://nodejs.org> and download a one-click installer for your OS (Figure 1-1) by clicking on the Install button. Don’t choose binaries or source code unless you know what to do with them or your OS is not present there (i.e., not Windows or Mac).
 
-The installers come with NPM (Node Package Manager)— an important tool for managing dependencies.
+The installers come with npm, Node package manager, which is an important tool for managing dependencies.
 
 ![alt](media/image1.png)
 
 ***Figure 1-1.** One-click installers for Node.js*
 
-If there’s no installer for your OS (page http://nodejs.org/download/), you can get the source code and compile it yourself (Figure 1-2).
+If there’s no installer for your OS (page <https://nodejs.org/en/download>), you can get the source code and compile it yourself (Figure 1-2).
 
 ![alt](media/image2.png)
 
@@ -42,23 +48,30 @@ If there’s no installer for your OS (page http://nodejs.org/download/), you ca
 **Note**  For older Mac OS X machines, you can pick 32-bit versions.
 
 ## Installing with HomeBrew or MacPorts
-If you already have HomeBrew (`brew`) installed, run the following in a straightforward manner:
 
-```
+If you already have HomeBrew (`brew`) installed, first update the brew itself, and run install commands:
+
+```sh
+$ brew update
 $ brew install node
-$ brew install npm
+```
+
+To install the latest Node version, run:
+
+```sh
+$ brew upgrade node
+```
+
+If your Mac OS X does not have HomeBrew, go to <http://brew.sh> or install it with the following command:
+
+```sh
+$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 ```
 
 Similarly, for MacPorts, run
 
 ```sh
 $ sudo port install nodejs
-```
-
-If your Mac OS X does not have HomeBrew, go to http://brew.sh/ or install it with the following command:
-
-```sh
-$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 ```
 
 ## Installing from a Tar File
@@ -73,7 +86,7 @@ $ mkdir ~/node-latest-install
 $ cd ~/node-latest-install
 ```
 
-**Note**  Advanced users who choose to make their own Node.js builds need to have certain compilers installed first. For more information, refer to [the official documentation](https://github.com/joyent/node/wiki/Installation)(<https://github.com/joyent/node/wiki/Installation>).
+**Note**  Advanced users who choose to make their own Node.js builds need to have certain compilers installed first. For more information about building Node from source, refer to [the official documentation](https://github.com/nodejs/node/blob/master/BUILDING.md) (<https://github.com/nodejs/node/blob/master/BUILDING.md>).
 
 Download the tar file with CURL and unpack it:
 
@@ -89,7 +102,7 @@ $ make install
 $ curl https://npmjs.org/install.sh | sh
 ```
 
-**Tip**  If you find yourself getting errors when trying to install the module globally via NPM (`$ npm install -g <packagename>`), reinstall Node.js and NPM with the  "Installing Without sudo" solution below to eliminate the need to use `sudo` with the installation command. For more solutions for advanced users, there’s a Gist (<https://gist.github.com/isaacs/579814>) from Isaac Z. Schlueter: https://gist.github.com/isaacs/579814.
+**Tip**  If you find yourself getting errors when trying to install the module globally via npm (`$ npm install -g <packagename>`), reinstall Node.js and npm with the  "Installing Without sudo" solution below to eliminate the need to use `sudo` with the installation command. 
 
 ## Installing Without sudo
 
@@ -113,9 +126,13 @@ $ make install
 $ curl https://npmjs.org/install.sh | sh
 ```
 
-## Installing from a Git Repo
+## Installing from Source Code
 
-If you want to use the latest core Node.js code, and maybe even contribute to the Node.js and NPM projects, it’s possible to build the installation from the cloned Git repo. (This step requires Git. To install it, go to <http://git-scm.com> and click Download.) For basic Git commands, refer to Chapter 11, where we explore deployment; otherwise, do the following:
+If you want to use the latest core Node.js code, and maybe even contribute to the Node.js and npm projects, your best choice is to use the installation from the source code which is in GitHub. This will allow you to change the Node code itself, and then compile and run it
+
+This step requires Git. To install it, go to <http://git-scm.com> and click Download. For basic Git commands, refer to Chapter 11, where we explore deployment.  
+
+For the full detailed instructions, go to <https://github.com/nodejs/node/blob/master/BUILDING.md>. Here is the short version of the instructions.
 
 1. Make the folders and add the path:
 
@@ -125,80 +142,34 @@ If you want to use the latest core Node.js code, and maybe even contribute to th
     $ . ~/.bashrc
     ```
 
-    To clone the original Node.js repo from Joyent (alternatively, you can fork it and clone your own repository), do the following:
+    To clone the original Node.js repo from [nodejs/node](https://github.com/nodejs/node) (alternatively, you can fork it and clone your own repository), do the following:
 
     ```sh
-    $ git clone git://github.com/joyent/node.git
+    $ git clone git@github.com:nodejs/node.git
     $ cd node
     $ ./configure --prefix=~/local
     ```
 
-2. Make the build:
+2. Build Node with the make command:
 
     ```sh
     $ make install
-    $ cd ..
     ```
 
-3. Repeat for NPM:
+3. Repeat for npm:
 
     ```sh
-    $ git clone git://github.com/isaacs/npm.git
+    $ git clone https://github.com/npm/npm
     $ cd npm
     $ make install
     ```
 
-    For a more cutting-edge NPM version, use
-
-    ```sh
-    $ make link
-    ```
-
-## Multiversion Setup with Nave
-
-If you plan to run multiple versions of Node.js, use [Nave](https://github.com/isaacs/nave)(<https://github.com/isaacs/nave>), which is a virtual environment for Node.js. First, make a folder:
-
-```sh
-$ mkdir ~/.nave
-$ cd ~/.nave
-```
-
-Then, download Nave and set the link to the PATH-ed folder:
-
-```sh
-$ wget http://github.com/isaacs/nave/raw/master/nave.sh
-$ sudo ln -s $PWD/nave.sh /usr/local/bin/nave
-```
-
-An example of switching to Node.js version 0.4.8 with Nave in a virtual environment is as follows:
-
-```sh
-$ nave use 0.4.8
-```
-
-To use NPM in this particular virtual environment, use
-
-```sh
-$ curl https://npmjs.org/install.sh | sh
-```
-
-It is now possible to install something via NPM:
-
-```sh
-$ npm install express
-```
-
-Last, exit the virtual environment with
-
-```sh
-exit
-```
-
-More approaches to install Node.js and NPM are in [gist](https://gist.github.com/isaacs/579814) (<https://gist.github.com/isaacs/579814>).
 
 ## Multiversion Setup with NVM
 
-Another option to Nave is NVM—Node Version Manager [(GitHub)](https://github.com/creationix/nvm)(<https://github.com/creationix/nvm>). Install NVM as follows:
+If you plan to work on various Node projects, you might have to have to switch between multiple versions of Node.js. To make things easier, I recommend to use a version manager which will allow to install multiple versions and switch between them quickly and without a hassle.
+
+One of the trusted and battle-tested version managers is nvm (Node Version Manager): <https://github.com/creationix/nvm>. Install NVM as follows:
 
 ```sh
 $ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
@@ -222,12 +193,20 @@ To switch to the 0.10 version, apply the `use` command. For example:
 $ nvm use 0.10
 ```
 
+## Multiversion Setup with NVM for Windows
+
+[Node Version Manager (nvm) for Windows](https://github.com/coreybutler/nvm-windows) is a separate project from original nvm which is for macOS and Linux. nvm for Windows is ironically written in Go. 
+
+To download nvm for Windows, simply go to <https://github.com/coreybutler/nvm-windows> releases and select the latest version of the installer.
+
+
 ## Alternative Multiversion Systems
 
 Alternatives to Nave and NVM include the following:
 
-- [neco](https://github.com/kuno/neco)(<https://github.com/kuno/neco>)
-- [n](https://github.com/visionmedia/n])(<https://github.com/visionmedia/n>)
+- [nave](https://github.com/isaacs/nave) (<https://github.com/isaacs/nave>): version manager from the creator of npm; and it supports subshells
+- [n](https://github.com/visionmedia/n]) (<https://github.com/visionmedia/n>): the original and *simple* Node version manager without subshells (I still use it today on my personal computer)
+- [ndevn](https://github.com/riywo/ndenv) (<https://github.com/riywo/ndenv>): Node.js version manager based on rbenv
 
 ## Checking the Installation
 
