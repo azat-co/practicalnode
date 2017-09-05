@@ -264,7 +264,7 @@ Filters are used when there are blocks of texts written in a different language.
 
         [This book](http://expressjsguide.com) really helps to grasp many components needed for modern-day web development.
 
-**Note**  The Markdown modules still need to be installed. The `marked` and markdown NPM packages are often used for this. There&#39;s no need for an additional configuration, just install them in the project&#39;s local `node_modules` folder.
+**Note**  The Markdown modules still need to be installed. The `marked` and markdown npm packages are often used for this. There&#39;s no need for an additional configuration, just install them in the project&#39;s local `node_modules` folder.
 
 ## Interpolation
 
@@ -503,7 +503,7 @@ Furthermore, with `jade.renderFile`, the `jade-example.js` file is even more com
       console.log(html)
     });
 
-**Note**  Jade can also be used as a command-line tool after installing it with the `-g` or `--global` option via NPM. For more information, run `jade -h` or see the official documentation (<http://jade-lang.com/command-line/>).
+**Note**  Jade can also be used as a command-line tool after installing it with the `-g` or `--global` option via npm. For more information, run `jade -h` or see the official documentation (<http://jade-lang.com/command-line/>).
 
 To use Jade in a browser, you can use browserify (<https://github.com/substack/node-browserify>) and its jadeify (<https://www.npmjs.org/package/jade-browser>) middleware.
 
@@ -768,13 +768,13 @@ Includes or partials templates in Handlebars are interpreted by the `{{> partial
 
 # Standalone Handlebars Usage
 
-Developers can install Handlebars via NPM with `$ npm install handlebars` or `$ npm install handlebars --save`, assuming there&#39;s either `node_modules` or `package.json` in the current working directory (see the results of a sample installation in Figure 4-3).
+Developers can install Handlebars via npm with `$ npm install handlebars` or `$ npm install handlebars --save`, assuming there&#39;s either `node_modules` or `package.json` in the current working directory (see the results of a sample installation in Figure 4-3).
 
 ![alt](media/image3.png)
 
 ***Figure 4-3.** Installing Handlebars*
 
-**Note** Handlebars can be installed via NPM as a command-line tool with the `-g` or `--global` options. For more information on how to use Handlebars in this mode, refer to the `$ handlebar` command or the official documentation(<https://github.com/wycats/handlebars.js/%23usage-1>).
+**Note** Handlebars can be installed via npm as a command-line tool with the `-g` or `--global` options. For more information on how to use Handlebars in this mode, refer to the `$ handlebar` command or the official documentation(<https://github.com/wycats/handlebars.js/%23usage-1>).
 
 Here&#39;s an example of standalone Node.js Handlebars usage from `handlebars-example.js`:
 

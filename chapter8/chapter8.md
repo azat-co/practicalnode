@@ -86,7 +86,7 @@ First, we need to create a `ch8/rest-express` folder (or download the source cod
     $ mkdir rest-express
     $ cd rest-express
 
-As mentioned in the previous chapter, Node.js/NPM provides multiple ways to install dependencies, including the following:
+As mentioned in the previous chapter, Node.js/npm provides multiple ways to install dependencies, including the following:
 
 - Manually, one by one
 
@@ -136,7 +136,7 @@ In this section we walk through the writing of functional tests using the Mocha(
 
 If you know how to use Mocha or just want to jump straight to the Express.js app implementation, feel free to do so. You can use CURL terminal commands for testing, too.
 
-Assuming we already have Node.js, NPM, and MongoDB installed, let&#39;s create a _new_ folder (or, if you wrote the tests, use that folder). Let&#39;s use Mocha as a command-line tool, and Expect.js and superagent as local libraries. To install the Mocha CLI (if it&#39;s not available via `$ mocha –V`), run this command from the terminal:
+Assuming we already have Node.js, npm, and MongoDB installed, let&#39;s create a _new_ folder (or, if you wrote the tests, use that folder). Let&#39;s use Mocha as a command-line tool, and Expect.js and superagent as local libraries. To install the Mocha CLI (if it&#39;s not available via `$ mocha –V`), run this command from the terminal:
 
     $ npm install -g mocha@1.16.2
 
@@ -554,7 +554,7 @@ However, this is not the whole story. TDD is great when it comes to refactoring.
 
 # Refactoring: Hapi RESP API Server
 
-[Hapi](http://spumko.github.io/)(<http://spumko.github.io/>) (NPM(<https://www.npmjs.org/package/hapi>) and GitHub(<https://github.com/spumko/hapi>)) is an enterprise-grade framework. It&#39;s more complex and feature rich than Express.js, and it&#39;s easier to develop in large teams(<http://hueniverse.com/2012/12/hapi-a-prologue/>). Hapi is maintained by Eran Hammer(<http://hueniverse.com/>)of Walmart Labs.
+[Hapi](http://spumko.github.io/)(<http://spumko.github.io/>) (npm(<https://www.npmjs.org/package/hapi>) and GitHub(<https://github.com/spumko/hapi>)) is an enterprise-grade framework. It&#39;s more complex and feature rich than Express.js, and it&#39;s easier to develop in large teams(<http://hueniverse.com/2012/12/hapi-a-prologue/>). Hapi is maintained by Eran Hammer(<http://hueniverse.com/>)of Walmart Labs.
 
 The goal of this section is to show you alternative patterns in implementing the REST API server in Node.js. Now, because we have Mocha tests, we can refactor our code with peace of mind. Here&#39;s the `package.json` for this project:
 

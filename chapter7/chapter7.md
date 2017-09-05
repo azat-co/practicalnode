@@ -36,7 +36,7 @@ The source code for this chapter is in the ch7/blog-express directory of the pra
 
 # Mongoose Installation
 
-First, we should install Mongoose with NPM. Among many variations, this is one of the ways we can install Mongoose 3.8.4 into an empty folder:
+First, we should install Mongoose with npm. Among many variations, this is one of the ways we can install Mongoose 3.8.4 into an empty folder:
 
     $ mkdir node_modules
     $ npm install mongoose@3.8.4

@@ -31,14 +31,14 @@ With this in mind, many Node.js enthusiasts find it rewarding to contribute to t
 
 -   `package.json`
 
--   Publishing to NPM
+-   Publishing to npm
 
 -   Locking versions
 
 Recommended Folder Structure
 ============================
 
-Here is an example of a good, structured NPM module:
+Here is an example of a good, structured npm module:
 
     Webapp
       /lib
@@ -179,7 +179,7 @@ And we can use it in the including file the following way:
 package.json
 ============
 
-Another mandatory part of an NPM module is its `package.json` file. The easiest way to create a new `package.json` file, if you don’t have one already (most likely you do), is to use `$ npm init`. The following is an example produced by this command:
+Another mandatory part of an npm module is its `package.json` file. The easiest way to create a new `package.json` file, if you don’t have one already (most likely you do), is to use `$ npm init`. The following is an example produced by this command:
 
      "name": "webapp",
      "version": "0.0.1",
@@ -199,16 +199,16 @@ Another mandatory part of an NPM module is its `package.json` file. The easiest 
      "license": "BSD"
     }
 
-The most important fields are `name` and `version`. The others are optional and self-explanatory, by name. The full list of supported keys is located at [the NPM web site](https://www.npmjs.org/doc/json.html).
+The most important fields are `name` and `version`. The others are optional and self-explanatory, by name. The full list of supported keys is located at [the npm web site](https://www.npmjs.org/doc/json.html).
 
 **Warning** `package.json` must have double quotes around values and property names, unlike native JavaScript object literals.
 
-It’s worth noting that `package.json` and NPM do not limit their use. In other words, you are encouraged to add custom fields and devise new conventions for their cases.
+It’s worth noting that `package.json` and npm do not limit their use. In other words, you are encouraged to add custom fields and devise new conventions for their cases.
 
-Publishing to NPM
+Publishing to npm
 =================
 
-To publish to NPM, we must have an account there. We do this by executing the following:
+To publish to npm, we must have an account there. We do this by executing the following:
 
 	$ npm adduser
 
@@ -216,7 +216,7 @@ Then, simply execute from the project folder:
 
     $ npm publish
 
-Some useful NPM commands are as follows:
+Some useful npm commands are as follows:
 
 -   `$ npm tag NAME@VERSION TAG`: tag a version
 
@@ -226,7 +226,7 @@ Some useful NPM commands are as follows:
 
 -   `$ npm version minor`: increment a middle version number (e.g., 0.0.1 to 0.1.0 or 0.0.1 to 1.0.0) and update `package.json`
 
--   `$ npm unpublish PACKAGE_NAME`: unpublish package from NPM (take optional version with `@`)
+-   `$ npm unpublish PACKAGE_NAME`: unpublish package from npm (take optional version with `@`)
 
 -   `$ npm owner ls PACKAGE_NAME`: list owners of this package
 
@@ -237,7 +237,7 @@ Some useful NPM commands are as follows:
 Locking Versions
 ================
 
-The rule of thumb is that when we publish external modules, we don’t lock dependencies’ versions. However, when we deploy apps, we lock versions in `package.json`. This is a common convention that many projects on NPM follow (i.e., they don’t lock the versions). So, as you might guess, this may lead to trouble.
+The rule of thumb is that when we publish external modules, we don’t lock dependencies’ versions. However, when we deploy apps, we lock versions in `package.json`. This is a common convention that many projects on npm follow (i.e., they don’t lock the versions). So, as you might guess, this may lead to trouble.
 
 Consider this scenario: We use Express.js that depends on, say, Jade of the latest version (*). Everything works until, unknown to us, Jade is updated with breaking changes. Express.js now uses Jade that breaks our code. No bueno.
 
@@ -254,7 +254,7 @@ When running Shrinkwrap, be careful to have all the project dependencies install
 Summary
 =======
 
-Open-source factors have contributed to the success and widespread use of the Node.js platform. It’s relatively easy to publish a module and make a name for yourself (unlike other mature platforms with solid cores). We looked at the recommended patterns and structures, and explored a few commands to get started with publishing modules to NPM.
+Open-source factors have contributed to the success and widespread use of the Node.js platform. It’s relatively easy to publish a module and make a name for yourself (unlike other mature platforms with solid cores). We looked at the recommended patterns and structures, and explored a few commands to get started with publishing modules to npm.
 
 *Practical Node.js* Conclusion
 ==============================
@@ -263,7 +263,7 @@ Lo and behold, this is the end of the book. There was a study that showed that t
 
 Regarding the material covered in *Practical Node.js*, we explored real-world aspects of the Node.js stack. To do this, many things were essential, and by now you should have an awareness of how pieces fit together. For some technologies such as Jade and REST API, our coverage was quite extensive. However, most of the packages are very specific and tailored to our apps’ goals, so those topics were given a brief introduction, with references for further learning. Here’s a list of topics we covered:
 
--   Node.js and NPM setup and development tools
+-   Node.js and npm setup and development tools
 
 -   Web apps with Express.js
 
@@ -285,7 +285,7 @@ Regarding the material covered in *Practical Node.js*, we explored real-world as
 
 -   Deployment to Heroku and AWS
 
--   Structuring and publishing NPM modules
+-   Structuring and publishing npm modules
 
 Further Reading
 ===============

@@ -34,7 +34,7 @@ If you encounter the lack-of-permissions issue, discussed in Chapters 1 and 2, r
 
 To avoid using `sudo`, follow the instructions in Chapter 1 on how to install Node.js correctly.
 
-**Tip**: It&#39;s possible to have a separate version of Mocha for each project by simply pointing to the local version of Mocha, which you install like any other NPM module into `node_modules`. The command will be:
+**Tip**: It&#39;s possible to have a separate version of Mocha for each project by simply pointing to the local version of Mocha, which you install like any other npm module into `node_modules`. The command will be:
 
     $ ./node_modules/mocha/bin/mocha test_name
 
@@ -275,7 +275,7 @@ And, use `var chai = require('chai'); var expect = chai.expect;` inside a Node.j
 
     var expect = require('chai').expect;
 
-**Note**: `$ mkdir node_modules` is needed only if you install NPM modules in the folder that has neither the `node_modules` directory already nor a `package.json` file. For more information, please refer to Chapter 1.
+**Note**: `$ mkdir node_modules` is needed only if you install npm modules in the folder that has neither the `node_modules` directory already nor a `package.json` file. For more information, please refer to Chapter 1.
 
 ## Expect.js Syntax
 
@@ -301,7 +301,7 @@ The source code for this chapter is in the `ch3/blog-express` folder of the prac
 
 First, let&#39;s copy the Hello World project. It will serve as a foundation for Blog. Then, install Mocha in the Blog project folder, and add it to the `package.json` file at the same time with `$ npm install mocha@1.16.2 --save-dev`. The `--save-dev` flag will categorize this module as a development dependency (devDependencies). Modify this command by replacing package name and version number for expect.js (0.2.0) and [superagent](https://npmjs.org/package/superagent)(<https://npmjs.org/package/superagent>) (0.15.7). The latter is a library to streamline the making of HTTP requests. Alternatives to `superagent` include the following:
 
-- `request`(<https://npmjs.org/package/request>): the third most-starred NPM module (as of this writing)
+- `request`(<https://npmjs.org/package/request>): the third most-starred npm module (as of this writing)
 - *core* `http` *module*: clunky and very low level
 - `supertest`: a superagent-based assertions library
 

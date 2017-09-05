@@ -13,7 +13,7 @@ As with many technologies, it’s vital to have the proper foundation set up fir
 - Awareness of file changes
 - Node.js program debugging
 
-# Installing Node.js and NPM
+# Installing Node.js and npm
 
 Although your operating system (OS) might have Node.js installed on it already, you should update to at least 8.x which is the latest long-term support (LTS) version as of this writing (December 2017). In the following subsection, we examine a few different approaches to installing Node.js:
 
@@ -106,7 +106,7 @@ $ curl https://npmjs.org/install.sh | sh
 
 ## Installing Without sudo
 
-Sometimes, depending on your configuration, NPM asks users for `sudo`— root user permissions. To avoid using `sudo`, advanced developers can use the following::
+Sometimes, depending on your configuration, npm asks users for `sudo`— root user permissions. To avoid using `sudo`, advanced developers can use the following::
 
 ```sh
 $ sudo mkdir -p /usr/local/{share/man,bin,lib/node,include/node}
@@ -181,17 +181,20 @@ or
 $ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
 ```
 
-Then, harness NVM’s `install`:
+Then, you should be ready to start using NVM and its `install`. For example, to install Node v0.10, use:
 
 ```sh
 $ nvm install 0.10
 ```
 
-To switch to the 0.10 version, apply the `use` command. For example:
+After installing Node v0.10 to switch to the 0.10 version, apply the `use` command. For example:
 
 ```sh
 $ nvm use 0.10
 ```
+
+NVM won't move global npm modules from one version to another. If you are switching from y to x, then use `nvm install x --reinstall-packages-from=y` to reinstall all the global packages from "y" in the new "x". For example, to move packages to Node v8 from Node v6, use `nvm install 8.4.0 --reinstall-packages-from=6.11.2`
+
 
 ## Multiversion Setup with NVM for Windows
 
@@ -202,11 +205,19 @@ To download nvm for Windows, simply go to <https://github.com/coreybutler/nvm-wi
 
 ## Alternative Multiversion Systems
 
-Alternatives to Nave and NVM include the following:
+The most popular and used alternatives to NVM include the following tools:
 
-- [nave](https://github.com/isaacs/nave) (<https://github.com/isaacs/nave>): version manager from the creator of npm; and it supports subshells
 - [n](https://github.com/visionmedia/n]) (<https://github.com/visionmedia/n>): the original and *simple* Node version manager without subshells (I still use it today on my personal computer)
+- [nave](https://github.com/isaacs/nave) (<https://github.com/isaacs/nave>): version manager from the creator of npm; and it supports subshells
 - [ndevn](https://github.com/riywo/ndenv) (<https://github.com/riywo/ndenv>): Node.js version manager based on rbenv
+
+## Updating npm
+
+Some of the readers might have npm already, but due to big changes between npm v3, 4 and 5, it's recommended to update npm to version 5. Luckily, you can use npm to update npm! 
+
+```
+npm i -g npm@latest
+```
 
 ## Checking the Installation
 
@@ -217,13 +228,13 @@ $ node -v
 $ npm -v
 ```
 
-You should see the latest versions of Node.js and NPM that you just downloaded and installed, as shown in Figure 1-3.
+You should see the latest versions of Node.js and npm that you just downloaded and installed, as shown in Figure 1-3.
 
 ![alt](media/image3.png)
 
-***Figure 1-3.** Checking Node.js and NPM installations*
+***Figure 1-3.** Checking Node.js and npm installations*
 
-That’s it! You now have Node.js and NPM installed, and you should be ready to dig deeper into using the platform. The simplest way to run Node.js is through its virtual environment, which is often called *read–eval–print–loop*, or REPL.
+That’s it! You now have Node.js and npm installed, and you should be ready to dig deeper into using the platform. The simplest way to run Node.js is through its virtual environment, which is often called *read–eval–print–loop*, or REPL.
 
 ## Node.js Console (REPL)
 
@@ -458,7 +469,7 @@ It’s important to follow the most common language conventions. Some of them ar
 
 - Whitespace
 
-These JavaScript/Node.js conventions (with semicolons being an exception) are stylistic and highly preferential. They don’t impact the execution; however, it’s strongly suggested that you follow one style consistently, especially if you are a developer working in teams and/or on open-source projects. Some open-source projects might not accept pull requests if they contain semicolons (e.g., NPM) or if they don’t use comma-first style (e.g., request).
+These JavaScript/Node.js conventions (with semicolons being an exception) are stylistic and highly preferential. They don’t impact the execution; however, it’s strongly suggested that you follow one style consistently, especially if you are a developer working in teams and/or on open-source projects. Some open-source projects might not accept pull requests if they contain semicolons (e.g., npm) or if they don’t use comma-first style (e.g., request).
 
 ### Semicolons
 
@@ -564,7 +575,7 @@ In the file that includes the previous sample module, write
 
 The more succinct code is `var = express(); require('./config/index.js')(app);`.
 
-The most common mistake when including modules is creating a wrong path to the file. For core Node.js modules, use the name without any path—for example, `require('name')`. The same goes for modules in the `node_modules` folder (more on this when we examine NPM later in the chapter).
+The most common mistake when including modules is creating a wrong path to the file. For core Node.js modules, use the name without any path—for example, `require('name')`. The same goes for modules in the `node_modules` folder (more on this when we examine npm later in the chapter).
 
 For all other files (i.e., not modules), use `.` with or without a file extension. An example follows:
 
@@ -617,7 +628,7 @@ In addition, we have `setInterval()`, `setTimeout()`, `forEach()`, and `console`
 
 ## Node.js Core Modules
 
-Unlike other programming technologies, Node.js doesn’t come with a heavy standard library. The core modules of node.js are a bare minimum, and the rest can be cherry-picked via the NPM registry. The main core modules, classes, methods, and events include the following:
+Unlike other programming technologies, Node.js doesn’t come with a heavy standard library. The core modules of node.js are a bare minimum, and the rest can be cherry-picked via the npm registry. The main core modules, classes, methods, and events include the following:
 
 - `http`(<http://nodejs.org/api/http.html#http_http>)
 
@@ -686,13 +697,13 @@ There is no need to install or download core modules. To include them in your ap
 
 A list of noncore modules is found at the following locations:
 
-- [npmjs.org](https://npmjs.org/)(<https://npmjs.org/>): for the NPM registry
+- [npmjs.org](https://npmjs.org/)(<https://npmjs.org/>): for the npm registry
 
 - [GitHub hosted list](https://github.com/joyent/node/wiki/Modules)(<https://github.com/joyent/node/wiki/Modules>): for Node.js modules maintained by Joyent
 
 - [nodetoolbox.com](http://nodetoolbox.com/)(<http://nodetoolbox.com/>): for a registry based on stats
 
-- [Nipster](http://eirikb.github.com/nipster/)(<http://eirikb.github.com/nipster/>): for NPM search tools for Node.js
+- [Nipster](http://eirikb.github.com/nipster/)(<http://eirikb.github.com/nipster/>): for npm search tools for Node.js
 
 - [Node tracking](http://nodejsmodules.org/)(<http://nodejsmodules.org/>): for a registry based on GitHub stats
 
@@ -740,15 +751,15 @@ Here's a basic example of using streams that output the binary file content back
 
 By default, Node.js uses buffers for streams. For more immersive instruction, take a look at `stream-adventure`(<http://npmjs.org/stream-adventure>) and [Stream Handbook](https://github.com/substack/stream-handbook)(<https://github.com/substack/stream-handbook>).
 
-## Installing Node.js Modules with NPM
+## Installing Node.js Modules with npm
 
-NPM comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html)(<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, `$ npm install superagent;` in the program.js write: `var superagent = require('superagent');`.
+npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html)(<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, `$ npm install superagent;` in the program.js write: `var superagent = require('superagent');`.
 
-The best thing about NPM is that it keeps all the dependencies local, so if module A uses module B v1.3, and module C uses module B v2.0 (with breaking changes compared with v1.3), both A and C will have their own localized copies of different versions of B. This proves to be a more superior strategy than that of Ruby and other platforms that use global installations by default.
+The best thing about npm is that it keeps all the dependencies local, so if module A uses module B v1.3, and module C uses module B v2.0 (with breaking changes compared with v1.3), both A and C will have their own localized copies of different versions of B. This proves to be a more superior strategy than that of Ruby and other platforms that use global installations by default.
 
 The best practice is *not to include* a `node_modules` folder in the Git repository when the project is a module that is supposed to be used in other applications. However, it’s recommended *to include* `node_modules` for deployable applications to prevent breakage caused by unfortunate dependency updates.
 
-**Note**  The NPM creator likes to call it `npm` ([lowercase](http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-NPM-or-Npm)(<http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-NPM-or-Npm>).
+**Note**  The npm creator likes to call it `npm` ([lowercase](http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm)(<http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm>).
 
 ## Taming Callbacks in Node.js
 
@@ -874,7 +885,7 @@ So, in our example (`hello-debug.js`), after we start the debugger client and ex
 
 The built-in Node.js debugger client is extensive, but it’s not intuitive because of the lack of a GUI. Therefore, for a more developer-friendly interface than the core Node.js debugger provides, [node-inspector](https://github.com/node-inspector/node-inspector)(<https://github.com/node-inspector/node-inspector>) comes to the rescue!
 
-To download and install Node Inspector, we use our beloved NPM in the global mode (`-g` or `--global`):
+To download and install Node Inspector, we use our beloved npm in the global mode (`-g` or `--global`):
 
     $ npm install -g node-inspector
 
@@ -976,6 +987,6 @@ For a comparison between these tools, refer to [Comparison: Tools to Automate Re
 
 # Summary
 
-In this chapter, we explored Installing Node.js and NPM, and launching Node.js scripts from the command line. We also looked at the essential concepts of Node.js syntax and the platform. Last, lists of Node.js IDEs and libraries for development were provided.
+In this chapter, we explored Installing Node.js and npm, and launching Node.js scripts from the command line. We also looked at the essential concepts of Node.js syntax and the platform. Last, lists of Node.js IDEs and libraries for development were provided.
 
 In the next chapter, we dive deep into using the most popular Node.js framework for creating web apps.

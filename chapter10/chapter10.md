@@ -520,7 +520,7 @@ When we CURL with `$ curl http://localhost:3000`, there are different processes 
 Multithreading with Cluster2
 ============================
 
-If you prefer ready solutions to low-level libraries (such as `cluster`), check out the real-world production library created and used by eBay:`cluster2` ([GitHub](https://github.com/cubejs/cluster2) (<https://github.com/cubejs/cluster2>), [NPM](https://www.npmjs.org/package/cluster2) (<https://www.npmjs.org/package/cluster2>)) which is a wrapper for the core cluster module. Cluster2 provides handy utility functions and is battle-tested on a large-scale production deployment.
+If you prefer ready solutions to low-level libraries (such as `cluster`), check out the real-world production library created and used by eBay:`cluster2` ([GitHub](https://github.com/cubejs/cluster2) (<https://github.com/cubejs/cluster2>), [npm](https://www.npmjs.org/package/cluster2) (<https://www.npmjs.org/package/cluster2>)) which is a wrapper for the core cluster module. Cluster2 provides handy utility functions and is battle-tested on a large-scale production deployment.
 
 To install Cluster2, run:
 
@@ -746,7 +746,7 @@ Building Tasks with Grunt
 
 Grunt is a Node.js-based task runner. It performs compilations, minifications, linting, unit testing, and other important tasks for automation.
 
-Install Grunt globally with NPM:
+Install Grunt globally with npm:
 
     $ npm install -g grunt-cli
 
@@ -1123,7 +1123,7 @@ In this configuration, 0.11 and 0.10 are versions of Node.js to use for testing.
       - "0.8"
       - "0.6"
 
-NPM’s `package.json` has a property `scripts.test` that is a string to execute scripts, so we can put the `mocha` command in it:
+npm’s `package.json` has a property `scripts.test` that is a string to execute scripts, so we can put the `mocha` command in it:
 
     echo '{"scripts": {"test": "mocha test-expect.js"}}' > package.json
 
@@ -1137,7 +1137,7 @@ On the other hand, we can use any other command that invokes the execution of th
 
     echo '{"scripts": {"test": "make test"}}' > package.json
 
-TravisCI uses this NPM instruction to run the tests.
+TravisCI uses this npm instruction to run the tests.
 
 After all the preparation is done in the form of the `YAML` file and the `package.json` property, the next step is to sign up for TravisCI (free
 for open-source project/public repositories on GitHub) and select the repository from the web interface on [travis-ci.org](https://travis-ci.org)

@@ -328,7 +328,7 @@ The full documentation of this library is available at <http://mongodb.github.co
 
 # Main Mongoskin Methods
 
-Mongoskin provides a better API than the native MongoDB driver. To illustrate this, compare this code with the example written using native MongoDB driver for Node.js. As always, to install a module, run NPM with install—for example,`$ npm install mongoskin@0.6.1`.
+Mongoskin provides a better API than the native MongoDB driver. To illustrate this, compare this code with the example written using native MongoDB driver for Node.js. As always, to install a module, run npm with install—for example,`$ npm install mongoskin@0.6.1`.
 
 The connection to the database is a bit easier:
 ```javascript

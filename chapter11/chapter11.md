@@ -217,7 +217,7 @@ Cloud is eating the world of computing. There are private and public clouds. AWS
 3.  It’s cheaper to maintain. PaaS can quickly cost a fortune for
     high-performance resources.
 
-In this tutorial, we use 64-bit [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami) (http://aws.amazon.com/amazon-linux-ami) with CentOS. It might be easier to use the Extra Packages for Enterprise Linux (EPEL) package manager to install Node.js and NPM. If you don’t have EPEL, skip to the manual C++ build instructions.
+In this tutorial, we use 64-bit [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami) (http://aws.amazon.com/amazon-linux-ami) with CentOS. It might be easier to use the Extra Packages for Enterprise Linux (EPEL) package manager to install Node.js and npm. If you don’t have EPEL, skip to the manual C++ build instructions.
 
 Assuming you have your Elastic Compute Cloud (EC2) instance up and running, make an SSH connection into it and see if you have `yum` with
 [EPEL](https://fedoraproject.org/wiki/EPEL) (https://fedoraproject.org/wiki/EPEL). To do so, just see if this command says `epel`:
@@ -228,7 +228,7 @@ If there’s no mentions of `epel`, run:
 
     rpm -Uvh http://download-i2.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 
-Then, to install both Node.js and NPM, simply run this command:
+Then, to install both Node.js and npm, simply run this command:
 
     sudo yum install nodejs npm --enablerepo=epel
 
@@ -279,7 +279,7 @@ and build Node.js:
 
 **Note** For a different version of Node.js, you can list them all with `$ git tag -l` and check out the one you need.
 
-To install NPM, run
+To install npm, run
 
     git clone https://github.com/isaacs/npm.git
     cd npm
@@ -356,7 +356,7 @@ This section relates only to IaaS deployment—another advantage to PaaS deploym
 
 Luckily, there’s no shortage of solutions to monitor and restart our Node.js apps:
 
--   [*forever*](https://github.com/nodejitsu/forever) (https://github.com/nodejitsu/forever): probably the easiest method. The forever module is installed via NPM and works on almost any Unix OS. Unfortunately, if the server itself fails (not our Node.js server, but the big Unix server), then nothing resumes forever.
+-   [*forever*](https://github.com/nodejitsu/forever) (https://github.com/nodejitsu/forever): probably the easiest method. The forever module is installed via npm and works on almost any Unix OS. Unfortunately, if the server itself fails (not our Node.js server, but the big Unix server), then nothing resumes forever.
 
 -   [*Upstart*](http://upstart.ubuntu.com) (http://upstart.ubuntu.com): the most recommended option. It solves the problem of starting daemons on startups, but it requires writing an Upstart script and having the latest Unix OS version support for it. We show you an Upstart script example for CentOS.
 
@@ -367,7 +367,7 @@ forever
 
 `forever` is a module that allows us to start Node.js apps/servers as daemons and keeps them running *forever*. Yes, that’s right. If the node process dies for some reason, it brings it right back up!
 
-`forever` is a very neat utility because it’s an NPM module (very easy to install almost anywhere) and it’s very easy to use without any extra language. A simple use case is as follows:
+`forever` is a very neat utility because it’s an npm module (very easy to install almost anywhere) and it’s very easy to use without any extra language. A simple use case is as follows:
 
     $ sudo npm install forever –g
     $ forever server.js

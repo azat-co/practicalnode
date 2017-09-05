@@ -96,7 +96,7 @@ Express.js solves these and many other problems as abstraction and code organiza
 
 For the models (M in MVC), we need to use [Mongoose](http://mongoosejs.com/)(<http://mongoosejs.com/>) or [Sequelize](http://sequelizejs.com/)(<http://sequelizejs.com/>) libraries in *addition* to Express.js— more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser)(<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io/)(<http://socket.io/>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
 
-Although Express.js is the most starred library on NPM (as of May 2014), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com/)(<http://meteor.com/>) and [DerbyJS](http://derbyjs.com/)(<http://derbyjs.com/>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com/)(<http://nodeframework.com/>) resource.
+Although Express.js is the most starred library on npm (as of May 2014), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com/)(<http://meteor.com/>) and [DerbyJS](http://derbyjs.com/)(<http://derbyjs.com/>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com/)(<http://nodeframework.com/>) resource.
 
 When evaluating a Node.js framework for your project, use these easy steps to guide you:
 
@@ -110,9 +110,9 @@ When evaluating a Node.js framework for your project, use these easy steps to gu
 
 - Consider whether you need the support of reactive templates with WebSocket from the get-go (the Meteor, anyone?).
 
-- Evaluate the number of stars and follows on NPM and GitHub to judge the popularity of the framework. More popular typically means more blog posts, books, screencasts, tutorials, and programmers exist; less popular means this is a newer framework, a niche/custom choice, or a poor choice. With newer frameworks, there is a greater chance that contributing back to them will be valued, so pick your comfortable spot.
+- Evaluate the number of stars and follows on npm and GitHub to judge the popularity of the framework. More popular typically means more blog posts, books, screencasts, tutorials, and programmers exist; less popular means this is a newer framework, a niche/custom choice, or a poor choice. With newer frameworks, there is a greater chance that contributing back to them will be valued, so pick your comfortable spot.
 
-- Evaluate NPM, GitHub pages, and a framework&#39;s website for the presence of good API documentation with examples or open issues/bugs. If there are more than a few hundred, depending on popularity, this may not be a good sign. Also, determine the date of the last commit on the GitHub repository. Anything older than six months is not a good sign.
+- Evaluate npm, GitHub pages, and a framework&#39;s website for the presence of good API documentation with examples or open issues/bugs. If there are more than a few hundred, depending on popularity, this may not be a good sign. Also, determine the date of the last commit on the GitHub repository. Anything older than six months is not a good sign.
 
 # How Express.js Works
 
@@ -150,7 +150,7 @@ Because we can have multiple middleware functions processing each HTTP request, 
 
 The Express.js package comes in two flavors:
 
-1. `express-generator`: a global NPM package that provides the command-line tool for rapid app creation (scaffolding)
+1. `express-generator`: a global npm package that provides the command-line tool for rapid app creation (scaffolding)
 
 2. `express`: a local package module in your Node.js app&#39;s `node_modules` folder
 
@@ -164,15 +164,15 @@ For the Express.js Generator, which is a separate module, we&#39;ll use version 
 
 To install the Express.js Generator as global package, run `$ npm install -g express-generator@4.0.0` from anywhere on your computer. This downloads and links the `$ express` terminal command to the proper path, so that later we can access its command-line interface (CLI) for the creation of new apps.
 
-**Note**: For Max OS X and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.0.0` might be needed. Refer to Chapter 1 for more information on changing NPM ownership.
+**Note**: For Max OS X and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.0.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
 
-Of course, we can be more vague and tell NPM to install the latest version of `express-generator`: `$ npm install –g express-generator`. But in this case your results might be inconsistent with the book&#39;s examples.
+Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm install –g express-generator`. But in this case your results might be inconsistent with the book&#39;s examples.
 
-The Figure 2-1 shows us results of running the aforementioned command. Please notice the path in Figure 2-1: `/usr/local/lib/node_modules/express-generator`. This is where, on Max OS X / Linux systems, NPM puts global modules by default. We verify the availability of Express.js CLI by running `$ express –V`.
+The Figure 2-1 shows us results of running the aforementioned command. Please notice the path in Figure 2-1: `/usr/local/lib/node_modules/express-generator`. This is where, on Max OS X / Linux systems, npm puts global modules by default. We verify the availability of Express.js CLI by running `$ express –V`.
 
 ![alt](media/image1.png)
 
-***Figure 2-1.** The result of running NPM with `-g` and `$ express -V`*
+***Figure 2-1.** The result of running npm with `-g` and `$ express -V`*
 
 ## Local Express.js
 
@@ -196,7 +196,7 @@ The following is an example of the `package.json` file with vanilla `$ npm init`
       "license": "BSD"
     }
 
-Lastly, we install the module using NPM:
+Lastly, we install the module using npm:
 
     $ npm install express@4.1.2 --save
 
@@ -204,7 +204,7 @@ Or, if we want to be less specific, which is not recommended for this example, u
 
     $ npm install express
 
-**Note**: If you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* NPM will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the NPM installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html)(<https://npmjs.org/doc/folders.html>).
+**Note**: If you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html)(<https://npmjs.org/doc/folders.html>).
 
 Alternatively, we can update the `package.json` file by specifying the dependency `("express": "4.1.2"` or `"express": "4.x")` and run `$ npm install`.
 
@@ -505,7 +505,7 @@ This is the first and the last hello world example in this book! :-) The goal is
 
 - Setting up folders
 
-- NPM init and package.json
+- npm init and package.json
 
 - Dependency declaration
 
@@ -539,13 +539,13 @@ Let&#39;s choose a project folder `hello-world`, and create these directories wi
 
 ***Figure 2-10.** Setting up folders*
 
-Now we&#39;re all set to add project metadata with NPM.
+Now we&#39;re all set to add project metadata with npm.
 
-## NPM Init and package.json
+## npm Init and package.json
 
-For this example we will be creating the Express.js app from scratch, i.e., without Express.js Generator. We&#39;ll start with defining dependencies with package.json and NPM.
+For this example we will be creating the Express.js app from scratch, i.e., without Express.js Generator. We&#39;ll start with defining dependencies with package.json and npm.
 
-NPM is used not only as a registry, but also as a dependency management tool. Therefore, it&#39;s essential to set up the project file—`package.json`. Although it&#39;s possible to create the `package.json` file manually in a text editor, we can use the `$ npm init` command. Run this command in your project folder and answer all the questions (or leave them blank):
+npm is used not only as a registry, but also as a dependency management tool. Therefore, it&#39;s essential to set up the project file—`package.json`. Although it&#39;s possible to create the `package.json` file manually in a text editor, we can use the `$ npm init` command. Run this command in your project folder and answer all the questions (or leave them blank):
 
     $ npm init
 
@@ -567,7 +567,7 @@ For the Blog app, we need the following modules, which are the latest as of this
 
 - Stylus: 0.44.0
 
-**Warning**: Feel free to update to newer versions. However, your results might vary, because it&#39;s very common in the Node.js ecosystem (“userland”) to see breaking changes introduced by new versions. This usually happens unintentionally by the dependency of a dependency. For example, even if we include a specific version of Express.js such as 3.4.5, that module includes Jade with a wildcard `*`, and then on Jade&#39;s breaking update, our app will suffer damage. The cure is to commit your `node_modules` folder along with the rest of the source code to a Git repository and use that instead of fetching modules according to `package.json` each time on deployment. Or use NPM&#39;s shrinkwarp feature. Read more about this issue in Chapter 12.
+**Warning**: Feel free to update to newer versions. However, your results might vary, because it&#39;s very common in the Node.js ecosystem (“userland”) to see breaking changes introduced by new versions. This usually happens unintentionally by the dependency of a dependency. For example, even if we include a specific version of Express.js such as 3.4.5, that module includes Jade with a wildcard `*`, and then on Jade&#39;s breaking update, our app will suffer damage. The cure is to commit your `node_modules` folder along with the rest of the source code to a Git repository and use that instead of fetching modules according to `package.json` each time on deployment. Or use npm&#39;s shrinkwarp feature. Read more about this issue in Chapter 12.
 
 ## Dependency Declaration: npm install
 

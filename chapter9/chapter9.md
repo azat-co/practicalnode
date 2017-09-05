@@ -311,7 +311,7 @@ The structure for this DerbyJS mini project is as follows:
 
 ## Project Dependencies and package.json
 
-If you haven&#39;t installed Node.js, NPM, MongoDB, or Redis, you can do it now by following instructions in these resources:
+If you haven&#39;t installed Node.js, npm, MongoDB, or Redis, you can do it now by following instructions in these resources:
 
 - [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)(<https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>)
 - [Installing npm](http://howtonode.org/introduction-to-npm)(<http://howtonode.org/introduction-to-npm>)
