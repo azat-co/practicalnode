@@ -536,8 +536,8 @@ This is an example of the functional inheritance pattern:
 
 ```js
 var user = function (ops) {
-  return { firstName: ops.name || 'John', 
-    lastName: ops.name || 'Doe', 
+  return { firstName: ops.firstName || 'John', 
+    lastName: ops.firstName || 'Doe', 
     email: ops.email || 'test@test.com', 
     name: function() { return this.firstName + this.lastName}
   }
