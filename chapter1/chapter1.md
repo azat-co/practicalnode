@@ -238,7 +238,7 @@ That’s it! You now have Node.js and npm installed, and you should be ready to 
 
 ## Node.js Console (REPL)
 
-Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment: REPL. Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling nodecopters(<http://nodecopter.com/>) and debugging remote servers (more about this in Chapter 10). To start the console, run the following command in your terminal:
+Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment called read–eval–print–loop (REPL). Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling drones nodecopters (<http://nodecopter.com/>) and debugging remote servers (more about this in Chapter 10). To start the console, run the following command in your terminal:
 
 ```sh
 $ node
@@ -261,7 +261,7 @@ The result of the previous snippet is shown in Figure 1-4.
 
 ***Figure 1-4.** Executing JavaScript in Node.js REPL*
 
-There are slight deviations in ECMAScript implementations in Node.js and browsers such as the Chrome Developer Tools console. For example, `{}+{}` is `'[object Object][object Object]'` in Node.js REPL, whereas the same code is `NaN` in the Chrome console because of the automatic semicolon insertion (ASI) feature. However, for the most part, Node.js REPL and the Chrome/Firefox consoles are similar.
+There are slight deviations in ECMAScript implementations in Node.js and browsers such as the Chrome Developer Tools console. For example, `require()` is a valid method in Node.js REPL, whereas the same code is `ReferenceError` in the Chrome console because of browsers don't support Node.js modules feature. However, for the most part, Node.js REPL and the Chrome/Firefox consoles are similar.
 
 # Launching Node.js Scripts
 
@@ -278,17 +278,11 @@ Preparing your code for production is discussed later in Chapter 10.
 Node.js was built on top of the Google Chrome V8 engine and its ECMAScript, which means most of the Node.js syntax is similar to front-end JavaScript (another implementation of ECMAScript), including objects, functions, and methods. In this section, we look at some of the most important aspects; let’s call them *Node.js/JavaScript fundamentals*:
 
 - Loose typing
-
 - Buffer—Node.js super data type
-
 - Object literal notation
-
 - Functions
-
 - Arrays
-
 - Prototypal nature
-
 - Conventions
 
 ## Loose Typing
@@ -296,58 +290,119 @@ Node.js was built on top of the Google Chrome V8 engine and its ECMAScript, whic
 Automatic typecasting works well most of the time. It’s a great feature that saves a lot of time and mental energy! There are only a few types of primitives:
 
 - String
-
 - Number (both integer and real)
-
 - Boolean
-
 - Undefined
-
 - Null
-
 - RegExp
 
 Everything else is an object (i.e., mutable keyed collections, read Stackoverflow on "[What does immutable mean?](http://stackoverflow.com/questions/3200211/what-does-immutable-mean)(<http://stackoverflow.com/questions/3200211/what-does-immutable-mean>)" if in doubt).
 
 Also, in JavaScript, there are String, Number, and Boolean objects that contain helpers for the primitives, as follows:
 
-    'a' === new String('a') *//false*
+```js
+'a' === new String('a') *//false*
+```
 
 but
 
-    'a' === new String('a').toString() *//true*
+```js
+'a' === new String('a').toString() *//true*
+```
 
 or
 
-    'a' == new String('a') *//true*
+```js
+'a' == new String('a') *//true*
+```
 
 By the way, `==` performs automatic typecasting whereas `===` does not.
 
 ## Buffer—Node.js Super Data Type
 
-Buffer is a Node.js addition to four primitives (boolean, string, number, and RegExp) and all-encompassing objects (array and functions are also objects) in front-end JavaScript. Think of buffers as extremely efficient data stores. In fact, Node.js tries to use buffers any time it can, such as when reading from file systems and when receiving packets over the network.
+Buffer is a Node.js addition to four primitives (boolean, string, number, and RegExp) and all-encompassing objects (array and functions are also objects) in front-end JavaScript. Think of buffers as extremely efficient data stores. In fact, Node.js tries to use buffers any time it can, such as when reading from a file system and when receiving packets over the network. Buffer is functionally similar to JavaScript's [ArrayBuffer](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer).
+
+To create a Buffer, use `from`. Buffer can be created from an array, another Buffer, ArrayBuffer or a string:
+
+```js
+const bufFromArray = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72])
+console.log(bufFromArray.toString()) // "buffer"
+
+const arrayBuffer = new Uint16Array(2)
+arrayBuffer[0] = 5
+arrayBuffer[1] = 7000
+
+// Shares memory with `arrayBuffer`
+const bufFromArrayBuffer = Buffer.from(arrayBuffer.buffer)
+
+// Prints: <Buffer 05 00 58 1b>
+console.log(bufFromArrayBuffer)
+
+// Changing the original Uint16Array changes the Buffer also
+arrayBuffer[1] = 7001
+
+// Prints: <Buffer 05 00 59 1b>
+console.log(bufFromArrayBuffer)
+```
+
+As you saw in the code above, to convert Buffer to a string, you can use `toString()` method. By default, it will convert to UTF-8 encoding, but other encoding options are possible too such as ASCII, HEX or others:
+
+```js
+const bufFromString = Buffer.from('¿Cómo está?')
+
+console.log(bufFromString.toString('utf8')) // ¿Cómo está?
+console.log(bufFromString.toString()) // ¿Cómo está?
+
+console.log(bufFromString.toString('ascii')) // B?CC3mo estC!?
+
+const bufFromHex = Buffer.from('c2bf43c3b36d6f20657374c3a13f', 'hex')
+
+console.log(bufFromHex.toString()) // ¿Cómo está?
+```
 
 ## Object Literal Notation
 
-Object notation is super readable and compact:
+Node object notation is the same as JavaScript which means it is super readable and compact:
 
-    var obj = {
-       color: "green",
-       type: "suv",
-       owner: {
-          ...
-       }
-    }
+```js
+var car = {
+  color: "green",
+  type: "suv",
+  owner: {
+    ...
+  },
+  drive: function() {
+    ...
+  }
+}
+```
 
-Remember, functions are objects:
+In Node version 8, all the ES2015 (ES6) features available which allows developers to write advanced object literals which are so enhanced that they are more like classes rather than simple ES5 object. For example, you can extend another object, define fields dynamically, invoke super and use shorter syntax for functions: 
 
-    var obj = function () {
-        this.color: "green",
-        this.type: "suv",
-        this.owner: {
-          ...
-       }
-    }
+```js
+const serviceBase = {
+  port: 3000, 
+  url: 'azat.co'
+}
+
+const getAccounts = () => {
+  return [1,2,3]
+}
+    
+const accountService = {
+  __proto__: serviceBase,
+  getUrl() {  // define method without "function"
+    return "http://" + this.url + ':' + this.port
+  },
+  getAccounts() // define from an outer-scope function
+  toString() { // overwrite proto method
+    return JSON.stringify((super.valueOf()))
+  },
+  [ 'valueOf_' + getAccounts().join('_') ]: getAccounts()
+}
+console.log(accountService) // ready to be used
+```
+
 
 ## Functions
 
@@ -357,101 +412,181 @@ In Node.js (as well as in JavaScript), functions are *first-class citizens*, and
 
 The three most common ways to define/create a function are to use a named expression, an anonymous expression assigned to a variable, or both. The following is an example of a named expression:
 
-    function f () {
-      console.log('Hi');
-      return true;
-    }
+```js
+function f() {
+  console.log('Hi')
+  return true
+}
+```
 
 An anonymous function expression assigned to a variable looks as follows (note that it must precede the invocation, because the function is not hoisted, unlike the previous example):
 
-    var f = function () {
-       console.log('Hi');
-        return true;
-    }
+```js
+var f = function() {
+  console.log('Hi')
+  return true
+}
+```
+
+The new analog of the definition above is fat arrow function with an added benefit of using `this` safely due to its value always remaining an outer `this`:
+
+```js
+// outer "this"
+var f = () => {
+  // still outer "this"
+  console.log('Hi')
+  return true
+}
+```
 
 The following is an example of both approaches:
 
-    var f = function f () {
-      console.log('Hi');
-      return true;
-    }
+```js
+var f = function f() {
+  console.log('Hi')
+  return true
+}
+```
 
 A function with a property (remember, functions are just objects that can be invoked/initialized) is as follows:
 
-    var f = function () {console.log('Boo');}
-    f.boo = 1;
-    f(); *//outputs Boo*
-    console.log(f.boo); *//outputs 1*
+```js
+var f = function() {console.log('Boo')}
+f.boo = 1
+f() *//outputs Boo*
+console.log(f.boo) *//outputs 1*
+```
 
-Note  The return keyword is optional. When it is omitted, the function returns `undefined` on invocation.
+Note: The return keyword is optional. When it is omitted, the function returns `undefined` on invocation. I like to call functions with return, expressions (see Functions Invocation vs. Expression).
 
 ### Pass Functions as Parameters
 
 JavaScript treats functions like any other objects, so we can pass them to other functions as parameters (usually, callbacks in Node.js):
 
-    var convertNum = function (num) {
-     return num + 10;
-    }
-    var processNum = function (num, fn) {
-       return fn(num);
-    }
-    processNum(10, convertNum);
+```js
+var convertNum = function(num) {
+  return num + 10
+}
+var processNum = function(num, fn) {
+  return fn(num)
+}
+processNum(10, convertNum)
+```
 
 ### Function Invocation vs. Expression
 
 The function definition is as follows:
 
-    function f () {};
+```js
+function f() {
+
+}
+```
 
 On the other hand, the function invocation looks like
 
-    f();
+```js
+f()
+```
 
 Expression, because it resolves to some value (which could be a number, string, object, or boolean), is as follows:
 
-    function f() {return false;}
-    f();
+```js
+function f() {
+  return false
+}
+f()
+```
 
 A statement looks like
 
-    function f(a) {console.log(a);}
+```js
+function f(a) {
+  console.log(a)
+}
+```
+
+There's also an implicit return when you are using fat arrow function. It works when there's just one statement in a function.
+
+```js
+const fWithImplicitReturn = (a,b) => a+b
+```
 
 ## Arrays
 
 Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties)(<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0 based) keys.
 
-    var arr = [];
-    var arr2 = [1, "Hi", {a:2}, function () {console.log('boo');}];
-    var arr3 = new Array();
-    var arr4 = new Array(1,"Hi", {a:2}, function () {console.log('boo');});
+```js
+var arr = []
+var arr2 = [1, "Hi", {a:2}, () => {console.log('boo')}]
+var arr3 = new Array()
+var arr4 = new Array(1,"Hi", {a:2}, () => {console.log('boo')})
+arr4[3]() // boo
+```
 
 ## Prototypal Nature
 
 There are *no classes* in JavaScript because objects inherit directly from other objects, which is called *prototypal inheritance*. There are a few types of inheritance patterns in JavaScript:
 
 - Classical
-
 - Pseudoclassical
-
 - Functional
 
 This is an example of the functional inheritance pattern:
 
-    var user = function (ops) {
-      return { firstName: ops.name || 'John'
-             , lastName: ops.name || 'Doe'
-             , email: ops.email || 'test@test.com'
-             , name: function() { return this.firstName + this.lastName}
-             }
-    }
+```js
+var user = function (ops) {
+  return { firstName: ops.name || 'John', 
+    lastName: ops.name || 'Doe', 
+    email: ops.email || 'test@test.com', 
+    name: function() { return this.firstName + this.lastName}
+  }
+}
 
-    var agency = function(ops) {
-      ops = ops || {}
-      var agency = user(ops)
-      agency.customers = ops.customers || 0
-      agency.isAgency = true
-      return agency
-    }
+var agency = function(ops) {
+  ops = ops || {}
+  var agency = user(ops)
+  agency.customers = ops.customers || 0
+  agency.isAgency = true
+  return agency
+}
+```
+
+With `class` introduced in ES2015 (ES6), things are somewhat easier especially for object-oriented programmers. A class can be extended, defined and instantiated with `extends`, `class` and `new`. 
+
+```js
+class baseModel {
+  constructor(options = {}, data = []) { // class constructor
+    this.name = 'Base'
+    this.url = 'http://azat.co/api'
+    this.data = data
+    this.options = options
+  }
+  getName() { // class method
+    console.log(`Class name: ${this.name}`)
+  }
+}
+class AccountModel extends baseModel {
+  constructor(options, data) {
+    super({private: true}, ['32113123123', '524214691']) //call the parent method with super
+    this.name = 'Account Model'
+    this.url +='/accounts/'
+  }
+  get accountsData() { //calculated attribute getter
+    // ... make XHR
+    return this.data
+  }
+}
+
+let accounts = new AccountModel(5)
+accounts.getName()
+console.log('Data is %s', accounts.accountsData)
+```
+
+```
+Class name: Account Model
+Data is %s 32113123123,524214691
+```
 
 ## Conventions
 
