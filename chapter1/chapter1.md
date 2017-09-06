@@ -795,13 +795,27 @@ const keys = require('./keys.js'),
 
 TK
 
-In addition, for including files, it’s possible to use longer statements with `__dirname` and `path.join()`—for example, `require(path.join(__dirname, ,'routes', 'messages'));`. This is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS).
+In addition, for including files, it’s advisable to use statements with `__dirname` and `path.join()` to insure the paths work across-platforms. For example, to include a file messages.js in a routes folder inside a folder of the current script:
 
-If `require()` points to a folder, Node.js attempts to read the `index.js` file in that folder.
+```js
+require(path.join(__dirname, 'routes', 'messages.js'))
+```
+
+This is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS). You'll also use absolute path which will make `require()` behave in a more robust and predictable manner.
+
+Oh yeah, if `require()` points to a folder, Node.js attempts to read the `index.js` file in that folder. For example, the following statement will import file index.js in the folder routes/messages *if* there's no file messages.js in routes:
+
+```
+require(path.join(__dirname, 'routes', 'messages'))
+```
 
 ## __dirname vs. process.cwd
 
-`__dirname` is an absolute path to the file in which the global variable is called, whereas `process.cwd` is an absolute path to the process that runs the script. The latter might not be the same as the former if we started the program from a different folder, such as `$ node ./code/program.js`.
+`__dirname` is an absolute path to the folder with the source code script (a file in which the global variable is called), whereas `process.cwd` is an absolute path to the folder from which the process that runs the script was launched. They are the same in the example of `node program.js`. 
+
+The `cwd` will be different from `__dirname`, if we started the program from a different folder. For example, for the process `$ node ./code/program.js`, `__dirname` will have `code` but `cwd` not since it'll be one folder above in the directory tree.
+
+On POSIX systems (macOS, Linux and its distributions), Node developers can also use `process.evn.PWD` which works similarly to `process.cwd`.
 
 ## Browser Application Programming Interface Helpers
 
@@ -833,23 +847,27 @@ There are myriad helper functions in Node.js from the browser JavaScript applica
 	- `indexOf()`: index of finding the value in the string
 	- `split()`: converting the string to an array
 
-In addition, we have `setInterval()`, `setTimeout()`, `forEach()`, and `console` methods in Node.js. For the complete list of methods and examples, visit the following sites:
+In addition, we have `setInterval()`, `setTimeout()`, `forEach()`, and `console` methods in Node.js. For the complete list of methods and examples of the String, Array and Math Node.js objects, visit the following Mozilla Developer Network documentation pages:
 
-- *String*: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
-- *Array*: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
-- *Math*: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
+- *String*: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String>
+- *Array*: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array>
+- *Math*: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math>
 
 ## Node.js Core Modules
 
-Unlike other programming technologies, Node.js doesn’t come with a heavy standard library. The core modules of node.js are a bare minimum, and the rest can be cherry-picked via the npm registry. The main core modules, classes, methods, and events include the following:
+Unlike other programming technologies, Node.js doesn’t come with a heavy standard library. The core modules of Node.js are a bare minimum, and the rest can be cherry-picked via the npm registry. The core is small but it has enough modules to build almost any networking application. Networking is at the core of Node.js! 
 
-- `http`(<http://nodejs.org/api/http.html#http_http>)
-- `util`(<http://nodejs.org/api/util.html>)
-- `querystring`(<http://nodejs.org/api/querystring.html>)
-- `url`(<http://nodejs.org/api/url.html>)
-- `fs`(<http://nodejs.org/api/fs.html>)
+The main (not all) core modules, classes, methods, and events include the following:
 
-### [**http**](**http://nodejs.org/api/http.html**)(**<http://nodejs.org/api/http.html>**)
+- `http`(<http://nodejs.org/api/http.html#http_http>): Allows to create HTTP clients and servers
+- `util`(<http://nodejs.org/api/util.html>): Has a set of utilities
+- `querystring`(<http://nodejs.org/api/querystring.html>): Parses query-string formatted data
+- `url`(<http://nodejs.org/api/url.html>): Parses URL data
+- `fs`(<http://nodejs.org/api/fs.html>): Works with a file system (write, read)
+
+Let's dive deeper into each of these core modules.
+
+### [**http**](**http://nodejs.org/api/http.html**) (**<http://nodejs.org/api/http.html>**)
 
 `http` is the main module responsible for the Node.js HTTP server. The main methods are as follows:
 
@@ -868,41 +886,41 @@ Unlike other programming technologies, Node.js doesn’t come with a heavy stand
 	- `response.write()`: sends a response body
 	- `response.end()`: sends and ends a response body
 
-### [**util**](**http://nodejs.org/api/util.html**)(**<http://nodejs.org/api/util.html>**)
+### [**util**](**http://nodejs.org/api/util.html**) (**<http://nodejs.org/api/util.html>**)
 
 The util module provides utilities for debugging. One method is as follows:
 
 - `util.inspect()`: returns a string representation of an object, which is useful for debugging
 
-### [**querystring**](**http://nodejs.org/api/querystring.html**)(**<http://nodejs.org/api/querystring.html>**)
+### [**querystring**](**http://nodejs.org/api/querystring.html**) (**<http://nodejs.org/api/querystring.html>**)
 
-The querystring module provides utilities for dealing with query strings. Some of the methods include the following:
+The `querystring` module provides utilities for dealing with query strings. Some of the methods include the following:
 
 - `querystring.stringify()`: serializes an object to a query string
 - `querystring.parse()`: deserializes a query string to an object
 
-### [**url**](**http://nodejs.org/api/url.html**)(**<http://nodejs.org/api/url.html>**)
+### [**url**](**http://nodejs.org/api/url.html**) (**<http://nodejs.org/api/url.html>**)
 
-The url module has utilities for URL resolution and parsing. One method is as follows:
+The `url` module has utilities for URL resolution and parsing. One method is as follows:
 
 - `parse()`: takes a URL string and returns an object
 
-### [**fs**](**http://nodejs.org/api/fs.html**)(**<http://nodejs.org/api/fs.html>**)
+### [**fs**](**http://nodejs.org/api/fs.html**) (**<http://nodejs.org/api/fs.html>**)
 
-fs handles file system operations such as reading to and writing from files. There are synchronous and asynchronous methods in the library. Some of the methods include the following:
+`fs` handles file system operations such as reading to and writing from files. There are synchronous and asynchronous methods in the library. Some of the methods include the following:
 
 - `fs.readFile()`: reads files asynchronously
 - `fs.writeFile()`: writes data to files asynchronously
 
 There is no need to install or download core modules. To include them in your application, all you need is to use the following syntax:
 
-```
-var http = require('http')
+```js
+const http = require('http')
 ```
 
 A list of noncore modules is found at the following locations:
 
-- [npmjs.org](https://npmjs.org/)(<https://npmjs.org/>): for the npm registry
+- [npmjs.org](https://npmjs.org) (<https://npmjs.org/>): for the npm registry
 - [GitHub hosted list](https://github.com/joyent/node/wiki/Modules)(<https://github.com/joyent/node/wiki/Modules>): for Node.js modules maintained by Joyent
 - [nodetoolbox.com](http://nodetoolbox.com/)(<http://nodetoolbox.com/>): for a registry based on stats
 - [Nipster](http://eirikb.github.com/nipster/)(<http://eirikb.github.com/nipster/>): for npm search tools for Node.js
