@@ -918,6 +918,8 @@ There is no need to install or download core modules. To include them in your ap
 const http = require('http')
 ```
 
+TK
+
 A list of noncore modules is found at the following locations:
 
 - [npmjs.org](https://npmjs.org) (<https://npmjs.org>): for the npm registry
@@ -1188,18 +1190,19 @@ One of the best things about Node.js is that you don’t need to compile the cod
 
 The following is a list of the most popular text editors and IDEs used in web development:
 
-- [*TextMate*](*http://macromates.com/*)(*<http://macromates.com/>*): macOS version only, free 30-day trial for v1.5, dubbed *The Missing Editor for macOS*
-- [*Sublime Text*](*http://www.sublimetext.com/*)(*<http://www.sublimetext.com/>*): macOS and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
-- [*Visual Studio Code*](*https://code.visualstudio.com/nodejs*)(*<https://code.visualstudio.com/nodejs>*): a free, cross-platform, feature-rich editor by Microsoft powered by Node.js. It includes a built-in terminal, Node.js debugging, and lots of handy extensions.
-- [*Atom*](*https://atom.io/*)(*<https://atom.io/>*): a free, cross-platform editor by GitHub (also powered by Node.js) comparable to Visual Studio Code.
-- [*Coda*](*http://panic.com/coda/*)(*<http://panic.com/coda/>*): an all-in-one editor with an FTP browser and preview, has support for development with an iPad
-- [*Aptana Studio*](*http://aptana.com/*)(*<http://aptana.com/>*): a full-size IDE with a built-in terminal and many other tools
-- [*Notepad ++*](*http://notepad-plus-plus.org/*)(*<http://notepad-plus-plus.org/>*): a free, Windows-only lightweight text editor with the support of many languages
-- [*WebStorm IDE*](*http://www.jetbrains.com/webstorm/*)(*<http://www.jetbrains.com/webstorm/>*): a feature-rich IDE that allows for Node.js debugging, developed by JetBrains and marketed as “the smartest JavaScript IDE” (Figure 1-12)
+
+- [Visual Studio Code](https://code.visualstudio.com/nodejs) (<https://code.visualstudio.com/nodejs>): a free, cross-platform, feature-rich editor by Microsoft powered by Node.js. It includes a built-in terminal, Node.js debugging, and lots of handy extensions (Figure 1-12). *I highly recommend using this editor! (At least until something new comes out in the next few years.)*
+- [Atom](https://atom.io) (<https://atom.io>): a free, cross-platform editor by GitHub (also powered by Node.js) comparable to Visual Studio Code.
+- [TextMate](http://macromates.com) (<http://macromates.com>): macOS version only, free 30-day trial for v1.5, dubbed *The Missing Editor for macOS*
+- [Sublime Text](http://www.sublimetext.com) (<http://www.sublimetext.com>): macOS and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
+- [Coda](http://panic.com/coda) (<http://panic.com/coda>): an all-in-one editor with an FTP browser and preview, has support for development with an iPad
+- [Aptana Studio](http://aptana.com)(<http://aptana.com>): a full-size IDE with a built-in terminal and many other tools
+- [Notepad++](http://notepad-plus-plus.org) (<http://notepad-plus-plus.org>): a free, Windows-only lightweight text editor with the support of many languages
+- [WebStorm IDE](http://www.jetbrains.com/webstorm) (<http://www.jetbrains.com/webstorm>): a feature-rich IDE that allows for Node.js debugging, developed by JetBrains and marketed as “the smartest JavaScript IDE” (Figure 1-13)
 
 ![alt](media/image12.png)
 
-***Figure 1-12.** WebStorm IDE home page.*
+***Figure 1-12.** VS Code has intelligent autocomplete based on the object type/class/library as well as many other features.*
 
 For most developers, a simple code editor such as Sublime Text 2, TextMate, or Emacs is good enough. However, for programmers who are used to working in IDEs, there’s WebStorm by JetBrains (http://www.jetbrains.com/webstorm). For an example of the WebStorm work space, see Figure 1-13.
 
@@ -1214,14 +1217,14 @@ If you are familiar with watching for file changes or it’s not an issue for yo
 Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control + c on Macs and Ctrl + c on Windows). However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch`(<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) method from the core Node.js `fs` module and restart servers when we save changes from an editor:
 
 - [forever](http://npmjs.org/forever) (<http://npmjs.org/forever>) ([GitHub](http://github.com/nodejitsu/forever)) (<http://github.com/nodejitsu/forever>), usually used in production (we examine this topic in Chapter 11)
-- [node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>)([GitHub](https://github.com/fgnass/node-dev)) (<https://github.com/fgnass/node-dev>)
+- [node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>) ([GitHub](https://github.com/fgnass/node-dev)) (<https://github.com/fgnass/node-dev>)
 - [nodemon](https://npmjs.org/package/nodemon) (<https://npmjs.org/package/nodemon>) ([GitHub](https://github.com/remy/nodemon)) (<https://github.com/remy/nodemon>)
 - [supervisor](https://npmjs.org/package/supervisor) (<https://npmjs.org/package/supervisor>) ([GitHub](https://github.com/isaacs/node-supervisor)) (<https://github.com/isaacs/node-supervisor>)
 - [up](https://npmjs.org/package/up) (<https://npmjs.org/package/up>) ([GitHub](https://github.com/LearnBoost/up)) (<https://github.com/LearnBoost/up>), now a deprecated module
 
 Any one of these tools is as easy to use as installing globally with `$ npm install -g node-dev`, then running the Node.js script with `$ node-dev program.js`. Just replace `node-dev` with another module name. &#x263A;
 
-For a comparison between these tools, refer to [Comparison: Tools to Automate Restarting Node.js Server After Code Changes](http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev/).(<http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev>)
+For a comparison between these tools, refer to [Comparison: Tools to Automate Restarting Node.js Server After Code Changes](http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev) (<http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev>)
 
 **Tip**  It’s good to know that Express.js reloads a template file for every new request by default. So, no server restart is necessary. However, we can cache templates by enabling the `view cache` setting. For more Express.js setting, take a look at Pro Express.js 4 [2014, Apress].
 

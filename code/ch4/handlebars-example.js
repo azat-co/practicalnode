@@ -7,7 +7,7 @@ var data = {
   tags: ['express', 'node', 'javascript']
 }
 data.body = process.argv[2];
-
+process.
 fs.readFile('handlebars-example.html', 'utf-8', function(error, source){
   handlebars.registerHelper('custom_title', function(title){
     var words = title.split(' ');
