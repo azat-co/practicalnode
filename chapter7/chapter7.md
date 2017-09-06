@@ -135,7 +135,7 @@ Mongoose Schema supports these data types:
 
 **Warning** Mongoose does not listen to mixed-type object changes, so call `markModified()` before saving the object to make sure changes in the mixed-type field are persistent.
 
-`ObjectId` is added automatically as a primary `_id` key if omitted in the `insert` or `save` methods; `_id` key can be used to [sort documents chronologically](http://docs.mongodb.org/manual/reference/object-id/) (<http://docs.mongodb.org/manual/reference/object-id/>). They are available through `Schema.Types` or `mongoose.Schema.Types` (e.g., `Schema.Types.Mixed`).
+`ObjectId` is added automatically as a primary `_id` key if omitted in the `insert` or `save` methods; `_id` key can be used to [sort documents chronologically](http://docs.mongodb.org/manual/reference/object-id/) (<http://docs.mongodb.org/manual/reference/object-id>). They are available through `Schema.Types` or `mongoose.Schema.Types` (e.g., `Schema.Types.Mixed`).
 
 We have a great deal of flexibility in defining our document schemas—for example,
 
@@ -240,7 +240,7 @@ A list of the static Mongoose model methods (invoked on a capitalized object, e.
 
 - `Model.remove(query, [callback(error)])`: removes documents from the collection that match the query; when finished, calls `callback` with `error`
 
-- `Model.find(query, [fields], [options], [callback(error, docs)])`: finds documents that match the query (as a JSON object); possible [to select fields](http://mongoosejs.com/docs/api.html#query_Query-select) (<http://mongoosejs.com/docs/api.html#query_Query-select>) and use [options](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find)(<http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find>)
+- `Model.find(query, [fields], [options], [callback(error, docs)])`: finds documents that match the query (as a JSON object); possible [to select fields](http://mongoosejs.com/docs/api.html#query_Query-select) (<http://mongoosejs.com/docs/api.html#query_Query-select>) and use [options](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find) (<http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find>)
 
 - `Model.update(query, update, [options], [callback(error, affectedCount, raw)])`: updates documents, similar to native `update`
 
@@ -419,7 +419,7 @@ To define a virtual we need to
 
 2. Apply a getter function with `get(fn)` ([Mongoose API](http://mongoosejs.com/docs/api.html#virtualtype_VirtualType-get)) (<http://mongoosejs.com/docs/api.html#virtualtype_VirtualType-get>)
 
-[Gravatar](http://en.gravatar.com/), (<http://en.gravatar.com/>) for example, is a service that hosts profile images. The URL is always an [md5 hash](http://en.gravatar.com/site/implement/hash/) (<http://en.gravatar.com/site/implement/hash/>) of the user’s e-mail. Therefore, we can get the virtual value (`gravatarUrl`) on the fly by hashing instead of storing the value (less overhead!). In this example, we intentionally made the input email mixed cased and with a trailing space, and then applied `crypto:`
+[Gravatar](http://en.gravatar.com/), (<http://en.gravatar.com>) for example, is a service that hosts profile images. The URL is always an [md5 hash](http://en.gravatar.com/site/implement/hash/) (<http://en.gravatar.com/site/implement/hash>) of the user’s e-mail. Therefore, we can get the virtual value (`gravatarUrl`) on the fly by hashing instead of storing the value (less overhead!). In this example, we intentionally made the input email mixed cased and with a trailing space, and then applied `crypto:`
 
     Identity.virtual('gravatarUrl')
       .get(function() {

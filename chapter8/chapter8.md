@@ -2,7 +2,7 @@ Chapter 8
 ---------
 # Building Node.js REST API Servers with Express.js and Hapi
 
-Modern-day web development is moving increasingly toward a structure for which there&#39;s a thick client, usually built with frameworks such as Backbone.js(<http://backbonejs.org/>), AngularJS(<https://angularjs.org/>), Ember.js(<http://emberjs.com/>), and the like, and a thin back-end layer typically represented by a representational state transfer (REST) web application programing interface (API) service. This model has become more and more popular, and we&#39;ve seen services such as Parse.com and many others pioneer the back end as a service niche. The advantages of this approach are as follows:
+Modern-day web development is moving increasingly toward a structure for which there&#39;s a thick client, usually built with frameworks such as Backbone.js(<http://backbonejs.org>), AngularJS(<https://angularjs.org>), Ember.js(<http://emberjs.com>), and the like, and a thin back-end layer typically represented by a representational state transfer (REST) web application programing interface (API) service. This model has become more and more popular, and we&#39;ve seen services such as Parse.com and many others pioneer the back end as a service niche. The advantages of this approach are as follows:
 
 - The same back-end REST API can serve multiple client apps/consumers, with web applications being just one of them (mobile and public third-party apps are examples of others).
 
@@ -18,11 +18,11 @@ To get started with Node.js REST servers, in this chapter we cover the following
 
 - Project dependencies
 
-- Test coverage with Mocha(<http://visionmedia.github.io/mocha/>) and superagent(<http://visionmedia.github.io/superagent/>)
+- Test coverage with Mocha(<http://visionmedia.github.io/mocha>) and superagent(<http://visionmedia.github.io/superagent>)
 
 - REST API server implementation with Express and Mongoskin(<https://github.com/kissjs/node-mongoskin>)
 
-- Refactoring: Hapi.js(<http://hapijs.com/>) REST API Server
+- Refactoring: Hapi.js(<http://hapijs.com>) REST API Server
 
 The REST API server is able to process the creation of objects, and retrieval of objects and collections, and make changes to objects and remove objects. For your convenience, all the source code is in the `ch8` folder in github.com/azat-co/practicalnode(<https://github.com/azat-co/practicalnode>).
 
@@ -42,7 +42,7 @@ Distinct characteristics of RESTful API (i.e., if API is RESTful, it usually fol
 
 - JSON is not the only option (although it is the most popular). Unlike SOAP, which is a protocol, the REST methodology is flexible in choosing formats. For example alternative formats might be Extensible Markup Language (XML) or comma-separated values formats (CSV)
 
-In Table 8-1 is an example of a simple create, read, update and delete (CRUD[^3])(<http://en.wikipedia.org/wiki/Create,_read,_update_and_delete>) REST API for message collection.
+In Table 8-1 is an example of a simple create, read, update and delete (CRUD[^3]) (<http://en.wikipedia.org/wiki/Create,_read,_update_and_delete>) REST API for message collection.
 
 Table 8-1. Example of the CRUD REST API Structure
 
@@ -79,7 +79,7 @@ In our REST API server, we perform CRUD operations and harness the Express.js mi
 
 To get started with our project, we need to install packages. In this chapter, we use Mongoskin(<https://github.com/kissjs/node-mongoskin>), a MongoDB library, which is a better alternative to the plain, good-ol&#39; native MongoDB driver for Node.js(<https://github.com/mongodb/node-mongodb-native>). In addition, Mongoskin is more lightweight than Mongoose and it is schemaless. For more insights on the library, please check out this Mongoskin comparison blurb(<https://github.com/kissjs/node-mongoskin#comparation>).
 
-Express.js(<http://expressjs.com/>) is a wrapper for core Node.js `http` module(<http://nodejs.org/api/http.html>) objects. The Express.js framework is built on top of the Connect(<https://github.com/senchalabs/connect>) middleware library and it provides myriads of convenience. Some people compare the Express.js framework with Ruby&#39;s Sinatra because it&#39;s non-opinionated and configurable.
+Express.js(<http://expressjs.com>) is a wrapper for core Node.js `http` module(<http://nodejs.org/api/http.html>) objects. The Express.js framework is built on top of the Connect(<https://github.com/senchalabs/connect>) middleware library and it provides myriads of convenience. Some people compare the Express.js framework with Ruby&#39;s Sinatra because it&#39;s non-opinionated and configurable.
 
 First, we need to create a `ch8/rest-express` folder (or download the source code):
 
@@ -132,7 +132,7 @@ As a result, the `node_modules` folder should be created with the `superagent`, 
 
 Before the app implementation, let&#39;s write functional tests that make HTTP requests to our soon-to-be-created REST API server. In a TDD manner, let&#39;s use these tests to build a Node.js free JSON REST API server using the Express.js framework and Mongoskin library for MongoDB.
 
-In this section we walk through the writing of functional tests using the Mocha(<http://visionmedia.github.io/mocha/>) and `superagent`(<http://visionmedia.github.io/superagent/>)[^5] libraries. The tests need to perform basic CRUD by posting HTTP requests to our server.
+In this section we walk through the writing of functional tests using the Mocha(<http://visionmedia.github.io/mocha>) and `superagent`(<http://visionmedia.github.io/superagent>)[^5] libraries. The tests need to perform basic CRUD by posting HTTP requests to our server.
 
 If you know how to use Mocha or just want to jump straight to the Express.js app implementation, feel free to do so. You can use CURL terminal commands for testing, too.
 
@@ -544,7 +544,7 @@ DELETE or PUT can be sent with `--request NAME` and the ID in the URL, such as:
 
     $ curl  --request DELETE http://localhost:3000/collections/curl-test/52f6828a23985a6565000008
 
-For a short, nice tutorial on the main CURL commands and options, take a look at CURL Tutorial with Examples of Usage. (<http://www.yilmazhuseyin.com/blog/dev/curl-tutorial-examples-usage/>)
+For a short, nice tutorial on the main CURL commands and options, take a look at CURL Tutorial with Examples of Usage. (<http://www.yilmazhuseyin.com/blog/dev/curl-tutorial-examples-usage>)
 
 In this chapter, our tests are longer than the app code itself, so abandoning TDD might be tempting, but believe me, *the good habits of TDD save you hours and hours of work* during any serious development, when the complexity of the application on which you are working is high.
 
@@ -554,7 +554,7 @@ However, this is not the whole story. TDD is great when it comes to refactoring.
 
 # Refactoring: Hapi RESP API Server
 
-[Hapi](http://spumko.github.io/)(<http://spumko.github.io/>) (npm(<https://www.npmjs.org/package/hapi>) and GitHub(<https://github.com/spumko/hapi>)) is an enterprise-grade framework. It&#39;s more complex and feature rich than Express.js, and it&#39;s easier to develop in large teams(<http://hueniverse.com/2012/12/hapi-a-prologue/>). Hapi is maintained by Eran Hammer(<http://hueniverse.com/>)of Walmart Labs.
+[Hapi](http://spumko.github.io) (<http://spumko.github.io>) (npm(<https://www.npmjs.org/package/hapi>) and GitHub(<https://github.com/spumko/hapi>)) is an enterprise-grade framework. It&#39;s more complex and feature rich than Express.js, and it&#39;s easier to develop in large teams(<http://hueniverse.com/2012/12/hapi-a-prologue>). Hapi is maintained by Eran Hammer(<http://hueniverse.com>)of Walmart Labs.
 
 The goal of this section is to show you alternative patterns in implementing the REST API server in Node.js. Now, because we have Mocha tests, we can refactor our code with peace of mind. Here&#39;s the `package.json` for this project:
 

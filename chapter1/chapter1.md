@@ -238,7 +238,7 @@ That’s it! You now have Node.js and npm installed, and you should be ready to 
 
 ## Node.js Console (REPL)
 
-Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment called read–eval–print–loop (REPL). Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling drones nodecopters (<http://nodecopter.com/>) and debugging remote servers (more about this in Chapter 10). To start the console, run the following command in your terminal:
+Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment called read–eval–print–loop (REPL). Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling drones nodecopters (<http://nodecopter.com>) and debugging remote servers (more about this in Chapter 10). To start the console, run the following command in your terminal:
 
 ```sh
 $ node
@@ -296,7 +296,7 @@ Automatic typecasting works well most of the time. It’s a great feature that s
 - Null
 - RegExp
 
-Everything else is an object (i.e., mutable keyed collections, read Stackoverflow on "[What does immutable mean?](http://stackoverflow.com/questions/3200211/what-does-immutable-mean)(<http://stackoverflow.com/questions/3200211/what-does-immutable-mean>)" if in doubt).
+Everything else is an object (i.e., mutable keyed collections, read Stackoverflow on "[What does immutable mean?](http://stackoverflow.com/questions/3200211/what-does-immutable-mean) (<http://stackoverflow.com/questions/3200211/what-does-immutable-mean>)" if in doubt).
 
 Also, in JavaScript, there are String, Number, and Boolean objects that contain helpers for the primitives, as follows:
 
@@ -728,7 +728,7 @@ Node.js has a lot of useful information and methods in `global.process` includin
 
 One of the bad parts of browser JavaScript is that there was no easy way to include other JavaScript file (modules). Browser JavaScript files are supposed to be linked together using a different language (HTML), but everything from an included file is just run without name spacing and dependency management is hard because managing a lot of `<script>` tags and files is not fun. 
 
-[CommonJS](http://www.commonjs.org/)(<http://www.commonjs.org/>) and [RequireJS](http://requirejs.org/)(<http://requirejs.org/>) solve this problem with the AJAX-y approach. ES6 solved the issue on the standard level, but lacks implementations. Node.js offers modules natively. No tools or hacks needed. Node.js borrowed many things from the browser CommonJS concept but took the implementation steps further than CommonJS. 
+[CommonJS](http://www.commonjs.org) (<http://www.commonjs.org>) and [RequireJS](http://requirejs.org) (<http://requirejs.org>) solve this problem with the AJAX-y approach. ES6 solved the issue on the standard level, but lacks implementations. Node.js offers modules natively. No tools or hacks needed. Node.js borrowed many things from the browser CommonJS concept but took the implementation steps further than CommonJS. 
 
 Node.js modules are simple to learn and use. They allow of import/export only specific targeted functionality making name spacing easier unlike when you include a browser JavaScript file with a `<script>` tag.
 
@@ -920,13 +920,13 @@ const http = require('http')
 
 A list of noncore modules is found at the following locations:
 
-- [npmjs.org](https://npmjs.org) (<https://npmjs.org/>): for the npm registry
-- [GitHub hosted list](https://github.com/joyent/node/wiki/Modules)(<https://github.com/joyent/node/wiki/Modules>): for Node.js modules maintained by Joyent
-- [nodetoolbox.com](http://nodetoolbox.com/)(<http://nodetoolbox.com/>): for a registry based on stats
-- [Nipster](http://eirikb.github.com/nipster/)(<http://eirikb.github.com/nipster/>): for npm search tools for Node.js
-- [Node tracking](http://nodejsmodules.org/)(<http://nodejsmodules.org/>): for a registry based on GitHub stats
+- [npmjs.org](https://npmjs.org) (<https://npmjs.org>): for the npm registry
+- [GitHub hosted list](https://github.com/joyent/node/wiki/Modules) (<https://github.com/joyent/node/wiki/Modules>): for Node.js modules maintained by Joyent
+- [nodetoolbox.com](http://nodetoolbox.com) (<http://nodetoolbox.com>): for a registry based on stats
+- [Nipster](http://eirikb.github.com/nipster) (<http://eirikb.github.com/nipster>): for npm search tools for Node.js
+- [Node tracking](http://nodejsmodules.org) (<http://nodejsmodules.org>): for a registry based on GitHub stats
 
-If you want to know how to code your own modules, take a look at the article “[Your First Node.js Module](http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module/)(<http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module/>).”
+If you want to know how to code your own modules, take a look at the article “[Your First Node.js Module](http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module) (<http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module>).”
 
 ## Handy Node.js Utilities
 
@@ -940,7 +940,7 @@ The method we use throughout is `path.join` and it concatenates the path using a
 
 ## Reading to and Writing from the File System in Node.js
 
-Reading from files is done via the core `fs` [module](http://nodejs.org/api/fs.html)(<http://nodejs.org/api/fs.html>). There are two sets of reading methods: async and sync. In most cases, developers should use async methods, such as `fs.readFile`(<http://nodejs.org/api/fs.html#fs_fs_readfile_filename_options_callback>):
+Reading from files is done via the core `fs` [module](http://nodejs.org/api/fs.html) (<http://nodejs.org/api/fs.html>). There are two sets of reading methods: async and sync. In most cases, developers should use async methods, such as `fs.readFile`(<http://nodejs.org/api/fs.html#fs_fs_readfile_filename_options_callback>):
 
 ```js
 const fs = require('fs')
@@ -980,21 +980,21 @@ const fs = require('fs')
 fs.createReadStream('./data/customers.csv').pipe(process.stdout)
 ```
 
-By default, Node.js uses buffers for streams. For more immersive instruction, take a look at `stream-adventure`(<http://npmjs.org/stream-adventure>) and [Stream Handbook](https://github.com/substack/stream-handbook)(<https://github.com/substack/stream-handbook>).
+By default, Node.js uses buffers for streams. For more immersive instruction, take a look at `stream-adventure`(<http://npmjs.org/stream-adventure>) and [Stream Handbook](https://github.com/substack/stream-handbook) (<https://github.com/substack/stream-handbook>).
 
 ## Installing Node.js Modules with npm
 
-npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html)(<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, `$ npm install superagent;` in the program.js write: `var superagent = require('superagent');`.
+npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html) (<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, `$ npm install superagent;` in the program.js write: `var superagent = require('superagent');`.
 
 The best thing about npm is that it keeps all the dependencies local, so if module A uses module B v1.3, and module C uses module B v2.0 (with breaking changes compared with v1.3), both A and C will have their own localized copies of different versions of B. This proves to be a more superior strategy than that of Ruby and other platforms that use global installations by default.
 
 The best practice is *not to include* a `node_modules` folder in the Git repository when the project is a module that is supposed to be used in other applications. However, it’s recommended *to include* `node_modules` for deployable applications to prevent breakage caused by unfortunate dependency updates.
 
-**Note**  The npm creator likes to call it `npm` ([lowercase](http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm)(<http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm>).
+**Note**  The npm creator likes to call it `npm` ([lowercase](http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm) (<http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm>).
 
 ## Taming Callbacks in Node.js
 
-[Callbacks](https://github.com/maxogden/art-of-node#callbacks)(<https://github.com/maxogden/art-of-node%23callbacks>) are able to make Node.js code asynchronous, yet programmers unfamiliar with JavaScript, who work with Java or PHP, might be surprised when they see Node.js code described on [Callback Hell](http://callbackhell.com/)(<http://callbackhell.com/>):
+[Callbacks](https://github.com/maxogden/art-of-node#callbacks) (<https://github.com/maxogden/art-of-node%23callbacks>) are able to make Node.js code asynchronous, yet programmers unfamiliar with JavaScript, who work with Java or PHP, might be surprised when they see Node.js code described on [Callback Hell](http://callbackhell.com) (<http://callbackhell.com>):
 
 ```js
 fs.readdir(source, (err, files) => {
@@ -1079,7 +1079,7 @@ From the folder in which you have server.js, launch in your terminal the followi
 $ node server.js
 ```
 
-Open [localhost:1337](http://localhost:1337/)(<http://localhost:1337/>) or [127.0.0.1:1337](http://127.0.0.1:1337/)(<http://127.0.0.1:1337/>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control + c (on macOS X).
+Open [localhost:1337](http://localhost:1337) (<http://localhost:1337>) or [127.0.0.1:1337](http://127.0.0.1:1337) (<http://127.0.0.1:1337>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control + c (on macOS X).
 
 **Note**  The name of the main file could be different from server.js (e.g., index.js or app.js). In case you need to launch the app.js file, just use `$ node app.js`.
 
@@ -1095,7 +1095,7 @@ Now, there are amazing environments such as Chrome Developer Tools and Firefox F
 
 ## Core Node.js Debugger
 
-The best debugger is `console.log()`, because it doesn’t break/interrupt the flow, and it is fast and informative. However, to use it, we first need to know where to put it. Sometimes, we just don’t know where to put the logs! Other times, we need to see the call stack and orient ourselves in the async code a bit more. To do this, put `debugger` statements in your code and use `$ node debug program.js` to start [the debugging process](http://nodejs.org/api/debugger.html)(<http://nodejs.org/api/debugger.html>).
+The best debugger is `console.log()`, because it doesn’t break/interrupt the flow, and it is fast and informative. However, to use it, we first need to know where to put it. Sometimes, we just don’t know where to put the logs! Other times, we need to see the call stack and orient ourselves in the async code a bit more. To do this, put `debugger` statements in your code and use `$ node debug program.js` to start [the debugging process](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
 
 For example, the Hello World from the previous section can be enhanced with `debugger` in two places: when an instance is created and when a request is made (`hello-debug.js`):
 
@@ -1120,13 +1120,13 @@ The main node debug commands are as follows:
 - `out`, `o`: step outside the function call
 - `watch(expression)`: watch the expression
 
-The full list of commands is available through the `help` command or on [the official web site](http://nodejs.org/api/debugger.html)(<http://nodejs.org/api/debugger.html>).
+The full list of commands is available through the `help` command or on [the official web site](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
 
-So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at (<http://localhost:1337/>) or execute `$ curl "http://localhost:1337/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
+So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at (<http://localhost:1337>) or execute `$ curl "http://localhost:1337/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
 
 ## Debugging with Node Inspector
 
-The built-in Node.js debugger client is extensive, but it’s not intuitive because of the lack of a GUI. Therefore, for a more developer-friendly interface than the core Node.js debugger provides, [node-inspector](https://github.com/node-inspector/node-inspector)(<https://github.com/node-inspector/node-inspector>) comes to the rescue!
+The built-in Node.js debugger client is extensive, but it’s not intuitive because of the lack of a GUI. Therefore, for a more developer-friendly interface than the core Node.js debugger provides, [node-inspector](https://github.com/node-inspector/node-inspector) (<https://github.com/node-inspector/node-inspector>) comes to the rescue!
 
 To download and install Node Inspector, we use our beloved npm in the global mode (`-g` or `--global`):
 
@@ -1180,7 +1180,7 @@ In addition, we can follow the call stack, explore scope variables, and execute 
 
 # Node.js IDEs and Code Editors
 
-One of the best things about Node.js is that you don’t need to compile the code, because it’s loaded into memory and interpreted by the platform! Therefore, a lightweight text editor is highly recommended, such as Sublime Text (Figure 1-11), vs. a full-blown IDE. However, if you are already familiar and comfortable with the IDE of your choice, such as [Eclipse](http://www.eclipse.org/)(<http://www.eclipse.org/>), [NetBeans](http://netbeans.org/)(<http://netbeans.org/>), or [Aptana](http://aptana.com)(<http://aptana.com/>), feel free to stick with it.
+One of the best things about Node.js is that you don’t need to compile the code, because it’s loaded into memory and interpreted by the platform! Therefore, a lightweight text editor is highly recommended, such as Sublime Text (Figure 1-11), vs. a full-blown IDE. However, if you are already familiar and comfortable with the IDE of your choice, such as [Eclipse](http://www.eclipse.org) (<http://www.eclipse.org>), [NetBeans](http://netbeans.org) (<http://netbeans.org>), or [Aptana](http://aptana.com) (<http://aptana.com>), feel free to stick with it.
 
 ![alt](media/image11.png)
 
@@ -1213,15 +1213,15 @@ If you are familiar with watching for file changes or it’s not an issue for yo
 
 Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control + c on Macs and Ctrl + c on Windows). However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch`(<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) method from the core Node.js `fs` module and restart servers when we save changes from an editor:
 
-- [forever](http://npmjs.org/forever)(<http://npmjs.org/forever>) ([GitHub](http://github.com/nodejitsu/forever))(<http://github.com/nodejitsu/forever>), usually used in production (we examine this topic in Chapter 11)
-- [node-dev](https://npmjs.org/package/node-dev)(<https://npmjs.org/package/node-dev>)([GitHub](https://github.com/fgnass/node-dev))(<https://github.com/fgnass/node-dev>)
-- [nodemon](https://npmjs.org/package/nodemon)(<https://npmjs.org/package/nodemon>) ([GitHub](https://github.com/remy/nodemon))(<https://github.com/remy/nodemon>)
-- [supervisor](https://npmjs.org/package/supervisor)(<https://npmjs.org/package/supervisor>) ([GitHub](https://github.com/isaacs/node-supervisor))(<https://github.com/isaacs/node-supervisor>)
-- [up](https://npmjs.org/package/up)(<https://npmjs.org/package/up>) ([GitHub](https://github.com/LearnBoost/up))(<https://github.com/LearnBoost/up>), now a deprecated module
+- [forever](http://npmjs.org/forever) (<http://npmjs.org/forever>) ([GitHub](http://github.com/nodejitsu/forever)) (<http://github.com/nodejitsu/forever>), usually used in production (we examine this topic in Chapter 11)
+- [node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>)([GitHub](https://github.com/fgnass/node-dev)) (<https://github.com/fgnass/node-dev>)
+- [nodemon](https://npmjs.org/package/nodemon) (<https://npmjs.org/package/nodemon>) ([GitHub](https://github.com/remy/nodemon)) (<https://github.com/remy/nodemon>)
+- [supervisor](https://npmjs.org/package/supervisor) (<https://npmjs.org/package/supervisor>) ([GitHub](https://github.com/isaacs/node-supervisor)) (<https://github.com/isaacs/node-supervisor>)
+- [up](https://npmjs.org/package/up) (<https://npmjs.org/package/up>) ([GitHub](https://github.com/LearnBoost/up)) (<https://github.com/LearnBoost/up>), now a deprecated module
 
 Any one of these tools is as easy to use as installing globally with `$ npm install -g node-dev`, then running the Node.js script with `$ node-dev program.js`. Just replace `node-dev` with another module name. &#x263A;
 
-For a comparison between these tools, refer to [Comparison: Tools to Automate Restarting Node.js Server After Code Changes](http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev/).(<http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev/>)
+For a comparison between these tools, refer to [Comparison: Tools to Automate Restarting Node.js Server After Code Changes](http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev/).(<http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev>)
 
 **Tip**  It’s good to know that Express.js reloads a template file for every new request by default. So, no server restart is necessary. However, we can cache templates by enabling the `view cache` setting. For more Express.js setting, take a look at Pro Express.js 4 [2014, Apress].
 

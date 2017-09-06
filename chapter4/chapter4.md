@@ -26,7 +26,7 @@ In this chapter we cover the following:
 
 Jade is a Node.js brother of Haml, in the sense that it uses whitespace and indentation as part of its language. Therefore, we need to be careful to follow the proper syntax.
 
-You can follow the Jade syntax examples in this section online, at the official web site&#39;s demo page(<http://jade-lang.com/demo>) or at the @naltatis resource,(<http://naltatis.github.io/jade-syntax-docs/>) or by writing standalone Node.js scripts (examples are presented in “Jade Standalone Usage,” which appears later in this chapter).
+You can follow the Jade syntax examples in this section online, at the official web site&#39;s demo page(<http://jade-lang.com/demo>) or at the @naltatis resource,(<http://naltatis.github.io/jade-syntax-docs>) or by writing standalone Node.js scripts (examples are presented in “Jade Standalone Usage,” which appears later in this chapter).
 
 ## Tags
 
@@ -503,7 +503,7 @@ Furthermore, with `jade.renderFile`, the `jade-example.js` file is even more com
       console.log(html)
     });
 
-**Note**  Jade can also be used as a command-line tool after installing it with the `-g` or `--global` option via npm. For more information, run `jade -h` or see the official documentation (<http://jade-lang.com/command-line/>).
+**Note**  Jade can also be used as a command-line tool after installing it with the `-g` or `--global` option via npm. For more information, run `jade -h` or see the official documentation (<http://jade-lang.com/command-line>).
 
 To use Jade in a browser, you can use browserify (<https://github.com/substack/node-browserify>) and its jadeify (<https://www.npmjs.org/package/jade-browser>) middleware.
 
@@ -839,7 +839,7 @@ To produce this HTML when we run `$ node handlebars-example.js 'email body'`, us
         </ul>
     </div>
 
-To use Handlebars in the browser, download the library in a straightforward manner from the official web site (<http://handlebarsjs.com/>) and include it in your pages. Alternatively, it&#39;s possible to use just the runtime version from the same web site (which is lighter in size) with precompiled templates. Templates can be precompiled with the Handlebars command-line tool.
+To use Handlebars in the browser, download the library in a straightforward manner from the official web site (<http://handlebarsjs.com>) and include it in your pages. Alternatively, it&#39;s possible to use just the runtime version from the same web site (which is lighter in size) with precompiled templates. Templates can be precompiled with the Handlebars command-line tool.
 
 # Jade and Handlebars Usage in Express.js 4
 
@@ -886,7 +886,7 @@ For more information on how to configure Express.js settings and use Consolidate
 
 ## Jade and Express.js
 
-Jade is compatible with Express.js out of the box (in fact, it&#39;s the default choice), so to use Jade with Express.js, you just need to install a template engine module (`jade`)(<https://www.npmjs.org/package/jade>) and provide an extension to Express.js via the `view engine` setting.).
+Jade is compatible with Express.js out of the box (in fact, it&#39;s the default choice), so to use Jade with Express.js, you just need to install a template engine module (`jade`) (<https://www.npmjs.org/package/jade>) and provide an extension to Express.js via the `view engine` setting.).
 
 For example, in the main server file we set the setting:
 

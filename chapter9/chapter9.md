@@ -6,7 +6,7 @@ Real-time apps are becoming more and more widespread in gaming, social media, va
 
 HTML5 pioneered the new standard of real-time connections called *WebSocket*. At the same time, on the server side, Node.js has a highly efficient, nonblocking input/output platform that is very well suited for the task of being a back-end pair to the browser JavaScript and WebSocket.
 
-To get you started with WebSocket and Node.js, we&#39;ll keep things simple stupid (KISS)(<http://en.wikipedia.org/wiki/KISS_principle>) and cover the following:
+To get you started with WebSocket and Node.js, we&#39;ll keep things simple stupid (KISS) (<http://en.wikipedia.org/wiki/KISS_principle>) and cover the following:
 
 - What is WebSocket?
 
@@ -18,7 +18,7 @@ To get you started with WebSocket and Node.js, we&#39;ll keep things simple stup
 
 # What Is WebSocket?
 
-WebSocket is a special communication “channel” between browsers (clients) and servers. It&#39;s an HTML5 protocol. WebSocket&#39;s connection is constant, in contrast to traditional HTTP requests, with the latter usually initiated by the client. Therefore, there&#39;s no way for a server to notify the client if there are updates. By maintaining a duplex open connection between the client and the server, updates can be pushed in a timely fashion without clients needing to poll at certain intervals. This main factor makes WebSocket ideal for real-time apps for which data need to be available on the client immediately. For more information on WebSocket, take a look at the extensive resource [About HTML5 WebSocket](http://www.websocket.org/aboutwebsocket.html)(<http://www.websocket.org/aboutwebsocket.html>).
+WebSocket is a special communication “channel” between browsers (clients) and servers. It&#39;s an HTML5 protocol. WebSocket&#39;s connection is constant, in contrast to traditional HTTP requests, with the latter usually initiated by the client. Therefore, there&#39;s no way for a server to notify the client if there are updates. By maintaining a duplex open connection between the client and the server, updates can be pushed in a timely fashion without clients needing to poll at certain intervals. This main factor makes WebSocket ideal for real-time apps for which data need to be available on the client immediately. For more information on WebSocket, take a look at the extensive resource [About HTML5 WebSocket](http://www.websocket.org/aboutwebsocket.html) (<http://www.websocket.org/aboutwebsocket.html>).
 
 There&#39;s no need to use any special libraries to use WebSocket in modern browsers. The following StackOverflow has a list of such browsers: [What browsers support HTML5 WebSockets API?](http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api) (<http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api>)For older browser support, the workaround includes falling back on polling.
 
@@ -91,7 +91,7 @@ To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch
 
 ## Node.js Server with ws Module Implementation
 
-WebSocket.org provides an echo service for testing the browser WebSocket, but we can build our own small Node.js server with the help of the [ws](http://npmjs.org/ws)(<http://npmjs.org/ws>) ([GitHub](https://github.com/einaros/ws))(<https://github.com/einaros/ws>) library:
+WebSocket.org provides an echo service for testing the browser WebSocket, but we can build our own small Node.js server with the help of the [ws](http://npmjs.org/ws) (<http://npmjs.org/ws>) ([GitHub](https://github.com/einaros/ws)) (<https://github.com/einaros/ws>) library:
 
     $ mkdir node_modules
     $ npm install ws@0.4.31
@@ -140,9 +140,9 @@ In addition, often the connection may be lost and may need to be re-established.
 
 # Socket.IO and Express.js Example
 
-Full coverage of the [Socket.IO](http://socket.io/)(<http://socket.io/>) library absolutely deserves its own book. Nevertheless, because it&#39;s such a popular library, and getting started with it is very easy with Express.js, we include in this chapter an example that covers the basics. This mini project illustrates duplex-channel communication between browser and server.
+Full coverage of the [Socket.IO](http://socket.io) (<http://socket.io>) library absolutely deserves its own book. Nevertheless, because it&#39;s such a popular library, and getting started with it is very easy with Express.js, we include in this chapter an example that covers the basics. This mini project illustrates duplex-channel communication between browser and server.
 
-As in most real-time web apps, the communication between a server and a client happens in response either to some user actions or as a result of updates from the server. So, in our example, the web page renders a form field in which each character echoes (browser to server and back) in reverse in real time. The example harnesses Express.js command-line tool scaffolding, Socket.IO, and Jade (see screenshots of the working app in Figures 9-3 and 9-4). Of course, you can just download the app from [github.com/azat-co/practicalnode](http://github.com/azat-co/practicalnode)(<http://github.com/azat-co/practicalnode>).
+As in most real-time web apps, the communication between a server and a client happens in response either to some user actions or as a result of updates from the server. So, in our example, the web page renders a form field in which each character echoes (browser to server and back) in reverse in real time. The example harnesses Express.js command-line tool scaffolding, Socket.IO, and Jade (see screenshots of the working app in Figures 9-3 and 9-4). Of course, you can just download the app from [github.com/azat-co/practicalnode](http://github.com/azat-co/practicalnode) (<http://github.com/azat-co/practicalnode>).
 
 To include Socket.IO, we can use `$ npm install socket.io@0.9.16 --save` and repeat it for every module, or we can use `package.json` and `$ npm install`:
 
@@ -287,13 +287,13 @@ Again, start the server and open the browser to see real-time communication. Typ
 
 ***Figure 9-4.** Express.js server catching and processing input in real time*
 
-For more Socket.IO examples, go to [socket.io/#how-to-use](http://socket.io/#how-to-use)(<http://socket.io/#how-to-use>).
+For more Socket.IO examples, go to [socket.io/#how-to-use](http://socket.io/#how-to-use) (<http://socket.io/#how-to-use>).
 
 # Collaborative Online Code Editor Example with DerbyJS, Express.js, and MongoDB
 
-[Derby](http://derbyjs.com/)(<http://derbyjs.com/>) is a new, sophisticated [MVC](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)(<http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller>) framework designed to be used with [Express](http://expressjs.com/)(<http://expressjs.com/>) as its middleware, whereas [Express.js](http://expressjs.com/)(<http://expressjs.com/>) is a popular node framework that uses the middleware concept to enhance the functionality of applications. Derby also comes with the support of [Racer](https://github.com/codeparty/racer)(<https://github.com/codeparty/racer>), a data synchronization engine, and [Handlebars](https://github.com/wycats/handlebars.js/)(<https://github.com/wycats/handlebars.js/>)-like template engine, among [many other features](http://derbyjs.com/#features)(<http://derbyjs.com/#features>).
+[Derby](http://derbyjs.com) (<http://derbyjs.com>) is a new, sophisticated [MVC](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (<http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller>) framework designed to be used with [Express](http://expressjs.com) (<http://expressjs.com>) as its middleware, whereas [Express.js](http://expressjs.com) (<http://expressjs.com>) is a popular node framework that uses the middleware concept to enhance the functionality of applications. Derby also comes with the support of [Racer](https://github.com/codeparty/racer) (<https://github.com/codeparty/racer>), a data synchronization engine, and [Handlebars](https://github.com/wycats/handlebars.js) (<https://github.com/wycats/handlebars.js>)-like template engine, among [many other features](http://derbyjs.com/#features) (<http://derbyjs.com/#features>).
 
-[Meteor](http://meteor.com/)(<http://meteor.com/>) and [Sails.js](http://sailsjs.org/)(<http://sailsjs.org/>) are other reactive (real-time) full-stack MVC Node.js frameworks comparable with DerbyJS. However, Meteor is more opinionated and often relies on proprietary solutions and packages.
+[Meteor](http://meteor.com) (<http://meteor.com>) and [Sails.js](http://sailsjs.org) (<http://sailsjs.org>) are other reactive (real-time) full-stack MVC Node.js frameworks comparable with DerbyJS. However, Meteor is more opinionated and often relies on proprietary solutions and packages.
 
 The following example illustrates how easy it is to build a real-time application using Express.js, DerbyJS, MongoDB, and Redis.
 
@@ -313,10 +313,10 @@ The structure for this DerbyJS mini project is as follows:
 
 If you haven&#39;t installed Node.js, npm, MongoDB, or Redis, you can do it now by following instructions in these resources:
 
-- [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)(<https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>)
-- [Installing npm](http://howtonode.org/introduction-to-npm)(<http://howtonode.org/introduction-to-npm>)
-- [Install MongoDB](http://docs.mongodb.org/manual/installation/#install-mongodb)(<http://docs.mongodb.org/manual/installation/#install-mongodb>)
-- [Redis Quick Start](http://redis.io/topics/quickstart)(<http://redis.io/topics/quickstart>)
+- [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) (<https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>)
+- [Installing npm](http://howtonode.org/introduction-to-npm) (<http://howtonode.org/introduction-to-npm>)
+- [Install MongoDB](http://docs.mongodb.org/manual/installation/#install-mongodb) (<http://docs.mongodb.org/manual/installation/#install-mongodb>)
+- [Redis Quick Start](http://redis.io/topics/quickstart) (<http://redis.io/topics/quickstart>)
 
 Create a project folder, `editor`, and a file `package.json` with the following content:
 
@@ -477,7 +477,7 @@ The `/:snippetId` route is where the editor is displayed. To support real-time u
 
 The `model.at` method with a parameter in a `collection_name.ID` pattern is akin to calling `findById()`—in other words, we get the object from the store/database.
 
-`model.ref()` allows us to bind an object to the view representation. Usually in the view we would write `{{_page.snippet}}` and it would update itself reactively. However, to make the editor look beautiful, we use the [Ace editor from Cloud9](http://ace.c9.io/)(<http://ace.c9.io/>). Ace is attached to the `editor` object (global browser variable).
+`model.ref()` allows us to bind an object to the view representation. Usually in the view we would write `{{_page.snippet}}` and it would update itself reactively. However, to make the editor look beautiful, we use the [Ace editor from Cloud9](http://ace.c9.io) (<http://ace.c9.io>). Ace is attached to the `editor` object (global browser variable).
 
 Front-end JavaScript code in DerbyJS is written in the `app.ready` callback. We need to set Ace content from the Derby model on app start:
 

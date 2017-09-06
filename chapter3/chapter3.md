@@ -88,11 +88,11 @@ Figure 3-1 shows an example of nyan cat reporter with the command `$ mocha test-
 
 Usually, when it comes to choosing a type of framework, there are a few options. Mocha is one of the more robust and widely used. However, the following alternatives to Mocha are worth considering:
 
-- [NodeUnit](https://github.com/caolan/nodeunit)(<https://github.com/caolan/nodeunit>)
+- [NodeUnit](https://github.com/caolan/nodeunit) (<https://github.com/caolan/nodeunit>)
 
-- [Jasmine](http://pivotal.github.com/jasmine/)(<http://pivotal.github.com/jasmine/>)
+- [Jasmine](http://pivotal.github.com/jasmine) (<http://pivotal.github.com/jasmine>)
 
-- [Vows](http://vowsjs.org/)(<http://vowsjs.org/>)
+- [Vows](http://vowsjs.org) (<http://vowsjs.org>)
 
 ## Understanding Mocha Hooks
 
@@ -227,7 +227,7 @@ The following are some of the methods from the chai assert library:
 - `assert.notEqual(actual, expected, [message])`: throws an error when `actual` is double equal (`==`)—in other words, not unequal (`!=`)—to `expected`
 - `.strictEqual(actual, expected, [message])`: throws an error when objects are not triple equal (`===`)
 
-For the full chai assert API, refer to [the official documentation](http://chaijs.com/api/assert/)(<http://chaijs.com/api/assert/>).
+For the full chai assert API, refer to [the official documentation](http://chaijs.com/api/assert) (<http://chaijs.com/api/assert>).
 
 **Note**: The chai assert (`chai.assert`) and the Node.js core assert (`assert`) modules are *not 100% compatible*, because the former has more methods. The same is true for chai expect and a standalone expect.js.
 
@@ -299,7 +299,7 @@ The goal of this mini-project is to add a few tests for Blog (this book&#39;s pr
 
 The source code for this chapter is in the `ch3/blog-express` folder of the practicalnode(<https://github.com/azat-co/practicalnode>) GitHub repository (https://github.com/azat-co/practicalnode).
 
-First, let&#39;s copy the Hello World project. It will serve as a foundation for Blog. Then, install Mocha in the Blog project folder, and add it to the `package.json` file at the same time with `$ npm install mocha@1.16.2 --save-dev`. The `--save-dev` flag will categorize this module as a development dependency (devDependencies). Modify this command by replacing package name and version number for expect.js (0.2.0) and [superagent](https://npmjs.org/package/superagent)(<https://npmjs.org/package/superagent>) (0.15.7). The latter is a library to streamline the making of HTTP requests. Alternatives to `superagent` include the following:
+First, let&#39;s copy the Hello World project. It will serve as a foundation for Blog. Then, install Mocha in the Blog project folder, and add it to the `package.json` file at the same time with `$ npm install mocha@1.16.2 --save-dev`. The `--save-dev` flag will categorize this module as a development dependency (devDependencies). Modify this command by replacing package name and version number for expect.js (0.2.0) and [superagent](https://npmjs.org/package/superagent) (<https://npmjs.org/package/superagent>) (0.15.7). The latter is a library to streamline the making of HTTP requests. Alternatives to `superagent` include the following:
 
 - `request`(<https://npmjs.org/package/request>): the third most-starred npm module (as of this writing)
 - *core* `http` *module*: clunky and very low level

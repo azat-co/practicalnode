@@ -24,7 +24,7 @@ In this chapter we cover the following topics, which serve as an introduction to
 
 # What Is Express.js?
 
-Express.js is a web framework based on the core Node.js `http` module and [Connect](http://www.senchalabs.org/connect/)(<http://www.senchalabs.org/connect/>) components. The components are called *middleware* and they are the cornerstones of the framework philosophy *configuration over convention*. In other words, Express.js systems are highly configurable, which allows developers to pick freely whatever libraries they need for a particular project. For these reasons, the Express.js framework leads to flexibility and high customization in the development of web applications.
+Express.js is a web framework based on the core Node.js `http` module and [Connect](http://www.senchalabs.org/connect) (<http://www.senchalabs.org/connect>) components. The components are called *middleware* and they are the cornerstones of the framework philosophy *configuration over convention*. In other words, Express.js systems are highly configurable, which allows developers to pick freely whatever libraries they need for a particular project. For these reasons, the Express.js framework leads to flexibility and high customization in the development of web applications.
 
 If you write serious apps using only core Node.js modules (refer to the following snippet for an example), you most likely find yourself reinventing the wheel by writing the same code continually for similar tasks, such as the following:
 
@@ -40,7 +40,7 @@ If you write serious apps using only core Node.js modules (refer to the followin
 
 To illustrate my point, here is an example of a two-route representational state transfer(<http://en.wikipedia.org/wiki/Representational_state_transfer>).
 
- (REST) API server, i.e., we have only two end points and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external native MongoDB driver module is used for persistence. This example is taken from beginner-friendly [Rapid Prototyping with JS](http://rpjs.co/)(<http://rpjs.co/>): Agile JavaScript Development by Azat Mardan [2013]:
+ (REST) API server, i.e., we have only two end points and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external native MongoDB driver module is used for persistence. This example is taken from beginner-friendly [Rapid Prototyping with JS](http://rpjs.co) (<http://rpjs.co>): Agile JavaScript Development by Azat Mardan [2013]:
 
     var http = require('http');
     var util = require('util');
@@ -94,9 +94,9 @@ As you can see, developers have to do a lot of manual work themselves, such as i
 
 Express.js solves these and many other problems as abstraction and code organization. The framework provides a model-view-controller-like (MVC-like) structure for your web apps with a clear separation of concerns (views, routes, models).
 
-For the models (M in MVC), we need to use [Mongoose](http://mongoosejs.com/)(<http://mongoosejs.com/>) or [Sequelize](http://sequelizejs.com/)(<http://sequelizejs.com/>) libraries in *addition* to Express.js— more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser)(<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io/)(<http://socket.io/>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
+For the models (M in MVC), we need to use [Mongoose](http://mongoosejs.com) (<http://mongoosejs.com>) or [Sequelize](http://sequelizejs.com) (<http://sequelizejs.com>) libraries in *addition* to Express.js— more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser) (<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io) (<http://socket.io>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
 
-Although Express.js is the most starred library on npm (as of May 2014), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com/)(<http://meteor.com/>) and [DerbyJS](http://derbyjs.com/)(<http://derbyjs.com/>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com/)(<http://nodeframework.com/>) resource.
+Although Express.js is the most starred library on npm (as of May 2014), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com) (<http://meteor.com>) and [DerbyJS](http://derbyjs.com) (<http://derbyjs.com>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com) (<http://nodeframework.com>) resource.
 
 When evaluating a Node.js framework for your project, use these easy steps to guide you:
 
@@ -204,7 +204,7 @@ Or, if we want to be less specific, which is not recommended for this example, u
 
     $ npm install express
 
-**Note**: If you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html)(<https://npmjs.org/doc/folders.html>).
+**Note**: If you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html) (<https://npmjs.org/doc/folders.html>).
 
 Alternatively, we can update the `package.json` file by specifying the dependency `("express": "4.1.2"` or `"express": "4.x")` and run `$ npm install`.
 
@@ -250,9 +250,9 @@ If you followed the global installation instructions in the installation section
 
 To generate a skeleton Express.js app, we need to run a terminal command— `express [options] [dir|appname]`—the options for which are the following:
 
-- `-e`, `--ejs`: add [EJS](http://embeddedjs.com/)(<http://embeddedjs.com/>) engine support (by default, [Jade](http://jade-lang.com/tutorial/)(<http://jade-lang.com/tutorial/>) is used)
+- `-e`, `--ejs`: add [EJS](http://embeddedjs.com) (<http://embeddedjs.com>) engine support (by default, [Jade](http://jade-lang.com/tutorial) (<http://jade-lang.com/tutorial>) is used)
 - `-H`, `--hogan`: add Hogan.js engine support
-- `-c <engine>`, `--css <engine>`: add stylesheet `<engine>` support, such as [LESS](http://lesscss.org/)(<http://lesscss.org/>), [Stylus](http://learnboost.github.io/stylus/)(<http://learnboost.github.io/stylus/>) or Compass(<http://compass-style.org/>) (by default, plain CSS is used)
+- `-c <engine>`, `--css <engine>`: add stylesheet `<engine>` support, such as [LESS](http://lesscss.org) (<http://lesscss.org>), [Stylus](http://learnboost.github.io/stylus) (<http://learnboost.github.io/stylus>) or Compass(<http://compass-style.org>) (by default, plain CSS is used)
 
 - `-f`, `--force`: force app generation on a nonempty directory
 
@@ -483,7 +483,7 @@ The first approach is traditional and is considered more search engine optimizat
 
 ***Figure 2-7.** Traditional server-side approach*
 
-Sending and receiving data via REST API/HTTP requests and rendering HTML on the client side is used with front-end frameworks such as Backbone.js, Angular, Ember, and [many others](http://todomvc.com/)(<http://todomvc.com/>) (Figure 2-8). The use of these frameworks is becoming more and more common nowadays because it allows for more efficiency (HTML is rendered on the client side and only the data are transmitted) and better code organization.
+Sending and receiving data via REST API/HTTP requests and rendering HTML on the client side is used with front-end frameworks such as Backbone.js, Angular, Ember, and [many others](http://todomvc.com) (<http://todomvc.com>) (Figure 2-8). The use of these frameworks is becoming more and more common nowadays because it allows for more efficiency (HTML is rendered on the client side and only the data are transmitted) and better code organization.
 
 ![alt](media/image8.png)
 
@@ -622,7 +622,7 @@ The order here is important, because requests travel from top to bottom in the c
 
 Let&#39;s perform a quintessential programming exercise: writing the Hello World application. This app transitions smoothly into the Blog example project, so no effort is wasted!
 
-Open `app.js` in a code editor of your choice and start writing (or just copy code from [GitHub](http://github.com/azat-co/blog-express)(<http://github.com/azat-co/blog-express>)).
+Open `app.js` in a code editor of your choice and start writing (or just copy code from [GitHub](http://github.com/azat-co/blog-express) (<http://github.com/azat-co/blog-express>)).
 
 First, all the dependencies need to be included with `require()`:
 

@@ -26,7 +26,7 @@ To get you started with MongoDB and Node.js, we examine the following in this ch
 
 ## Easy and Proper Installation of MongoDB
 
-The following steps are better suited for macOS/Linux–based systems, but with some modifications they can be used for Windows systems as well (i.e., `$PATH` variable, or the slashes). Next, we look at MongoDB installation from the official package, as well as using HomeBrew for macOS users (recommended) . For non-Mac users, there are [many other ways to install](http://docs.mongodb.org/manual/installation/) (<http://docs.mongodb.org/manual/installation/>).
+The following steps are better suited for macOS/Linux–based systems, but with some modifications they can be used for Windows systems as well (i.e., `$PATH` variable, or the slashes). Next, we look at MongoDB installation from the official package, as well as using HomeBrew for macOS users (recommended) . For non-Mac users, there are [many other ways to install](http://docs.mongodb.org/manual/installation/) (<http://docs.mongodb.org/manual/installation>).
 
 The HomeBrew installation is recommended and is the easiest path (assuming macOS users have `brew` installed already, which was covered in Chapter 1): `$ brew install mongodb`. If this doesn&#39;t work, try the manual path described later./).
 
@@ -170,7 +170,7 @@ It&#39;s possible to use good old JavaScript, for example, storing in variable:
 
 # Minimalistic Native MongoDB Driver for Node.js Example
 
-To illustrate the advantages of Mongoskin, let&#39;s use [Node.js native driver for MongoDB](https://github.com/christkv/node-mongodb-native)(<https://github.com/christkv/node-mongodb-native>) first. We need to write a basic script that accesses the database.
+To illustrate the advantages of Mongoskin, let&#39;s use [Node.js native driver for MongoDB](https://github.com/christkv/node-mongodb-native) (<https://github.com/christkv/node-mongodb-native>) first. We need to write a basic script that accesses the database.
 
 First, however, let&#39;s install the MongoDB native driver for Node.js with
 

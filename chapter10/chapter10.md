@@ -97,7 +97,7 @@ or:
     $ node app.js
 
 **Note** By default, Express.js falls back to development mode as we see in the [source code](<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) 
-(<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>)(<http://bit.ly/1l7UEi6>).
+(<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) (<http://bit.ly/1l7UEi6>).
 
 When using in-memory session store (the default choice), the data can’t be shared across different processes/servers (which we want in production mode). Conveniently, Express.js and Connect notify us about this as we see in this [source code](http://bit.ly/1nnvvhf) (<http://bit.ly/1nnvvhf>) with this message:
 
@@ -429,7 +429,7 @@ For your convenience, here’s the full content of `practicalnode/ch10/domains/a
     });
 
 For more ways to apply domains with Express.js, take a look at the *Node.js domains your friends and neighbors* by Forrest L Norvell (<https://twitter.com/othiym23>) & Domenic Denicola
-(<http://domenicdenicola.com/>) presentation from NodeConf 2013 slide 4-1 (<http://othiym23.github.io/nodeconf2013-domains/#/4/1>).
+(<http://domenicdenicola.com>) presentation from NodeConf 2013 slide 4-1 (<http://othiym23.github.io/nodeconf2013-domains/#/4/1>).
 
 **Warning** The domain module is in the *experimental* stage, which means that it’s likely that methods and behavior will change. Therefore, stay updated and use exact versions in the `package.json` file.
 
@@ -688,7 +688,7 @@ Winston provides a way to have one interface for logging events while defining m
 
 -   File
 
--   [Loggly](https://www.loggly.com/) (<https://www.loggly.com/>)
+-   [Loggly](https://www.loggly.com/) (<https://www.loggly.com>)
 
 -   Riak
 
@@ -1043,7 +1043,7 @@ In case you’ve never used Git and/or GitHub, or you’ve forgotten how to comm
 Creating a Local Git Repository
 -------------------------------
 
-To create a GitHub repository, go to [github.com](http://github.com/)(<http://github.com/>), login, and create a new repository. There will be an SSH address; copy it. In your terminal window, navigate to the project folder to which you would like to push GitHub. Then, do the following:
+To create a GitHub repository, go to [github.com](http://github.com) (<http://github.com>), login, and create a new repository. There will be an SSH address; copy it. In your terminal window, navigate to the project folder to which you would like to push GitHub. Then, do the following:
 
 1.  Create a local `Git` and `.git` folder in the root of the project folder:
 
@@ -1074,7 +1074,7 @@ You can create a new repository in github.com via a web interface. Then, copy yo
 	    $ git push origin master
 
 3.  You should be able to see your files
-    at [github.com](http://github.com/)(<http://github.com/>) under your account and repository.
+    at [github.com](http://github.com) (<http://github.com>) under your account and repository.
 
 Later, when you make changes to the file, there is no need to repeat all these steps. Just execute:
 
