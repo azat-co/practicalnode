@@ -715,7 +715,7 @@ Another *bad part* in browser JavaScript is that there is no way to include modu
 To export an object in Node.js, use `exports.name = object;`. An example follows:
 
 ```js
-var messages = {
+const messages = {
   find: function(req, res, next) {
   ...
   },
@@ -730,13 +730,13 @@ exports.messages = messages
 While in the file where we import the aforementioned script (assuming the path and the file name is `route/messages.js`), write the following:
 
 ```js
-var messages = require('./routes/messages.js')
+const messages = require('./routes/messages.js')
 ```
 
 However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals/*)(*<http://webapplog.com/express-js-fundamentals/>*) *[2013]*). In this case, `module.exports` is needed:
 
 ```js
-module.exports = function(app) {
+module.exports = (app) => {
   app.set('port', process.env.PORT || 3000)
   app.set('views', __dirname + '/views')
   app.set('view engine', 'jade')
@@ -897,7 +897,7 @@ Reading from files is done via the core `fs` [module](http://nodejs.org/api/fs.h
 ```js
 const fs = require('fs')
 const path = require('path')
-fs.readFile(path.join(__dirname, '/data/customers.csv'), {encoding: 'utf-8'}, function (err, data) {
+fs.readFile(path.join(__dirname, '/data/customers.csv'), {encoding: 'utf-8'}, (err, data) => {
   if (err) {
     console.error(err)
     process.exit(1)
@@ -911,7 +911,7 @@ To write to the file, execute the following:
 
 ```js
 const fs = require('fs')
-fs.writeFile('message.txt', 'Hello World!', function (err) {
+fs.writeFile('message.txt', 'Hello World!', (err) => {
   if (err) {
     console.error(err)
     process.exit(1)
@@ -949,22 +949,22 @@ The best practice is *not to include* a `node_modules` folder in the Git reposit
 [Callbacks](https://github.com/maxogden/art-of-node#callbacks)(<https://github.com/maxogden/art-of-node%23callbacks>) are able to make Node.js code asynchronous, yet programmers unfamiliar with JavaScript, who work with Java or PHP, might be surprised when they see Node.js code described on [Callback Hell](http://callbackhell.com/)(<http://callbackhell.com/>):
 
 ```js
-fs.readdir(source, function(err, files) {
+fs.readdir(source, (err, files) => {
   if (err) {
     console.log('Error finding files: ' + err)
   } else {
-    files.forEach(function(filename, fileIndex) {
+    files.forEach((filename, fileIndex) => {
       console.log(filename)
-      gm(source + filename).size(function(err, values) {
+      gm(source + filename).size((err, values) => {
         if (err) {
           console.log('Error identifying file size: ' + err)
         } else {
           console.log(filename + ' : ' + values)
           aspect = (values.width / values.height)
-          widths.forEach(function(width, widthIndex) {
+          widths.forEach((width, widthIndex) => {
             height = Math.round(width / aspect)
             console.log('resizing ' + filename + 'to ' + height + 'x' + height)
-            this.resize(width, height).write(destination + 'w' + width + '_' + filename, function(err) {
+            this.resize(width, height).write(destination + 'w' + width + '_' + filename, (err) => {
               if (err) console.log('Error writing file: ' + err)
             })
           }.bind(this))
@@ -985,7 +985,7 @@ Here’s a quintessential Hello World example in which we create a server object
 
 ```js
 const http = require('http')
-http.createServer( function (req, res) {
+http.createServer((req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'})
   res.end('Hello World\n')
 }).listen(1337, '127.0.0.1')
@@ -1001,7 +1001,7 @@ const http = require('http')
 This snippet below creates a server with a callback function which contains the response handler code:
 
 ```js
-const server = http.createServer(function (req, res) {
+const server = http.createServer((req, res) => {
 ```
 
 To set the right header and status code, use the following:
@@ -1042,9 +1042,7 @@ Modern-day software developers, especially those who use compiled languages such
 Now, there are amazing environments such as Chrome Developer Tools and Firefox Firebug, and because Node.js has a lot of things in common with the browser JavaScript environment, we have plenty of options for debugging in Node.js, including the following:
 
 - *Core Node.js Debugger*: a nongraphic user interface (non-GUI) minimalistic tool that works everywhere
-
 - *Node Inspector*: port of Google Chrome Developer Tools
-
 - WebStorm and other IDEs (covered in the next section)
 
 ## Core Node.js Debugger
@@ -1053,27 +1051,25 @@ The best debugger is `console.log()`, because it doesn’t break/interrupt the f
 
 For example, the Hello World from the previous section can be enhanced with `debugger` in two places: when an instance is created and when a request is made (`hello-debug.js`):
 
-    var http = require('http');
-    debugger;
-    http.createServer(function (req, res) {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      debugger;
-      res.end('Hello World\n');
-    }).listen(1337, '127.0.0.1');
-    console.log('Server running at http://127.0.0.1:1337/');
+```js
+const http = require('http')
+debugger
+http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'})
+  debugger
+  res.end('Hello World\n')
+}).listen(1337, '127.0.0.1')
+console.log('Server running at http://127.0.0.1:1337/')
+```
 
 Now, if we run the previous snippet (`hello-debug.js`), just like we did earlier (`$ node hello-debug.js`), nothing changes, because we need to use `$ node debug hello-debug.js`. And only then, the execution halts at the first line, and then again on the next `debugger` statement if we use the `cont` command.
 
 The main node debug commands are as follows:
 
 - `next`, `n`: step to the next statement
-
 - `cont`, `c`: continue until the next debugger/break point
-
 - `step`, `s`: step inside the function call
-
 - `out`, `o`: step outside the function call
-
 - `watch(expression)`: watch the expression
 
 The full list of commands is available through the `help` command or on [the official web site](http://nodejs.org/api/debugger.html)(<http://nodejs.org/api/debugger.html>).
@@ -1086,11 +1082,15 @@ The built-in Node.js debugger client is extensive, but it’s not intuitive beca
 
 To download and install Node Inspector, we use our beloved npm in the global mode (`-g` or `--global`):
 
-    $ npm install -g node-inspector
+```
+$ npm install -g node-inspector
+```
 
 Then, we start Node Inspector with the following (Figure 1-6):
 
-    $ node-inspector
+```
+$ node-inspector
+```
 
 ![alt](media/image6.png)
 
@@ -1098,11 +1098,15 @@ Then, we start Node Inspector with the following (Figure 1-6):
 
 Now start the program in a new terminal window/tab/session with `--debug` or `--debug-brk` flags (not just `debug`; Figure 1-7). For example:
 
-    $ node --debug-brk hello-debug.js
+```
+$ node --debug-brk hello-debug.js
+```
 
 or
 
-    $ node --debug hello-debug.js
+```
+$ node --debug hello-debug.js
+```
 
 ![alt](media/image7.png)
 
@@ -1137,19 +1141,12 @@ One of the best things about Node.js is that you don’t need to compile the cod
 The following is a list of the most popular text editors and IDEs used in web development:
 
 - [*TextMate*](*http://macromates.com/*)(*<http://macromates.com/>*): macOS version only, free 30-day trial for v1.5, dubbed *The Missing Editor for macOS*
-
 - [*Sublime Text*](*http://www.sublimetext.com/*)(*<http://www.sublimetext.com/>*): macOS and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
-
 - [*Visual Studio Code*](*https://code.visualstudio.com/nodejs*)(*<https://code.visualstudio.com/nodejs>*): a free, cross-platform, feature-rich editor by Microsoft powered by Node.js. It includes a built-in terminal, Node.js debugging, and lots of handy extensions.
-
 - [*Atom*](*https://atom.io/*)(*<https://atom.io/>*): a free, cross-platform editor by GitHub (also powered by Node.js) comparable to Visual Studio Code.
-
 - [*Coda*](*http://panic.com/coda/*)(*<http://panic.com/coda/>*): an all-in-one editor with an FTP browser and preview, has support for development with an iPad
-
 - [*Aptana Studio*](*http://aptana.com/*)(*<http://aptana.com/>*): a full-size IDE with a built-in terminal and many other tools
-
 - [*Notepad ++*](*http://notepad-plus-plus.org/*)(*<http://notepad-plus-plus.org/>*): a free, Windows-only lightweight text editor with the support of many languages
-
 - [*WebStorm IDE*](*http://www.jetbrains.com/webstorm/*)(*<http://www.jetbrains.com/webstorm/>*): a feature-rich IDE that allows for Node.js debugging, developed by JetBrains and marketed as “the smartest JavaScript IDE” (Figure 1-12)
 
 ![alt](media/image12.png)
@@ -1169,13 +1166,9 @@ If you are familiar with watching for file changes or it’s not an issue for yo
 Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control + c on Macs and Ctrl + c on Windows). However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch`(<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) method from the core Node.js `fs` module and restart servers when we save changes from an editor:
 
 - [forever](http://npmjs.org/forever)(<http://npmjs.org/forever>) ([GitHub](http://github.com/nodejitsu/forever))(<http://github.com/nodejitsu/forever>), usually used in production (we examine this topic in Chapter 11)
-
 - [node-dev](https://npmjs.org/package/node-dev)(<https://npmjs.org/package/node-dev>)([GitHub](https://github.com/fgnass/node-dev))(<https://github.com/fgnass/node-dev>)
-
 - [nodemon](https://npmjs.org/package/nodemon)(<https://npmjs.org/package/nodemon>) ([GitHub](https://github.com/remy/nodemon))(<https://github.com/remy/nodemon>)
-
 - [supervisor](https://npmjs.org/package/supervisor)(<https://npmjs.org/package/supervisor>) ([GitHub](https://github.com/isaacs/node-supervisor))(<https://github.com/isaacs/node-supervisor>)
-
 - [up](https://npmjs.org/package/up)(<https://npmjs.org/package/up>) ([GitHub](https://github.com/LearnBoost/up))(<https://github.com/LearnBoost/up>), now a deprecated module
 
 Any one of these tools is as easy to use as installing globally with `$ npm install -g node-dev`, then running the Node.js script with `$ node-dev program.js`. Just replace `node-dev` with another module name. &#x263A;
