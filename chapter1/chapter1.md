@@ -514,7 +514,7 @@ const fWithImplicitReturn = (a,b) => a+b
 
 ## Arrays
 
-Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties)(<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0 based) keys.
+Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0 based) keys.
 
 ```js
 var arr = []
@@ -612,14 +612,17 @@ These JavaScript/Node.js conventions (with semicolons being an exception) are st
 
 ### Semicolons
 
-The use of semicolons is optional, except for two cases:
+Almost all statements in JavaScript and thus Node.js must be terminated with a semicolon. However, there's a automatic semicolon insertion feature in JavaScript interpreters which will follow the rules and insert semicolons for developers.
 
-1. In for loop construction: `for (var i=0; i++; i<n)`
-2. When a new line starts with parentheses, such as when using an immediately invoked function expression (IIFE): `;(function(){...}())`
+Hence, the use of semicolons is optional, except for these cases:
+
+1. In loop constructions such as `for (var i=0; i++; i<n)`
+2. When a new line starts with parentheses or square brace or regular expression, such as when using an immediately invoked function expression (IIFE): `;(function(){...}())`
+3. When doing something weird like empty statements (see [Automatic semicolon insertion in JavaScript](http://2ality.com/2011/05/semicolon-insertion.html))
 
 In this, as well as in my other books, I don't use semicolons. There are a few reasons why. If you use semicolons and forget or omit one, then you code will still work but you'll end up with inconsistency which will create a necessity for a linter or a similar tool to check for your syntax. Let's say you spotted the missing semicolon or saw a warning from a linter, then you need to go to your code and fix it. Why to go through all this trouble? 
 
-Semicolon-less code works perfectly fine except two cases shown above and when you try to multiple statements are in one line. But developers should write multiple statements in one line. That's a job of a bundler/minimizer. The bottom line, I recommend developers focus on their work and not looking for missing semicolons. Let the language use its own feature (Automatic Semicolon Insertion). 
+Semicolon-less code works perfectly fine except two cases shown above and when you try to multiple statements are in one line. But developers should NOT write multiple statements in one line. That's a job of a bundler/minimizer. The bottom line, I recommend developers focus on their work and not looking for missing semicolons. Let the language use its own feature (Automatic Semicolon Insertion). 
 
 ### camelCase
 
@@ -700,17 +703,34 @@ Each Node.js script that runs is, in essence, a system process. For example, a P
 
 ***Figure 1-5.** Node.js process examples using `pid` (process ID) and `cwd` (current working directory).*
 
-TK 
-
 ### Accessing Global Scope in Node.js
 
-As you know, browser JavaScript, by default, puts everything into its global scope. On the other hand, Node.js was designed to behave differently, with everything being local by default. In case we need to access globals, there is a `global` object. And, when we need to export something, we should do so explicitly.
+Node.js is JavaScript which is a good news for front-end developers who already familiar with JavaScript. You'll learn Node quickly. But there are huge differences when it comes to global objects. In a sense, the `window` object from front-end/browser JavaScript metamorphosed into a combination of `global` and `process` objects. Needless to say, the `document` object, which represents the DOM (Document Object Model) of the web page, is nonexistent in Node.js.
 
-In a sense, the `window` object from front-end/browser JavaScript metamorphosed into a combination of `global` and `process` objects. Needless to say, the `document` object, which represents the DOM (Document Object Model) of the web page, is nonexistent in Node.js.
+`global` can be accessed from anywhere. It has special methods including familiar to you `console`, `setTimeout()`, as well as Node-specific `global.process`, `global.require()` and `global.module`.
+
+Node.js has a lot of useful information and methods in `global.process` including but not limited: 
+
+* `process.pid`: Get this process ID
+* `process.argv`: List command-line argument supplied to this process
+* `process.env`: List environment variables
+* `process.platform`: Get platform name, such as `darwin` for macOS
+* `process.release`: Get this Node release URL
+* `process.versions`: List versions of Google Chrome V8, zlib, uv, etc.
+* `process.stdin()`: Access standard input (for reading)
+* `process.stdout()`: Access standard output (for writing)
+* `process.uptime()`: How long this process is running
+* `process.memoryUsage()`: What is a memory usage
+* `process.kill()`: Terminate another process
+* `process.exit()`: Exit/terminate this process
 
 ### Exporting and Importing Modules
 
-Another *bad part* in browser JavaScript is that there is no way to include modules. Scripts are supposed to be linked together using a different language (HTML), but dependency management is lacking. [CommonJS](http://www.commonjs.org/)(<http://www.commonjs.org/>) and [RequireJS](http://requirejs.org/)(<http://requirejs.org/>) solve this problem with the AJAX-y approach. Node.js borrowed many things from the CommonJS concept.
+One of the bad parts of browser JavaScript is that there was no easy way to include other JavaScript file (modules). Browser JavaScript files are supposed to be linked together using a different language (HTML), but everything from an included file is just run without name spacing and dependency management is hard because managing a lot of `<script>` tags and files is not fun. 
+
+[CommonJS](http://www.commonjs.org/)(<http://www.commonjs.org/>) and [RequireJS](http://requirejs.org/)(<http://requirejs.org/>) solve this problem with the AJAX-y approach. ES6 solved the issue on the standard level, but lacks implementations. Node.js offers modules natively. No tools or hacks needed. Node.js borrowed many things from the browser CommonJS concept but took the implementation steps further than CommonJS. 
+
+Node.js modules are simple to learn and use. They allow of import/export only specific targeted functionality making name spacing easier unlike when you include a browser JavaScript file with a `<script>` tag.
 
 To export an object in Node.js, use `exports.name = object;`. An example follows:
 
@@ -727,13 +747,15 @@ const messages = {
 exports.messages = messages
 ```
 
+You can use `let` or `var` for `messages` in the module above, but `const` makes more sense since we are not updating this object, and can use an extra safety of `const` (respects the logical scope and prevents re-declaration). `const` will still allow you to modify object properties.
+
 While in the file where we import the aforementioned script (assuming the path and the file name is `route/messages.js`), write the following:
 
 ```js
 const messages = require('./routes/messages.js')
 ```
 
-However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals/*)(*<http://webapplog.com/express-js-fundamentals/>*) *[2013]*). In this case, `module.exports` is needed:
+However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals*)(*<http://webapplog.com/express-js-fundamentals>*) *[2013]*). In this case, `module.exports` is needed:
 
 ```js
 module.exports = (app) => {
@@ -748,22 +770,30 @@ In the file that includes the previous sample module, write
 
 ```js
 ...
-var app = express();
-var config = require('./config/index.js');
-app = config(app);
+let app = express()
+const config = require('./config/index.js')
+app = config(app)
 ...
 ```
 
-The more succinct code is `var = express(); require('./config/index.js')(app);`.
+The more succinct code is to skip the `config` variable declaration:
+
+```js
+const express = require('express')
+let app = express()
+require('./config/index.js')(app)
+```
 
 The most common mistake when including modules is creating a wrong path to the file. For core Node.js modules, use the name without any path—for example, `require('name')`. The same goes for modules in the `node_modules` folder (more on this when we examine npm later in the chapter).
 
 For all other files (i.e., not modules), use `.` with or without a file extension. An example follows:
 
 ```js
-    var keys = require('./keys.js'),
-      messages = require('./routes/messages.js');
+const keys = require('./keys.js'),
+  messages = require('./routes/messages.js')
 ```
+
+TK
 
 In addition, for including files, it’s possible to use longer statements with `__dirname` and `path.join()`—for example, `require(path.join(__dirname, ,'routes', 'messages'));`. This is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS).
 
