@@ -26,9 +26,9 @@ To get you started with MongoDB and Node.js, we examine the following in this ch
 
 ## Easy and Proper Installation of MongoDB
 
-The following steps are better suited for Mac OS X/Linux–based systems, but with some modifications they can be used for Windows systems as well (i.e., `$PATH` variable, or the slashes). Next, we look at MongoDB installation from the official package, as well as using HomeBrew for Mac OS X users (recommended) . For non-Mac users, there are [many other ways to install](http://docs.mongodb.org/manual/installation/) (<http://docs.mongodb.org/manual/installation/>).
+The following steps are better suited for macOS/Linux–based systems, but with some modifications they can be used for Windows systems as well (i.e., `$PATH` variable, or the slashes). Next, we look at MongoDB installation from the official package, as well as using HomeBrew for macOS users (recommended) . For non-Mac users, there are [many other ways to install](http://docs.mongodb.org/manual/installation/) (<http://docs.mongodb.org/manual/installation/>).
 
-The HomeBrew installation is recommended and is the easiest path (assuming Mac OS X users have `brew` installed already, which was covered in Chapter 1): `$ brew install mongodb`. If this doesn&#39;t work, try the manual path described later./).
+The HomeBrew installation is recommended and is the easiest path (assuming macOS users have `brew` installed already, which was covered in Chapter 1): `$ brew install mongodb`. If this doesn&#39;t work, try the manual path described later./).
 
 MongoDB can be downloaded at <http://www.mongodb.org/downloads>. For the latest Apple laptops, such as MacBook Air, select the OS X 64-bit version. The owners of older Macs should browse the link <http://dl.mongodb.org/dl/osx/i386>.
 
@@ -36,7 +36,7 @@ MongoDB can be downloaded at <http://www.mongodb.org/downloads>. For the latest 
 
 Unpack the package into your web development folder (`~/*Documents/Development` or any other). If you want, you could install MongoDB into the `/usr/local/mongodb` folder.
 
-_Optional:_ If you would like to access MongoDB commands from anywhere on your system, you need to add your `mongodb` path to the `$PATH` variable. For Mac OS X, you need the open-system `paths` file with
+_Optional:_ If you would like to access MongoDB commands from anywhere on your system, you need to add your `mongodb` path to the `$PATH` variable. For macOS, you need the open-system `paths` file with
 
 	$ sudo vi /etc/paths
 

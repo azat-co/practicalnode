@@ -38,7 +38,7 @@ To avoid using `sudo`, follow the instructions in Chapter 1 on how to install No
 
     $ ./node_modules/mocha/bin/mocha test_name
 
-for Mac OS X / Linux. For an example, refer to "Putting Configs into a Makefile" later in this chapter.
+for macOS / Linux. For an example, refer to "Putting Configs into a Makefile" later in this chapter.
 
 Most of you have heard about TDD and why it&#39;s a good thing to follow. The main idea of TDD is to do the following:
 
@@ -68,7 +68,7 @@ Here is a list of optional parameters (options) that the `$ mocha [options]` com
 - `-w` or `--watch`: watch test files for changes while hanging on the terminal
 - `-c` or `--colors`: enable colors
 - `-C` or `--no-colors`: disable colors
-- `-G` or `--growl`: enable Mac OS X Growl notifications
+- `-G` or `--growl`: enable macOS Growl notifications
 - `-d` or `--debug`: enable the Node.js debugger—`$ node --debug`
 - `--debug-brk`: enable the Node.js debugger breaking on the first line—`$ node --debug-brk`
 - `-b` or `--bail`: exit after the first test failure

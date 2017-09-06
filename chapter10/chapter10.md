@@ -976,7 +976,7 @@ To install Git for your OS, download a package from [the official website](http:
 
 SSH keys provide a secure connection without the need to enter username and password every time. For GitHub repositories, the latter approach is used with HTTPS URLs (e.g., `https://github.com/azat-co/rpjs.git`) and the former with SSH URLs (e.g., `git@github.com:azat-co/rpjs.git`).
 
-To generate SSH keys for GitHub on Mac OS X/Unix machines, do the following:
+To generate SSH keys for GitHub on macOS/Unix machines, do the following:
 
 1.  Check for existing SSH keys:
 

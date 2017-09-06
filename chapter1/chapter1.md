@@ -45,7 +45,7 @@ If there’s no installer for your OS (page <https://nodejs.org/en/download>), y
 
 ***Figure 1-2.** Multiple options for downloading*
 
-**Note**  For older Mac OS X machines, you can pick 32-bit versions.
+**Note**  For older macOS machines, you can pick 32-bit versions.
 
 ## Installing with HomeBrew or MacPorts
 
@@ -62,7 +62,7 @@ To install the latest Node version, run:
 $ brew upgrade node
 ```
 
-If your Mac OS X does not have HomeBrew, go to <http://brew.sh> or install it with the following command:
+If your macOS does not have HomeBrew, go to <http://brew.sh> or install it with the following command:
 
 ```sh
 $ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
@@ -554,6 +554,8 @@ var agency = function(ops) {
 
 With `class` introduced in ES2015 (ES6), things are somewhat easier especially for object-oriented programmers. A class can be extended, defined and instantiated with `extends`, `class` and `new`. 
 
+For example, this base class has constructor and a method:
+
 ```js
 class baseModel {
   constructor(options = {}, data = []) { // class constructor
@@ -566,13 +568,18 @@ class baseModel {
     console.log(`Class name: ${this.name}`)
   }
 }
+```
+
+Then we can create new class using the base class. The new class will have all the functionality of a base class from which it inherits and then some more:
+
+```js
 class AccountModel extends baseModel {
   constructor(options, data) {
-    super({private: true}, ['32113123123', '524214691']) //call the parent method with super
+    super({private: true}, ['32113123123', '524214691']) // call the parent method with super
     this.name = 'Account Model'
     this.url +='/accounts/'
   }
-  get accountsData() { //calculated attribute getter
+  get accountsData() { // calculated attribute getter
     // ... make XHR
     return this.data
   }
@@ -582,6 +589,8 @@ let accounts = new AccountModel(5)
 accounts.getName()
 console.log('Data is %s', accounts.accountsData)
 ```
+
+The results will be:
 
 ```
 Class name: Account Model
@@ -593,15 +602,10 @@ Data is %s 32113123123,524214691
 It’s important to follow the most common language conventions. Some of them are listed here:
 
 - Semicolons
-
 - camelCase
-
 - Naming
-
 - Commas
-
 - Indentations
-
 - Whitespace
 
 These JavaScript/Node.js conventions (with semicolons being an exception) are stylistic and highly preferential. They don’t impact the execution; however, it’s strongly suggested that you follow one style consistently, especially if you are a developer working in teams and/or on open-source projects. Some open-source projects might not accept pull requests if they contain semicolons (e.g., npm) or if they don’t use comma-first style (e.g., request).
@@ -611,15 +615,20 @@ These JavaScript/Node.js conventions (with semicolons being an exception) are st
 The use of semicolons is optional, except for two cases:
 
 1. In for loop construction: `for (var i=0; i++; i<n)`
-
 2. When a new line starts with parentheses, such as when using an immediately invoked function expression (IIFE): `;(function(){...}())`
+
+In this, as well as in my other books, I don't use semicolons. There are a few reasons why. If you use semicolons and forget or omit one, then you code will still work but you'll end up with inconsistency which will create a necessity for a linter or a similar tool to check for your syntax. Let's say you spotted the missing semicolon or saw a warning from a linter, then you need to go to your code and fix it. Why to go through all this trouble? 
+
+Semicolon-less code works perfectly fine except two cases shown above and when you try to multiple statements are in one line. But developers should write multiple statements in one line. That's a job of a bundler/minimizer. The bottom line, I recommend developers focus on their work and not looking for missing semicolons. Let the language use its own feature (Automatic Semicolon Insertion). 
 
 ### camelCase
 
 camelCase is the main naming pattern in JavaScript, except for class names, which are CapitalCamelCase. An example follows:
 
-    var MainView = Backbone.View.extend({...})
-    var mainView = new MainView()
+```js
+var MainView = Backbone.View.extend({...})
+var mainView = new MainView()
+```
 
 ### Naming
 
@@ -627,42 +636,71 @@ camelCase is the main naming pattern in JavaScript, except for class names, whic
 
 ### Commas
 
-An example of a comma-first approach is as follows:
+One in a while you might see comma-first style. An example of a comma-first style is as follows:
 
-    var obj = { firstName: "John"
-              , lastName: "Smith"
-              , email: "johnsmith@gmail.com"
-              }
+```js
+var obj = { firstName: "John"
+  , lastName: "Smith"
+  , email: "johnsmith@gmail.com"
+}
+```
+
+I recommend to avoid comma-first style. The *erroneous* (in my view) reason for using comma-first style was that it can make a developer work easier. However while it simplifies the removal of the last line easier, it complicates the removal of the first line. 
+
+Moreover, with ES2017/ES8 developers can use trailing commas in function calls (for arguments) in addition to object literals and arrays. I recommend using traditional style (with or without trailing comma):
+
+```js
+var obj = { firstName: "John", 
+  lastName: "Smith", 
+  email: "johnsmith@gmail.com",  // trailing comma - okay
+}
+```
 
 ### Indentation
 
-Indentation is usually done using either a tab, or four- or two-space indentation, with supporting camps split almost religiously between the two options.
+Indentation is usually done using either a tab, or four- or two-space indentation, with supporting camps split almost religiously between the two options. I recommend using two spaces because this will allow you to have more code on the screen and believe me, you'll need all the width of your code editor due to nested promises and callbacks.
+
+I recommend having the closing curly brackets on the same indentation level as the opening statement. It'll be easier to find the matching brackets. For example, like this:
+
+```js
+if (error) {
+  console.error(error)
+  process.exit(1)
+}
+```
 
 ### Whitespace
 
-Usually, there is a space before and after the `=`, `+`, `{`, and `}` symbols. There is no space on invocation (e.g., `arr.push(1);`), but there’s a space when we define an anonymous function: `function () {}`.
+Usually, there is a space before and after the `=`, `+`, `{`, and `}` symbols. There is no space on invocation (e.g., `arr.push(1);`). And there’s no space when we define an anonymous function: `function() {}`.
+
+For example, 
+
+```js
+const f = function(a, b) {
+  return a + b
+}
+f(1, 2)
+```
 
 ## Node.js Globals and Reserved Keywords
 
-Despite being modeled after one standard, Node.js and browser JavaScript differ when it comes to globals. This was done intentionally because when `var` is omitted, browser JavaScript leaks variables infamously to the global space, thus polluting it. This has been dubbed as one of the bad parts of JavaScript in the canonical book *JavaScript: The Good Parts* by Douglas Crockford (2008 O’Reilly).
-
-As you might know, in browser JavaScript we have a `window` object. However, in Node.js, it is absent (obviously we don’t deal with a browser window), but developers are provided with new objects/keywords:
+Despite being modeled after one standard, Node.js and browser JavaScript differ when it comes to globals. As you might know, in browser JavaScript we have a `window` object. However, in Node.js, it is absent (obviously we don’t deal with a browser window), but developers are provided with new objects/keywords:
 
 - `process`
-
 - `global`
-
 - `module.exports` and `exports`
 
 So, let’s take a look at the main differences between Node.js and JavaScript.
 
 ### Node.js Process Information
 
-Each Node.js script that runs is, in essence, a process. For example, `ps aux | grep 'node'` outputs all Node.js programs running on a machine. Conveniently, developers can access useful process information in code with the `process` object (e.g., `node -e "console.log(process.pid)"`), as shown in Figure 1-5.
+Each Node.js script that runs is, in essence, a system process. For example, a POSIX (Linux, macOS, etc.) command `ps aux | grep 'node'` outputs all Node.js programs running on a machine. Conveniently, developers can access useful process information in code with the `process` object (e.g., `node -e "console.log(process.pid)"`), as shown in Figure 1-5.
 
 ![alt](media/image5.png)
 
 ***Figure 1-5.** Node.js process examples using `pid` (process ID) and `cwd` (current working directory).*
+
+TK 
 
 ### Accessing Global Scope in Node.js
 
@@ -676,37 +714,45 @@ Another *bad part* in browser JavaScript is that there is no way to include modu
 
 To export an object in Node.js, use `exports.name = object;`. An example follows:
 
-    var messages = {
-      find: function(req, res, next) {
-      ...
-      },
-      add: function(req, res, next) {
-      ...
-      },
-      format: 'title | date | author'
-    }
-    exports.messages = messages;
+```js
+var messages = {
+  find: function(req, res, next) {
+  ...
+  },
+  add: function(req, res, next) {
+  ...
+  },
+  format: 'title | date | author'
+}
+exports.messages = messages
+```
 
 While in the file where we import the aforementioned script (assuming the path and the file name is `route/messages.js`), write the following:
 
-    var messages = require('./routes/messages.js');
+```js
+var messages = require('./routes/messages.js')
+```
 
 However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals/*)(*<http://webapplog.com/express-js-fundamentals/>*) *[2013]*). In this case, `module.exports` is needed:
 
-    module.exports = function(app) {
-      app.set('port', process.env.PORT || 3000);
-      app.set('views', __dirname + '/views');
-      app.set('view engine', 'jade');
-      return app;
-    }
+```js
+module.exports = function(app) {
+  app.set('port', process.env.PORT || 3000)
+  app.set('views', __dirname + '/views')
+  app.set('view engine', 'jade')
+  return app
+}
+```
 
 In the file that includes the previous sample module, write
 
-    ...
-    var app = express();
-    var config = require('./config/index.js');
-    app = config(app);
-    ...
+```js
+...
+var app = express();
+var config = require('./config/index.js');
+app = config(app);
+...
+```
 
 The more succinct code is `var = express(); require('./config/index.js')(app);`.
 
@@ -714,8 +760,10 @@ The most common mistake when including modules is creating a wrong path to the f
 
 For all other files (i.e., not modules), use `.` with or without a file extension. An example follows:
 
+```js
     var keys = require('./keys.js'),
       messages = require('./routes/messages.js');
+```
 
 In addition, for including files, it’s possible to use longer statements with `__dirname` and `path.join()`—for example, `require(path.join(__dirname, ,'routes', 'messages'));`. This is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS).
 
@@ -766,13 +814,9 @@ In addition, we have `setInterval()`, `setTimeout()`, `forEach()`, and `console`
 Unlike other programming technologies, Node.js doesn’t come with a heavy standard library. The core modules of node.js are a bare minimum, and the rest can be cherry-picked via the npm registry. The main core modules, classes, methods, and events include the following:
 
 - `http`(<http://nodejs.org/api/http.html#http_http>)
-
 - `util`(<http://nodejs.org/api/util.html>)
-
 - `querystring`(<http://nodejs.org/api/querystring.html>)
-
 - `url`(<http://nodejs.org/api/url.html>)
-
 - `fs`(<http://nodejs.org/api/fs.html>)
 
 ### [**http**](**http://nodejs.org/api/http.html**)(**<http://nodejs.org/api/http.html>**)
@@ -780,13 +824,9 @@ Unlike other programming technologies, Node.js doesn’t come with a heavy stand
 `http` is the main module responsible for the Node.js HTTP server. The main methods are as follows:
 
 - `http.createServer()`: returns a new web server object
-
 - `http.listen()`: begins accepting connections on the specified port and hostname
-
 - `http.createClient()`: is a client and makes requests to other servers
-
 - `http.ServerRequest()`: passes incoming requests to request handlers
-
 	- **data** : emitted when a part of the message body is received
 	- **end** : emitted exactly once for each request
 	- `request.method()`: the request method as a string
@@ -809,7 +849,6 @@ The util module provides utilities for debugging. One method is as follows:
 The querystring module provides utilities for dealing with query strings. Some of the methods include the following:
 
 - `querystring.stringify()`: serializes an object to a query string
-
 - `querystring.parse()`: deserializes a query string to an object
 
 ### [**url**](**http://nodejs.org/api/url.html**)(**<http://nodejs.org/api/url.html>**)
@@ -823,23 +862,20 @@ The url module has utilities for URL resolution and parsing. One method is as fo
 fs handles file system operations such as reading to and writing from files. There are synchronous and asynchronous methods in the library. Some of the methods include the following:
 
 - `fs.readFile()`: reads files asynchronously
-
 - `fs.writeFile()`: writes data to files asynchronously
 
 There is no need to install or download core modules. To include them in your application, all you need is to use the following syntax:
 
-    var http = require('http');
+```
+var http = require('http')
+```
 
 A list of noncore modules is found at the following locations:
 
 - [npmjs.org](https://npmjs.org/)(<https://npmjs.org/>): for the npm registry
-
 - [GitHub hosted list](https://github.com/joyent/node/wiki/Modules)(<https://github.com/joyent/node/wiki/Modules>): for Node.js modules maintained by Joyent
-
 - [nodetoolbox.com](http://nodetoolbox.com/)(<http://nodetoolbox.com/>): for a registry based on stats
-
 - [Nipster](http://eirikb.github.com/nipster/)(<http://eirikb.github.com/nipster/>): for npm search tools for Node.js
-
 - [Node tracking](http://nodejsmodules.org/)(<http://nodejsmodules.org/>): for a registry based on GitHub stats
 
 If you want to know how to code your own modules, take a look at the article “[Your First Node.js Module](http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module/)(<http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module/>).”
@@ -849,9 +885,7 @@ If you want to know how to code your own modules, take a look at the article “
 Although the core of the Node.js platform was, intentionally, kept small, it has some essential utilities, including the following:
 
 - [*Crypto*](*http://nodejs.org/api/crypto.html*)(*<http://nodejs.org/api/crypto.html>*): has randomizer, MD5, HMAC-SHA1, and other algorithms
-
 - [*Path*](*http://nodejs.org/api/path.html*)(*<http://nodejs.org/api/path.html>*): handles system paths
-
 - [*String decoder*](*http://nodejs.org/api/string_decoder.html*)(*<http://nodejs.org/api/string_decoder.html>*): decodes to and from buffer and string types
 
 The method we use throughout is `path.join` and it concatenates the path using an appropriate folder separator (`/` or `\\`).
@@ -860,20 +894,32 @@ The method we use throughout is `path.join` and it concatenates the path using a
 
 Reading from files is done via the core `fs` [module](http://nodejs.org/api/fs.html)(<http://nodejs.org/api/fs.html>). There are two sets of reading methods: async and sync. In most cases, developers should use async methods, such as `fs.readFile`(<http://nodejs.org/api/fs.html#fs_fs_readfile_filename_options_callback>):
 
-    var fs = require('fs');
-    var path = require('path');
-    fs.readFile(path.join(__dirname, '/data/customers.csv'), {encoding: 'utf-8'}, function (err, data) {
-      if (err) throw err;
-      console.log(data);
-    });
+```js
+const fs = require('fs')
+const path = require('path')
+fs.readFile(path.join(__dirname, '/data/customers.csv'), {encoding: 'utf-8'}, function (err, data) {
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  } else {
+    console.log(data)
+  }
+})
+```
 
 To write to the file, execute the following:
 
-    var fs = require('fs');
-    fs.writeFile('message.txt', 'Hello World!', function (err) {
-       if (err) throw err;
-      console.log('Writing is done.');
-    });
+```js
+const fs = require('fs')
+fs.writeFile('message.txt', 'Hello World!', function (err) {
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  } else {
+    console.log('Writing is done.')
+  }
+})
+```
 
 ## Streaming Data in Node.js
 
@@ -881,8 +927,10 @@ To write to the file, execute the following:
 
 Here's a basic example of using streams that output the binary file content back:
 
-    var fs = require('fs');
-    fs.createReadStream('./data/customers.csv').pipe(process.stdout);
+```js
+const fs = require('fs')
+fs.createReadStream('./data/customers.csv').pipe(process.stdout)
+```
 
 By default, Node.js uses buffers for streams. For more immersive instruction, take a look at `stream-adventure`(<http://npmjs.org/stream-adventure>) and [Stream Handbook](https://github.com/substack/stream-handbook)(<https://github.com/substack/stream-handbook>).
 
@@ -900,30 +948,32 @@ The best practice is *not to include* a `node_modules` folder in the Git reposit
 
 [Callbacks](https://github.com/maxogden/art-of-node#callbacks)(<https://github.com/maxogden/art-of-node%23callbacks>) are able to make Node.js code asynchronous, yet programmers unfamiliar with JavaScript, who work with Java or PHP, might be surprised when they see Node.js code described on [Callback Hell](http://callbackhell.com/)(<http://callbackhell.com/>):
 
-    fs.readdir(source, function(err, files) {
-      if (err) {
-        console.log('Error finding files: ' + err)
-      } else {
-        files.forEach(function(filename, fileIndex) {
-          console.log(filename)
-          gm(source + filename).size(function(err, values) {
-            if (err) {
-              console.log('Error identifying file size: ' + err)
-            } else {
-              console.log(filename + ' : ' + values)
-              aspect = (values.width / values.height)
-              widths.forEach(function(width, widthIndex) {
-                height = Math.round(width / aspect)
-                console.log('resizing ' + filename + 'to ' + height + 'x' + height)
-                this.resize(width, height).write(destination + 'w' + width + '_' + filename, function(err) {
-                  if (err) console.log('Error writing file: ' + err)
-                })
-              }.bind(this))
-            }
-          })
-        })
-      }
+```js
+fs.readdir(source, function(err, files) {
+  if (err) {
+    console.log('Error finding files: ' + err)
+  } else {
+    files.forEach(function(filename, fileIndex) {
+      console.log(filename)
+      gm(source + filename).size(function(err, values) {
+        if (err) {
+          console.log('Error identifying file size: ' + err)
+        } else {
+          console.log(filename + ' : ' + values)
+          aspect = (values.width / values.height)
+          widths.forEach(function(width, widthIndex) {
+            height = Math.round(width / aspect)
+            console.log('resizing ' + filename + 'to ' + height + 'x' + height)
+            this.resize(width, height).write(destination + 'w' + width + '_' + filename, function(err) {
+              if (err) console.log('Error writing file: ' + err)
+            })
+          }.bind(this))
+        }
+      })
     })
+  }
+})
+```
 
 There’s nothing to be afraid of here as long as two-space indentation is used. ;-) However, callback code can be rewritten with the use of event emitters or promises, or by using the async library.
 
@@ -933,41 +983,55 @@ Although, Node.js can be used for a wide variety of tasks, it’s used primarily
 
 Here’s a quintessential Hello World example in which we create a server object, define the request handler (function with req and `res` arguments), pass some data back to the recipient, and start up the whole thing (`hello.js`):
 
-    var http = require('http');
-    http.createServer( function (req, res) {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Hello World\n');
-    }).listen(1337, '127.0.0.1');
-    console.log('Server running at http://127.0.0.1:1337/');
+```js
+const http = require('http')
+http.createServer( function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'})
+  res.end('Hello World\n')
+}).listen(1337, '127.0.0.1')
+console.log('Server running at http://127.0.0.1:1337/')
+```
 
 Let’s break it down a bit (if you know this already, skip to the next section). The following loads the core `http` module for the server (more on the modules later):
 
-    var http = require('http');
+```js
+const http = require('http')
+```
 
 This snippet below creates a server with a callback function which contains the response handler code:
 
-    var server = http.createServer(function (req, res) {
+```js
+const server = http.createServer(function (req, res) {
+```
 
 To set the right header and status code, use the following:
 
-      res.writeHead(200, {'Content-Type': 'text/plain'});
+```js
+  res.writeHead(200, {'Content-Type': 'text/plain'})
+```
 
 To output Hello World with the line end symbol, use
 
-      res.end('Hello World\n');
-    });
+```js
+  res.end('Hello World\n')
+})
+```
 
 The `req` and `res` arguments have all the information about a given HTTP request and response correspondingly. In addition, `req` and `res` can be used as streams (see previous section).
 
 To make the server accept requests, use the following:
 
-    ... listen(1337, '127.0.0.1');
+```js
+server.listen(1337, '127.0.0.1')
+```
 
 From the folder in which you have server.js, launch in your terminal the following command:
 
-    $ node server.js
+```
+$ node server.js
+```
 
-Open [localhost:1337](http://localhost:1337/)(<http://localhost:1337/>) or [127.0.0.1:1337](http://127.0.0.1:1337/)(<http://127.0.0.1:1337/>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control + c (on Mac OS X).
+Open [localhost:1337](http://localhost:1337/)(<http://localhost:1337/>) or [127.0.0.1:1337](http://127.0.0.1:1337/)(<http://127.0.0.1:1337/>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control + c (on macOS X).
 
 **Note**  The name of the main file could be different from server.js (e.g., index.js or app.js). In case you need to launch the app.js file, just use `$ node app.js`.
 
@@ -1072,9 +1136,9 @@ One of the best things about Node.js is that you don’t need to compile the cod
 
 The following is a list of the most popular text editors and IDEs used in web development:
 
-- [*TextMate*](*http://macromates.com/*)(*<http://macromates.com/>*): Mac OS X version only, free 30-day trial for v1.5, dubbed *The Missing Editor for Mac OS X*
+- [*TextMate*](*http://macromates.com/*)(*<http://macromates.com/>*): macOS version only, free 30-day trial for v1.5, dubbed *The Missing Editor for macOS*
 
-- [*Sublime Text*](*http://www.sublimetext.com/*)(*<http://www.sublimetext.com/>*): Mac OS X and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
+- [*Sublime Text*](*http://www.sublimetext.com/*)(*<http://www.sublimetext.com/>*): macOS and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
 
 - [*Visual Studio Code*](*https://code.visualstudio.com/nodejs*)(*<https://code.visualstudio.com/nodejs>*): a free, cross-platform, feature-rich editor by Microsoft powered by Node.js. It includes a built-in terminal, Node.js debugging, and lots of handy extensions.
 
