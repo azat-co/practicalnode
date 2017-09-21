@@ -793,21 +793,22 @@ const keys = require('./keys.js'),
   messages = require('./routes/messages.js')
 ```
 
-TK
 
-In addition, for including files, it’s advisable to use statements with `__dirname` and `path.join()` to insure the paths work across-platforms. For example, to include a file messages.js in a routes folder inside a folder of the current script:
+In addition, for including files it’s advisable to use statements with `__dirname` and `path.join()` to insure the paths work across-platforms. For example, to include a file `messages.js` in a `routes` folder which itself is inside a folder where the currently running script is, use:
 
 ```js
-require(path.join(__dirname, 'routes', 'messages.js'))
+const messages = require(path.join(__dirname, 'routes', 'messages.js'))
 ```
 
-This is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS). You'll also use absolute path which will make `require()` behave in a more robust and predictable manner.
+Using `path.join()` is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS). You'll also use absolute path which will make `require()` behave in a more robust and predictable manner.
 
-Oh yeah, if `require()` points to a folder, Node.js attempts to read the `index.js` file in that folder. For example, the following statement will import file index.js in the folder routes/messages *if* there's no file messages.js in routes:
+Oh yeah, if `require()` points to a folder, Node.js attempts to read the `index.js` file in that folder. For example, the following statement will import file `index.js` in the folder `routes/messages` *if* there's no file `messages.js` in `routes`:
 
 ```
-require(path.join(__dirname, 'routes', 'messages'))
+const messages = require(path.join(__dirname, 'routes', 'messages'))
 ```
+
+There's another variable related to paths.
 
 ## __dirname vs. process.cwd
 
@@ -918,25 +919,20 @@ There is no need to install or download core modules. To include them in your ap
 const http = require('http')
 ```
 
-TK
+Node comes with core modules but most developers rely on the vast ecosystem of community-created  FOSS (free and open-source) modules. These modules often allow developers to not write code because  a module has all the functionality needed. With large number of modules, it's important to find just the right one for the job. The best place to start your search for a module is your favorite search engine such as Google, Bing or DuckDuckGo. A list of noncore modules is found at the following locations:
 
-A list of noncore modules is found at the following locations:
-
-- [npmjs.org](https://npmjs.org) (<https://npmjs.org>): for the npm registry
-- [GitHub hosted list](https://github.com/joyent/node/wiki/Modules) (<https://github.com/joyent/node/wiki/Modules>): for Node.js modules maintained by Joyent
-- [nodetoolbox.com](http://nodetoolbox.com) (<http://nodetoolbox.com>): for a registry based on stats
-- [Nipster](http://eirikb.github.com/nipster) (<http://eirikb.github.com/nipster>): for npm search tools for Node.js
-- [Node tracking](http://nodejsmodules.org) (<http://nodejsmodules.org>): for a registry based on GitHub stats
-
-If you want to know how to code your own modules, take a look at the article “[Your First Node.js Module](http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module) (<http://cnnr.me/blog/2012/05/27/your-first-node-dot-js-module>).”
+- [npm search](https://www.npmjs.com/browse/keyword/search): <https://www.npmjs.com/browse/keyword/search>: the main npm search by npm itself
+- [node-modules.com](http://node-modules.com) (<http://node-modules.com>): search for npm
+- [Nipster](http://nipstr.com) (<http://nipstr.com>): npm search combined with GitHub stats
+- [npms.io](https://npms.io) (<https://npms.io>): another search for npm
 
 ## Handy Node.js Utilities
 
 Although the core of the Node.js platform was, intentionally, kept small, it has some essential utilities, including the following:
 
-- [*Crypto*](*http://nodejs.org/api/crypto.html*)(*<http://nodejs.org/api/crypto.html>*): has randomizer, MD5, HMAC-SHA1, and other algorithms
-- [*Path*](*http://nodejs.org/api/path.html*)(*<http://nodejs.org/api/path.html>*): handles system paths
-- [*String decoder*](*http://nodejs.org/api/string_decoder.html*)(*<http://nodejs.org/api/string_decoder.html>*): decodes to and from buffer and string types
+- [*Crypto*](*http://nodejs.org/api/crypto.html*) (*<http://nodejs.org/api/crypto.html>*): has randomizer, MD5, HMAC-SHA1, and other algorithms
+- [*Path*](*http://nodejs.org/api/path.html*) (*<http://nodejs.org/api/path.html>*): handles system paths
+- [*String decoder*](*http://nodejs.org/api/string_decoder.html*) (*<http://nodejs.org/api/string_decoder.html>*): decodes to and from buffer and string types
 
 The method we use throughout is `path.join` and it concatenates the path using an appropriate folder separator (`/` or `\\`).
 
@@ -947,7 +943,9 @@ Reading from files is done via the core `fs` [module](http://nodejs.org/api/fs.h
 ```js
 const fs = require('fs')
 const path = require('path')
-fs.readFile(path.join(__dirname, '/data/customers.csv'), {encoding: 'utf-8'}, (err, data) => {
+fs.readFile(path.join(__dirname, 
+  '/data/customers.csv'), 
+  {encoding: 'utf-8'}, (err, data) => {
   if (err) {
     console.error(err)
     process.exit(1)
@@ -961,7 +959,8 @@ To write to the file, execute the following:
 
 ```js
 const fs = require('fs')
-fs.writeFile('message.txt', 'Hello World!', (err) => {
+fs.writeFile('message.txt', 
+  'Hello World!', (err) => {
   if (err) {
     console.error(err)
     process.exit(1)
@@ -973,9 +972,9 @@ fs.writeFile('message.txt', 'Hello World!', (err) => {
 
 ## Streaming Data in Node.js
 
-*Streaming data* is a phrase that means an application processes the data while it’s still receiving it. This feature is useful for extra large datasets such as video or database migrations.
+*Streaming data* means an application processes the data while it’s still receiving it. Node has supports for streams. This feature is useful for extra large datasets such as video or database migrations.
 
-Here's a basic example of using streams that output the binary file content back:
+Here's a basic example of using streams that reads a file as a stream and outputs the binary file content back to the standard output:
 
 ```js
 const fs = require('fs')
@@ -986,7 +985,7 @@ By default, Node.js uses buffers for streams. For more immersive instruction, ta
 
 ## Installing Node.js Modules with npm
 
-npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html) (<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, `$ npm install superagent;` in the program.js write: `var superagent = require('superagent');`.
+npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html) (<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, `$ npm install superagent` in the program.js write: `const superagent = require('superagent')`.
 
 The best thing about npm is that it keeps all the dependencies local, so if module A uses module B v1.3, and module C uses module B v2.0 (with breaking changes compared with v1.3), both A and C will have their own localized copies of different versions of B. This proves to be a more superior strategy than that of Ruby and other platforms that use global installations by default.
 
@@ -1025,27 +1024,30 @@ fs.readdir(source, (err, files) => {
 })
 ```
 
-There’s nothing to be afraid of here as long as two-space indentation is used. ;-) However, callback code can be rewritten with the use of event emitters or promises, or by using the async library.
+There’s nothing to be afraid of here as long as two-space indentation is used. ;-) However, callback code can be rewritten with the use of event emitters or promises, or by using the [`async`](https://www.npmjs.com/package/async) library.
 
 ## Hello World Server with HTTP Node.js Module
 
 Although, Node.js can be used for a wide variety of tasks, it’s used primarily for building web applications. Node.js thrives in the network as a result of its asynchronous nature and built-in modules such as `net` and `http`.
 
-Here’s a quintessential Hello World example in which we create a server object, define the request handler (function with req and `res` arguments), pass some data back to the recipient, and start up the whole thing (`hello.js`):
+Here’s a quintessential Hello World example in which we create a server object, define the request handler (function with `req` and `res` arguments), pass some data back to the recipient, and start up the whole thing (`hello.js`):
 
 ```js
 const http = require('http')
+const port = 3000
 http.createServer((req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'})
   res.end('Hello World\n')
-}).listen(1337, '127.0.0.1')
-console.log('Server running at http://127.0.0.1:1337/')
+}).listen(3000, ()=>{
+  console.log(`Server running at http://localhost:${port}`)
+})
 ```
 
 Let’s break it down a bit (if you know this already, skip to the next section). The following loads the core `http` module for the server (more on the modules later):
 
 ```js
 const http = require('http')
+const port = 3000
 ```
 
 This snippet below creates a server with a callback function which contains the response handler code:
@@ -1072,18 +1074,20 @@ The `req` and `res` arguments have all the information about a given HTTP reques
 To make the server accept requests, use the following:
 
 ```js
-server.listen(1337, '127.0.0.1')
+}).listen(3000, ()=>{
+  console.log(`Server running at http://localhost:${port}`)
+})
 ```
 
-From the folder in which you have server.js, launch in your terminal the following command:
+From the folder in which you have `server.js`, launch in your terminal the following command:
 
 ```
 $ node server.js
 ```
 
-Open [localhost:1337](http://localhost:1337) (<http://localhost:1337>) or [127.0.0.1:1337](http://127.0.0.1:1337) (<http://127.0.0.1:1337>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control + c (on macOS X).
+Open [localhost:3000](http://localhost:3000) (<http://localhost:3000>) or [127.0.0.1:3000](http://127.0.0.1:3000) (<http://127.0.0.1:3000>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control + c (on macOS X).
 
-**Note**  The name of the main file could be different from server.js (e.g., index.js or app.js). In case you need to launch the app.js file, just use `$ node app.js`.
+**Note**  The name of the main file could be different from `server.js` (e.g., `index.js` or `app.js`). In case you need to launch the `app.js` file, just use `$ node app.js`.
 
 # Debugging Node.js Programs
 
@@ -1091,7 +1095,7 @@ Modern-day software developers, especially those who use compiled languages such
 
 Now, there are amazing environments such as Chrome Developer Tools and Firefox Firebug, and because Node.js has a lot of things in common with the browser JavaScript environment, we have plenty of options for debugging in Node.js, including the following:
 
-- *Core Node.js Debugger*: a nongraphic user interface (non-GUI) minimalistic tool that works everywhere
+- *Core Node.js Debugger*: a non-graphic user interface (non-GUI) minimalistic tool that works everywhere
 - *Node Inspector*: port of Google Chrome Developer Tools
 - WebStorm and other IDEs (covered in the next section)
 
@@ -1103,13 +1107,14 @@ For example, the Hello World from the previous section can be enhanced with `deb
 
 ```js
 const http = require('http')
-debugger
+const port = 3000
 http.createServer((req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'})
-  debugger
+  debugger  
   res.end('Hello World\n')
-}).listen(1337, '127.0.0.1')
-console.log('Server running at http://127.0.0.1:1337/')
+}).listen(3000, ()=>{
+  console.log(`Server running at http://localhost:${port}`)
+})
 ```
 
 Now, if we run the previous snippet (`hello-debug.js`), just like we did earlier (`$ node hello-debug.js`), nothing changes, because we need to use `$ node debug hello-debug.js`. And only then, the execution halts at the first line, and then again on the next `debugger` statement if we use the `cont` command.
@@ -1124,7 +1129,7 @@ The main node debug commands are as follows:
 
 The full list of commands is available through the `help` command or on [the official web site](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
 
-So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at (<http://localhost:1337>) or execute `$ curl "http://localhost:1337/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
+So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at (<http://localhost:3000>) or execute `$ curl "http://localhost:3000/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
 
 ## Debugging with Node Inspector
 
@@ -1212,9 +1217,11 @@ For most developers, a simple code editor such as Sublime Text 2, TextMate, or E
 
 # Watching for File Changes
 
-If you are familiar with watching for file changes or it’s not an issue for you, feel free to skip this section.
+If you are familiar with tool that are watching for file changes and restarting apps, or it’s not an issue for you, feel free to skip this section. All other developers must pay attention. 
 
-Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control + c on Macs and Ctrl + c on Windows). However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch`(<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) method from the core Node.js `fs` module and restart servers when we save changes from an editor:
+Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control + c on Macs and Ctrl + c on Windows). 
+
+However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch`(<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) method from the core Node.js `fs` module and restart servers when we save changes from an editor:
 
 - [forever](http://npmjs.org/forever) (<http://npmjs.org/forever>) ([GitHub](http://github.com/nodejitsu/forever)) (<http://github.com/nodejitsu/forever>), usually used in production (we examine this topic in Chapter 11)
 - [node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>) ([GitHub](https://github.com/fgnass/node-dev)) (<https://github.com/fgnass/node-dev>)
