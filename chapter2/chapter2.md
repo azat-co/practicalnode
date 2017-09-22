@@ -42,54 +42,57 @@ To illustrate my point, here is an example of a two-route representational state
 
  (REST) API server, i.e., we have only two end points and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external native MongoDB driver module is used for persistence. This example is taken from beginner-friendly [Rapid Prototyping with JS](http://rpjs.co) (<http://rpjs.co>): Agile JavaScript Development by Azat Mardan [2013]:
 
-    var http = require('http');
-    var util = require('util');
-    var querystring = require('querystring');
-    var mongo = require('mongodb');
+```js
+const http = require('http');
+const util = require('util');
+const querystring = require('querystring');
+const mongo = require('mongodb');
 
-    var host = process.env.MONGOHQ_URL ||
-      'mongodb://@127.0.0.1:27017';
-    //MONGOHQ_URL=mongodb://user:pass@server.mongohq.com/db_name
-    mongo.Db.connect(host, function(error, client) {
-      if (error) throw error;
-      var collection = new mongo.Collection(
-         client,
-        'test_collection'
-      );
-      var app = http.createServer(
-        function (request, response) {
-          if (
-            request.method === 'GET' &&
-            request.url === '/messages/list.json'
-          ) {
-            collection.find().toArray(function(error, results) {
-              response.writeHead(
-                200,
-                {'Content-Type': 'text/plain'}
-              );
-              console.dir(results);
-            response.end(JSON.stringify(results));
-          });
-        };
-        if (
-          request.method === "POST" &&
-          request.url === "/messages/create.json"
-        ) {
-          request.on('data', function(data) {
-            collection.insert(
-              querystring.parse(data.toString('utf-8')),
-              {safe: true},
-              function(error, obj) {
-                if (error) throw error;
-                response.end(JSON.stringify(obj));
-              }
-            );
-          });
-        };
-      });
-      var port = process.env.PORT || 5000;
-      app.listen(port);
-    })
+const host = process.env.MONGOHQ_URL ||
+    'mongodb://@127.0.0.1:27017';
+//MONGOHQ_URL=mongodb://user:pass@server.mongohq.com/db_name
+mongo.Db.connect(host, (error, client) => {
+  if (error) throw error;
+  let collection = new mongo.Collection(
+    client,
+    'test_collection'
+  );
+  let app = http.createServer(
+    (request, response) => {
+      if (
+        request.method === 'GET' &&
+        request.url === '/messages/list.json'
+      ) {
+        collection.find().toArray((error, results) => {
+          response.writeHead(
+            200,
+            {'Content-Type': 'text/plain'}
+          );
+          console.dir(results);
+        response.end(JSON.stringify(results));
+        });
+      };
+      if (request.method === "POST" &&
+        request.url === "/messages/create.json"
+      ) {
+        request.on('data', (data) => {
+          collection.insert(
+            querystring.parse(data.toString('utf-8')),
+            {safe: true},
+            (error, obj) => {
+            if (error) throw error;
+            response.end(JSON.stringify(obj));
+            }
+          );
+        });
+      };
+    }
+  );
+  const port = process.env.PORT || 5000;
+  app.listen(port);
+})
+```
+
 As you can see, developers have to do a lot of manual work themselves, such as interpreting HTTP methods and URLs into routes, and parsing input and output data.
 
 Express.js solves these and many other problems as abstraction and code organization. The framework provides a model-view-controller-like (MVC-like) structure for your web apps with a clear separation of concerns (views, routes, models).
@@ -224,7 +227,10 @@ The following is the `package.json` file with an added Express.js v4.1.2 depende
       "author": "",
       "license": "BSD"
     }
-    $ npm install
+
+```   
+$ npm install
+```
 
 In the Figure 2-3, we show the result of install Express.js v4.1.2 locally, into the `node_modules` folder. Please notice the path after the `express@4.1.2` string in Figure 2-3 this time it&#39;s local and not global, as in the case of `express-generator`.
 
@@ -250,7 +256,7 @@ If you followed the global installation instructions in the installation section
 
 To generate a skeleton Express.js app, we need to run a terminal command— `express [options] [dir|appname]`—the options for which are the following:
 
-- `-e`, `--ejs`: add [EJS](http://embeddedjs.com) (<http://embeddedjs.com>) engine support (by default, [Jade](http://jade-lang.com/tutorial) (<http://jade-lang.com/tutorial>) is used)
+- `-e`, `--ejs`: add [EJS](http://embeddedjs.com) (<http://embeddedjs.com>) engine support (by default, Pug is used)
 - `-H`, `--hogan`: add Hogan.js engine support
 - `-c <engine>`, `--css <engine>`: add stylesheet `<engine>` support, such as [LESS](http://lesscss.org) (<http://lesscss.org>), [Stylus](http://learnboost.github.io/stylus) (<http://learnboost.github.io/stylus>) or Compass(<http://compass-style.org>) (by default, plain CSS is used)
 
@@ -268,7 +274,7 @@ Now that we&#39;re clear with the command and its options, let&#39;s go step by 
 
 4. Understand the different sections, such as routes, middleware, and configuration.
 
-5. Peek into the Jade template (more on this in Chapter 3).
+5. Peek into the Pug template (more on this in Chapter 3).
 
 ## Express.js Command-Line Interface
 
@@ -289,64 +295,66 @@ Open the browser of your choice at <http://localhost:3000>.
 
 If you don&#39;t have computer in front of your right now, here&#39;s the full code of `express-styl/app.js` using Express.js Generator v4.0.0:
 
-    var express = require('express');
-    var path = require('path');
-    var favicon = require('static-favicon');
-    var logger = require('morgan');
-    var cookieParser = require('cookie-parser');
-    var bodyParser = require('body-parser');
+```js
+const express = require('express');
+const path = require('path');
+const favicon = require('static-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-    var routes = require('./routes/index');
-    var users = require('./routes/users');
+const routes = require('./routes/index');
+const users = require('./routes/users');
 
-    var app = express();
+let app = express();
 
-    // view engine setup
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'jade');
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-    app.use(favicon());
-    app.use(logger('dev'));
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded());
-    app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-    app.use('/', routes);
-    app.use('/users', users);
+app.use('/', routes);
+app.use('/users', users);
 
-    /// catch 404 and forwarding to error handler
-    app.use(function(req, res, next) {
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
+/// catch 404 and forwarding to error handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+/// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
     });
+  });
+}
 
-    /// error handlers
+// production error handler
+// no stacktraces leaked to user
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
 
-    // development error handler
-    // will print stacktrace
-    if (app.get('env') === 'development') {
-        app.use(function(err, req, res, next) {
-            res.status(err.status || 500);
-            res.render('error', {
-                message: err.message,
-                error: err
-            });
-        });
-    }
-
-    // production error handler
-    // no stacktraces leaked to user
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: {}
-        });
-    });
-
-    module.exports = app;
+module.exports = app;
+```
 
 ## Routes in Express.js
 
@@ -365,25 +373,27 @@ By default, Express.js doesn&#39;t allow developers to route by query string arg
 
 However, it&#39;s trivial to write your own middleware. It might look like this:
 
-    app.use(function (req, res, next) {
-      if (req.query.id) {
-        // process the id, then call next() when done
-      else if (req.query.author) {
-        // same approach as with id
-      else if (req.query.id && req.query.ref) {
-        // process when id and ref present
-      } else {
-        next();
-      }
-    });
+```js
+app.use((req, res, next) => {
+  if (req.query.id) {
+    // process the id, then call next() when done
+  else if (req.query.author) {
+    // same approach as with id
+  else if (req.query.id && req.query.ref) {
+    // process when id and ref present
+  } else {
+    next();
+  }
+});
 
-    app.get('/about', function (req, res, next) {
-        // this code is executed after the query string middleware
-    });
+app.get('/about', (req, res, next) => {
+    // this code is executed after the query string middleware
+});
+```
 
 The request handler itself (`index.js`, in this case) is straightforward. Everything from the HTTP request is in `req` and it writes results to the response in `res`:
 
-    exports.list = function(req, res){
+    exports.list = (req, res) => {
       res.send('respond with a resource');
     };
 
@@ -391,17 +401,19 @@ The request handler itself (`index.js`, in this case) is straightforward. Everyt
 
 Each line/statement above the routes in `app.js` is middleware:
 
-    var favicon = require('static-favicon');
-    var logger = require('morgan');
-    var cookieParser = require('cookie-parser');
-    var bodyParser = require('body-parser');
-    //...
-    app.use(favicon());
-    app.use(logger('dev'));
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded());
-    app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, 'public')));
+```js
+const favicon = require('static-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+//...
+app.use(favicon());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+```
 
 The middleware includes pass-through functions that either do something useful or add something helpful to the request as it travels along each of them. For example, `bodyParser()` and `cookieParser()` add HTTP request payload (`req.body`) and parsed cookie data (`req.cookie`), respectively. And in our `app.js`, `app.use(logger('dev'));` is tirelessly printing in the terminal pretty logs for each request. In Express.js 3.x many, of these middleware were part of the Express.js module, but not in version 4.x. For this reason the generator declared and included, and we installed additional modules like `static-favicon`, `morgan`, `cookie-parser` and `body-parser`.
 
@@ -410,7 +422,7 @@ The middleware includes pass-through functions that either do something useful o
 Here is how we define configuration statements in a typical Express.js app (the `app.js` file):
 
     app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'jade');
+    app.set('view engine', 'pug');
 
 And in bin/www:
 
@@ -420,9 +432,9 @@ An ordinary setting involves a name, such as `views`, and a value, such as `path
 
 Sometimes there is more than one way to define a certain setting. For example, `app.enable('trust proxy')` for Boolean flags is identical (aka, sugar-coating) to `app.set('trust proxy', true)`. The Chapter 11 explains why we might need to trust proxy.
 
-## Jade Is Haml for Express.js/Node.js
+## Pug Is Haml for Express.js/Node.js
 
-The Jade template engine is akin to the Ruby on Rails’ Haml in the way it uses whitespace and indentation, such as `layout.jade`:
+The Pug template engine is akin to the Ruby on Rails’ Haml in the way it uses whitespace and indentation, such as `layout.pug`:
 
     doctype html
     html
@@ -432,7 +444,7 @@ The Jade template engine is akin to the Ruby on Rails’ Haml in the way it uses
       body
         block content
 
-Other than that, it&#39;s possible to use a full-blown JavaScript code inside of Jade templates with the `-` prefix. More information on Jade and Handlebars template engines is in Chapter 4.
+Other than that, it&#39;s possible to use a full-blown JavaScript code inside of Pug templates with the `-` prefix. More information on Pug and Handlebars template engines is in Chapter 4.
 
 ## Conclusion About Scaffolding
 
@@ -463,7 +475,7 @@ From a developer&#39;s point of view, the app has the following elements:
 - *Node.js project file* `package.json`: dependencies and other meta data
 - *Dependencies in* `node_modules`: third-party modules installed via `package.json`
 - *Database*: an instance of MongoDB and some seed data
-- *Templates*: the `*.jade` files
+- *Templates*: the `*.pug` files
 - *Static files*: such as `*.css` or browser `*.js`
 - *Configuration file* `config.json`: security-insensitive applicationwide settings, such as app title
 
@@ -511,7 +523,7 @@ This is the first and the last hello world example in this book! :-) The goal is
 
 - The app.js file
 
-- Meet Jade
+- Meet Pug
 
 - Running the app
 
@@ -521,7 +533,7 @@ Express.js is very configurable and almost all folders can be renamed. However, 
 
 - `node_modules`: dependencies (third-party modules) live here as well as Express.js and Connect libraries
 
-- `views`: Jade (or any other template engine) files
+- `views`: Pug (or any other template engine) files
 
 That&#39;s it for now, but if you want to create a few more folders for other examples (that we&#39;ll cover in the later chapters), be my guest:
 
@@ -561,18 +573,19 @@ For the Blog app, we need the following modules, which are the latest as of this
 
 - Express.js: 4.1.2
 
-- Jade: 1.3.1
+- Pug: 2.0.0-rc.4
 
 - Mongoskin: 0.6.1
 
 - Stylus: 0.44.0
 
-**Warning**: Feel free to update to newer versions. However, your results might vary, because it&#39;s very common in the Node.js ecosystem (“userland”) to see breaking changes introduced by new versions. This usually happens unintentionally by the dependency of a dependency. For example, even if we include a specific version of Express.js such as 3.4.5, that module includes Jade with a wildcard `*`, and then on Jade&#39;s breaking update, our app will suffer damage. The cure is to commit your `node_modules` folder along with the rest of the source code to a Git repository and use that instead of fetching modules according to `package.json` each time on deployment. Or use npm&#39;s shrinkwarp feature. Read more about this issue in Chapter 12.
+**Warning**: Feel free to update to newer versions. However, your results might vary, because it&#39;s very common in the Node.js ecosystem (“userland”) to see breaking changes introduced by new versions. This usually happens unintentionally by the dependency of a dependency. For example, even if we include a specific version of Express.js such as 3.4.5, that module includes Pug with a wildcard `*`, and then on Pug&#39;s breaking update, our app will suffer damage. The cure is to commit your `node_modules` folder along with the rest of the source code to a Git repository and use that instead of fetching modules according to `package.json` each time on deployment. Or use npm&#39;s shrinkwarp feature. Read more about this issue in Chapter 12.
 
 ## Dependency Declaration: npm install
 
 Another way to create a `package.json` file (without using `$ npm init`) is to type or copy and paste `package.json` and run `$ npm install`:
 
+```js
     {
       "name": "hello-world",
       "version": "0.0.1",
@@ -582,11 +595,12 @@ Another way to create a `package.json` file (without using `$ npm init`) is to t
       },
       "dependencies": {
         "express": "4.1.2",
-        "jade": "1.3.1",
+        "pug": "2.0.0-rc.4",
         "mongoskin": "1.4.1",
         "stylus": "0.44.0"
       }
     }
+```
 
 In the end, the `node_modules` folder should be filled with the corresponding libraries.
 
@@ -605,17 +619,11 @@ Let&#39;s create the first iteration of `app.js`.
 The `app.js` file is the main file for this example. A typical structure of the main Express.js file consists of the following areas (this may be a partial repeat from an earlier section, but this is important, so bear with me):
 
 1. Require dependencies
-
 2. Configure settings
-
 3. Connect to database (*optional*)
-
 4. Define middleware
-
 5. Define routes
-
 6. Start the server
-
 7. Start workers with clusters (a term spawn workers is also used for this)(*optional*)
 
 The order here is important, because requests travel from top to bottom in the chain of middleware.
@@ -626,36 +634,43 @@ Open `app.js` in a code editor of your choice and start writing (or just copy co
 
 First, all the dependencies need to be included with `require()`:
 
-    var express = require('express');
-    var http = require('http');
-    var path = require('path');
+```js
+const express = require('express');
+const http = require('http');
+const path = require('path');
+```
 
 Then, the Express.js object is instantiated (Express.js uses a functional pattern):
 
-    var app = express();
+```js
+let app = express();
+```
 
 One of the ways to configure Express.js settings is to use `app.set()`, with the name of the setting and the value. For example:
 
-`app.set('appName', hello-world');`
+```js
+app.set('appName', hello-world');
+```
 
 Let&#39;s define a few such configurations in `app.js`:
 
 - `port`: a number on which our server should listen to requests
 - `views`: absolute path to the folder with template (views in our example)
-- `view engine`: file extension for the template files (for example, `jade`, `html`)
+- `view engine`: file extension for the template files (for example, `pug`, `html`)
 
 If we want to use the port number provided in the environmental variables (env vars), this is how to access it: `process.env.PORT`.
 
 So let&#39;s write the code for the settings we listed earlier:
 
-    app.set('port', process.env.PORT || 3000);
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'jade');
+```js
+app.set('port', process.env.PORT || 3000);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+```
 
 Next comes the middleware section of the application. Middleware is the backbone of the Express.js framework and it comes in two flavors:
 
 1. Defined in external (third-party)modules, such as `bodyParser.json` from Connect/Express.js `body-parser`: `app.use(bodyParser.json());`
-
 2. Defined in the app or its modules, such as `app.use(function(req, res, next){...});`
 
 Middleware is a way to organize and reuse code, and, essentially, it is nothing more than a function with three parameters: `request`, `response`, and `next`. We&#39;ll use more middleware (for example, for authorization and for persistence) in Chapter 6, but for now, its use is minimal.
@@ -667,13 +682,9 @@ An illustration in Figure 2-11 shows how an HTTP request is processed.
 The next section is where we define routes themselves (the order in `app.js` matters). The way routes are defined in Express.js is with helpers `app.VERB(url, fn1, fn2, ..., fn)`, where `fnNs` are request handlers, `url` is on a URL pattern in RegExp, and `VERB` values are as follows:
 
 - `all`: catch every request (all methods)
-
 - `get`: catch GET requests
-
 - `post`: catch POST requests
-
 - `put`: catch PUT requests
-
 - `del`: catch DELETE requests
 
 **Note**: `del` and `delete` methods are aliases, just remember that `delete` is a valid operator in JavaScript/ECMAScript, and therefore in Node.js. The operator removes a property from an object, e.g., `delete books.nodeInAction`.
@@ -686,88 +697,101 @@ Figure 2-11 shows how a trivial request might travel across the web and the Expr
 
 In this Hello World example, remove a single route is used to catch requests of all methods on all URLs (`*` wildcard):
 
-    app.all('*', function(req, res) {
-      ...
-    })
+```js
+app.all('*', (req, res) => {
+  ...
+})
+```
 
 Inside the request handler, a template is rendered (`res.render()` function) with a message `msg` (property of the second argument):
 
-    app.all('*', function(req, res) {
-        res.render('index', {msg: 'Welcome to the Practical Node.js!'})
-    })
+```js
+app.all('*', function(req, res) {
+  res.render('index', {msg: 'Welcome to the Practical Node.js!'})
+})
+```
 
 The `res.render(viewName, data, callback(error, html))` where parameters mean following:
 
 - `viewName`: a template name with filename extension or if `view engine` is set without the extension is set without the extension
-- `data`: an optional object that is passed as `locals`; for example, to use `msg` in Jade, we need to have `{msg: "..."}`
+- `data`: an optional object that is passed as `locals`; for example, to use `msg` in Pug, we need to have `{msg: "..."}`
 - `callback`: an optional function that is called with an error and HTML when the compilation is complete
 
 `res.render()` is not in the Node.js core and is purely an Express.js addition that, if invoked, calls core `res.end()`, which ends/completes the response. In other words, the middleware chain doesn&#39;t proceed after `res.render()`. `res.render` is highlighted in chapter 4.
 
 Last but not least are the instructions to start the server, which consist of the core `http` module and its `createServer` method. In this method, the system passes the Express.js `app` object with all the settings and routes:
 
-    http.createServer(app).listen(app.get('port'), function(){
-      console.log('Express server listening on port ' + app.get('port'));
-    });
+```js
+http.createServer(app).listen(app.get('port'), () => {
+  console.log(`Express server listening on port ${app.get('port')}`);
+});
+```
 
 Here&#39;s the full source code of the `app.js` file for your reference:
 
-    var express = require('express');
+```js
+const express = require('express');
 
-    var http = require('http');
-    var path = require('path');
+const http = require('http');
+const path = require('path');
 
-    var app = express();
+let app = express();
 
-    app.set('port', process.env.PORT || 3000);
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'jade');
+app.set('port', process.env.PORT || 3000);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-    app.all('*', function(req, res) {
-      res.render(
-        'index',
-         {msg: 'Welcome to the Practical Node.js!'}
-      );
-    });
+app.all('*', (req, res) => {
+  res.render(
+    'index',
+    {msg: 'Welcome to the Practical Node.js!'}
+  );
+});
 
-    http
-      .createServer(app)
-      .listen(
-        app.get('port'),
-        function(){
-          console.log(
-           'Express.js server listening on port ' +
-            app.get('port')
-          );
-        }
-      );
+http
+  .createServer(app)
+  .listen(
+    app.get('port'),
+    () => {
+      console.log(`Express.js server listening on port ${app.get('port')}`);
+    }
+  );
+```
 
-Before we can run this server, we need to create the `index.jade` file.
+Before we can run this server, we need to create the `index.pug` file.
 
-## Meet Jade: One Template to Rule Them All
+## Meet Pug: One Template to Rule Them All
 
-Jade is an absolutely amazing template engine that allows developers to type less code and to execute powerfully almost all JavaScript functions. It also supports top-to-bottom and bottom-to-top inclusion and other useful things. Like its brother from the Ruby world, Haml, Jade uses whitespace/indentation as a part of its language. It&#39;s a convention to use two-space indentation.
+Pug is an absolutely amazing template engine that allows developers to type less code and to execute powerfully almost all JavaScript functions. It also supports top-to-bottom and bottom-to-top inclusion and other useful things. Like its brother from the Ruby world, Haml, Pug uses whitespace/indentation as a part of its language. It&#39;s a convention to use two-space indentation.
 
-The Jade syntax and its features are covered more extensively in Chapter 4. For now, just keep in mind that the way Jade works is that the first word is used as an HTML tag (HTML element) and the text that follows (a.k.a., inner text), is put inside this element. For example,
+The Pug syntax and its features are covered more extensively in Chapter 4. For now, just keep in mind that the way Pug works is that the first word is used as an HTML tag (HTML element) and the text that follows (a.k.a., inner text), is put inside this element. For example,
 
-    h1 hello
-    p Welcome to the Practical Node.js!
+```pug
+h1 hello
+p Welcome to the Practical Node.js!
+```
 
 Produces the following HTML code:
 
-    <h1>hello</h1>
-    <p>Welcome to the Practical Node.js!</p>
+```html
+<h1>hello</h1>
+<p>Welcome to the Practical Node.js!</p>
+```
 
 If we want to output a value of a variable (called `locals`), we use `=`. For example:
 
-    p= msg
+```pug
+p= msg
+```
 
-For this example, create `index.jade` in the `views` folder that outputs a header and a paragraph with the value `msg` variable inside of that paragraph (i.e., inner text):
+For this example, create `index.pug` in the `views` folder that outputs a header and a paragraph with the value `msg` variable inside of that paragraph (i.e., inner text):
 
-    h1 hello
-    p= msg
+```pug
+h1 hello
+p= msg
+```
 
-There are more advanced examples of Jade included later in this book; but, for now, everything is set for the first demo!
+There are more advanced examples of Pug included later in this book; but, for now, everything is set for the first demo!
 
 ## Running the Hello World App
 
@@ -777,8 +801,8 @@ When we run the `$ node app` command and open browsers at <http://localhost:3000
 
 ***Figure 2-12.** The Hello World app in action*
 
-Nothing fancy so far, but it&#39;s worth pointing out that it took us just a few lines (the `app.js` file) to write a fully functional HTTP server! In the next chapter, we add more new and exciting pages using Jade instructions.
+Nothing fancy so far, but it&#39;s worth pointing out that it took us just a few lines (the `app.js` file) to write a fully functional HTTP server! In the next chapter, we add more new and exciting pages using Pug instructions.
 
 # Summary
 
-In this chapter we learned what Express.js is and how it works. We also explored different ways to install it and use its scaffolding (command-line tool) to generate apps. We went through the Blog example with a high-level overview (traditional vs. REST API approaches), and proceeded with creating the project file, folders, and the simple Hello World example, which serves as a foundation for the book&#39;s main project: the Blog app. And then lastly, we touched on a few topics such as settings, a typical request process, routes, AJAX versus server side, Jade, templates, and middleware.
+In this chapter we learned what Express.js is and how it works. We also explored different ways to install it and use its scaffolding (command-line tool) to generate apps. We went through the Blog example with a high-level overview (traditional vs. REST API approaches), and proceeded with creating the project file, folders, and the simple Hello World example, which serves as a foundation for the book&#39;s main project: the Blog app. And then lastly, we touched on a few topics such as settings, a typical request process, routes, AJAX versus server side, Pug, templates, and middleware.
