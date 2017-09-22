@@ -138,9 +138,9 @@ For the Express.js Generator, which is a separate module, we&#39;ll use version 
 
 ## Express.js Generator
 
-To install the Express.js Generator as global package, run `$ npm install -g express-generator@4.0.0` from anywhere on your computer. This downloads and links the `$ express` terminal command to the proper path, so that later we can access its command-line interface (CLI) for the creation of new apps.
+To install the Express.js Generator as global package, run `$ npm install -g express-generator@4.15.0` from anywhere on your computer. This downloads and links the `$ express` terminal command to the proper path, so that later we can access its command-line interface (CLI) for the creation of new apps.
 
-**Note**: For Max OS X and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.0.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
+**Note**: For Max OS X and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.15.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
 
 Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm install –g express-generator`. But in this case your results might be inconsistent with the book&#39;s examples.
 
@@ -229,14 +229,13 @@ So far, we&#39;ve covered Express.js installation. When it comes to prototyping,
 
 Comparable with Ruby on Rails and many other web frameworks, Express.js comes with a CLI for jump-starting your development process. The CLI generates a basic foundation for the most common cases.
 
-If you followed the global installation instructions in the installation section, you should be able to see the version number 4.0.0 if you run `$ express -V` from anywhere on your machine. If we type `$ express -h` or `$ express --help`, we should get the list of available options and their usage. The list of options is broken down below to serve readers as a reference.
+If you followed the global installation instructions in the installation section, you should be able to see the version number 4.15.0 if you run `$ express -V` from anywhere on your machine. If we type `$ express -h` or `$ express --help`, we should get the list of available options and their usage. The list of options is broken down below to serve readers as a reference.
 
 To generate a skeleton Express.js app, we need to run a terminal command— `express [options] [dir|appname]`—the options for which are the following:
 
-- `-e`, `--ejs`: add [EJS](http://embeddedjs.com) (<http://embeddedjs.com>) engine support (by default, Pug is used)
-- `-H`, `--hogan`: add Hogan.js engine support
+- `-v`, `--view <engine>`:  add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to pug)
 - `-c <engine>`, `--css <engine>`: add stylesheet `<engine>` support, such as [LESS](http://lesscss.org) (<http://lesscss.org>), [Stylus](http://learnboost.github.io/stylus) (<http://learnboost.github.io/stylus>) or Compass(<http://compass-style.org>) (by default, plain CSS is used)
-
+- `--git`: add .gitignore
 - `-f`, `--force`: force app generation on a nonempty directory
 
 If the dir/appname option is omitted, Express.js creates files using the current folder as the base for the project. Otherwise, the application is in the folder with the name provided.
