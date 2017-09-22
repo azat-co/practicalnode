@@ -1,6 +1,6 @@
 Chapter 2
 ---------
-# Using Express.js 4 to Create Node.js Web Apps
+# Using Express.js to Create Node.js Web Apps
 
 It’s only logical that, by using frameworks, software engineers become more productive and can achieve results faster. Often, the results are of a better quality because the frameworks are used and maintained by many other developers and contributors. Even if developers build everything from scratch, they end up with *their own framework* in the end. It&#39;s just a very customized one!
 
@@ -11,16 +11,11 @@ Express.js is an amazing framework for Node.js projects, and it&#39;s used in th
 In this chapter we cover the following topics, which serve as an introduction to Express.js:
 
 - What Express.js is
-
 - How Express.js works
-
 - Express.js Installation
-
 - Express.js scaffolding (command-line tool)
-
 - The Blog Project overview
-
-- Express.js 4 Hello World example
+- Express.js Hello World example
 
 # What Is Express.js?
 
@@ -29,18 +24,12 @@ Express.js is a web framework based on the core Node.js `http` module and [Conne
 If you write serious apps using only core Node.js modules (refer to the following snippet for an example), you most likely find yourself reinventing the wheel by writing the same code continually for similar tasks, such as the following:
 
 - Parsing of HTTP request bodies
-
 - Parsing of cookies
-
 - Managing sessions
-
 - Organizing routes with a chain of `if` conditions based on URL paths and HTTP methods of the requests
-
 - Determining proper response headers based on data types
 
-To illustrate my point, here is an example of a two-route representational state transfer(<http://en.wikipedia.org/wiki/Representational_state_transfer>).
-
- (REST) API server, i.e., we have only two end points and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external native MongoDB driver module is used for persistence. This example is taken from beginner-friendly [Rapid Prototyping with JS](http://rpjs.co) (<http://rpjs.co>): Agile JavaScript Development by Azat Mardan [2013]:
+To illustrate my point, here is an example of a two-route [representational state transfer](http://en.wikipedia.org/wiki/Representational_state_transfer) (REST) API server, i.e., we have only two endpoints and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external native MongoDB driver module is used for persistence. This example is taken from beginner-friendly [Full Stack JavaScript](https://github.com/azat-co/fullstack-javascript) (<http://https://github.com/azat-co/fullstack-javascript>)[Apress, 2018]:
 
 ```js
 const http = require('http');
@@ -93,28 +82,23 @@ mongo.Db.connect(host, (error, client) => {
 })
 ```
 
-As you can see, developers have to do a lot of manual work themselves, such as interpreting HTTP methods and URLs into routes, and parsing input and output data.
+As you can see, developers have to do *a lot* of manual work themselves, such as interpreting HTTP methods and URLs into routes, and parsing input and output data.
 
 Express.js solves these and many other problems as abstraction and code organization. The framework provides a model-view-controller-like (MVC-like) structure for your web apps with a clear separation of concerns (views, routes, models).
 
-For the models (M in MVC), we need to use [Mongoose](http://mongoosejs.com) (<http://mongoosejs.com>) or [Sequelize](http://sequelizejs.com) (<http://sequelizejs.com>) libraries in *addition* to Express.js— more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser) (<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io) (<http://socket.io>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
+For the models (M in MVC), we can use [Mongoose](http://mongoosejs.com) (<http://mongoosejs.com>) or [Sequelize](http://sequelizejs.com) (<http://sequelizejs.com>) libraries in *addition* to Express.js— more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser) (<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io) (<http://socket.io>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
 
-Although Express.js is the most starred library on npm (as of May 2014), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com) (<http://meteor.com>) and [DerbyJS](http://derbyjs.com) (<http://derbyjs.com>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com) (<http://nodeframework.com>) resource.
+Although Express.js is one of the most popular library on npm (15M downloads for Aug 2017), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com) (<http://meteor.com>) and [Hapi](https://www.npmjs.com/package/hapi) (<https://www.npmjs.com/package/hapi>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com) (<http://nodeframework.com>) resource.
 
 When evaluating a Node.js framework for your project, use these easy steps to guide you:
 
 - Build a sample app, which is usually provided by the creators of frameworks on GitHub or official web sites. See how the app feels in terms of styles and patterns.
-
 - Consider the type of application you&#39;re building: prototype, production app, minimum viable product (MVP), small scale, large scale, and so on.
-
 - Consider the libraries already familiar to you and determine whether you can or plan to reuse them, and whether your framework plays nicely with them. Provide out-of-the-box solutions: template engines, database object-relational mapping(<http://en.wikipedia.org/wiki/Object-relational_mapping>) libraries (ORMs) / drivers, cascading style sheets(<http://en.wikipedia.org/wiki/Cascading_Style_Sheets>) (CSS) frameworks.
 
 - Consider the nature of your application: REST API (with a separate front-end client), a traditional web app, or a traditional web app with REST API end points (such as Blog).
-
 - Consider whether you need the support of reactive templates with WebSocket from the get-go (the Meteor, anyone?).
-
 - Evaluate the number of stars and follows on npm and GitHub to judge the popularity of the framework. More popular typically means more blog posts, books, screencasts, tutorials, and programmers exist; less popular means this is a newer framework, a niche/custom choice, or a poor choice. With newer frameworks, there is a greater chance that contributing back to them will be valued, so pick your comfortable spot.
-
 - Evaluate npm, GitHub pages, and a framework&#39;s website for the presence of good API documentation with examples or open issues/bugs. If there are more than a few hundred, depending on popularity, this may not be a good sign. Also, determine the date of the last commit on the GitHub repository. Anything older than six months is not a good sign.
 
 # How Express.js Works
@@ -122,17 +106,11 @@ When evaluating a Node.js framework for your project, use these easy steps to gu
 Express.js usually has an entry point—aka, a main file. Most of the time, this is the file that we start with the node command; or export as a module, in some cases. And in this file, we do the following:
 
 1. Include third-party dependencies as well as our own modules, such as controllers, utilities, helpers, and models
-
 2. Configure Express.js app settings such as template engine and its file extensions
-
 3. Connect to databases such as MongoDB, Redis, or MySQL (optional)
-
 4. Define middleware such as error handlers, static files folder, cookies, and other parsers
-
 5. Define routes
-
 6. Start the app
-
 7. Export the app as a module (optional)
 
 When the Express.js app is running, it&#39;s listening to requests. Each incoming request is processed according to a defined chain of middleware and routes, starting from top to bottom. This aspect is important in controlling the execution flow. For example, routes/middleware that are higher in the file have precedence over the lower definitions.
@@ -140,13 +118,9 @@ When the Express.js app is running, it&#39;s listening to requests. Each incomin
 Because we can have multiple middleware functions processing each HTTP request, some of the functions are in the middle (hence the name *middleware*). Here are some examples of middleware purposes:
 
 1. Parse cookie information and put it in `req` object for following middleware/routes
-
 2. Parse parameters from the URL and put it in `req` object for following middleware/routes
-
 3. Get the information from the database based on the value of the parameter if the user is authorized (cookie/session) and put it in `req` object for following middleware/routes
-
 4. Authorize users/requests (,or not)
-
 5. Display the data and end the response
 
 # Express.js Installation
@@ -154,12 +128,11 @@ Because we can have multiple middleware functions processing each HTTP request, 
 The Express.js package comes in two flavors:
 
 1. `express-generator`: a global npm package that provides the command-line tool for rapid app creation (scaffolding)
-
 2. `express`: a local package module in your Node.js app&#39;s `node_modules` folder
 
 ## Express.js Version
 
-Before we proceed with installations, let&#39;s check the Express.js versions. We&#39;ll use an exact version 4.1.2 to avoid confusion resulting from potential future changes to the Express.js skeleton-generating mechanism and the module API.
+Before we proceed with installations, let&#39;s check the Express.js versions. We&#39;ll use an exact version 4.15.4 to avoid confusion resulting from potential future changes to the Express.js skeleton-generating mechanism and the module API.
 
 For the Express.js Generator, which is a separate module, we&#39;ll use version 4.0.0, which is compatible with Express.js 4.x. If you have a version other than 4.0.0 (`$ express -V` to check), you can uninstall it using `$ sudo npm uninstall -g express-generator`. Or `$ sudo npm uninstall -g express` for Express.js 2.x and 3.x. Before, version 4.x, Express.js Generator was a part of the Express.js module itself. After you&#39;ve uninstalled the older versions, install the proper version with the next section&#39;s commands.
 
@@ -179,7 +152,7 @@ The Figure 2-1 shows us results of running the aforementioned command. Please no
 
 ## Local Express.js
 
-For the local Express.js 4.1.2 module installation, let&#39;s create a new folder `express-cli` somewhere on your computer: `$ mkdir express-cli`. This will be our project folder for the chapter. Now we can open it with `$ cd express-cli`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command (Figure 2-2).
+For the local Express.js 4.15.4 module installation, let&#39;s create a new folder `express-cli` somewhere on your computer: `$ mkdir express-cli`. This will be our project folder for the chapter. Now we can open it with `$ cd express-cli`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command (Figure 2-2).
 
 ![alt](media/image2.png)
 
@@ -201,7 +174,7 @@ The following is an example of the `package.json` file with vanilla `$ npm init`
 
 Lastly, we install the module using npm:
 
-    $ npm install express@4.1.2 --save
+    $ npm install express@4.15.4 --save
 
 Or, if we want to be less specific, which is not recommended for this example, use:
 
@@ -209,36 +182,40 @@ Or, if we want to be less specific, which is not recommended for this example, u
 
 **Note**: If you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html) (<https://npmjs.org/doc/folders.html>).
 
-Alternatively, we can update the `package.json` file by specifying the dependency `("express": "4.1.2"` or `"express": "4.x")` and run `$ npm install`.
+Alternatively, we can update the `package.json` file by specifying the dependency `("express": "4.15.4"` or `"express": "4.x")` and run `$ npm install`.
 
-The following is the `package.json` file with an added Express.js v4.1.2 dependency (the latest as of May 2014):
+The following is the `package.json` file with an added Express.js v4.15.4 dependency (the latest as of May 2014):
 
-    {
-      "name": "expressjsguide",
-      "version": "0.0.1",
-      "description": "",
-      "main": "index.js",
-      "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-      },
-      "dependencies": {
-        "express": "4.1.2"
-      },
-      "author": "",
-      "license": "BSD"
-    }
+```js
+  {
+    "name": "expressjsguide",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+      "express": "4.15.4"
+    },
+    "author": "Azat Mardan",
+    "license": "MIT"
+  }
+```
+
+The command to install all dependencies from `package.json` is:
 
 ```   
 $ npm install
 ```
 
-In the Figure 2-3, we show the result of install Express.js v4.1.2 locally, into the `node_modules` folder. Please notice the path after the `express@4.1.2` string in Figure 2-3 this time it&#39;s local and not global, as in the case of `express-generator`.
+In the Figure 2-3, we show the result of install Express.js v4.15.4 locally, into the `node_modules` folder. Please notice the path after the `express@4.15.4` string in Figure 2-3 this time it&#39;s local and not global, as in the case of `express-generator`.
 
 ![alt](media/image3.png)
 
 ***Figure 2-3.** The result of running $ npm install*
 
-If you want to install Express.js to an existing project and save the dependency (smart thing to do!) into the `package.json` file, which is already present in that project&#39;s folder, run `$ npm install express@4.1.2 --save`.
+If you want to install Express.js to an existing project and save the dependency (smart thing to do!) into the `package.json` file, which is already present in that project&#39;s folder, run `$ npm install express@4.15.4 --save`.
 
 To double-check the installation of Express.js and its dependencies, we can run the `$ npm ls` command, as shown in Figure 2-4.
 
@@ -267,25 +244,25 @@ If the dir/appname option is omitted, Express.js creates files using the current
 Now that we&#39;re clear with the command and its options, let&#39;s go step by step to create an app with the scaffolding:
 
 1. Check the Express.js version, because the app-generating code is prone to changes.
-
 2. Execute the scaffolding command with options.
-
 3. Run the application locally.
-
 4. Understand the different sections, such as routes, middleware, and configuration.
-
 5. Peek into the Pug template (more on this in Chapter 3).
 
 ## Express.js Command-Line Interface
 
 Now we can use the CLI to spawn new Express.js apps. For example, to create an app with Stylus support, type the following:
 
-    $ express -c styl express-styl
+```
+$ express -c styl express-styl
+```
 
 Then, as the instructions in the terminal tell us (Figure 2-5), type:
 
-    $ cd express-styl && npm install
-    $ DEBUG=my-application ./bin/www
+```
+$ cd express-styl && npm install
+$ DEBUG=my-application ./bin/www
+```
 
 Open the browser of your choice at <http://localhost:3000>.
 
@@ -360,16 +337,20 @@ module.exports = app;
 
 When you open `express-styl/app.js`, you see two routes in the middle:
 
-    app.use('/', routes);
-    app.use('/users', users);
+```js
+app.use('/', routes);
+app.use('/users', users);
+```
 
 The first one basically takes care of all the requests to the home page, such as `http://localhost:3000/`. The second takes care of requests to `/users`, such as `http://localhost:3000/users`. Both of the routes process URLs in a case-insensitive manner and in a same way as with trailing slashes.
 
 By default, Express.js doesn&#39;t allow developers to route by query string arguments, such as the following:
 
-    GET: www.webapplog.com/?id=10233
-    GET: www.webapplog.com/about/?author=10239
-    GET: www.webapplog.com/books/?id=10&ref=201
+```
+GET: www.webapplog.com/?id=10233
+GET: www.webapplog.com/about/?author=10239
+GET: www.webapplog.com/books/?id=10&ref=201
+```
 
 However, it&#39;s trivial to write your own middleware. It might look like this:
 
@@ -393,9 +374,11 @@ app.get('/about', (req, res, next) => {
 
 The request handler itself (`index.js`, in this case) is straightforward. Everything from the HTTP request is in `req` and it writes results to the response in `res`:
 
-    exports.list = (req, res) => {
-      res.send('respond with a resource');
-    };
+```js
+exports.list = (req, res) => {
+  res.send('respond with a resource');
+};
+```
 
 ## Middleware as the Backbone of Express.js
 
@@ -421,12 +404,16 @@ The middleware includes pass-through functions that either do something useful o
 
 Here is how we define configuration statements in a typical Express.js app (the `app.js` file):
 
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'pug');
+```js
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+```
 
 And in bin/www:
 
-    app.set('port', process.env.PORT || 3000);
+```js
+app.set('port', process.env.PORT || 3000);
+```
 
 An ordinary setting involves a name, such as `views`, and a value, such as `path.join(__dirname, 'views')`, the path to the folder where a templates/views live.
 
@@ -436,32 +423,30 @@ Sometimes there is more than one way to define a certain setting. For example, `
 
 The Pug template engine is akin to the Ruby on Rails’ Haml in the way it uses whitespace and indentation, such as `layout.pug`:
 
-    doctype html
-    html
-      head
-        title= title
-        link(rel='stylesheet', href='/stylesheets/style.css')
-      body
-        block content
+```pug
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    block content
+```
 
 Other than that, it&#39;s possible to use a full-blown JavaScript code inside of Pug templates with the `-` prefix. More information on Pug and Handlebars template engines is in Chapter 4.
 
 ## Conclusion About Scaffolding
 
-As you&#39;ve seen, it&#39;s effortless to create web apps with Express.js. The framework is splendid for REST APIs as well. If you feel like the settings and other methods mentioned in this chapter just flew over your head, don&#39;t despair! Pro Express.js 4 [2014 Apress] is dedicated solely to the Express.js, and its interface and can server as a good reference. For now, the next step is to create a foundation for our project: the Blog app.
+As you&#39;ve seen, it&#39;s effortless to create web apps with Express.js. The framework is splendid for REST APIs as well. If you feel like the settings and other methods mentioned in this chapter just flew over your head, don&#39;t despair! Pro Express.js [2014 Apress] is dedicated solely to the Express.js, and its interface and can server as a good reference. For now, the next step is to create a foundation for our project: the Blog app.
 
 # The Blog Project Overview
 
 Our Blog app consists of five main parts from the user perspective:
 
 - A home page with a list of articles (Figure 2-6)
-
 - An individual article page with the full-text article
-
 - An admin page for publishing and removing content
-
 - A login page for accessing the aforementioned admin page
-
 - A post article page for adding new content
 
 ![alt](media/image6.png)
@@ -482,7 +467,6 @@ From a developer&#39;s point of view, the app has the following elements:
 Although somewhat primitive, this application contains all the CRUD(<http://en.wikipedia.org/wiki/Create,_read,_update_and_delete>) (create, read, update, and delete) elements of modern web development. In addition, we use two approaches in Blog when sending the data to the server:
 
 1. Submit data via traditional forms *with* full page refresh
-
 2. Submit data via REST API (AJAX HTTP requests) *without* page refresh
 
 The source code for this mini-project is under `ch2/hello-world` folder of practicalnode GitHub repository: https://github.com/azat-co/practicalnode.
@@ -511,20 +495,15 @@ Unlike the previous section of this chapter, which dealt with scaffolding with C
 
 Let&#39;s wait no more, and start by creating our project folders.
 
-# Express.js 4 Hello World Example
+# Express.js Hello World Example
 
 This is the first and the last hello world example in this book! :-) The goal is to show readers how easy is it to create Express.js apps from scratch without generators, fancy modules and middleware. We&#39;ll go through these sections:
 
 - Setting up folders
-
 - npm init and package.json
-
 - Dependency declaration
-
 - The app.js file
-
 - Meet Pug
-
 - Running the app
 
 ## Setting up Folders
@@ -532,20 +511,19 @@ This is the first and the last hello world example in this book! :-) The goal is
 Express.js is very configurable and almost all folders can be renamed. However, there are certain conventions that might help beginners to find their way through many files. Here is a list of the main folders that we use in this chapter, and their meaning:
 
 - `node_modules`: dependencies (third-party modules) live here as well as Express.js and Connect libraries
-
 - `views`: Pug (or any other template engine) files
 
 That&#39;s it for now, but if you want to create a few more folders for other examples (that we&#39;ll cover in the later chapters), be my guest:
 
 - `routes`: Node.js modules that contain request handlers
-
 - `db`: seed data and scripts for MongoDB
-
 - `public`: all the static (front-end) files, including HTML, CSS, JavaScript (browser), and Stylus (or any other CSS-language framework files)
 
 Let&#39;s choose a project folder `hello-world`, and create these directories with Finder or the following terminal command (Figure 2-10):
 
-    mkdir {public,public/css,public/img,public/js,db,views,views/includes,routes}
+```
+mkdir {public,public/css,public/img,public/js,db,views,views/includes,routes}
+```
 
 ![alt](media/image10.png)
 
@@ -559,25 +537,28 @@ For this example we will be creating the Express.js app from scratch, i.e., with
 
 npm is used not only as a registry, but also as a dependency management tool. Therefore, it&#39;s essential to set up the project file—`package.json`. Although it&#39;s possible to create the `package.json` file manually in a text editor, we can use the `$ npm init` command. Run this command in your project folder and answer all the questions (or leave them blank):
 
-    $ npm init
+```
+$ npm init
+```
 
 After the wizard has finished and the `package.json` file is there (don&#39;t worry if there&#39;s not much information there yet), we can install modules conveniently and add entries to `package.json` at the same time with `$ npm install <package-name> --save`—for example:
 
-    $ npm install express --save
+```
+$ npm install express --save
+```
 
-The previous command uses the latest stable version (4.1.2 as of May 2014). We recommend being more specific—which is more robust in the land of the rapidly growing Node.js community—and ask for a specific version:
+The previous command uses the latest stable version (4.15.4 as of Sep 2017). We recommend being more specific—which is more robust in the land of the rapidly growing Node.js community—and ask for a specific version:
 
-    $ npm install express@4.1.2 --save
+```
+$ npm install express@4.15.4 --save
+```
 
 For the Blog app, we need the following modules, which are the latest as of this writing:
 
-- Express.js: 4.1.2
-
+- Express.js: 4.15.4
 - Pug: 2.0.0-rc.4
-
-- Mongoskin: 0.6.1
-
-- Stylus: 0.44.0
+- Mongoskin: 2.1.0
+- Stylus: 0.54.5
 
 **Warning**: Feel free to update to newer versions. However, your results might vary, because it&#39;s very common in the Node.js ecosystem (“userland”) to see breaking changes introduced by new versions. This usually happens unintentionally by the dependency of a dependency. For example, even if we include a specific version of Express.js such as 3.4.5, that module includes Pug with a wildcard `*`, and then on Pug&#39;s breaking update, our app will suffer damage. The cure is to commit your `node_modules` folder along with the rest of the source code to a Git repository and use that instead of fetching modules according to `package.json` each time on deployment. Or use npm&#39;s shrinkwarp feature. Read more about this issue in Chapter 12.
 
@@ -586,20 +567,21 @@ For the Blog app, we need the following modules, which are the latest as of this
 Another way to create a `package.json` file (without using `$ npm init`) is to type or copy and paste `package.json` and run `$ npm install`:
 
 ```js
-    {
-      "name": "hello-world",
-      "version": "0.0.1",
-      "private": true,
-      "scripts": {
-        "start": "node app.js"
-      },
-      "dependencies": {
-        "express": "4.1.2",
-        "pug": "2.0.0-rc.4",
-        "mongoskin": "1.4.1",
-        "stylus": "0.44.0"
-      }
-    }
+{
+  "name": "hello-world",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.15.4",
+    "pug": "2.0.0-rc.4",
+    "mongoskin": "2.1.0",
+    "pug": "2.0.0-rc.4",
+    "stylus": "0.54.5"
+  }
+}
 ```
 
 In the end, the `node_modules` folder should be filled with the corresponding libraries.
