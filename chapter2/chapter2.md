@@ -142,90 +142,121 @@ To install the Express.js Generator as global package, run `$ npm install -g exp
 
 **Note**: For Max OS X and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.15.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
 
-Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm install –g express-generator`. But in this case your results might be inconsistent with the book&#39;s examples.
+Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm i –g express-generator@4.15.0`. But in this case your results might be inconsistent with the book&#39;s examples.
 
-The Figure 2-1 shows us results of running the aforementioned command. Please notice the path in Figure 2-1: `/usr/local/lib/node_modules/express-generator`. This is where, on Max OS X / Linux systems, npm puts global modules by default. We verify the availability of Express.js CLI by running `$ express –V`.
+The results of running the aforementioned command:
 
-![alt](media/image1.png)
+```
+/usr/local/bin/express -> /usr/local/lib/node_modules/express-generator/bin/express-cli.js
++ express-generator@4.15.0
+updated 1 package in 1.793s
+```
 
-***Figure 2-1.** The result of running npm with `-g` and `$ express -V`*
+ Please notice the path: `/usr/local/lib/node_modules/express-generator`. This is where, on Max OS X / Linux systems, npm puts global modules by default. We verify the availability of Express.js CLI by running: 
+ 
+ ```
+ $ express --version
+ ```
+
+Express is used with `require()` and it's a local project dependency. Let's built a quick Hello World with Express.
 
 ## Local Express.js
 
-For the local Express.js 4.15.4 module installation, let&#39;s create a new folder `express-cli` somewhere on your computer: `$ mkdir express-cli`. This will be our project folder for the chapter. Now we can open it with `$ cd express-cli`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command (Figure 2-2).
+For the local Express.js 4.15.4 module installation, let&#39;s create a new folder `hello-simple` somewhere on your computer: `$ mkdir hello-simple`. This will be our project folder for the chapter. Now we can open it with `$ cd hello-simple`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command.
 
-![alt](media/image2.png)
 
-***Figure 2-2.** The result of running `$ npm init`*
+The following is an example of the `package.json` file with vanilla `$ npm init` options (the licence and author is configured by defaults in `nmp config`):
 
-The following is an example of the `package.json` file with vanilla `$ npm init` options:
+```js
+{
+  "name": "hello-simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Azat Mardan (http://azat.co/)",
+  "license": "MIT"
+}
+```
 
-    {
-      "name": "express-cli",
-      "version": "0.0.1",
-      "description": "",
-      "main": "index.js",
-      "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-      },
-      "author": "",
-      "license": "BSD"
-    }
+Lastly, we install the module using npm (no need for `--save` in npm v5+):
 
-Lastly, we install the module using npm:
-
-    $ npm install express@4.15.4 --save
+```
+$ npm install express@4.15.4 --save --exact
+```
 
 Or, if we want to be less specific, which is not recommended for this example, use:
 
-    $ npm install express
+```
+$ npm i express -E
+```
 
-**Note**: If you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html) (<https://npmjs.org/doc/folders.html>).
+**Note**: Depending on your npm version if you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html) (<https://npmjs.org/doc/folders.html>).
 
 Alternatively, we can update the `package.json` file by specifying the dependency `("express": "4.15.4"` or `"express": "4.x")` and run `$ npm install`.
 
-The following is the `package.json` file with an added Express.js v4.15.4 dependency (the latest as of May 2014):
+The following is the `package.json` file with an added Express.js v4.15.4 dependency (the latest as of Sep 2017):
 
 ```js
-  {
-    "name": "expressjsguide",
-    "version": "0.0.1",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "dependencies": {
-      "express": "4.15.4"
-    },
-    "author": "Azat Mardan",
-    "license": "MIT"
+{
+  "name": "hello-simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Azat Mardan (http://azat.co/)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.15.4"
   }
+}
 ```
 
-The command to install all dependencies from `package.json` is:
+Now when someone downloads this project, they can install all dependencies from `package.json` with either of the two commands:
 
 ```   
 $ npm install
+$ npm i
 ```
 
-In the Figure 2-3, we show the result of install Express.js v4.15.4 locally, into the `node_modules` folder. Please notice the path after the `express@4.15.4` string in Figure 2-3 this time it&#39;s local and not global, as in the case of `express-generator`.
+Here are the result of install Express.js v4.15.4 locally, into the `node_modules` folder. Please notice the `package-lock.json` file as well. It helps to avoid conflicts of versions.
 
-![alt](media/image3.png)
+```
+$ npm i express -E
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN hello-simple@1.0.0 No description
+npm WARN hello-simple@1.0.0 No repository field.
 
-***Figure 2-3.** The result of running $ npm install*
++ express@4.15.4
+added 43 packages in 4.686s
+```
 
 If you want to install Express.js to an existing project and save the dependency (smart thing to do!) into the `package.json` file, which is already present in that project&#39;s folder, run `$ npm install express@4.15.4 --save`.
 
-To double-check the installation of Express.js and its dependencies, we can run the `$ npm ls` command, as shown in Figure 2-4.
+Create a `server.js` file in the  `hello-simple` folder:
 
-![alt](media/image4.png)
+```js
+const express = require('express');
+let app = express();
 
-***Figure 2-4.** The result of running `$ npm ls`*
+app.all('*', (req, res) => {
+  res.send('Welcome to the Practical Node.js!');
+})
+
+app.listen(3000, () => {console.log('Open at localhost:3000')});
+```
+
+Then launch it with `node server.js` to see "Welcome to the Practical Node.js!" in a browser at <http://localhost:3000/>. You first Express app is working! 
 
 # Express.js Scaffolding
 
-So far, we&#39;ve covered Express.js installation. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app creation mechanism— Express.js Generator!
+So far, we&#39;ve covered Express.js installation and a simple Express server. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app creation mechanism— Express.js Generator!
 
 Comparable with Ruby on Rails and many other web frameworks, Express.js comes with a CLI for jump-starting your development process. The CLI generates a basic foundation for the most common cases.
 
@@ -263,80 +294,76 @@ $ cd express-styl && npm install
 $ DEBUG=my-application ./bin/www
 ```
 
-Open the browser of your choice at <http://localhost:3000>.
+Open the browser of your choice at <http://localhost:3000> and you'll see "Express Welcome to Express" styled with a CSS which is coming from a stylus file. If you go to <http://localhost:3000/users>, then you'll see "respond with a resource". Everything is working. You created an Express app with Stylus support.
 
 ![alt](media/image5.png)
 
 ***Figure 2-5.** The result of using Express.js Generator*
 
-If you don&#39;t have computer in front of your right now, here&#39;s the full code of `express-styl/app.js` using Express.js Generator v4.0.0:
+If you don&#39;t have computer in front of your right now, here&#39;s the full code of `express-styl/app.js` using Express.js Generator v4.15.0. The server file has routes from `routes` folder, stylus and a rudimentary error handler.
+
 
 ```js
-const express = require('express');
-const path = require('path');
-const favicon = require('static-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var stylus = require('stylus');
 
-const routes = require('./routes/index');
-const users = require('./routes/users');
+var index = require('./routes/index');
+var users = require('./routes/users');
 
-let app = express();
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'jade');
 
-app.use(favicon());
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(stylus.middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', index);
 app.use('/users', users);
 
-/// catch 404 and forwarding to error handler
-app.use((req, res, next) => {
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-/// error handlers
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use((err, req, res, next) => {
+  // render the error page
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  res.render('error');
 });
 
 module.exports = app;
 ```
+
+The Express app is exported with `module.exports` and is launched with `listen()` in the `bin/www` file. Let see main parts of the server file app.js which was created by the Express Generator.
 
 ## Routes in Express.js
 
 When you open `express-styl/app.js`, you see two routes in the middle:
 
 ```js
+var index = require('./routes/index');
+var users = require('./routes/users');
+...
 app.use('/', routes);
 app.use('/users', users);
 ```
@@ -371,25 +398,48 @@ app.get('/about', (req, res, next) => {
 });
 ```
 
-The request handler itself (`index.js`, in this case) is straightforward. Everything from the HTTP request is in `req` and it writes results to the response in `res`:
+Back to the `app.js` file. The request handler itself (`index.js`, in this case) is straightforward. Everything from the HTTP request is in `req` and it writes results to the response in `res`. Here's `routes/index.js`:
 
 ```js
-exports.list = (req, res) => {
+var express = require('express');
+var router = express.Router();
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+module.exports = router;
+```
+
+Here's `routes/users.js` in which we define and export a route:
+
+```js
+var express = require('express');
+var router = express.Router();
+
+/* GET users listing. */
+router.get('/', function(req, res, next) {
   res.send('respond with a resource');
-};
+});
+
+module.exports = router;
 ```
 
 ## Middleware as the Backbone of Express.js
 
-Each line/statement above the routes in `app.js` is middleware:
+Each line/statement above the routes in `express-styl/app.js` is middleware:
 
 ```js
-const favicon = require('static-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var stylus = require('stylus');
 //...
-app.use(favicon());
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -461,14 +511,14 @@ From a developer&#39;s point of view, the app has the following elements:
 - *Database*: an instance of MongoDB and some seed data
 - *Templates*: the `*.pug` files
 - *Static files*: such as `*.css` or browser `*.js`
-- *Configuration file* `config.json`: security-insensitive applicationwide settings, such as app title
+- *Configuration file* `config.json`: security-insensitive application-wide settings, such as app title
 
 Although somewhat primitive, this application contains all the CRUD(<http://en.wikipedia.org/wiki/Create,_read,_update_and_delete>) (create, read, update, and delete) elements of modern web development. In addition, we use two approaches in Blog when sending the data to the server:
 
 1. Submit data via traditional forms *with* full page refresh
 2. Submit data via REST API (AJAX HTTP requests) *without* page refresh
 
-The source code for this mini-project is under `ch2/hello-world` folder of practicalnode GitHub repository: https://github.com/azat-co/practicalnode.
+The source code for this mini-project is under a `ch2/hello-world` folder of `practicalnode` GitHub repository: https://github.com/azat-co/practicalnode.
 
 ## Submitting the Data
 
@@ -556,7 +606,6 @@ For the Blog app, we need the following modules, which are the latest as of this
 
 - Express.js: 4.15.4
 - Pug: 2.0.0-rc.4
-- Mongoskin: 2.1.0
 - Stylus: 0.54.5
 
 **Warning**: Feel free to update to newer versions. However, your results might vary, because it&#39;s very common in the Node.js ecosystem (“userland”) to see breaking changes introduced by new versions. This usually happens unintentionally by the dependency of a dependency. For example, even if we include a specific version of Express.js such as 3.4.5, that module includes Pug with a wildcard `*`, and then on Pug&#39;s breaking update, our app will suffer damage. The cure is to commit your `node_modules` folder along with the rest of the source code to a Git repository and use that instead of fetching modules according to `package.json` each time on deployment. Or use npm&#39;s shrinkwarp feature. Read more about this issue in Chapter 12.
@@ -567,7 +616,7 @@ Another way to create a `package.json` file (without using `$ npm init`) is to t
 
 ```js
 {
-  "name": "hello-world",
+  "name": "hello-advanced",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -575,12 +624,10 @@ Another way to create a `package.json` file (without using `$ npm init`) is to t
   },
   "dependencies": {
     "express": "4.15.4",
-    "pug": "2.0.0-rc.4",
-    "mongoskin": "2.1.0",
-    "pug": "2.0.0-rc.4",
-    "stylus": "0.54.5"
+    "pug": "2.0.0-rc.4"
   }
 }
+
 ```
 
 In the end, the `node_modules` folder should be filled with the corresponding libraries.
@@ -630,7 +677,7 @@ let app = express();
 One of the ways to configure Express.js settings is to use `app.set()`, with the name of the setting and the value. For example:
 
 ```js
-app.set('appName', hello-world');
+app.set('appName', 'hello-advanced');
 ```
 
 Let&#39;s define a few such configurations in `app.js`:
@@ -700,7 +747,7 @@ The `res.render(viewName, data, callback(error, html))` where parameters mean fo
 
 `res.render()` is not in the Node.js core and is purely an Express.js addition that, if invoked, calls core `res.end()`, which ends/completes the response. In other words, the middleware chain doesn&#39;t proceed after `res.render()`. `res.render` is highlighted in chapter 4.
 
-Last but not least are the instructions to start the server, which consist of the core `http` module and its `createServer` method. In this method, the system passes the Express.js `app` object with all the settings and routes:
+Last but not least are the instructions to start the server. In the previous hello app, you saw `app.listen()` but `http.createServer(app).listen()` will work too. It consist of the core `http` module and its `createServer` method. In this method, the system passes the Express.js `app` object with all the settings and routes:
 
 ```js
 http.createServer(app).listen(app.get('port'), () => {
@@ -708,11 +755,12 @@ http.createServer(app).listen(app.get('port'), () => {
 });
 ```
 
+You can also use `https.createServer(app).listen()` for the HTTPS support when you are ready to deploy your server to production.
+
 Here&#39;s the full source code of the `app.js` file for your reference:
 
 ```js
 const express = require('express');
-
 const http = require('http');
 const path = require('path');
 
@@ -739,7 +787,7 @@ http
   );
 ```
 
-Before we can run this server, we need to create the `index.pug` file.
+Before we can run this server, we need to create the `index.pug` file in the `views` folder.
 
 ## Meet Pug: One Template to Rule Them All
 

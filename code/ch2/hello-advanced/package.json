@@ -1,5 +1,5 @@
 {
-  "name": "hello-world",
+  "name": "hello-advanced",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,8 +7,6 @@
   },
   "dependencies": {
     "express": "4.15.4",
-    "mongoskin": "2.1.0",
-    "pug": "2.0.0-rc.4",
-    "stylus": "0.54.5"
+    "pug": "2.0.0-rc.4"
   }
 }
