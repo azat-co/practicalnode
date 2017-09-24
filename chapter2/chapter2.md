@@ -546,7 +546,7 @@ Let&#39;s wait no more, and start by creating our project folders.
 
 # Express.js Hello World Example
 
-This is the first and the last hello world example in this book! :-) The goal is to show readers how easy is it to create Express.js apps from scratch without generators, fancy modules and middleware. We&#39;ll go through these sections:
+This is the second and the last hello world example in this book! :-) The goal is to show readers how easy is it to create Express.js apps from scratch without generators, fancy modules and middleware. We&#39;ll go through these sections:
 
 - Setting up folders
 - npm init and package.json
