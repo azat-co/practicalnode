@@ -12,8 +12,8 @@ describe('server', () => {
     it('should respond to GET', (done) => {
       superagent
         .get(`http://localhost:${port}`)
-        .end((res) => {
-          expect(res.status).to.equal(200)
+        .end((error, response) => {
+          expect(response.status).to.equal(200)
           done()
       })
     })
