@@ -1,6 +1,11 @@
 
 # Practical Node.js
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
+
 This is the manuscript (draft) and code for Practical Node.js, 2nd Edition [Apress, 2018]. It's work in progress and the draft will be completed in the end of 2017. For the code of the 1st edition, please visit [1st-edition](https://github.com/azat-co/practicalnode/releases/tag/1st-edition).
 
 You can get final 2nd edition (pre-order now or buy when it's ready) at Apress: <http://www.apress.com/us/book/9781484230381>.
