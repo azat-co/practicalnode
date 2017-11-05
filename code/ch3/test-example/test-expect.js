@@ -19,7 +19,7 @@ describe('String#split', () => {
 
   it('should return the same array', () => {
     expect(expected.length).to.equal(current.length)
-    for (var i=0; i<expected.length; i++) {
+    for (let i = 0; i < expected.length; i++) {
       expect(expected[i]).equal(current[i])
     }
   })    

@@ -13,7 +13,7 @@ describe('String#split', () => {
     assert.equal(testArray.length, 
       testString.split(',').length, 
       `arrays have equal length`)
-    for (var i=0; i<testArray.length; i++) {
+    for (let i = 0; i < testArray.length; i++) {
       assert.equal(testArray[i], 
         testString.split(',')[i], 
         `i element is equal`)

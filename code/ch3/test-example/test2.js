@@ -17,7 +17,7 @@ describe('String#split', () => {
 
   it('should return the same array', () => {
     assert.equal(expected.length, current.length, 'arrays have equal length')
-    for (var i=0; i<expected.length; i++) {
+    for (let i = 0; i < expected.length; i++) {
       assert.equal(expected[i], current[i], `i element is equal`)
     }
   })    
