@@ -11,7 +11,7 @@ const db = new Db('local',
 db.open((error, dbConnection) => {
   if (error) {
     console.error(error)
-    process.exit(1)
+    return process.exit(1)
   }
   console.log('db state: ', db._state)
   const item = {
@@ -20,7 +20,7 @@ db.open((error, dbConnection) => {
   dbConnection.collection('messages').insert(item, (error, document) => {
     if (error) {
       console.error(error)
-      process.exit(1)
+      return process.exit(1)
     }
     console.info('created/inserted: ', document)
     db.close()
