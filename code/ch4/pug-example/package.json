@@ -1,0 +1,16 @@
+{
+  "name": "pug-example",
+  "version": "1.0.1",
+  "description": "",
+  "main": "jade-example.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node pug-example.js"
+  },
+  "keywords": [],
+  "author": "Azat Mardan (http://azat.co/)",
+  "license": "MIT",
+  "dependencies": {
+    "pug": "2.0.0-rc.4"
+  }
+}

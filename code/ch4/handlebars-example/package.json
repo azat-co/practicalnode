@@ -1,0 +1,17 @@
+{
+  "name": "handlebars-example",
+  "version": "1.0.1",
+  "description": "",
+  "main": "handlebars-example.js",
+  "dependencies": {
+    "handlebars": "4.0.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node handlebars-example.js"
+  },
+  "keywords": [],
+  "author": "Azat Mardan (http://azat.co/)",
+  "license": "MIT"
+}
