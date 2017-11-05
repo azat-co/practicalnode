@@ -1,12 +1,13 @@
-var express = require('express'),
-  cons = require('consolidate'),
-  app = express()
+const express = require('express'),
+  cons = require('consolidate')
+  path = require('path')
+
+let  app = express()
 
 app.engine('html', cons.swig)
 
-
 app.set('view engine', 'html')
-app.set('views', __dirname + '/views')
+app.set('views', path.join(__dirname, 'templates'))
 
 var platforms = [
   { name: 'node' },
@@ -14,18 +15,19 @@ var platforms = [
   { name: 'python' }
 ]
 
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
   res.render('index', {
     title: 'Consolidate This'
   })
 })
 
-app.get('/platforms', function(req, res){
+app.get('/platforms', (req, res) => {
   res.render('platforms', {
     title: 'Platforms',
     platforms: platforms
   })
 })
 
-app.listen(3000)
-console.log('Express server listening on port 3000')
+app.listen(3000, () => {
+  console.log('Express server listening on port 3000')
+})
