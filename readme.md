@@ -10,7 +10,11 @@ This is the manuscript (draft) and code for Practical Node.js, 2nd Edition [Apre
 
 You can get final 2nd edition (pre-order now or buy when it's ready) at Apress: <http://www.apress.com/us/book/9781484230381>.
 
-![](http://azatzbw4bszzsb.wpengine.netdna-cdn.com/wp-content/uploads/81AIpYkA46L-200.jpeg)
+![Practical Node.js, 1st Edition](http://azatzbw4bszzsb.wpengine.netdna-cdn.com/wp-content/uploads/81AIpYkA46L-200.jpeg)
+1st Edition [2014]
+
+![Practical Node.js, 2nd Edition](9781484230381.jpg)
+2nd Edition [2018]
 
 <http://practicalnodebook.com>
 
