@@ -1,5 +1,5 @@
-const express = require('express');
-let app = express();
+const express = require('express')
+let app = express()
 
 app.all('*', (req, res) => {
   res.send('Welcome to the Practical Node.js!')
