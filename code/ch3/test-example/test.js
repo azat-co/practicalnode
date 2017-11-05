@@ -1,13 +1,23 @@
-  // var assert = require('assert');
-  var assert = require('chai').assert;
-  describe('String#split', function(){
-    it('should return an array', function(){
-      assert(Array.isArray('a,b,c'.split(',')));
-    });
-    it('should return the same array', function(){
-      assert.equal(['a','b','c'].length, 'a,b,c'.split(',').length, 'arrays have equal length');
-      for (var i=0; i<['a','b','c'].length; i++) {
-        assert.equal(['a','b','c'][i], 'a,b,c'.split(',')[i], i + 'element is equal');
-      }
-    })
+// const assert = require('assert')
+const assert = require('chai').assert
+const testArray = ['a','b','c']
+const testString = 'a,b,c'
+
+describe('String#split', () => {
+  
+  it('should return an array', () => {
+    assert(Array.isArray('a,b,c'.split(',')))
   })
+
+  it('should return the same array', () => {
+    assert.equal(testArray.length, 
+      testString.split(',').length, 
+      `arrays have equal length`)
+    for (var i=0; i<testArray.length; i++) {
+      assert.equal(testArray[i], 
+        testString.split(',')[i], 
+        `i element is equal`)
+    }
+  })
+
+})

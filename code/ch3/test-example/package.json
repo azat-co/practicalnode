@@ -1,1 +1,9 @@
-{"scripts":{"test":"mocha test-expect.js"}}
+{
+  "scripts": {
+    "test": "mocha test-expect.js"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "mocha": "4.0.1"
+  }
+}

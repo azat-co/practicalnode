@@ -1,20 +1,26 @@
-// var expect = require('expect.js');
-var expect = require('chai').expect;
-var expected, current;
-before(function(){
-  expected = ['a', 'b', 'c'];
+// const expect = require('expect.js')
+const expect = require('chai').expect
+let expected,
+  current
+
+before(() => {
+  expected = ['a', 'b', 'c']
 })
-describe('String#split', function(){
-  beforeEach(function(){
-    current = 'a,b,c'.split(',');
+
+describe('String#split', () => {
+  
+  beforeEach(() => {
+    current = 'a,b,c'.split(',')
   })
-  it('should return an array', function(){
-    expect(Array.isArray(current)).to.be.true;
-  });
-  it('should return the same array', function(){
-    expect(expected.length).to.equal(current.length);
+
+  it('should return an array', () => {
+    expect(Array.isArray(current)).to.be.true
+  })
+
+  it('should return the same array', () => {
+    expect(expected.length).to.equal(current.length)
     for (var i=0; i<expected.length; i++) {
-      expect(expected[i]).equal(current[i]);
+      expect(expected[i]).equal(current[i])
     }
   })    
 })
