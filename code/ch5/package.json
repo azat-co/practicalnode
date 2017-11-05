@@ -10,7 +10,8 @@
   "author": "Azat Mardan (http://azat.co/)",
   "license": "MIT",
   "dependencies": {
-    "mongodb": "2.2.33"
+    "mongodb": "2.2.33",
+    "mongoskin": "2.1.0"
   },
   "devDependencies": {
     "standard": "10.0.3"
