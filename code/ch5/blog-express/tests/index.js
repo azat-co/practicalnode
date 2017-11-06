@@ -28,13 +28,14 @@ describe('server', function () {
         .get(`http://localhost:${port}`)
         .end((error, res) => {
           expect(error).to.be(null)
+          expect(res.text).to.be.ok
           seedArticles.forEach(function (item, index, list) {
             if (item.published) {
               expect(res.text).to.contain(`<h2><a href="/articles/${item.slug}">${item.title}`)
             } else {
               expect(res.text).not.to.contain(`<h2><a href="/articles/${item.slug}">${item.title}`)
             }
-            // console.log(item.title, res.text)
+            console.log(item.title, res.text)
           })
           done()
         })

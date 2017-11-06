@@ -5,7 +5,7 @@ const path = require('path')
 const mongoskin = require('mongoskin')
 const dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/blog'
 
-const db = mongoskin.db(dbUrl, {safe: true})
+const db = mongoskin.db(dbUrl)
 const collections = {
   articles: db.collection('articles'),
   users: db.collection('users')
