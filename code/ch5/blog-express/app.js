@@ -21,16 +21,19 @@ const methodOverride = require('method-override')
 const app = express()
 app.locals.appTitle = 'blog-express'
 
-app.use(function (req, res, next) {
+// Expose collections to request handlers
+app.use((req, res, next) => {
   if (!collections.articles || !collections.users) return next(new Error('No collections.'))
   req.collections = collections
   return next()
 })
 
+// Express.js configurations
 app.set('port', process.env.PORT || 3000)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+// Express.js middleware configuration
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
