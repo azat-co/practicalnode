@@ -11,4 +11,4 @@ block content
     each article, index in articles
       div
         h2
-          a(href="/articles/#{article.slug}")= article.title
+          a(href=`/articles/${article.slug}`)= article.title

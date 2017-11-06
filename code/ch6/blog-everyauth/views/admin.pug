@@ -17,7 +17,7 @@ block content
             th Post Title
         tbody
           each article, index in articles
-            tr(data-id="#{article._id}", class=(!article.published)?'unpublished':'')
+            tr(data-id=`${article._id}`, class=(!article.published)?'unpublished':'')
               td.action
                 button.btn.btn-danger.btn-sm.remove(type="button")
                   span.glyphicon.glyphicon-remove(title="Remove")

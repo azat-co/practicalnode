@@ -3,7 +3,7 @@ MOCHA_OPTS = --ui bdd -c
 
 db:
 	echo Seeding blog-test *****************************************************
-	./db/seed.sh
+	./seed.sh
 test:
 	clear
 

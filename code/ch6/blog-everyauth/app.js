@@ -92,10 +92,7 @@ const authorize = (req, res, next) => {
   if (req.session && req.session.admin) { return next() } else { return res.status(401).send() }
 }
 
-// Development only
-if (app.get('env') === 'development') {
-  app.use(errorHandler())
-}
+
 
 // Pages and routes
 app.get('/', routes.index)
@@ -118,6 +115,10 @@ app.all('*', function (req, res) {
   res.status(404).send()
 })
 
+// Development only
+if (app.get('env') === 'development') {
+  app.use(errorHandler())
+}
 // http.createServer(app).listen(app.get('port'), function(){
   // console.log('Express server listening on port ' + app.get('port'));
 // });
