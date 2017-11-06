@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    title= appTitle
+    script(type="text/javascript", src="/js/jquery-2.0.3.min.js")
+    link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap-theme.min.css")
+    link(rel="stylesheet", href="/css/style.css")
+    script(type="text/javascript", src="/css/bootstrap-3.0.2/js/bootstrap.min.js")
+    script(type="text/javascript", src="/js/blog.js")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  body
+    #wrap
+      .container
+        h1.page-header= appTitle
+        p.lead Welcome to example from Express.js Experience by&nbsp;
+          a(href="http://twitter.com/azat_co") @azat_co
+          |. Please enjoy.
+        block page
+        block header
+          div
+            include includes/menu
+        block alert
+          div.alert.alert-warning.hidden
+        .content
+          block content
+    block footer
+      footer
+        .container
+          p
+            | Copyright &copy; 2018 | Issues? Submit to&#32;
+            a(href="https://github.com/azat-co/blog-express/issues") GitHub
+            | .
