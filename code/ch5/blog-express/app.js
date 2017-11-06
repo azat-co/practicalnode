@@ -11,10 +11,10 @@ const collections = {
   users: db.collection('users')
 }
 
-const session = require('express-session')
+// const cookieParser = require('cookie-parser')
+// const session = require('express-session')
 const logger = require('morgan')
 const errorHandler = require('errorhandler')
-const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 
@@ -39,7 +39,7 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'public')))
 
 // development only
-if (app.get('env') == 'development') {
+if (app.get('env') === 'development') {
   app.use(errorHandler())
 }
 
