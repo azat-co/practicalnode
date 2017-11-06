@@ -1,5 +1,5 @@
 {
-  "name": "blog-express",
+  "name": "blog-mongoose",
   "version": "1.0.1",
   "private": true,
   "scripts": {
@@ -16,7 +16,6 @@
     "express": "4.16.2",
     "express-session": "1.15.6",
     "method-override": "2.3.10",
-    "mongodb": "2.2.33",
     "mongoose": "4.13.0",
     "morgan": "1.9.0",
     "pug": "2.0.0-rc.4",

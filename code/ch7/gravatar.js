@@ -1,5 +1,5 @@
-var crypto = require('crypto'),
-  email = 'Hi@azat.co '
+const crypto = require('crypto')
+let email = 'Hi@azat.co '
 
 email = email.trim()
 email = email.toLowerCase()
