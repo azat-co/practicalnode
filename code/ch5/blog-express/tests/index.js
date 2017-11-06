@@ -1,12 +1,12 @@
-var boot = require('../app').boot,
-  shutdown = require('../app').shutdown,
-  port = require('../app').port,
-  superagent = require('superagent'),
-  expect = require('expect.js')
+const boot = require('../app').boot
+const shutdown = require('../app').shutdown
+const port = require('../app').port
+const superagent = require('superagent')
+const expect = require('expect.js')
 
 // TODO: seed from the test and then clean up
-var seedArticles = require('../db/articles.json')
-const seedUsers = require('../db/users.json')
+const seedArticles = require('../db/articles.json')
+// const seedUsers = require('../db/users.json')
 
 describe('server', function () {
   before(function () {
@@ -16,7 +16,7 @@ describe('server', function () {
   describe('homepage', function () {
     it('should respond to GET', function (done) {
       superagent
-        .get('http://localhost:' + port)
+        .get(`http://localhost:${port}`)
         .end((error, res) => {
           expect(error).to.be(null)
           expect(res.status).to.equal(200)
@@ -25,14 +25,14 @@ describe('server', function () {
     })
     it('should contain posts', function (done) {
       superagent
-        .get('http://localhost:' + port)
+        .get(`http://localhost:${port}`)
         .end((error, res) => {
           expect(error).to.be(null)
           seedArticles.forEach(function (item, index, list) {
             if (item.published) {
-              expect(res.text).to.contain('<h2><a href="/articles/' + item.slug + '">' + item.title)
+              expect(res.text).to.contain(`<h2><a href="/articles/${item.slug}">${item.title}`)
             } else {
-              expect(res.text).not.to.contain('<h2><a href="/articles/' + item.slug + '">' + item.title)
+              expect(res.text).not.to.contain(`<h2><a href="/articles/${item.slug}">${item.title}`)
             }
             // console.log(item.title, res.text)
           })
@@ -43,10 +43,10 @@ describe('server', function () {
 
   describe('article page', function () {
     it('should display text', function (done) {
-      var n = seedArticles.length
+      let n = seedArticles.length
       seedArticles.forEach(function (item, index, list) {
         superagent
-          .get('http://localhost:' + port + '/articles/' + seedArticles[index].slug)
+          .get(`http://localhost:${port}/articles/${seedArticles[index].slug}`)
           .end((error, res) => {
             expect(error).to.be(null)
             if (item.published) {
