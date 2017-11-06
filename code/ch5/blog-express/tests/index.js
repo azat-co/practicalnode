@@ -43,16 +43,17 @@ describe('server', function () {
   })
 
   describe('article page', function () {
-    it('should display text', function (done) {
+    it('should display text or 401', function (done) {
       let n = seedArticles.length
       seedArticles.forEach(function (item, index, list) {
         superagent
           .get(`http://localhost:${port}/articles/${seedArticles[index].slug}`)
           .end((error, res) => {
-            expect(error).to.be(null)
             if (item.published) {
+              expect(error).to.be(null)
               expect(res.text).to.contain(seedArticles[index].text)
             } else {
+              expect(error).to.be.ok
               expect(res.status).to.be(401)
             }
             // console.log(item.title)
