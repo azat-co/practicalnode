@@ -75,7 +75,7 @@ var boot = function () {
   });
 }
 var shutdown = function() {
-  server.close();
+  server.close(process.exit);
 }
 if (require.main === module) {
   boot();

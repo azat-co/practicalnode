@@ -1,3 +1,11 @@
+# Usage
+
+`npm run seed`
+
+`npm test`
+
+`npm start`
+
 # Todo
 
 * Markdown
