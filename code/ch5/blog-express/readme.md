@@ -1,14 +1,17 @@
-# Usage
+# Blog with articles/posts
 
-`npm run seed`
+## Usage
 
-`npm test`
-
-`npm start`
+```
+npm i
+npm run seed
+make test
+npm start
+```
 
 # Todo
 
 * Markdown
-* Edit post (modal, fetch data via ajax)
+* Edit post (modal, fetch data via AJAX)
 * Photo upload
 * salt password

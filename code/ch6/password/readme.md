@@ -1,6 +1,8 @@
-# Todo
+# Blog with admin password page
 
-* Markdown
-* Edit post (modal, fetch data via ajax)
-* Photo upload
-* salt password
+```
+npm i
+npm run seed
+make test
+npm start
+```
