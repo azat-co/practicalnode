@@ -17,12 +17,12 @@ block content
             th Post Title
         tbody
           each article, index in articles
-            tr(data-id="#{article._id}", class=(!article.published)?'unpublished':'')
+            tr(data-id=`${article._id}`, class=(!article.published) ? 'unpublished':'')
               td.action
                 button.btn.btn-danger.btn-sm.remove(type="button")
                   span.glyphicon.glyphicon-remove(title="Remove")
               td.action
                 button.btn.btn-default.btn-sm.publish(type="button")
-                  span.glyphicon(class=(article.published)?"glyphicon-pause":"glyphicon-play", title=(article.published)?"Unpublish":"Publish")
+                  span.glyphicon(class=(article.published) ? "glyphicon-pause" : "glyphicon-play", title=(article.published) ? "Unpublish" : "Publish")
               td= article.title
       script(type="text/javascript", src="js/admin.js")

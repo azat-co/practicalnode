@@ -3,7 +3,7 @@ MOCHA_OPTS = --ui bdd -c
 
 db:
 	echo Seeding blog-test *****************************************************
-	./db/seed.sh
+	./seed.sh
 test:
 	clear
 
@@ -16,6 +16,7 @@ test:
 start:
 	TWITTER_CONSUMER_KEY=ABC \
 	TWITTER_CONSUMER_SECRET=XYZXYZ \
+	NODE_ENV=development \
 	node  app
 
 .PHONY: test db start
