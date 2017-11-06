@@ -1,0 +1,31 @@
+{
+  "name": "blog-everyauth",
+  "version": "0.0.7",
+  "private": true,
+  "scripts": {
+    "start": "make start",
+    "seed": "sh ./seed.sh",
+    "test": "make test",
+    "st": "standard app.js && standard tests/index.js && standard routes/*"
+  },
+  "dependencies": {
+    "body-parser": "1.18.2",
+    "cookie-parser": "1.4.3",
+    "errorhandler": "1.5.0",
+    "everyauth": "0.4.9",
+    "express": "4.16.2",
+    "express-session": "1.15.6",
+    "method-override": "2.3.10",
+    "mongoskin": "2.1.0",
+    "morgan": "1.9.0",
+    "pug": "2.0.0-rc.4",
+    "serve-favicon": "2.4.5",
+    "stylus": "0.54.5"
+  },
+  "devDependencies": {
+    "expect.js": "0.3.1",
+    "mocha": "4.0.1",
+    "standard": "10.0.3",
+    "superagent": "3.8.0"
+  }
+}

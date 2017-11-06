@@ -1,6 +1,6 @@
 {
-  "name": "blog-express",
-  "version": "0.0.6",
+  "name": "blog-password",
+  "version": "0.0.7",
   "private": true,
   "scripts": {
     "start": "node app.js",
