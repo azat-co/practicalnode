@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "seed": "sh ./seed.sh",    
-    "test": "mocha tests",
+    "test": "make test",
     "st": "standard app.js && standard tests/index.js && standard routes/*"    
   },
   "dependencies": {
