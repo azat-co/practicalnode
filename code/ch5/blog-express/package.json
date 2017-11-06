@@ -6,7 +6,7 @@
     "start": "node app.js",
     "seed": "sh ./seed.sh",
     "test": "mocha tests",
-    "st": "standard app.js && standard tests/index.js && standard routes/*.js"
+    "st": "standard app.js && standard tests/index.js && standard routes/*"
   },
   "dependencies": {
     "body-parser": "1.18.2",
