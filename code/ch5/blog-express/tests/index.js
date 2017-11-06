@@ -35,7 +35,7 @@ describe('server', function () {
             } else {
               expect(res.text).not.to.contain(`<h2><a href="/articles/${item.slug}">${item.title}`)
             }
-            console.log(item.title, res.text)
+            // console.log(item.title, res.text)
           })
           done()
         })
