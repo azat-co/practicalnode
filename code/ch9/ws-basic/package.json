@@ -1,0 +1,22 @@
+{
+  "name": "ws-basic",
+  "version": "1.0.1",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "ws": "3.3.0"
+  },
+  "devDependencies": {
+    "concurrently": "3.5.0",
+    "http-server": "0.10.0",
+    "standard": "10.0.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "st": "./node_modules/.bin/standard server.js",
+    "start": "./node_modules/.bin/concurrently \"node server.js\" \"./node_modules/.bin/http-server .\""
+  },
+  "keywords": [],
+  "author": "Azat Mardan (http://azat.co/)",
+  "license": "MIT"
+}
