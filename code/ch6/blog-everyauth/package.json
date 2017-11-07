@@ -8,6 +8,8 @@
     "test": "make test",
     "st": "standard app.js && standard tests/index.js && standard routes/*"
   },
+  "author": "Azat Mardan (http://azat.co/)",
+  "license": "MIT",  
   "dependencies": {
     "body-parser": "1.18.2",
     "cookie-parser": "1.4.3",

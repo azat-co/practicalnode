@@ -1,11 +1,14 @@
-var express = require('express'),
-  mongoskin = require('mongoskin'),
-  bodyParser = require('body-parser'),
-  logger = require('morgan')
+const express = require('express')
+const mongoskin = require('mongoskin')
+const bodyParser = require('body-parser')
+const logger = require('morgan')
+const http = require('http')
 
-var app = express()
+const app = express()
 
-app.use(bodyParser.urlencoded())
+app.set('port', process.env.PORT || 3000)
+
+
 app.use(bodyParser.json())
 app.use(logger())
 
@@ -33,7 +36,7 @@ app.get('/collections/:collectionName', function(req, res, next) {
 app.post('/collections/:collectionName', function(req, res, next) {
   req.collection.insert(req.body, {}, function(e, results){
     if (e) return next(e)
-    res.send(results)
+    res.send(results.ops)
   })
 })
 
@@ -49,17 +52,34 @@ app.put('/collections/:collectionName/:id', function(req, res, next) {
     {$set: req.body},
     {safe: true, multi: false}, function(e, result){
     if (e) return next(e)
-    res.send((result === 1) ? {msg:'success'} : {msg:'error'})
+    res.send((result.result.n === 1) ? {msg:'success'} : {msg:'error'})
   })
 })
 
-app.del('/collections/:collectionName/:id', function(req, res, next) {
+app.delete('/collections/:collectionName/:id', function(req, res, next) {
   req.collection.remove({_id: id(req.params.id)}, function(e, result){
     if (e) return next(e)
-    res.send((result === 1) ? {msg:'success'} : {msg:'error'})
+    // console.log(result)
+    res.send((result.result.n === 1) ? {msg:'success'} : {msg:'error'})
   })
 })
 
-app.listen(3000, function(){
-  console.log ('Server is running')
-})
+const server = http.createServer(app)
+const boot = () => {
+  server.listen(app.get('port'), () => {
+    console.info(`Express server listening on port ${app.get('port')}`)
+  })
+}
+
+const shutdown = function () {
+  server.close(process.exit)
+}
+
+if (require.main === module) {
+  boot()
+} else {
+  console.info('Running app as a module')
+  exports.boot = boot
+  exports.shutdown = shutdown
+  exports.port = app.get('port')
+}
