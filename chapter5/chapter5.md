@@ -424,7 +424,7 @@ The `users.json` file contains information about authorized users:
   	   "password": "1"
 	}]
 
-The `articles.json` file has the content of the blog posts:
+Here some of the content of he `articles.json` file which has the seed content of the blog posts and testing (please use the file provided in GitHub instead of typing from the book):
 
 	[{
   	  "title": "Node is a movement",
