@@ -7,7 +7,7 @@ block content
   input(type='text', class='message', placeholder='what is on your mind?', onkeyup='send(this)')
   script(src="/socket.io/socket.io.js")
   script.
-    var socket = io.connect('http://localhost');
+    var socket = io.connect('http://localhost:3000');
     socket.on('receive', function (message) {
       console.log('received %s', message);
       document.querySelector('.received-message').innerText = message;
