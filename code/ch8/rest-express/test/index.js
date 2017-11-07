@@ -7,12 +7,11 @@ var expect = require('expect.js')
 
 // const port = process.env.PORT || 3000
 
-before(function () {
+before(() => {
   boot()
 })
 
-describe('express rest api server', function(){
-
+describe('express rest api server', () => {
   var id
 
   it('post object', (done) => {
@@ -20,7 +19,7 @@ describe('express rest api server', function(){
       .send({ name: 'John',
         email: 'john@rpjs.co'
       })
-      .end((e,res) => {
+      .end((e, res) => {
         // console.log(res.body)
         expect(e).to.eql(null)
         expect(res.body.length).to.eql(1)
@@ -48,7 +47,7 @@ describe('express rest api server', function(){
         // console.log(res.body)
         expect(e).to.eql(null)
         expect(res.body.length).to.be.above(0)
-        expect(res.body.map(function (item){return item._id})).to.contain(id)
+        expect(res.body.map(function (item) { return item._id })).to.contain(id)
         done()
       })
   })

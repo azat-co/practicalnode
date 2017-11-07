@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "node index.js",
     "test": "PORT=3007 ./node_modules/.bin/mocha test -R spec"
   },
   "author": "Azat Mardan (http://azat.co/)",
