@@ -456,7 +456,7 @@ Let&#39;s add this test to the home page suite to check whether our app shows po
      it('should contain posts', function(done) {
        superagent
          .get('http://localhost:'+port)
-         .end(function(res){
+         .end(function(error, res){
            seedArticles.forEach(function(item, index, list){
              if (item.published) {
                expect(res.text).to.contain('<h2><a href="/articles/' + item.slug + '">' + item.title);
@@ -477,7 +477,7 @@ In a new-article page suite, let&#39;s test for presentation of the text with `c
         seedArticles.forEach(function(item, index, list){
           superagent
             .get('http://localhost:'+port + '/articles/' + seedArticles[index].slug)
-            .end(function(res){
+            .end(function(error, res){
               if (item.published) {
                 expect(res.text).to.contain(seedArticles[index].text);
               } else {

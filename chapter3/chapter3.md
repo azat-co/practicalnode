@@ -106,7 +106,7 @@ All hooks support asynchronous modes. The same is true for tests as well. For ex
       it('should respond to GET',function(){
         superagent
           .get('http://localhost:'+port)
-          .end(function(res){
+          .end(function(error, res){
             expect(res.status).to.equal(200);
         })
       })
@@ -117,7 +117,7 @@ But, as soon as we add a `done` parameter to the test&#39;s function, our test c
       it('should respond to GET',function(done){
         superagent
           .get('http://localhost:'+port)
-          .end(function(res){
+          .end(function(error, res){
             expect(res.status).to.equal(200);
             done();
         })
@@ -342,7 +342,7 @@ Now, create a test folder with `$ mkdir tests` and open `tests/index.js` in your
         it('should respond to GET',function(done){
           superagent
             .get('http://localhost:'+port)
-            .end(function(res){
+            .end(function(error, res){
               expect(res.status).to.equal(200);
               done()
           })
