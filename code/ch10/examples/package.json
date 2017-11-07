@@ -1,0 +1,17 @@
+{
+  "name": "examples",
+  "version": "1.0.1",
+  "description": "",
+  "main": "cluster.js",
+  "dependencies": {
+    "express": "^4.1.2",
+    "replify": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Azat Mardan (http://azat.co/)",
+  "license": "MIT"
+}
