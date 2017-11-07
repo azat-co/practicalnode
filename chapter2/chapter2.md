@@ -382,6 +382,35 @@ However, it&#39;s trivial to write your own middleware. It might look like this:
 
 ```js
 app.use((req, res, next) => {
+
+})
+```
+
+That's right. The middleware is just a function with three argument. Two of which are good old friends: request and response. Then third argument is a callback which is invoked when all is done.:
+
+
+```js
+app.use((req, res, next) => {
+  next()
+})
+```
+
+Developers can also finish the response with `send()` or `end() ` or `render()` or any other Express method, or pass an error object to the `next()` callback:
+
+```js
+app.use((req, res, next) => {
+  if (!req.session.loggedIn) // User didn't log in
+    return next(new Error('Not enough permissions'))
+  if (req.session.credits === 0) // User has not credit to play
+    return res.render('not-enough-credits.pug')
+  next()
+})
+```
+
+Let's take a look at another example which has some logic to deal with a query string data (`req.query` object):
+
+```js
+app.use((req, res, next) => {
   if (req.query.id) {
     // process the id, then call next() when done
   else if (req.query.author) {
@@ -398,7 +427,27 @@ app.get('/about', (req, res, next) => {
 });
 ```
 
-Back to the `app.js` file. The request handler itself (`index.js`, in this case) is straightforward. Everything from the HTTP request is in `req` and it writes results to the response in `res`. Here's `routes/index.js`:
+What's useful is that each `req` or `request` object in the *subsequent* middleware functions or request handler functions (i.e., routes) is the same object for the same request. This allows developers to decorate a refernce or a value. For example, by having this middleware we can ensure that all subsequent middleware and routes **have access to `db`**:
+
+```js
+app.use((req, res, next) => {
+  req.db = const db = mongoskin.db('mongodb://@localhost:27017/test')
+})
+
+app.use((req, res, next) => {
+  req.articles =  req.db.collection('articles')
+})
+
+app.post('/users', (req, res, next) => { // use req.db or req.articles
+  req.db.collection('users').insert({}, {}, (error, results)=>{
+    req.articles.insert({}, {}, (error, results)=>{
+      res.send()
+    })
+  })
+})
+```
+
+Back to the `app.js` file. The request handler for the root route, i.e., `/` is straightforward (`routes/index.js`, in this case). Everything from the HTTP request is in `req` and it writes results to the response in `res`. Here's `routes/index.js`:
 
 ```js
 var express = require('express');

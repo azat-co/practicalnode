@@ -11,7 +11,7 @@ app.set('port', process.env.PORT || 3000)
 app.use(bodyParser.json())
 app.use(logger())
 
-const db = mongoskin.db('mongodb://@localhost:27017/test', {safe: true})
+const db = mongoskin.db('mongodb://@localhost:27017/test')
 const id = mongoskin.helper.toObjectID
 
 app.param('collectionName', (req, res, next, collectionName) => {
