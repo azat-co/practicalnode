@@ -1,8 +1,13 @@
-var hapi = require('hapi'),
-  server = hapi.createServer('localhost', 3000)
-  mongoskin = require('mongoskin')
+const port = process.env.PORT || 3000
 
-var db = mongoskin.db('mongodb://@localhost:27017/test', {safe:true})
+const Hapi = require('hapi');
+
+const server = new Hapi.Server();
+server.connection({ port: port, host: 'localhost' });
+
+const mongoskin = require('mongoskin')
+
+var db = mongoskin.db('mongodb://@localhost:27017/test', {})
 var id = mongoskin.helper.toObjectID
 
 var loadCollection = function(name, callback) {
@@ -36,7 +41,7 @@ server.route([
       loadCollection(req.params.collectionName, function(collection) {
         collection.insert(req.payload, {}, function(e, results){
           if (e) return reply(e)
-          reply(results)
+          reply(results.ops)
         })
       })
     }
@@ -62,7 +67,7 @@ server.route([
           {$set: req.payload},
           {safe: true, multi: false}, function(e, result){
           if (e) return reply(e)
-          reply((result === 1) ? {msg:'success'} : {msg:'error'})
+          reply((result.result.n === 1) ? {msg:'success'} : {msg:'error'})
         })
       })
     }
@@ -74,7 +79,7 @@ server.route([
       loadCollection(req.params.collectionName, function(collection) {
         collection.remove({_id: id(req.params.id)}, function(e, result){
            if (e) return reply(e)
-           reply((result === 1) ? {msg:'success'} : {msg:'error'})
+           reply((result.result.n === 1) ? {msg:'success'} : {msg:'error'})
          })
       })
     }
@@ -88,10 +93,34 @@ var options = {
   }
 };
 
-server.pack.require('good', options, function (err) {
+server.register(require('good', options, function (err) {
   if (!err) {
       // Plugin loaded successfully
   }
-});
+}))
 
-server.start()
+
+const boot = () => {
+  server.start((err) => {    
+    if (err) {
+      process.exit(1)
+    }
+    console.log(`Server running at: ${server.info.uri}`)
+  })    
+}
+
+const shutdown = () => {
+  server.stop({}, ()=>{
+    process.exit(0)
+  })
+}
+
+if (require.main === module) {
+  console.info('Running app as a standalone')
+  boot()
+} else {
+  console.info('Running app as a module')
+  exports.boot = boot
+  exports.shutdown = shutdown
+  exports.port = port
+}
