@@ -1,4 +1,3 @@
-// const expect = require('expect.js')
 const expect = require('chai').expect
 let expected,
   current

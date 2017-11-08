@@ -1,5 +1,5 @@
-// const assert = require('assert')
-const assert = require('chai').assert
+const assert = require('assert')
+// const assert = require('chai').assert
 const testArray = ['a','b','c']
 const testString = 'a,b,c'
 

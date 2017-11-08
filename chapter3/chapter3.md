@@ -11,11 +11,8 @@ The behavior-driven development (BDD) concept is based on TDD. It differs from T
 Similar to building apps themselves, most of the time software engineers should use a testing framework. To get you started with the Node.js testing framework, Mocha, in this chapter, we cover the following:
 
 - Installing and understanding Mocha
-
 - TDD with the assert
-
 - BDD with Expect.js
-
 - Project: writing the first BDD test for Blog
 
 The source code for this chapter is in the `ch3` folder of the practicalnode(<https://github.com/azat-co/practicalnode>) GitHub repository (https://github.com/azat-co/practicalnode).
@@ -24,28 +21,32 @@ The source code for this chapter is in the `ch3` folder of the practicalnode(<ht
 
 Mocha is a mature and powerful testing framework for Node.js. To install it, simply run:
 
-    $ npm install –g mocha@1.16.2
+```
+$ npm install –g mocha@1.16.2
+```
 
 **Note**: We use a specific version (the latest as of this writing is 1.16.2) to prevent inconsistency in this book&#39;s examples caused by potential breaking changes in future versions of Mocha.
 
 If you encounter the lack-of-permissions issue, discussed in Chapters 1 and 2, run:
 
-    $ sudo npm install –g mocha@1.16.2
+```
+$ sudo npm install –g mocha@1.16.2
+```
 
 To avoid using `sudo`, follow the instructions in Chapter 1 on how to install Node.js correctly.
 
 **Tip**: It&#39;s possible to have a separate version of Mocha for each project by simply pointing to the local version of Mocha, which you install like any other npm module into `node_modules`. The command will be:
 
-    $ ./node_modules/mocha/bin/mocha test_name
+```
+$ ./node_modules/mocha/bin/mocha test_name
+```
 
 for macOS / Linux. For an example, refer to "Putting Configs into a Makefile" later in this chapter.
 
 Most of you have heard about TDD and why it&#39;s a good thing to follow. The main idea of TDD is to do the following:
 
 - Define a unit test
-
 - Implement the unit
-
 - Verify that the test passes
 
 BDD is a specialized version of TDD that specifies what needs to be unit-tested from the perspective of business requirements. It&#39;s possible to just write test with good old plain core Node.js module `assert`. However, as in many other situations, using a framework is more preferable. For both TDD and BDD, we&#39;ll be using the Mocha testing framework because we gain many things for “free.” Among them are the following:
@@ -80,7 +81,7 @@ Here is a list of optional parameters (options) that the `$ mocha [options]` com
 - `--reporters`: print available reporters
 - `--compilers <ext>:<module>,...`: provide compiler to use
 
-Figure 3-1 shows an example of nyan cat reporter with the command `$ mocha test-expect.js -R nyan`.
+Figure 3-1 shows an example of nyan cat reporter with the command `$ mocha test-expect.js -R nyan`. I mean, how can someone don't like a testing framework which supports a nyan cat reporter?! 😺
 
 ![alt](media/image1.png)
 
@@ -88,10 +89,10 @@ Figure 3-1 shows an example of nyan cat reporter with the command `$ mocha test-
 
 Usually, when it comes to choosing a type of framework, there are a few options. Mocha is one of the more robust and widely used. However, the following alternatives to Mocha are worth considering:
 
+- [Jest](https://facebook.github.io/jest) (<https://facebook.github.io/jest>)
+- [Encyme](http://airbnb.io/enzyme) (<http://airbnb.io/enzyme>)
 - [NodeUnit](https://github.com/caolan/nodeunit) (<https://github.com/caolan/nodeunit>)
-
 - [Jasmine](http://pivotal.github.com/jasmine) (<http://pivotal.github.com/jasmine>)
-
 - [Vows](http://vowsjs.org) (<http://vowsjs.org>)
 
 ## Understanding Mocha Hooks
@@ -102,26 +103,32 @@ In addition to `before` and `beforeEach` hooks, there are `after()`, and `afterE
 
 All hooks support asynchronous modes. The same is true for tests as well. For example, the following test suite is synchronous and won&#39;t wait for the response to finish:
 
-    describe('homepage', function(){
-      it('should respond to GET',function(){
-        superagent
-          .get('http://localhost:'+port)
-          .end(function(error, res){
-            expect(res.status).to.equal(200);
-        })
+```js
+  describe('homepage', () => {
+    it('should respond to GET', () => {
+      superagent
+        .get(`http://localhost:${port}`)
+        .end((error, response) => {
+          expect(response.status).to.equal(200) // This will never happen
       })
+    })
+  })
+```
 
 But, as soon as we add a `done` parameter to the test&#39;s function, our test case waits for the HTTP request to come back:
 
-    describe('homepage', function(){
-      it('should respond to GET',function(done){
-        superagent
-          .get('http://localhost:'+port)
-          .end(function(error, res){
-            expect(res.status).to.equal(200);
-            done();
-        })
+```js
+  describe('homepage', () => {
+    it('should respond to GET', (done) => {
+      superagent
+        .get(`http://localhost:${port}`)
+        .end((error, response) => {
+          expect(response.status).to.equal(200)
+          done()
       })
+    })
+  })
+```
 
 Test cases (`describe`) can be nested inside other test cases, and hooks such as `before` and `beforeEach` can be mixed in with different test cases on different levels. Nesting of `describe` constructions is a good idea in large test files.
 
@@ -142,27 +149,35 @@ Let&#39;s write our first tests with the assert library. This library is part of
 
 After global Mocha installation is finished, a test file can be created in a `test-example` folder:
 
-    $ mkdir test-example
-    $ subl test-example/test.js
+```
+$ mkdir test-example
+$ subl test-example/test.js
+```
 
-**Note**: `subl` is a Sublime Text alias command. You can use any other editor, such as Vi (`vi`) or TextMate (`mate`).
+**Note**: `subl` is a Sublime Text alias command which allows developers to open a folder in a code editor by executing this command in a terminal. You can use any other editor, such as VS Code (`code`), Vi (`vi`) or TextMate (`mate`).
 
 With the following content:
 
-    var assert = require('assert');
-    describe('String#split', function(){
-      it('should return an array', function(){
-        assert(Array.isArray('a,b,c'.split(',')));
-      });
-    })
+```js
+const assert = require('assert')
+describe('String#split', () => {
+  it('should return an array', () => {
+    assert(Array.isArray('a,b,c'.split(',')))
+  })
+})
+```
 
 We can run this simple `test.js` (inside the `test-example` folder), which checks for Array type, with:
 
-    $ mocha test
+```
+$ mocha test
+```
 
 or
 
-    $ mocha test.js.
+```
+$ mocha test.js.
+```
 
 The results of these Mocha commands are shown in Figure 3-2.
 
@@ -170,48 +185,72 @@ The results of these Mocha commands are shown in Figure 3-2.
 
 ***Figure 3-2.** Running Array-type test*
 
-We can add to our example another test case (`it`) that asserts equality of array values:
+We can add to our example another test case (`it`) that asserts equality of array values (`code/ch3/test-example/test.js`):
 
-    var assert = require('assert');
-    describe('String#split', function(){
-      it('should return an array', function(){
-        assert(Array.isArray('a,b,c'.split(',')));
-      });
-      it('should return the same array', function(){
-        assert.equal(['a','b','c'].length, 'a,b,c'.split(',').length, 'arrays have equal length');
-        for (var i=0; i&lt;['a','b','c'].length; i++) {
-          assert.equal(['a','b','c'][i], 'a,b,c'.split(',')[i], i + 'element is equal');
-        };
-      });
-    })
+```js
+const assert = require('assert')
+const testArray = ['a','b','c']
+const testString = 'a,b,c'
 
-As you can see, some code is repeated, so we can abstract it into `beforeEach` and `before` constructions:
+describe('String#split', () => {
+  
+  it('should return an array', () => {
+    assert(Array.isArray('a,b,c'.split(',')))
+  })
 
-    var assert = require('assert');
-    var expected, current;
-    before(function(){
-      expected = ['a', 'b', 'c'];
-    })
-    describe('String#split', function(){
-      beforeEach(function(){
-        current = 'a,b,c'.split(',');
-      })
-      it('should return an array', function(){
-        assert(Array.isArray(current));
-      });
-      it('should return the same array', function(){
-        assert.equal(expected.length, current.length, 'arrays have equal length');
-        for (var i=0; i&lt;expected.length; i++) {
-          assert.equal(expected[i], current[i], i + 'element is equal');
-        }
-      })
-    })
+  it('should return the same array', () => {
+    assert.equal(testArray.length, 
+      testString.split(',').length, 
+      `arrays have equal length`)
+    for (let i = 0; i < testArray.length; i++) {
+      assert.equal(testArray[i], 
+        testString.split(',')[i], 
+        `i element is equal`)
+    }
+  })
+
+})
+```
+
+As you can see, some code is repeated, so we can abstract it into `beforeEach` and `before` constructions. A little bit of abstraction is always a good thing! At the same time, there's a `chai` library which has assert module. Developers prefer to use chai assert over core assert because chai assert has more features. Here's a new version of the test. It's in `code/ch3/test-example/test2.js`:
+
+```js
+var assert = require('assert')
+var expected, current
+
+before(() => {
+  expected = ['a', 'b', 'c']
+})
+
+describe('String#split', () => {
+
+  beforeEach(() => {
+    current = 'a,b,c'.split(',')
+  })
+
+  it('should return an array', () => {
+    assert(Array.isArray(current))
+  })
+
+  it('should return the same array', () => {
+    assert.equal(expected.length, 
+      current.length, 
+      'arrays have equal length')
+    for (let i = 0; i < expected.length; i++) {
+      assert.equal(expected[i], 
+        current[i], 
+        `i element is equal`)
+    }
+  })    
+
+})
+```
 
 ## Chai Assert
 
 In the previous example with `test.js` and assert, we used the Node.js core module assert. Chai is a subset of that library. We can modify our previous example to use chai assert with following code:
 
-`$ npm install chai@1.8.1`
+`$ npm install chai@4.1.2`
 
 And in `test-example/test.js`:
 
@@ -229,55 +268,68 @@ The following are some of the methods from the chai assert library:
 
 For the full chai assert API, refer to [the official documentation](http://chaijs.com/api/assert) (<http://chaijs.com/api/assert>).
 
-**Note**: The chai assert (`chai.assert`) and the Node.js core assert (`assert`) modules are *not 100% compatible*, because the former has more methods. The same is true for chai expect and a standalone expect.js.
+**Note**: The chai assert (`chai.assert`) and the Node.js core assert (`assert`) modules are *not 100% compatible*, because the former has more methods. The same is true for chai expect and a standalone expect.js. We will use the Expect from Chai.
 
-# BDD with Expect.js
+# BDD with Expect
 
-Expect.js is one of the BDD languages. Its syntax allows for chaining and is richer in features than core module assert. There are two options to use expect.js:
+Expect is one of the BDD languages. It's very popular.. Its syntax allows for chaining and is richer in features than core module assert. The syntax is very natural to read and understand... even by non-developers, designers and chihuahuas. There are two options to use Expect:
 
 1. Install as a local module
-
 2. Install as a part of the chai library
 
 For the former, simply execute the following:
 
-    $ mkdir node_modules
-    $ npm install expect.js@0.2.0
+```
+$ mkdir node_modules
+$ npm install chai@4.1.2
+```
 
-And, use `var expect = require('expect.js');` inside a Node.js test file. For example, the previous test can be rewritten in expect.js BDD style:
+And, use `const expect = require('chai').expect` inside a Node.js test file. You can use ES6 destructuring assignment as well: `const {expect} = require('chai')`. What about the usage of Expect? Each assertion can be re-written with Expect. For example, the previous test can be rewritten in expect BDD style:
 
-    var expect = require('expect.js');
-    var expected, current;
-    before(function(){
-      expected = ['a', 'b', 'c'];
-    })
-    describe('String#split', function(){
-      beforeEach(function(){
-        current = 'a,b,c'.split(',');
-      })
-      it('should return an array', function(){
-        expect(Array.isArray(current)).to.be.true;
-      });
-      it('should return the same array', function(){
-        expect(expected.length).to.equal(current.length);
-        for (var i=0; i&lt;expected.length; i++) {
-          expect(expected[i]).equal(current[i]);
-        }
-      })
-    })
+```js
+const expect = require('chai').expect
+let expected,
+  current
 
-For the chai library approach, run the following:
+before(() => {
+  expected = ['a', 'b', 'c']
+})
 
-    $ mkdir node_modules
-    $ npm install chai@1.8.1
+describe('String#split', () => {
+  
+  beforeEach(() => {
+    current = 'a,b,c'.split(',')
+  })
 
-And, use `var chai = require('chai'); var expect = chai.expect;` inside a Node.js test file. For example:
+  it('should return an array', () => {
+    expect(Array.isArray(current)).to.be.true
+  })
 
-    var expect = require('chai').expect;
+  it('should return the same array', () => {
+    expect(expected.length).to.equal(current.length)
+    for (let i = 0; i < expected.length; i++) {
+      expect(expected[i]).equal(current[i])
+    }
+  })    
+})
+```
+
+We will cover the expect syntax and methods later. Now I'll show you another library — standalone Expect.js. For the standalone expect.js (not 100% compatible with chai expect) approach, import another module called `expect.js` with the following command:
+
+```
+$ mkdir node_modules
+$ npm install expect.js
+```
+
+And, use `const expect = require('expect.js')` inside a Node.js test file. For example:
+
+```js
+var expect = require('expect.js')
+```
 
 **Note**: `$ mkdir node_modules` is needed only if you install npm modules in the folder that has neither the `node_modules` directory already nor a `package.json` file. For more information, please refer to Chapter 1.
 
-## Expect.js Syntax
+## Expect Syntax
 
 The Expect.js library is very extensive. It has nice methods that mimic natural language. Often there are a few ways to write the same assertion, such as `expect(response).to.be(true)` and `expect(response).equal(true)`. The following lists some of the main Expect.js methods/properties:
 
@@ -299,7 +351,7 @@ The goal of this mini-project is to add a few tests for Blog (this book&#39;s pr
 
 The source code for this chapter is in the `ch3/blog-express` folder of the practicalnode(<https://github.com/azat-co/practicalnode>) GitHub repository (https://github.com/azat-co/practicalnode).
 
-First, let&#39;s copy the Hello World project. It will serve as a foundation for Blog. Then, install Mocha in the Blog project folder, and add it to the `package.json` file at the same time with `$ npm install mocha@1.16.2 --save-dev`. The `--save-dev` flag will categorize this module as a development dependency (devDependencies). Modify this command by replacing package name and version number for expect.js (0.2.0) and [superagent](https://npmjs.org/package/superagent) (<https://npmjs.org/package/superagent>) (0.15.7). The latter is a library to streamline the making of HTTP requests. Alternatives to `superagent` include the following:
+First, let&#39;s copy the Hello World project. It will serve as a foundation for Blog. Then, install Mocha in the Blog project folder, and add it to the `package.json` file at the same time with `$ npm install mocha@4.0.1 --save-dev`. The `--save-dev` flag will categorize this module as a development dependency (devDependencies). Modify this command by replacing package name and version number for expect.js (0.3.1) and [superagent](https://npmjs.org/package/superagent) (<https://npmjs.org/package/superagent>) (3.8.0). The latter is a library to streamline the making of HTTP requests. Alternatives to `superagent` include the following:
 
 - `request`(<https://npmjs.org/package/request>): the third most-starred npm module (as of this writing)
 - *core* `http` *module*: clunky and very low level
@@ -307,131 +359,104 @@ First, let&#39;s copy the Hello World project. It will serve as a foundation for
 
 Here's the updated `package.json`:
 
-    {
-      "name": "blog-express",
-      "version": "0.0.1",
-      "private": true,
-      "scripts": {
-        "start": "node app.js",
-        "test": "mocha test"
-      },
-      "dependencies": {
-        "express": "4.1.2",
-        "jade": "1.3.1",
-        "stylus": "0.44.0"
-      },
-      "devDependencies": {
-        "mocha": "1.16.2",
-        "superagent": "0.15.7",
-        "expect.js": "0.2.0"
-      }
-    }
+```js
+{
+  "name": "blog-express",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha tests"
+  },
+  "dependencies": {
+    "express": "4.16.2",
+    "pug": "2.0.0-rc.4",
+    "stylus": "0.54.5"
+  },
+  "devDependencies": {
+    "expect.js": "0.3.1",
+    "mocha": "4.0.1",
+    "superagent": "3.8.0"
+  }
+}
+```
 
-Now, create a test folder with `$ mkdir tests` and open `tests/index.js` in your editor. The test needs to start the server:
+Now, create a test folder with `$ mkdir tests` and open `tests/index.js` in your editor. The test needs to start the server. We will use two methods `boot()` and `shutdown()` which are imported from the yet to be created `app.js`. The test is straightforward. It makes a single GET request to a homepage and checks that the response has status code 200 (OK).
 
-    var boot = require('../app').boot,
-      shutdown = require('../app').shutdown,
-      port = require('../app').port,
-      superagent = require('superagent'),
-      expect = require('expect.js');
-    describe('server', function () {
-      before(function () {
-        boot();
-      });
-      describe('homepage', function(){
-        it('should respond to GET',function(done){
-          superagent
-            .get('http://localhost:'+port)
-            .end(function(error, res){
-              expect(res.status).to.equal(200);
-              done()
-          })
-        })
-      });
-      after(function () {
-        shutdown();
-      });
-    });
+```js
+var boot = require('../app').boot,
+  shutdown = require('../app').shutdown,
+  port = require('../app').port,
+  superagent = require('superagent'),
+  expect = require('expect.js')
 
-In `app.js`, we expose two methods, `boot` and `shutdown`, when the file is imported, in our case, by the test. So, instead of:
+describe('server', () => {
+  before(() => {
+    boot()
+  })
+  describe('homepage', () => {
+    it('should respond to GET', (done) => {
+      superagent
+        .get(`http://localhost:${port}`)
+        .end((error, response) => {
+          expect(response.status).to.equal(200)
+          done()
+      })
+    })
+  })
+  after(() => {
+    shutdown()
+  })
+})
+```
 
-    http.createServer(app).listen(app.get('port'), function(){
-      console.log('Express server listening on port ' + app.get('port'));
-    });
+Now the actual meat and potatoes (or rice and tofu bacon for my vegetarian readers). The Express server in `app.js`. We expose two methods, `boot` and `shutdown`, when the file is imported, in our case, by the test. So, instead of just using listen to boot up the server right in the `app.js` like we did before:
 
-we can refactor into:
+```js
+http.createServer(app).listen(app.get('port'), () => {
+  console.log(`Express server listening on port ${app.get('port')}`)
+})
+```
 
-    var server = http.createServer(app);
-    var boot = function () {
-      server.listen(app.get('port'), function(){
-        console.info('Express server listening on port ' + app.get('port'));
-      });
-    }
-    var shutdown = function() {
-      server.close();
-    }
-    if (require.main === module) {
-      boot();
-    }
-    else {
-      console.info('Running app as a module')
-      exports.boot = boot;
-      exports.shutdown = shutdown;
-      exports.port = app.get('port');
-    }
+we can refactor into using an if/else condition with `require.main === module` which would either export the server Express app object (false) for usage in the Mocha test file (`tests/index.js`) or boot up the server right away (true):
 
-To launch the test, simply run `$ mocha tests`. The server should boot and respond to the home page request (`/` route) as shown in Figure 3-3.
+```js
+const server = http.createServer(app)
+const boot = () => {
+  server.listen(app.get('port'), () => {
+    console.info(`Express server listening on port ${app.get('port')}`)
+  })
+}
+const shutdown = () => {
+  server.close()
+}
+if (require.main === module) {
+  boot()
+} else {
+  console.info('Running app as a module')
+  exports.boot = boot
+  exports.shutdown = shutdown
+  exports.port = app.get('port')
+}
+```
+
+To launch the test, simply run `$ mocha tests`. The `tests` is a folder. The file name `index.js` is optional. If you have more than one file in the `tests` folder, then all of them would be run by the Mocha test runner. When you run the tests, the server should boot and respond to the home page request (`/` route) as shown in Figure 3-3.
 
 ![alt](media/image3.png)
 
 ***Figure 3-3.** Running $ mocha tests*
 
+So having tests bootup your server is convenient. You don't need to keep remembering to boot up the server separately before running the tests. Can we make the test report prettier? Sure!
+
 ## Putting Configs into a Makefile
 
 The `mocha` accepts many options. It&#39;s often a good idea to have these options gathered in one place, which could be a Makefile. For example, we can have `test`, `test-w` test all files in the `test` folder, and have modes for just the `module-a.js` and `module-b.js` files to test them separately.
 
-    REPORTER = list
-    MOCHA_OPTS = --ui tdd --ignore-leaks
+```makefile
+REPORTER = list
+MOCHA_OPTS = --ui tdd --ignore-leaks
 
-    test:
-            clear
-            echo Starting test *********************************************************
-            ./node_modules/mocha/bin/mocha \
-            --reporter $(REPORTER) \
-            $(MOCHA_OPTS) \
-            tests/*.js
-            echo Ending test
-
-    test-w:
-            ./node_modules/mocha/bin/mocha \
-            --reporter $(REPORTER) \
-            --growl \
-            --watch \
-            $(MOCHA_OPTS) \
-            tests/*.js
-
-    test-module-a:
-            mocha tests/module-a.js --ui tdd --reporter list --ignore-leaks
-
-    test-module-b:
-            clear
-            echo Starting test *********************************************************
-            ./node_modules/mocha/bin/mocha \
-            --reporter $(REPORTER) \
-            $(MOCHA_OPTS) \
-            tests/module-b.js
-            echo Ending test
-
-    .PHONY: test test-w test-module-a test-module-b
-
-To launch this Makefile, run `$ make <mode>`—for example, `$ make test`. For more information on a Makefile please refer to Understanding Make at http://www.cprogramming.com/tutorial/makefiles.html and Using Make and Writing Makefiles at http://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html.
-
-For our Blog app, we can keep the Makefile simple:
-
-    REPORTER = list
-    MOCHA_OPTS = --ui bdd –c
-
-    test:
+test:
         clear
         echo Starting test *********************************************************
         ./node_modules/mocha/bin/mocha \
@@ -440,7 +465,48 @@ For our Blog app, we can keep the Makefile simple:
         tests/*.js
         echo Ending test
 
-    .PHONY: test
+test-w:
+        ./node_modules/mocha/bin/mocha \
+        --reporter $(REPORTER) \
+        --growl \
+        --watch \
+        $(MOCHA_OPTS) \
+        tests/*.js
+
+test-module-a:
+        mocha tests/module-a.js --ui tdd --reporter list --ignore-leaks
+
+test-module-b:
+        clear
+        echo Starting test *********************************************************
+        ./node_modules/mocha/bin/mocha \
+        --reporter $(REPORTER) \
+        $(MOCHA_OPTS) \
+        tests/module-b.js
+        echo Ending test
+
+.PHONY: test test-w test-module-a test-module-b
+```
+
+To launch this Makefile, run `$ make <mode>`. For example, `$ make test`. `test` is one of the commands in the Makefile. Other commands are `test-w`, `test-module-a` and `test-module-b`. Of course, developers are not limited only to testing in Makefiles. Anything can be there. Mostly the building, compilation, linting, configuration and maybe even deployment! For more information on a Makefile please refer to Understanding Make at http://www.cprogramming.com/tutorial/makefiles.html and Using Make and Writing Makefiles at http://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html.
+
+For our Blog app, we can keep the Makefile simple:
+
+```makefile
+REPORTER = list
+MOCHA_OPTS = --ui bdd –c
+
+test:
+    clear
+    echo Starting test *********************************************************
+    ./node_modules/mocha/bin/mocha \
+    --reporter $(REPORTER) \
+    $(MOCHA_OPTS) \
+    tests/*.js
+    echo Ending test
+
+.PHONY: test
+```
 
 **Note**: We point to the local Mocha in the Makefile, so the dependency needs to be added to `package.json` and installed in the `node_modules` folder.
 
@@ -449,6 +515,8 @@ Now we can run tests with the `$ make test` command, which allows for more confi
 ![alt](media/image4.png)
 
 ***Figure 3-4.** Running `make test`*
+
+Don't forget that `make test` uses singular and `mocha tests` uses a plural word in the command. :-)
 
 # Summary
 
