@@ -30,7 +30,7 @@ If you'd like to contribute financially towards the effort (or any of my other o
 # Practical Node.js, 2nd Edition Table of Contents
 
 1. [Setting up Node.js and Other Essentials](https://github.com/azat-co/practicalnode/blob/master/chapter1/chapter1.md) [3rd Edition] <-- NEEDS REVIEW! 👀
-2. [Using Express.js 4 to Create Node.js Web Apps](https://github.com/azat-co/practicalnode/blob/master/chapter2/chapter2.md) [2nd Edition]
+2. [Using Express.js 4 to Create Node.js Web Apps](https://github.com/azat-co/practicalnode/blob/master/chapter2/chapter2.md) [3rd Edition] <-- NEEDS REVIEW! 👀
 3. [TDD and BDD for Node.js with Mocha](https://github.com/azat-co/practicalnode/blob/master/chapter3/chapter3.md) [2nd Edition]
 4. [Template Engines: Jade and Handlebars](https://github.com/azat-co/practicalnode/blob/master/chapter4/chapter4.md) [2nd Edition]
 5. [Persistence with MongoDB and Mongoskin](https://github.com/azat-co/practicalnode/blob/master/chapter5/chapter5.md) [2nd Edition]
