@@ -11,15 +11,10 @@ If we go back to the diagrams in the previous chapter (traditional vs. REST API 
 In this chapter we cover the following:
 
 - Pug syntax and features
-
 - Pug standalone usage
-
 - Handlebars syntax
-
 - Handlebars standalone usage
-
-- Pug and Handlebars usage in Express.js 4
-
+- Pug and Handlebars usage in Express.js
 - Project: adding Pug templates to Blog
 
 # Pug Syntax and Features
@@ -34,24 +29,92 @@ Any text at the beginning of a line—by default—is interpreted as an HTML tag
 
 The text following a tag and a space (e.g., `tag <text>`) is parsed as the inner HTML (i.e., content inside the element). For example, if we have the following Pug code:
 
-    Body
-      div
-        h1 Practical Node.js
-        p The only book most people will ever need.
-      div
-        footer &copy; Apress
+```pug
+body
+  div
+    h1 Practical Node.js
+    p The only book most people will ever need.
+  div
+    footer &copy; Apress
+```
 
 The output of the template above will be:
 
-    <body>
-      <div>
-        <h1> Practical Node.js </h1>
-        <p> The only book most people will ever need. </p>
-      </div>
-      <div>
-        <footer> &copy; Apress </footer>
-      </div>
-    </body>
+```pug
+<body>
+  <div>
+    <h1> Practical Node.js </h1>
+    <p> The only book most people will ever need. </p>
+  </div>
+  <div>
+    <footer> &copy; Apress </footer>
+  </div>
+</body>
+```
+
+The code above is an HTML body. How about some more interesting HTML like the entire web page with head and other tags? Sure. Here's an example of how to define `DOCTYPE`, and element attributes such as `id` and `class`.
+
+```pug
+doctype html
+html(lang="en")
+  head
+    title Why JavaScript is Awesome | CodingFear: programming and human circumstances
+    script(type='text/javascript').
+      const a = 1
+      console.log(`Some JavaScript code here and the value of a is ${a}`)
+  body
+    h1 Why JavaScript is Awesome
+    #container.col
+        p You are amazing
+        p Get on it!
+      p.
+        JavaScript is fun. Almost everything 
+        can be written in JavaScript. It is huge.
+```
+
+THe output will contain attributes defined with parenthesis `(key=value)`, JavaScript code which will be executed when the page is viewed in the browsers and of course text which can start on a new line if you use a dot `.` after the element or parenthesis. The `#` means it's an id attribute while the dot in the element means a class attribute. And omitting the element name like we did with the `#container.col` will produce `<div>` with id `container` and class `col`.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Why JavaScript is Awesome | CodingFear: programming and human circumstances</title>
+    <script type="text/javascript">
+      const a = 1
+      console.log(`Some JavaScript code here and the value of a is ${a}`)
+    </script>
+  </head>
+  <body>
+    <h1>Why JavaScript is Awesome</h1>
+    <div class="col" id="container">
+      <p>You are amazing</p>
+      <p>Get on it!</p>
+      <p>
+        JavaScript is fun. Almost everything
+        can be written in JavaScript. It is huge.
+      </p>
+    </div>
+  </body>
+</html>
+```
+
+You can play with these example using the code which is in the `code/ch4/pug-example/pug-method-example.js`. The code uses the `pug` npm modules and its `render()` method. For example,
+
+```js
+const pug = require('pug')
+const pugTemplate = `body
+  div
+    h1 Practical Node.js
+    p The only book most people will ever need.
+  div
+    footer &copy; Apress`
+
+
+const htmlString = pug.render(pugTemplate, {pretty: true})
+console.log(htmlString)
+```
+
+So far we just outputted some pre-programmed code which is not modifiable by the application. This is static and not much fun. Most of the times we want to have some dynamism in the form of the variables which will allow the application itself to modify the output (i.e., HTML).
 
 ## Variables/Locals
 
