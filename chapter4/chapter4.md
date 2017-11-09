@@ -1,6 +1,6 @@
 Chapter 4
 ---------
-# Template Engines: Jade and Handlebars
+# Template Engines: Pug and Handlebars
 
 A template engine is a library or a framework that uses some rules/languages to interpret data and render views. In the case of web applications, views are HTML pages (or parts of them), but they can be JSON or XML files, or, of desktop programs, GUIs. For those of you familiar with the model–view–controller concept, templates belong to the view.
 
@@ -10,29 +10,29 @@ If we go back to the diagrams in the previous chapter (traditional vs. REST API 
 
 In this chapter we cover the following:
 
-- Jade syntax and features
+- Pug syntax and features
 
-- Jade standalone usage
+- Pug standalone usage
 
 - Handlebars syntax
 
 - Handlebars standalone usage
 
-- Jade and Handlebars usage in Express.js 4
+- Pug and Handlebars usage in Express.js 4
 
-- Project: adding Jade templates to Blog
+- Project: adding Pug templates to Blog
 
-# Jade Syntax and Features
+# Pug Syntax and Features
 
-Jade is a Node.js brother of Haml, in the sense that it uses whitespace and indentation as part of its language. Therefore, we need to be careful to follow the proper syntax.
+Pug is a Node.js brother of Haml, in the sense that it uses whitespace and indentation as part of its language. Therefore, we need to be careful to follow the proper syntax.
 
-You can follow the Jade syntax examples in this section online, at the official web site&#39;s demo page(<http://jade-lang.com/demo>) or at the @naltatis resource,(<http://naltatis.github.io/jade-syntax-docs>) or by writing standalone Node.js scripts (examples are presented in “Jade Standalone Usage,” which appears later in this chapter).
+You can follow the Pug syntax examples in this section online, at the official web site&#39;s demo page(<http://pug-lang.com/demo>) or at the @naltatis resource,(<http://naltatis.github.io/pug-syntax-docs>) or by writing standalone Node.js scripts (examples are presented in “Pug Standalone Usage,” which appears later in this chapter).
 
 ## Tags
 
-Any text at the beginning of a line—by default—is interpreted as an HTML tag. The main advantage of Jade is that this text renders both closing and opening tags for the HTML element, as well as the `<></>` symbols. Therefore, we save many keystrokes as developers writing in Jade!
+Any text at the beginning of a line—by default—is interpreted as an HTML tag. The main advantage of Pug is that this text renders both closing and opening tags for the HTML element, as well as the `<></>` symbols. Therefore, we save many keystrokes as developers writing in Pug!
 
-The text following a tag and a space (e.g., `tag <text>`) is parsed as the inner HTML (i.e., content inside the element). For example, if we have the following Jade code:
+The text following a tag and a space (e.g., `tag <text>`) is parsed as the inner HTML (i.e., content inside the element). For example, if we have the following Pug code:
 
     Body
       div
@@ -55,9 +55,9 @@ The output of the template above will be:
 
 ## Variables/Locals
 
-Data that are passed to the Jade template are called *locals*. To output the value of a variable, use `=`. See the following examples:
+Data that are passed to the Pug template are called *locals*. To output the value of a variable, use `=`. See the following examples:
 
-Jade code:
+Pug code:
 
     h1= title
     p= body
@@ -151,7 +151,7 @@ Note that if the tag name is omitted, `div` is used instead.
 Outputting raw text is done via `|`—for example,
 
     div
-      | Jade is a template engine.
+      | Pug is a template engine.
       | It can be used in Node.js and in the browser JavaScript.
 
 ## Script and Style Blocks
@@ -159,13 +159,13 @@ Outputting raw text is done via `|`—for example,
 Sometimes, developers want to write chunks of content for `script` or `style` tags in the HTML! This is possible with a dot. For example, we can write inline front-end JavaScript like this:
 
     script.
-       console.log('Hello Jade!')
+       console.log('Hello Pug!')
        setTimeout(function(){
         window.location.href='http://rpjs.co'
        },200))
        console.log('Good bye!')
     <script>
-      console.log('Hello Jade!')
+      console.log('Hello Pug!')
       setTimeout(function(){
        window.location.href='http://rpjs.co'
       },200))
@@ -174,7 +174,7 @@ Sometimes, developers want to write chunks of content for `script` or `style` ta
 
 ## JavaScript Code
 
-Contrary to the previous example, if we want to use *any* JavaScript at template compilation time—in other words, to write executable JavaScript code that manipulates the output of the Jade (i.e., HTML)—we can use the `-`, `=`, or `!=` symbols. This might come in handy when we output HTML elements and inject JavaScript. Obviously, these types of things should be done carefully to avoid cross-site scripting (XSS) attacks. For example, if we want to define an array and output <> symbols, we can use `!=`.
+Contrary to the previous example, if we want to use *any* JavaScript at template compilation time—in other words, to write executable JavaScript code that manipulates the output of the Pug (i.e., HTML)—we can use the `-`, `=`, or `!=` symbols. This might come in handy when we output HTML elements and inject JavaScript. Obviously, these types of things should be done carefully to avoid cross-site scripting (XSS) attacks. For example, if we want to define an array and output <> symbols, we can use `!=`.
 
     - var arr = ['<a>','<b>','<c>']
     ul
@@ -192,7 +192,7 @@ produces this:
       <li><span>2</span><span>unescaped: <c> vs. </span><span>escaped: &lt;c&gt; </span></li>
     </ul>
 
-**Tip**  One of the main differences between Jade and Handlebars is that the former allows pretty much any JavaScript in its code whereas the latter restricts programmers to only a handful of built-in and custom-registered helpers.
+**Tip**  One of the main differences between Pug and Handlebars is that the former allows pretty much any JavaScript in its code whereas the latter restricts programmers to only a handful of built-in and custom-registered helpers.
 
 ## Comments
 
@@ -211,7 +211,7 @@ outputs
 
 ## Conditions (if)
 
-Interestingly enough, in addition to the standard JavaScript code where the `if` statement can be used by prefixing it with `-`, we can use a minimalistic Jade alternative with no prefix and no parentheses—for example,
+Interestingly enough, in addition to the standard JavaScript code where the `if` statement can be used by prefixing it with `-`, we can use a minimalistic Pug alternative with no prefix and no parentheses—for example,
 
     - var user = {}
     - user.admin = Math.random()>0.5
@@ -224,7 +224,7 @@ There&#39;s also `unless`, which is equivalent to `not` or `!`.
 
 ## Iterations (each loops)
 
-Similar to conditions, iterators in Jade can be written simply with `each`—for example,
+Similar to conditions, iterators in Pug can be written simply with `each`—for example,
 
     - var languages = ['php', 'node', 'ruby']
     div
@@ -246,7 +246,7 @@ The same construction works with objects as well:
       each value, key in languages
         p= key + ": " + value
 
-The Jade above is compiled into the HTML output:
+The Pug above is compiled into the HTML output:
 
     <div>
       <p>php: -1</p>
@@ -268,7 +268,7 @@ Filters are used when there are blocks of texts written in a different language.
 
 ## Interpolation
 
-Interpolation in Jade is achieved via `#{name}`. For example, to output `title` in a paragraph, do the following:
+Interpolation in Pug is achieved via `#{name}`. For example, to output `title` in a paragraph, do the following:
 
     - var title = "Express.js Guide"
     p Read the #{title} in PDF, MOBI and EPUB
@@ -277,7 +277,7 @@ The interpolation is processed at template compilation; therefore, don't use it 
 
 ## Case
 
-Here&#39;s an example of the `case` statement in Jade:
+Here&#39;s an example of the `case` statement in Pug:
 
     - var coins = Math.round(Math.random()*10)
     case coins
@@ -336,7 +336,7 @@ produces
 
 `include` is a way to split logic into a separate file for the purpose of reusing it across multiple files. It&#39;s a top-to-bottom approach; we dictate what to use in the file that includes another file. The file that includes is processed first (we can define locals there), then the included file is processed (we can use earlier defined locals).
 
-To include a Jade template, use `include /path/filename`. For example, in file A:
+To include a Pug template, use `include /path/filename`. For example, in file A:
 
     include ./includes/header
 
@@ -369,29 +369,29 @@ In `file_b`:
     block content
       .main-content
 
-# Standalone Jade Usage
+# Standalone Pug Usage
 
-Template engines are not always used with Node.js (and frameworks like Express.js). Sometimes, we might just want to use Jade in a standalone manner. The use cases include generating an e-mail template, precompiling Jade before deployment, and debugging. In this section, we do the following:
+Template engines are not always used with Node.js (and frameworks like Express.js). Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an e-mail template, precompiling Pug before deployment, and debugging. In this section, we do the following:
 
-- Install a Jade module
+- Install a Pug module
 
-- Create our first Jade file
+- Create our first Pug file
 
-- Create a Node.js program that uses the Jade file
+- Create a Node.js program that uses the Pug file
 
-- Compare `jade.compile`, `jade.render`, and `jade.renderFile`
+- Compare `pug.compile`, `pug.render`, and `pug.renderFile`
 
-To add a `jade` dependency to your project, or if you&#39;re starting from scratch from an empty project folder, do the following:
+To add a `pug` dependency to your project, or if you&#39;re starting from scratch from an empty project folder, do the following:
 
 - Create an empty `node_modules` folder with `$ mkdir node_modules`
 
-- Install and add `jade` to `package.json` with `$ npm install jade –save`. See the results in Figure 4-1.
+- Install and add `pug` to `package.json` with `$ npm install pug –save`. See the results in Figure 4-1.
 
 ![alt](media/image1.png)
 
-***Figure 4-1.** Installing Jade*
+***Figure 4-1.** Installing Pug*
 
-Let&#39;s say we have some Node.js script that sends e-mail and we need to use a template to generate HTML dynamically for e-mail. This is how it might look (file `jade-example.jade`):
+Let&#39;s say we have some Node.js script that sends e-mail and we need to use a template to generate HTML dynamically for e-mail. This is how it might look (file `pug-example.pug`):
 
     .header
       h1= title
@@ -415,9 +415,9 @@ In this case, our Node.js script needs to hydrate, or populate, this template wi
 
 - `tags`: array
 
-We can extract these variables from multiple sources (databases, file systems, user input, and so on). For example, in the `jade-example.js` file, we use hard-coded values for `title`, `author`, `tags`, but pass through a command-line argument for `body`:
+We can extract these variables from multiple sources (databases, file systems, user input, and so on). For example, in the `pug-example.js` file, we use hard-coded values for `title`, `author`, `tags`, but pass through a command-line argument for `body`:
 
-    var jade = require('jade'),
+    var pug = require('pug'),
       fs = require('fs');
 
     var data = {
@@ -430,17 +430,17 @@ We can extract these variables from multiple sources (databases, file systems, u
     }
     data.body = process.argv[2];
 
-    fs.readFile('jade-example.jade', 'utf-8', function(error, source){
-      var template = jade.compile(source);
+    fs.readFile('pug-example.pug', 'utf-8', function(error, source){
+      var template = pug.compile(source);
       var html = template(data)
       console.log(html)
     });
 
-In this way, when we run `$ node jade-example.js 'email body'`, we get the output shown in Figure 4-2.
+In this way, when we run `$ node pug-example.js 'email body'`, we get the output shown in Figure 4-2.
 
 ![alt](media/image2.png)
 
-***Figure 4-2.** The result of `jade-example` output*
+***Figure 4-2.** The result of `pug-example` output*
 
 The "prettified" HTML output is as follows:
 
@@ -461,9 +461,9 @@ The "prettified" HTML output is as follows:
         </ul>
     </div>
 
-In addition to `jade.compile()`, the Jade API has the functions `jade.render()` and `jade.renderFile()`. For example, the previous file can be rewritten with `jade.render()`:
+In addition to `pug.compile()`, the Pug API has the functions `pug.render()` and `pug.renderFile()`. For example, the previous file can be rewritten with `pug.render()`:
 
-    var jade = require('jade'),
+    var pug = require('pug'),
       fs = require('fs');
 
     var data = {
@@ -476,15 +476,15 @@ In addition to `jade.compile()`, the Jade API has the functions `jade.render()` 
     }
     data.body = process.argv[2];
 
-    //jade.render
-    fs.readFile('jade-example.jade', 'utf-8', function(error, source){
-      var html = jade.render(source, data)
+    //pug.render
+    fs.readFile('pug-example.pug', 'utf-8', function(error, source){
+      var html = pug.render(source, data)
       console.log(html)
     });
 
-Furthermore, with `jade.renderFile`, the `jade-example.js` file is even more compact:
+Furthermore, with `pug.renderFile`, the `pug-example.js` file is even more compact:
 
-    var jade = require('jade'),
+    var pug = require('pug'),
       fs = require('fs');
 
     var data = {
@@ -497,27 +497,27 @@ Furthermore, with `jade.renderFile`, the `jade-example.js` file is even more com
     }
     data.body = process.argv[2];
 
-    //jade.renderFile
+    //pug.renderFile
 
-    jade.renderFile('jade-example.jade', data, function(error, html){
+    pug.renderFile('pug-example.pug', data, function(error, html){
       console.log(html)
     });
 
-**Note**  Jade can also be used as a command-line tool after installing it with the `-g` or `--global` option via npm. For more information, run `jade -h` or see the official documentation (<http://jade-lang.com/command-line>).
+**Note**  Pug can also be used as a command-line tool after installing it with the `-g` or `--global` option via npm. For more information, run `pug -h` or see the official documentation (<http://pug-lang.com/command-line>).
 
-To use Jade in a browser, you can use browserify (<https://github.com/substack/node-browserify>) and its jadeify (<https://www.npmjs.org/package/jade-browser>) middleware.
+To use Pug in a browser, you can use browserify (<https://github.com/substack/node-browserify>) and its pugify (<https://www.npmjs.org/package/pug-browser>) middleware.
 
-**Note**  To use the same Jade templates on front-end (browser) and server sides, I recommend `jade-browser`(<https://www.npmjs.org/package/jade-browser>) by Storify, for which I was the maintainer for a time during my work there. `jade-browser` acts as an Express.js middleware and it exposes server-side templates to the browser along with a helpful utility functions.
+**Note**  To use the same Pug templates on front-end (browser) and server sides, I recommend `pug-browser`(<https://www.npmjs.org/package/pug-browser>) by Storify, for which I was the maintainer for a time during my work there. `pug-browser` acts as an Express.js middleware and it exposes server-side templates to the browser along with a helpful utility functions.
 
-    https://github.com/storify/jade-browser
+    https://github.com/storify/pug-browser
 
 # Handlebars Syntax
 
 The Handlebars library is another template engine. It inherits from Mustache and, for the most part, is compatible with Mustache&#39;s syntax. However, Handlebars adds more features (i.e., a superset).
 
-Unlike Jade, by design, Handlebars was made so that developers *can&#39;t write* a lot of JavaScript logic inside the templates. This helps to keep templates lean and related strictly to the representation of the data (no business logic).
+Unlike Pug, by design, Handlebars was made so that developers *can&#39;t write* a lot of JavaScript logic inside the templates. This helps to keep templates lean and related strictly to the representation of the data (no business logic).
 
-Another drastic difference between Jade and Handlebars is that the latter requires full HTML code (`<`, `>`, and so on), and for this reason it could care less about whitespace and indentation.
+Another drastic difference between Pug and Handlebars is that the latter requires full HTML code (`<`, `>`, and so on), and for this reason it could care less about whitespace and indentation.
 
 ## Variables
 
@@ -708,7 +708,7 @@ outputs
 
 ## Custom Helpers
 
-Custom Handlebars helpers are similar to built-in helper blocks and Jade mixins. To use custom helpers, we need to create them as a JavaScript function and register them with the Handlebars instance.
+Custom Handlebars helpers are similar to built-in helper blocks and Pug mixins. To use custom helpers, we need to create them as a JavaScript function and register them with the Handlebars instance.
 
 This Handlebars template uses our custom helper `table` which we&#39;ll register (i.e., define) later in the JavaScript/Node.js code:
 
@@ -841,7 +841,7 @@ To produce this HTML when we run `$ node handlebars-example.js 'email body'`, us
 
 To use Handlebars in the browser, download the library in a straightforward manner from the official web site (<http://handlebarsjs.com>) and include it in your pages. Alternatively, it&#39;s possible to use just the runtime version from the same web site (which is lighter in size) with precompiled templates. Templates can be precompiled with the Handlebars command-line tool.
 
-# Jade and Handlebars Usage in Express.js 4
+# Pug and Handlebars Usage in Express.js 4
 
 By default, Express.js 4.x (and 3.x) uses either a template extension provided to the `res.render` method or the default extension set by the `view engine` setting, to invoke the `require` and `__express` methods on the template library. In other words, for Express.js to utilize a template engine library out of the box, that library needs to have the `__express` method.
 
@@ -884,17 +884,17 @@ As usually, the source code is in the GitHub repository, and the snippet is in t
 
 For more information on how to configure Express.js settings and use Consolidate.js, refer to the Pro Express.js 4 book (Apress, 2014).
 
-## Jade and Express.js
+## Pug and Express.js
 
-Jade is compatible with Express.js out of the box (in fact, it&#39;s the default choice), so to use Jade with Express.js, you just need to install a template engine module (`jade`) (<https://www.npmjs.org/package/jade>) and provide an extension to Express.js via the `view engine` setting.).
+Pug is compatible with Express.js out of the box (in fact, it&#39;s the default choice), so to use Pug with Express.js, you just need to install a template engine module (`pug`) (<https://www.npmjs.org/package/pug>) and provide an extension to Express.js via the `view engine` setting.).
 
 For example, in the main server file we set the setting:
 
-    app.set('view engine', 'jade');
+    app.set('view engine', 'pug');
 
-**Note**  If you use `$ express <app_name>` command-line tool, you can add the option for engine support, i.e., `–e` option for EJS and –H for Hogan. This will add EJS or Hogan automatically to your new project. Without either of these options, the express-generator (versions 4.0.0-4.2.0) will use Jade.
+**Note**  If you use `$ express <app_name>` command-line tool, you can add the option for engine support, i.e., `–e` option for EJS and –H for Hogan. This will add EJS or Hogan automatically to your new project. Without either of these options, the express-generator (versions 4.0.0-4.2.0) will use Pug.
 
-In the route file, we can call the template—for example, `views/page.jade` (the `views` folder name is another Express.js default, which can be overwritten with the `view` setting):
+In the route file, we can call the template—for example, `views/page.pug` (the `views` folder name is another Express.js default, which can be overwritten with the `view` setting):
 
     app.get('/page', function(req, res, next){
       //get the data dynamically
@@ -903,11 +903,11 @@ In the route file, we can call the template—for example, `views/page.jade` (th
 
 If we don&#39;t specify the `views engine` setting, then the extension must be passed explicitly to `res.render()`:
 
-    res.render('page.jade', data);
+    res.render('page.pug', data);
 
 ## Handlebars and Express.js
 
-Contrary to Jade, the Handlebars library from <http://handlebarsjs.com/> doesn&#39;t come with the `__express` method, but there are a few options to make Handlebars work with Express.js:).
+Contrary to Pug, the Handlebars library from <http://handlebarsjs.com/> doesn&#39;t come with the `__express` method, but there are a few options to make Handlebars work with Express.js:).
 
 - `consolidate`: a Swiss-army knife of Express.js template engine libraries (shown above)
 - `hbs`(<https://github.com/donpark/hbs>): wrapper library for Handlebars
@@ -933,22 +933,22 @@ The `express3-handlebars` approach usage is as follows:
     app.set('view engine', 'handlebars');
     ...
 
-# Project: Adding Jade Templates to Blog
+# Project: Adding Pug Templates to Blog
 
-Last, we can continue with Blog. In this section we add main pages using Jade, plus add a layout and some partials:
+Last, we can continue with Blog. In this section we add main pages using Pug, plus add a layout and some partials:
 
-- `layout.jade`: global app-wide template
-- `index.jade`: home page with the list of posts
-- `article.jade`: individual article page
-- `login.jade`: page with a login form
-- `post.jade`: page for adding a new article
-- `admin.jade`: page to administer articles after logging in
+- `layout.pug`: global app-wide template
+- `index.pug`: home page with the list of posts
+- `article.pug`: individual article page
+- `login.pug`: page with a login form
+- `post.pug`: page for adding a new article
+- `admin.pug`: page to administer articles after logging in
 
-Because the templates in this mini-project require data, we&#39;ll skip the demo until the chapter 5 where we&#39;ll plug in the MongoDB database. So the source code for the Jade templates is exactly the same as in the ch5 folder of the GitHub repository practicalnode: <https://github.com/azat-co/practicalnode>. Feel free to copy it from there or follow the instructions below.
+Because the templates in this mini-project require data, we&#39;ll skip the demo until the chapter 5 where we&#39;ll plug in the MongoDB database. So the source code for the Pug templates is exactly the same as in the ch5 folder of the GitHub repository practicalnode: <https://github.com/azat-co/practicalnode>. Feel free to copy it from there or follow the instructions below.
 
-## layout.jade
+## layout.pug
 
-Let&#39;s open the project where we left off in the previous chapter and add `layout.jade` with the document type statement:
+Let&#39;s open the project where we left off in the previous chapter and add `layout.pug` with the document type statement:
 
     doctype html
 
@@ -1019,7 +1019,7 @@ Lastly, the footer looks as follows:
                 a(href="https://github.com/azat-co/blog-express/issues") GitHub
                 | .
 
-The full code of `layout.jade` is as follows:
+The full code of `layout.pug` is as follows:
 
     doctype html
     html
@@ -1055,13 +1055,13 @@ The full code of `layout.jade` is as follows:
                 a(href="https://github.com/azat-co/blog-express/issues") GitHub
                 | .
 
-## index.jade
+## index.pug
 
-Now we can look at the home page template `index.jade` that extends layout:
+Now we can look at the home page template `index.pug` that extends layout:
 
     extends layout
 
-We set the `menu` variable to `index`, so the menu include (i.e., `menu.jade`) can determine which tab to show as active:
+We set the `menu` variable to `index`, so the menu include (i.e., `menu.pug`) can determine which tab to show as active:
 
     block page
       - var menu = &#39;index&#39;
@@ -1079,7 +1079,7 @@ The main content with the list of articles that comes from `locals` is as follow
             h2
               a(href="/articles/#{article.slug}")= article.title
 
-The full code of `index.jade` is as follows:
+The full code of `index.pug` is as follows:
 
     extends layout
 
@@ -1102,9 +1102,9 @@ Figure 4-4 shows how the home page looks after adding style sheets.
 
 ***Figure 4-4.** The home page*
 
-## article.jade
+## article.pug
 
-The individual article page (Figure 4-5) is relatively unsophisticated because most of the elements are abstracted into `layout.jade`:
+The individual article page (Figure 4-5) is relatively unsophisticated because most of the elements are abstracted into `layout.pug`:
 
     extends layout
 
@@ -1117,7 +1117,7 @@ The individual article page (Figure 4-5) is relatively unsophisticated because m
 
 ***Figure 4-5.** The article page*
 
-## login.jade
+## login.pug
 
 Similarly, the login page contains only a form and a button (with the Twitter Bootstrap classes/markup):
 
@@ -1145,7 +1145,7 @@ Figure 4-6 shows how the login page looks.
 
 ***Figure 4-6.** The login page*
 
-## post.jade
+## post.pug
 
 The post page (Figure 4-7) has another form. This time, the form contains a text area element:
 
@@ -1175,7 +1175,7 @@ The post page (Figure 4-7) has another form. This time, the form contains a text
 
 ***Figure 4-7.** The post page*
 
-## admin.jade
+## admin.pug
 
 The admin page (Figure 4-8) has a loop of articles just like the home page. In addition, we can include a front-end script (`js/admin.js`) specific to this page:
 
@@ -1223,6 +1223,6 @@ And, a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used
 
 # Summary
 
-You learned about Jade and Handlebars templates (variables, iterations, condition, partials, unescaping, and so forth), and how to use them in a standalone Node.js script or within Express.js. In addition, the main pages for Blog were created using Jade.
+You learned about Pug and Handlebars templates (variables, iterations, condition, partials, unescaping, and so forth), and how to use them in a standalone Node.js script or within Express.js. In addition, the main pages for Blog were created using Pug.
 
 In the next chapter we examine an important aspect of modern web development and software engineering: test-driven development. We look at the Mocha module and write some tests for Blog in true TDD/BDD style. In addition, the next chapter deals with adding a database to Blog routes to populate these templates, and shows you how to turn them into working HTML pages!
