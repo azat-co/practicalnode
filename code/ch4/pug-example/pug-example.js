@@ -19,13 +19,13 @@ fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
 
 //pug.render
 
-// fs.readFile('pug-example.pug', 'utf-8', function(error, source){
-//   var html = pug.render(source, data)
+// fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
+//   const html = pug.render(source, data)
 //   console.log(html)
-// });
+// })
 
 //pug.renderFile
 
-// pug.renderFile('pug-example.pug', data, function(error, html){
+// pug.renderFile('pug-example.pug', data, (error, html) => {
 //   console.log(html)
-// });
+// })

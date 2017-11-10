@@ -1,11 +1,9 @@
 const pug = require('pug')
 
-const pugTemplate = `body
-  div
-    h1 Practical Node.js
-    p The only book most people will ever need.
-  div
-    footer &copy; Apress`
+const pugTemplate = `// content goes here
+p Node.js is a non-blocking I/O for scalable apps.
+//- @todo change this to a class
+p(id="footer") Copyright 2014 Azat`
 
 
 const htmlString = pug.render(pugTemplate, {pretty: true})

@@ -109,7 +109,6 @@ const pugTemplate = `body
   div
     footer &copy; Apress`
 
-
 const htmlString = pug.render(pugTemplate, {pretty: true})
 console.log(htmlString)
 ```
@@ -122,138 +121,181 @@ Data that are passed to the Pug template are called *locals*. To output the valu
 
 Pug code:
 
-    h1= title
-    p= body
+```pug
+h1= title
+p= body
+```
 
-Locals:
+Variables `title` and `body` which are called locals, i.e., data to supply to the Pug template to generate HTML:
 
-    {
-      title: "Express.js Guide",
-      body: "The Comprehensive Book on Express.js"
-    }
+```
+{
+  title: "Express.js Guide",
+  body: "The Comprehensive Book on Express.js"
+}
+```
 
-HTML output:
+HTML output generated from the Pug template and locals. It shows the values of the variables `title` and `body`:
 
-    <h1>Express.js Guide</h1>
-    <p>The Comprehensive Book on Express.js</p>
+```html
+<h1>Express.js Guide</h1>
+<p>The Comprehensive Book on Express.js</p>
+```
+
+What about attributes? You saw some of the already but let's dive deeper.
 
 ## Attributes
 
 Attributes are added by putting them into parentheses right after the tag name. They follow `name=value` format. In addition, multiple attributes need to be separated by a comma. For example,
 
-    div(id="content", class="main")
-      a(href="http://expressjsguide.com", title="Express.js Guide", target="_blank") Express.js Guide
-      form(action="/login")
-        button(type="submit, value="save")
-      div(class="hero-unit") Lean Node.js!
+```pug
+div(id="content", class="main")
+  a(href="http://expressjsguide.com", title="Express.js Guide", target="_blank") Express.js Guide
+  form(action="/login")
+    button(type="submit, value="save")
+  div(class="hero-unit") Lean Node.js!
+```
 
-turns into
+The Pug template code above turns int this HTML:
 
-    <div id="content" class="main"><a href="http://expressjsguide.com" title="Express.js Guide" target="_blank">Express.js Guide</a>
-      <form action="/login">
-        <button type="submit" value="save"></button>
-      </form>
-      <div class="hero-unit">Learn Node.js</div>
-    </div>
+```html
+<div id="content" class="main"><a href="http://expressjsguide.com" title="Express.js Guide" target="_blank">Express.js Guide</a>
+  <form action="/login">
+    <button type="submit" value="save"></button>
+  </form>
+  <div class="hero-unit">Learn Node.js</div>
+</div>
+```
 
 Sometimes, the value of an attribute needs to be dynamic. In this case, just use the variable name! The pipe, or `|`, allows us to write the content of the HTML node on the new line—in other words, the line with the pipe becomes inner text (an example is as follows):
 
-    a(href=url, data-active=isActive)
-    label
-      input(type="checkbox", checked=isChecked)
-      |  yes / no
+```pug
+a(href=url, data-active=isActive)
+label
+  input(type="checkbox", checked=isChecked)
+  |  yes / no
+```
 
 The template above is provided with locals:
 
-    {
-      url: "/logout",
-      isActive: true,
-      isChecked: false
-    }
+```js
+{
+  url: "/logout",
+  isActive: true,
+  isChecked: false
+}
+```
 
-And they both, i.e., template and locals data, produce output:
+And they both, i.e., template and locals data, produce this HTML output:
 
-    <a href="/logout" data-active="data-active"></a>
-    <label>
-      <input type="checkbox"/> yes / no
-    </label>
+```html
+<a href="/logout" data-active="data-active"></a>
+<label>
+  <input type="checkbox"/> yes / no
+</label>
+```
 
-Note that the attribute with the value `false` is omitted from the HTML output. However, when no value is passed, `true` is assumed—for example,
+Note that the attribute with the value `false` is omitted from the HTML output. However, when no value is passed, `true` is assumed—for example. This is a Pug template with boolean attributes `checked`:
 
-    input(type='radio', checked)
-    input(type='radio', checked=true)
-    input(type='radio', checked=false)
-    <input type="radio" checked="checked"/>
-    <input type="radio" checked="checked"/>
-    <input type="radio"/>
+```pug
+input(type='radio', checked)
+input(type='radio', checked=true)
+input(type='radio', checked=false)
+```
+
+The attributes checked will be omitted when the value is false. When the value is true in Pug, then the value is "checked" in HTML. This is the resulting HTML:
+
+```html
+<input type="radio" checked="checked"/>
+<input type="radio" checked="checked"/>
+<input type="radio"/>
+```
+
 
 ## Literals
 
 For convenience, we can write classes and IDs right after tag names. For example, we can then apply `lead` and `center` classes to a paragraph, and create a `div` element with the `side-bar` ID and `pull-right` class (again, the pipe signifies an inner text):
 
-    div#content
-      p.lead.center
-        | webapplog: where code lives
-        #side-bar.pull-right
-        span.contact.span4
-          a(href="/contact") contact us
-    <div id="content">
-      <p class="lead center">
-        webapplog: where code lives
-        <div id="side-bar" class="pull-right"></div>
-        <span class="contact span4">
-          <a href="/contact">contact us</a>
-        </span>
-      </p>
-    </div>
+```pug
+div#content
+  p.lead.center
+    | webapplog: where code lives
+    #side-bar.pull-right
+    span.contact.span4
+      a(href="/contact") contact us
+```
 
-Note that if the tag name is omitted, `div` is used instead.
+Note that if the tag name is omitted, `div` is used instead. See that `<div id="side-bar" class="pull-right"></div>` in the generated HTML below. This `<div>` was created by Pug when no element name was provided and only a an id of `side-bar`. 
+
+```html
+<div id="content">
+  <p class="lead center">
+    webapplog: where code lives
+    <div id="side-bar" class="pull-right"></div>
+    <span class="contact span4">
+      <a href="/contact">contact us</a>
+    </span>
+  </p>
+</div>
+```
+
+Pug is all about eloquence, compactness and convenience. `<div>` elements are very popular for layouts. Therefore, Pug defaults to rendering `<div>` when there's no element name and there is a class or an id. Nice!
+
+Next feature is rendering text.
 
 ## Text
 
 Outputting raw text is done via `|`—for example,
 
-    div
-      | Pug is a template engine.
-      | It can be used in Node.js and in the browser JavaScript.
+```pug
+div
+  | Pug is a template engine.
+  | It can be used in Node.js and in the browser JavaScript.
+```
 
 ## Script and Style Blocks
 
 Sometimes, developers want to write chunks of content for `script` or `style` tags in the HTML! This is possible with a dot. For example, we can write inline front-end JavaScript like this:
 
-    script.
-       console.log('Hello Pug!')
-       setTimeout(function(){
-        window.location.href='http://rpjs.co'
-       },200))
-       console.log('Good bye!')
-    <script>
-      console.log('Hello Pug!')
-      setTimeout(function(){
-       window.location.href='http://rpjs.co'
-      },200))
-      console.log('Good bye!')
-    </script>
+```pug
+script.
+    console.log('Hello Pug!')
+    setTimeout(function(){
+    window.location.href='http://rpjs.co'
+    },200))
+    console.log('Good bye!')
+<script>
+  console.log('Hello Pug!')
+  setTimeout(function(){
+    window.location.href='http://rpjs.co'
+  },200))
+  console.log('Good bye!')
+</script>
+```
 
 ## JavaScript Code
 
 Contrary to the previous example, if we want to use *any* JavaScript at template compilation time—in other words, to write executable JavaScript code that manipulates the output of the Pug (i.e., HTML)—we can use the `-`, `=`, or `!=` symbols. This might come in handy when we output HTML elements and inject JavaScript. Obviously, these types of things should be done carefully to avoid cross-site scripting (XSS) attacks. For example, if we want to define an array and output <> symbols, we can use `!=`.
 
-    - var arr = ['<a>','<b>','<c>']
-    ul
-      - for (var i = 0; i< arr.length; i++)
-        li
-          span= i
-          span!="unescaped: " + arr[i] + " vs. "
-          span= "escaped: " + arr[i]
+```pug
+- var arr = ['<a>','<b>','<c>']
+ul
+  - for (var i = 0; i< arr.length; i++)
+    li
+      span= i
+      span!="unescaped: " + arr[i] + " vs. "
+      span= "escaped: " + arr[i]
+```
 
-produces this:
+The Pug above produces this HTML which does NOT include JavaScript but the result of the JavaScript code:
 
-    <ul>
-      <li><span>0</span><span>unescaped: <a> vs. </span><span>escaped: &lt;a&gt;</span></li>
-      <li><span>1</span><span>unescaped: <b> vs. </span><span>escaped: &lt;b&gt; </span></li>
-      <li><span>2</span><span>unescaped: <c> vs. </span><span>escaped: &lt;c&gt; </span></li>
-    </ul>
+```html
+<ul>
+  <li><span>0</span><span>unescaped: <a> vs. </span><span>escaped: &lt;a&gt;</span></li>
+  <li><span>1</span><span>unescaped: <b> vs. </span><span>escaped: &lt;b&gt; </span></li>
+  <li><span>2</span><span>unescaped: <c> vs. </span><span>escaped: &lt;c&gt; </span></li>
+</ul>
+```
 
 **Tip**  One of the main differences between Pug and Handlebars is that the former allows pretty much any JavaScript in its code whereas the latter restricts programmers to only a handful of built-in and custom-registered helpers.
 
@@ -261,27 +303,36 @@ produces this:
 
 When it comes to comments, we have a choice to output them or not. For the former, use JavaScript style `//`; for the latter, use `//-`. For example,
 
-    // content goes here
-    p Node.js is a non-blocking I/O for scalable apps.
-    //- @todo change this to a class
-    p(id="footer") Copyright 2014 Azat
+```gut
+// content goes here
+p Node.js is a non-blocking I/O for scalable apps.
+//- @todo change this to a class
+p(id="footer") Copyright 2014 Azat
+```
 
-outputs
 
-    *<!-- content goes here-->*
-    <p>Node.js is a non-blocking I/O for scalable apps.</p>
-    <p id="footer">Copyright 2014 Azat</p>
+The Pug above with comments outputs the HTML style comments with `//` but hide them with `//-` so result is only `content goes here` without `@todo change this to a class`:
+
+```html
+<!-- content goes here-->
+<p>Node.js is a non-blocking I/O for scalable apps.</p>
+<p id="footer">Copyright 2014 Azat</p>
+```
+
+Of course, views (i.e., templates) benefit greatly from if/else condition. Let's cover them next.
 
 ## Conditions (if)
 
 Interestingly enough, in addition to the standard JavaScript code where the `if` statement can be used by prefixing it with `-`, we can use a minimalistic Pug alternative with no prefix and no parentheses—for example,
 
-    - var user = {}
-    - user.admin = Math.random()>0.5
-    if user.admin
-        button(class="launch") Launch Spacecraft
-    else
-       button(class="login") Log in
+```pug
+- var user = {}
+- user.admin = Math.random()>0.5
+if user.admin
+    button(class="launch") Launch Spacecraft
+else
+    button(class="login") Log in
+```
 
 There&#39;s also `unless`, which is equivalent to `not` or `!`.
 
@@ -289,43 +340,52 @@ There&#39;s also `unless`, which is equivalent to `not` or `!`.
 
 Similar to conditions, iterators in Pug can be written simply with `each`—for example,
 
-    - var languages = ['php', 'node', 'ruby']
-    div
-      each value, index in languages
-        p= index + ". " + value
+```pug
+- var languages = ['php', 'node', 'ruby']
+div
+  each value, index in languages
+    p= index + ". " + value
+```
 
 The HTML output is as follows:
 
-    <div>
-      <p>0. php</p>
-      <p>1. node</p>
-      <p>2. ruby</p>
-    </div>
+```html
+<div>
+  <p>0. php</p>
+  <p>1. node</p>
+  <p>2. ruby</p>
+</div>
+```
 
 The same construction works with objects as well:
 
-    - var languages = {'php': -1, 'node': 2, 'ruby':1}
-    div
-      each value, key in languages
-        p= key + ": " + value
+```pug
+- var languages = {'php': -1, 'node': 2, 'ruby':1}
+div
+  each value, key in languages
+    p= key + ": " + value
+```
 
-The Pug above is compiled into the HTML output:
+The Pug above is compiled into the HTML output in which each iteration over the array values produced a paragraph `<p>` element:
 
-    <div>
-      <p>php: -1</p>
-      <p>node: 2</p>
-      <p>ruby: 1</p>
-    </div>
+```html
+<div>
+  <p>php: -1</p>
+  <p>node: 2</p>
+  <p>ruby: 1</p>
+</div>
+```
 
 ## Filters
 
 Filters are used when there are blocks of texts written in a different language. For example, the filter for Markdown looks like this:
 
-    p
-      :markdown
-        # Practical Node.js
-
-        [This book](http://expressjsguide.com) really helps to grasp many components needed for modern-day web development.
+```pug
+p
+  :markdown
+    # Practical Node.js
+```
+   
 
 **Note**  The Markdown modules still need to be installed. The `marked` and markdown npm packages are often used for this. There&#39;s no need for an additional configuration, just install them in the project&#39;s local `node_modules` folder.
 
@@ -333,8 +393,10 @@ Filters are used when there are blocks of texts written in a different language.
 
 Interpolation in Pug is achieved via `#{name}`. For example, to output `title` in a paragraph, do the following:
 
-    - var title = "Express.js Guide"
-    p Read the #{title} in PDF, MOBI and EPUB
+```pug
+- var title = "React Quickly: Painless web apps with React, JSX, Redux, and GraphQL"
+p Read the #{title} in PDF, MOBI and EPUB
+```
 
 The interpolation is processed at template compilation; therefore, don't use it in executable JavaScript (`-`).:
 
@@ -342,58 +404,66 @@ The interpolation is processed at template compilation; therefore, don't use it 
 
 Here&#39;s an example of the `case` statement in Pug:
 
-    - var coins = Math.round(Math.random()*10)
-    case coins
-      when 0
-        p You have no money
-      when 1
-        p You have a coin
-      default
-        p You have #{coins} coins!
+```pug
+- var coins = Math.round(Math.random()*10)
+case coins
+  when 0
+    p You have no money
+  when 1
+    p You have a coin
+  default
+    p You have #{coins} coins!
+```
+
 
 ## Mixins
 
 Mixins are functions that take parameters and produce some HTML. The declaration syntax is `mixin name(param, param2,...)`, and the usage is `+name(data)`. For example,
 
-    mixin row(items)
-      tr
-        each item, index in items
-          td= item
+```pug
+mixin row(items)
+  tr
+    each item, index in items
+      td= item
 
-    mixin table(tableData)
-      table
-        each row, index in tableData
-          +row(row)
+mixin table(tableData)
+  table
+    each row, index in tableData
+      +row(row)
 
-    - var node = [{name: "express"}, {name: "hapi"}, {name: "derby"}]
-    +table(node)
-    - var js = [{name: "backbone"}, {name: "angular"}, {name: "ember"}]
-    +table(js)
+- var node = [{name: "express"}, {name: "hapi"}, {name: "derby"}]
++table(node)
+- var js = [{name: "backbone"}, {name: "angular"}, {name: "ember"}]
++table(js)
+```
 
-produces
 
-    <table>
-      <tr>
-        <td>express</td>
-      </tr>
-      <tr>
-        <td>hapi</td>
-      </tr>
-      <tr>
-        <td>derby</td>
-      </tr>
-    </table>
-    <table>
-      <tr>
-        <td>backbone</td>
-      </tr>
-      <tr>
-        <td>angular</td>
-      </tr>
-      <tr>
-        <td>ember</td>
-      </tr>
-    </table>
+The Pug code, above when used in Express or elsewhere, produces the following output by "invoking" the mixins `table` and `row` just as a function would be invoked with arguments (bonus: developers can use `table` and `row` mixins over and over for other data!):
+
+```html
+<table>
+  <tr>
+    <td>express</td>
+  </tr>
+  <tr>
+    <td>hapi</td>
+  </tr>
+  <tr>
+    <td>derby</td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td>backbone</td>
+  </tr>
+  <tr>
+    <td>angular</td>
+  </tr>
+  <tr>
+    <td>ember</td>
+  </tr>
+</table>
+```
 
 ## Include
 
@@ -401,13 +471,17 @@ produces
 
 To include a Pug template, use `include /path/filename`. For example, in file A:
 
-    include ./includes/header
+```pug
+include ./includes/header
+```
 
 Notice there&#39;s no need for double or single quotes for the template name and its path.
 
 It&#39;s possible to traverse up the tree:
 
-    include ../includes/footer
+```pug
+include ../includes/footer
+```
 
 But, there&#39;s no way to use a dynamic value for the file and path (use a variable), because includes/partials are handled at compilation (not at runtime).
 
@@ -417,87 +491,90 @@ But, there&#39;s no way to use a dynamic value for the file and path (use a vari
 
 In `file_a`:
 
-    block header
-      p some default text
-    block content
-      p Loading ...
-    block footer
-      p copyright
+```pug
+block header
+  p some default text
+block content
+  p Loading ...
+block footer
+  p copyright
+```
 
 In `file_b`:
 
-    extend file_a
-    block header
-      p very specific text
-    block content
-      .main-content
+```pug
+extend file_a
+block header
+  p very specific text
+block content
+  .main-content
+```
 
 # Standalone Pug Usage
 
 Template engines are not always used with Node.js (and frameworks like Express.js). Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an e-mail template, precompiling Pug before deployment, and debugging. In this section, we do the following:
 
 - Install a Pug module
-
 - Create our first Pug file
-
 - Create a Node.js program that uses the Pug file
-
 - Compare `pug.compile`, `pug.render`, and `pug.renderFile`
 
 To add a `pug` dependency to your project, or if you&#39;re starting from scratch from an empty project folder, do the following:
 
 - Create an empty `node_modules` folder with `$ mkdir node_modules`
-
 - Install and add `pug` to `package.json` with `$ npm install pug –save`. See the results in Figure 4-1.
 
 ![alt](media/image1.png)
 
 ***Figure 4-1.** Installing Pug*
 
+Tip: Add `{pretty: true}` to `pug.render()` as in `pug.render(pugTemplate, {pretty: true})` in order to have properly formatted *pretty* HTML.
+
 Let&#39;s say we have some Node.js script that sends e-mail and we need to use a template to generate HTML dynamically for e-mail. This is how it might look (file `pug-example.pug`):
 
-    .header
-      h1= title
-      p
-    .body
-      p= body
-    .footer
-      div= By
-        a(href="http://twitter.com/#{author.twitter}")= author.name
-      ul
-        each tag, index in tags
-          li= tag
+```pug
+.header
+  h1= title
+  p
+.body
+  p= body
+.footer
+  div= By
+    a(href="http://twitter.com/#{author.twitter}")= author.name
+  ul
+    each tag, index in tags
+      li= tag
+```
 
 In this case, our Node.js script needs to hydrate, or populate, this template with the following data:
 
 - `title`: string
-
 - `body`: string
-
 - `author`: string
-
 - `tags`: array
 
 We can extract these variables from multiple sources (databases, file systems, user input, and so on). For example, in the `pug-example.js` file, we use hard-coded values for `title`, `author`, `tags`, but pass through a command-line argument for `body`:
 
-    var pug = require('pug'),
-      fs = require('fs');
+```js
+const pug = require('pug'),
+  fs = require('fs')
 
-    var data = {
-      title: "Practical Node.js",
-      author: {
-        twitter: "@azat_co",
-        name: "Azat"
-      },
-      tags: ['express', 'node', 'javascript']
-    }
-    data.body = process.argv[2];
+let data = {
+  title: 'Practical Node.js',
+  author: {
+    twitter: '@azat_co',
+    name: 'Azat'
+  },
+  tags: ['express', 'node', 'javascript']
+}
+data.body = process.argv[2]
 
-    fs.readFile('pug-example.pug', 'utf-8', function(error, source){
-      var template = pug.compile(source);
-      var html = template(data)
-      console.log(html)
-    });
+fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
+  let template = pug.compile(source)
+  let html = template(data)
+  console.log(html)
+})
+```
 
 In this way, when we run `$ node pug-example.js 'email body'`, we get the output shown in Figure 4-2.
 
@@ -507,72 +584,47 @@ In this way, when we run `$ node pug-example.js 'email body'`, we get the output
 
 The "prettified" HTML output is as follows:
 
-    <div class="header">
-        <h1>Practical Node.js</h1>
-        <p></p>
+```js
+<div class="header">
+    <h1>Practical Node.js</h1>
+    <p></p>
+</div>
+<div class="body">
+    <p>email body</p>
+</div>
+<div class="footer">
+    <div><a href="http://twitter.com/@azat_co">Azat</a>
     </div>
-    <div class="body">
-        <p>email body</p>
-    </div>
-    <div class="footer">
-        <div><a href="http://twitter.com/@azat_co">Azat</a>
-        </div>
-        <ul>
-            <li>express</li>
-            <li>node</li>
-            <li>javascript</li>
-        </ul>
-    </div>
+    <ul>
+        <li>express</li>
+        <li>node</li>
+        <li>javascript</li>
+    </ul>
+</div>
+```
 
 In addition to `pug.compile()`, the Pug API has the functions `pug.render()` and `pug.renderFile()`. For example, the previous file can be rewritten with `pug.render()`:
 
-    var pug = require('pug'),
-      fs = require('fs');
-
-    var data = {
-      title: "Practical Node.js",
-      author: {
-        twitter: "@azat_co",
-        name: "Azat"
-      },
-      tags: ['express', 'node', 'javascript']
-    }
-    data.body = process.argv[2];
-
-    //pug.render
-    fs.readFile('pug-example.pug', 'utf-8', function(error, source){
-      var html = pug.render(source, data)
-      console.log(html)
-    });
+```js
+fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
+  const html = pug.render(source, data)
+  console.log(html)
+})
+```
 
 Furthermore, with `pug.renderFile`, the `pug-example.js` file is even more compact:
 
-    var pug = require('pug'),
-      fs = require('fs');
-
-    var data = {
-      title: "Practical Node.js",
-      author: {
-        twitter: "@azat_co",
-        name: "Azat"
-      },
-      tags: ['express', 'node', 'javascript']
-    }
-    data.body = process.argv[2];
-
-    //pug.renderFile
-
-    pug.renderFile('pug-example.pug', data, function(error, html){
-      console.log(html)
-    });
+```js
+pug.renderFile('pug-example.pug', data, (error, html) => {
+  console.log(html)
+})
+```
 
 **Note**  Pug can also be used as a command-line tool after installing it with the `-g` or `--global` option via npm. For more information, run `pug -h` or see the official documentation (<http://pug-lang.com/command-line>).
 
 To use Pug in a browser, you can use browserify (<https://github.com/substack/node-browserify>) and its pugify (<https://www.npmjs.org/package/pug-browser>) middleware.
 
-**Note**  To use the same Pug templates on front-end (browser) and server sides, I recommend `pug-browser`(<https://www.npmjs.org/package/pug-browser>) by Storify, for which I was the maintainer for a time during my work there. `pug-browser` acts as an Express.js middleware and it exposes server-side templates to the browser along with a helpful utility functions.
-
-    https://github.com/storify/pug-browser
+**Note**  To use the same Pug templates on front-end (browser) and server sides, I recommend `jade-browser`(<https://www.npmjs.org/package/jade-browser>) by Storify, for which I was the maintainer for a time during my work there. `jade-browser` acts as an Express.js middleware and it exposes server-side templates to the browser along with a helpful utility functions. 
 
 # Handlebars Syntax
 
@@ -586,20 +638,26 @@ Another drastic difference between Pug and Handlebars is that the latter require
 
 A Handlebars expression is `{{`, some content, followed by `}}`, hence the name of the library (see the resemblance to handlebars on a bicycle?). For example, the Handlebars code:
 
-    <h1>{{title}}</h1>
-    <p>{{body}}</p>
+```html
+<h1>{{title}}</h1>
+<p>{{body}}</p>
+```
 
-with data:
+with data which has `title` and `body` properties:
 
-    {
-      title: "Express.js Guide",
-      body: "The Comprehensive Book on Express.js"
-    }
+```js
+{
+  title: "Express.js Guide",
+  body: "The Comprehensive Book on Express.js"
+}
+```
 
-renders:
+renders the elements with values from `title` and `body`:
 
-    <h1>Express.js Guide</h1>
-    <p>The Comprehensive Book on Express.js</p>
+```html
+<h1>Express.js Guide</h1>
+<p>The Comprehensive Book on Express.js</p>
+```
 
 ## Iteration (each)
 
@@ -607,23 +665,29 @@ In Handlebars, `each` is one of the built-in helpers; it allows you to iterate t
 
 The following are examples of the `each` helper block in Handlebars:
 
-    <div>
-    {{#each languages}}
-      <p>{{@index}}. {{this}}</p>
-    {{/each}}
-    </div>
+```html
+<div>
+{{#each languages}}
+  <p>{{@index}}. {{this}}</p>
+{{/each}}
+</div>
+```
 
-The template above is supplied with this data:
+The template above is supplied with this data which has array of strings:
 
-    {languages: ['php', 'node', 'ruby']}
+```js
+{languages: ['php', 'node', 'ruby']}
+```
 
-And output this HTML upon compilation:
+And output this HTML upon compilation which has `<p>` for each array element:
 
-    <div>
-      <p>0. php</p>
-      <p>1. node</p>
-      <p>2. ruby</p>
-    </div>
+```html
+<div>
+  <p>0. php</p>
+  <p>1. node</p>
+  <p>2. ruby</p>
+</div>
+```
 
 ## Unescaped Output
 
@@ -631,67 +695,79 @@ By default, Handlebars escapes values. If you don&#39;t want Handlebars to escap
 
 As data, let&#39;s use this object that has an array with some HTML tags (angle braces):
 
-    {
-      arr: [
-        '<a>a</a>',
-        '<i>italic</i>',
-        '<strong>bold</strong>'
-      ]
-    }
+```js
+{
+  arr: [
+    '<a>a</a>',
+    '<i>italic</i>',
+    '<strong>bold</strong>'
+  ]
+}
+```
 
 To apply this Handlebars template to our data above (i.e., hydration):
 
-    <ul>
-       {{#each arr}}
-        <li>
-          <span>{{@index}}</span>
-          <span>unescaped: {{{this}}} vs. </span>
-          <span>escaped: {{this}}</span>
-        </li>
-      {{/each}}
-    </ul>
+```html
+<ul>
+    {{#each arr}}
+    <li>
+      <span>{{@index}}</span>
+      <span>unescaped: {{{this}}} vs. </span>
+      <span>escaped: {{this}}</span>
+    </li>
+  {{/each}}
+</ul>
+```
 
 The hydrated template produces this HTML:
 
-    <ul>
-      <li>
-        <span>0</span>
-        <span>unescaped: <a>a</a> vs. </span>
-        <span>escaped: &lt;a&amp;gt;a&lt;/a&gt;</span>
-      </li>
-      <li>
-        <span>1</span>
-        <span>unescaped: <i>italic</i> vs. </span>
-        <span>escaped: &lt;i&gt;italic&lt;/i&gt;</span>
-      </li>
-      <li>
-        <span>2</span>
-        <span>unescaped: <strong>bold</strong> vs. </span>
-        <span>escaped: &lt;strong&gt;bold&lt;/strong&gt;</span>
-      </li>
-    </ul>
+```html
+<ul>
+  <li>
+    <span>0</span>
+    <span>unescaped: <a>a</a> vs. </span>
+    <span>escaped: &lt;a&amp;gt;a&lt;/a&gt;</span>
+  </li>
+  <li>
+    <span>1</span>
+    <span>unescaped: <i>italic</i> vs. </span>
+    <span>escaped: &lt;i&gt;italic&lt;/i&gt;</span>
+  </li>
+  <li>
+    <span>2</span>
+    <span>unescaped: <strong>bold</strong> vs. </span>
+    <span>escaped: &lt;strong&gt;bold&lt;/strong&gt;</span>
+  </li>
+</ul>
+```
 
 ## Conditions (if)
 
 `if` is another built-in helper invoked via `#`. For example, this Handlebars code:
 
-    {{#if user.admin}}
-      <button class="launch"> Launch Spacecraft</button>
-    {{else}}
-        <button class="login"> Log in</button>
-    {{/if}}
+```html
+{{#if user.admin}}
+  <button class="launch"> Launch Spacecraft</button>
+{{else}}
+  <button class="login"> Log in</button>
+{{/if}}
+```
 
-populated with data:
+populated with data which will make if/else condition true:
 
-    {
-      user: {
-        admin: true
-      }
-    }
+```js
+{
+  user: {
+    admin: true
+  }
+}
+```
 
-turns into this HTML output:
+turns into this HTML output which has `launch` element rendered due to the value of `user.admin` being true:
 
-      <button class="launch">Launch Spacecraft</button>
+```html
+<button class="launch">Launch Spacecraft</button>
+```
 
 ## Unless
 
@@ -699,23 +775,29 @@ To inverse an `if not ... (if ! ...)` statement (convert negative to positive), 
 
 The Handlebars code that check the truthness of the admin flag (property `user.admin`):
 
-    {{#unless user.admin}}
-        <button class="login"> Log in</button>
-    {{else}}
-      <button class="launch">Launch Spacecraft</button>
-    {{/unless}}
+```html
+{{#unless user.admin}}
+  <button class="login"> Log in</button>
+{{else}}
+  <button class="launch">Launch Spacecraft</button>
+{{/unless}}
+```
 
 We supply our template with this data that means that the user is the administrator:
 
-    {
-      user: {
-        admin: true
-      }
-    }
+```js
+{
+  user: {
+    admin: true
+  }
+}
+```
 
 The HTML output renders the launch button, which is available only to admins:
 
-    <button class="launch">Launch Spacecraft</button>
+```html
+<button class="launch">Launch Spacecraft</button>
+```
 
 ## With
 
@@ -723,51 +805,61 @@ In case there&#39;s an object with nested properties, and there are a lot of the
 
 We have this Handlebars code that is handling a user&#39;s contact and address information:
 
-    {{#with user}}
-      <p>{{name}}</p>
-      {{#with contact}}
-        <span>Twitter: @{{twitter}}</span>
-      {{/with}}
-      <span>Address: {{address.city}},
-    {{/with}}
-    {{user.address.state}}</span>
+```html
+{{#with user}}
+  <p>{{name}}</p>
+  {{#with contact}}
+    <span>Twitter: @{{twitter}}</span>
+  {{/with}}
+  <span>Address: {{address.city}},
+{{/with}}
+{{user.address.state}}</span>
+```
 
 Then we merge the template with this data. Notice the properties&#39; names are the same as in the Handlebar template, there&#39;s only one reference to the `user` object:
 
-    {user: {
-      contact: {
-        email: 'hi@azat.co',
-        twitter: 'azat_co'
-      },
-      address: {
-        city: 'San Francisco',
-        state: 'California'
-      },
-      name: 'Azat'
-    }}
+```js
+{user: {
+  contact: {
+    email: 'hi@azat.co',
+    twitter: 'azat_co'
+  },
+  address: {
+    city: 'San Francisco',
+    state: 'California'
+  },
+  name: 'Azat'
+}}
+```
 
 The snippets above when compiled, produce HTML:
 
-    <p>Azat</p>
-    <span>Twitter: @azat_co</span>
-    <span>Address: San Francisco, California
-    </span>
+```html
+<p>Azat</p>
+<span>Twitter: @azat_co</span>
+<span>Address: San Francisco, California
+</span>
+```
 
 ## Comments
 
 To output comments, use regular HTML `<!--` and `-->`. To hide comments in the final output, use `{{!` and `}}` or `{{!--` and `--}}`. For example,
 
-    *<!-- content goes here -->*
-    <p>Node.js is a non-blocking I/O for scalable apps.</p>
-    {{! @todo change this to a class}}
-    {{!-- add the example on {{#if}} --}}
-    <p id="footer">Copyright 2014 Azat</p>
+```html
+<!-- content goes here -->
+<p>Node.js is a non-blocking I/O for scalable apps.</p>
+{{! @todo change this to a class}}
+{{!-- add the example on {{#if}} --}}
+<p id="footer">Copyright 2018 Azat</p>
+```
 
-outputs
+outputs the comments with `<!-- ... -->` but omits comments with `{{! ... }}`:
 
-    *<!-- content goes here -->*
-    <p>Node.js is a non-blocking I/O for scalable apps.</p>
-    <p id="footer">Copyright 2014 Azat</p>
+```html
+<!-- content goes here -->
+<p>Node.js is a non-blocking I/O for scalable apps.</p>
+<p id="footer">Copyright 2014 Azat</p>
+```
 
 ## Custom Helpers
 
@@ -775,7 +867,9 @@ Custom Handlebars helpers are similar to built-in helper blocks and Pug mixins. 
 
 This Handlebars template uses our custom helper `table` which we&#39;ll register (i.e., define) later in the JavaScript/Node.js code:
 
-    {{table node}}
+```html
+{{table node}}
+```
 
 Here goes the JavaScript/Node.js that tells the Handlebars compiler what to do when it encounters the custom `table` function (i.e., print an HTML table out of the provided array):
 
