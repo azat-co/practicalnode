@@ -1,8 +1,8 @@
-const express = require('express'),
-  cons = require('consolidate')
-  path = require('path')
+const express = require('express')
+const cons = require('consolidate')
+const path = require('path')
 
-let  app = express()
+let app = express()
 
 app.engine('html', cons.swig)
 

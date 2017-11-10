@@ -873,51 +873,54 @@ This Handlebars template uses our custom helper `table` which we&#39;ll register
 
 Here goes the JavaScript/Node.js that tells the Handlebars compiler what to do when it encounters the custom `table` function (i.e., print an HTML table out of the provided array):
 
-    Handlebars.registerHelper('table', function(data) {
-      var str = '<table>';
-      for (var i = 0; i < data.length; i++ ) {
-        str += '<tr>';
-        for (var key in data[i]) {
-          str += '<td>' + data[i][key] + '</td>';
-        };
-        str += '</tr>';
-      };
-      str += '</table>';
-
-      return new Handlebars.SafeString (str);
-    });
-
-This is our table data:
-
-    {
-      node:[
-        {name: 'express', url: 'http://expressjs.com/'},
-        {name: 'hapi', url: 'http://spumko.github.io/'},
-        {name: 'compound', url: 'http://compoundjs.com/'},
-        {name: 'derby', url: 'http://derbyjs.com/'}
-       ]
+```js
+handlebars.registerHelper('table', (data) => {
+  let str = '<table>'
+  for (let i = 0; i < data.length; i++ ) {
+    str += '<tr>'
+    for (var key in data[i]) {
+      str += '<td>' + data[i][key] + '</td>'
     }
+    str += '</tr>'
+  }
+  str += '</table>'
+  return new handlebars.SafeString (str)
+})
+```
+
+This is our array for the table data:
+
+```js
+[
+  {name: 'express', url: 'http://expressjs.com/'},
+  {name: 'hapi', url: 'http://spumko.github.io/'},
+  {name: 'compound', url: 'http://compoundjs.com/'},
+  {name: 'derby', url: 'http://derbyjs.com/'}
+]
+```
 
 The resulting HTML output looks like this:
 
-    <table>
-        <tr>
-            <td>express</td>
-            <td>http://expressjs.com/</td>
-        </tr>
-        <tr>
-            <td>hapi</td>
-            <td>http://spumko.github.io/</td>
-        </tr>
-        <tr>
-            <td>compound</td>
-            <td>http://compoundjs.com/</td>
-        </tr>
-        <tr>
-            <td>derby</td>
-            <td>http://derbyjs.com/</td>
-        </tr>
-    </table>
+```html
+<table>
+    <tr>
+        <td>express</td>
+        <td>http://expressjs.com/</td>
+    </tr>
+    <tr>
+        <td>hapi</td>
+        <td>http://spumko.github.io/</td>
+    </tr>
+    <tr>
+        <td>compound</td>
+        <td>http://compoundjs.com/</td>
+    </tr>
+    <tr>
+        <td>derby</td>
+        <td>http://derbyjs.com/</td>
+    </tr>
+</table>
+```
 
 ## Includes (Partials)
 
@@ -935,70 +938,103 @@ Developers can install Handlebars via npm with `$ npm install handlebars` or `$ 
 
 Here&#39;s an example of standalone Node.js Handlebars usage from `handlebars-example.js`:
 
-    var handlebars = require('handlebars'),
-      fs = require('fs');
-    var data = {
-      title: 'practical node.js',
-      author: '@azat_co',
-      tags: ['express', 'node', 'javascript']
-    }
-    data.body = process.argv[2];
+```js
+const handlebars = require('handlebars')
+const fs = require('fs')
+const path = require('path')
 
-    fs.readFile('handlebars-example.html', 'utf-8', function(error, source){
-      handlebars.registerHelper('custom_title', function(title){
-        var words = title.split(' ');
-        for (var i = 0; i < words.length; i++) {
-          if (words[i].length > 4) {
-            words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-          }
-        }
-        title = words.join(' ');
-        return title;
-      })
-      var template = handlebars.compile(source);
-      var html = template(data);
-      console.log(html)
-    });
+const data = {
+  title: 'practical node.js',
+  author: '@azat_co',
+  tags: ['express', 'node', 'javascript']
+}
+data.body = process.argv[2]
+const filePath = path.join(__dirname,
+  'handlebars-example.html')
+  
+data.tableData = [
+  {name: 'express', url: 'http://expressjs.com/'},
+  {name: 'hapi', url: 'http://spumko.github.io/'},
+  {name: 'compound', url: 'http://compoundjs.com/'},
+  {name: 'derby', url: 'http://derbyjs.com/'}
+]
+
+fs.readFile(filePath, 'utf-8', (error, source) => {
+  if (error) return console.error(error)
+
+  handlebars.registerHelper('table', (data) => {
+    let str = '<table>'
+    for (let i = 0; i < data.length; i++) {
+      str += '<tr>'
+      for (var key in data[i]) {
+        str += '<td>' + data[i][key] + '</td>'
+      }
+      str += '</tr>'
+    }
+    str += '</table>'
+    return new handlebars.SafeString(str)
+  })
+
+  handlebars.registerHelper('custom_title', (title) => {
+    let words = title.split(' ')
+    for (let i = 0; i < words.length; i++) {
+      if (words[i].length > 4) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1)
+      }
+    }
+    title = words.join(' ')
+    return title
+  })
+
+  const template = handlebars.compile(source)
+  const html = template(data)
+  console.log(html)
+})
+```
 
 And the `handlebars-example.html` file that uses `custom_title` helper has this content that calls the helper and outputs some other properties:
 
-    <div class="header">
-        <h1>{{custom_title title}}</h1>
+```html
+<div class="header">
+    <h1>{{custom_title title}}</h1>
+</div>
+<div class="body">
+    <p>{{body}}</p>
+</div>
+<div class="footer">
+    <div><a href="http://twitter.com/{{author.twitter}}">{{autor.name}}</a>
     </div>
-    <div class="body">
-        <p>{{body}}</p>
-    </div>
-    <div class="footer">
-        <div><a href="http://twitter.com/{{author.twitter}}">{{autor.name}}</a>
-        </div>
-        <ul>
-          {{#each tags}}
-            <li>{{this}}</li>
-          {{/each}}
-        </ul>
-    </div>
+    <ul>
+      {{#each tags}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+</div>
+```
 
 To produce this HTML when we run `$ node handlebars-example.js 'email body'`, use the following:
 
-    <div class="header">
-        <h1>Practical Node.js</h1>
+```html
+<div class="header">
+    <h1>Practical Node.js</h1>
+</div>
+<div class="body">
+    <p>email body</p>
+</div>
+<div class="footer">
+    <div><a href="http://twitter.com/"></a>
     </div>
-    <div class="body">
-        <p>email body</p>
-    </div>
-    <div class="footer">
-        <div><a href="http://twitter.com/"></a>
-        </div>
-        <ul>
-            <li>express</li>
-            <li>node</li>
-            <li>javascript</li>
-        </ul>
-    </div>
+    <ul>
+        <li>express</li>
+        <li>node</li>
+        <li>javascript</li>
+    </ul>
+</div>
+```
 
 To use Handlebars in the browser, download the library in a straightforward manner from the official web site (<http://handlebarsjs.com>) and include it in your pages. Alternatively, it&#39;s possible to use just the runtime version from the same web site (which is lighter in size) with precompiled templates. Templates can be precompiled with the Handlebars command-line tool.
 
-# Pug and Handlebars Usage in Express.js 4
+# Pug and Handlebars Usage in Express.js
 
 By default, Express.js 4.x (and 3.x) uses either a template extension provided to the `res.render` method or the default extension set by the `view engine` setting, to invoke the `require` and `__express` methods on the template library. In other words, for Express.js to utilize a template engine library out of the box, that library needs to have the `__express` method.
 
@@ -1006,40 +1042,45 @@ When the template engine library doesn&#39;t provide the `__express` method, or 
 
 Here is a quick example of Consolidate.js for Express.js 4 (version 4.2.0 and Consolidate version is 0.10.0):
 
-    var express = require('express'),
-      cons = require('consolidate'),
-      app = express()
+```js
+const express = require('express')
+const cons = require('consolidate')
+const path = require('path')
 
-    app.engine('html', cons.swig)
+let app = express()
 
-    app.set('view engine', 'html')
-    app.set('views', __dirname + '/views')
+app.engine('html', cons.swig)
 
-    var platforms = [
-      { name: 'node' },
-      { name: 'ruby' },
-      { name: 'python' }
-    ]
+app.set('view engine', 'html')
+app.set('views', path.join(__dirname, 'templates'))
 
-    app.get('/', function(req, res){
-      res.render('index', {
-        title: 'Consolidate This'
-      })
-    })
+var platforms = [
+  { name: 'node' },
+  { name: 'ruby' },
+  { name: 'python' }
+]
 
-    app.get('/platforms', function(req, res){
-      res.render('platforms', {
-        title: 'Platforms',
-        platforms: platforms
-      })
-    })
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Consolidate This'
+  })
+})
 
-    app.listen(3000)
-    console.log('Express server listening on port 3000')
+app.get('/platforms', (req, res) => {
+  res.render('platforms', {
+    title: 'Platforms',
+    platforms: platforms
+  })
+})
 
-As usually, the source code is in the GitHub repository, and the snippet is in the `ch4/consolidate folder`.
+app.listen(3000, () => {
+  console.log('Express server listening on port 3000')
+})
+```
 
-For more information on how to configure Express.js settings and use Consolidate.js, refer to the Pro Express.js 4 book (Apress, 2014).
+As usually, the source code is in the GitHub repository, and the snippet is in the `ch4/consolidate` folder.
+
+For more information on how to configure Express.js settings and use Consolidate.js, refer to the still-up-to-date book on Express.js version 4—Pro Express.js book (Apress, 2014).
 
 ## Pug and Express.js
 
@@ -1047,20 +1088,26 @@ Pug is compatible with Express.js out of the box (in fact, it&#39;s the default 
 
 For example, in the main server file we set the setting:
 
-    app.set('view engine', 'pug');
+```js
+app.set('view engine', 'pug')
+```
 
 **Note**  If you use `$ express <app_name>` command-line tool, you can add the option for engine support, i.e., `–e` option for EJS and –H for Hogan. This will add EJS or Hogan automatically to your new project. Without either of these options, the express-generator (versions 4.0.0-4.2.0) will use Pug.
 
 In the route file, we can call the template—for example, `views/page.pug` (the `views` folder name is another Express.js default, which can be overwritten with the `view` setting):
 
-    app.get('/page', function(req, res, next){
-      //get the data dynamically
-      res.render('page', data);
-    });
+```js
+app.get('/page', (req, res, next) => {
+  //get the data dynamically
+  res.render('page', data)
+})
+```
 
 If we don&#39;t specify the `views engine` setting, then the extension must be passed explicitly to `res.render()`:
 
-    res.render('page.pug', data);
+```js
+  res.render('page.pug', data)
+```
 
 ## Handlebars and Express.js
 
@@ -1072,23 +1119,23 @@ Contrary to Pug, the Handlebars library from <http://handlebarsjs.com/> doesn&#3
 
 Here&#39;s how we can use `hbs` approach (extension `hbs`). Inside of the typical Express.js app code (i.e., configuration section of the main file that we launch with the `$ node` command) write the following statements:
 
-    ...
-    app.set('view engine', 'hbs');
-    ...
+```js
+app.set('view engine', 'hbs')
+```
 
 Or, if another extension is preferable, such as `html`, we see the following:
 
-    ...
-    app.set('view engine', 'html');
-    pp.engine('html', require('hbs').__express);
-    ...
+```js
+app.set('view engine', 'html')
+pp.engine('html', require('hbs').__express)
+```
 
 The `express3-handlebars` approach usage is as follows:
 
-    ...
-    app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-    app.set('view engine', 'handlebars');
-    ...
+```js
+app.engine('handlebars', exphbs({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
+```
 
 # Project: Adding Pug Templates to Blog
 
@@ -1107,151 +1154,184 @@ Because the templates in this mini-project require data, we&#39;ll skip the demo
 
 Let&#39;s open the project where we left off in the previous chapter and add `layout.pug` with the document type statement:
 
-    doctype html
+```pug
+doctype html
+```
 
 **Note**  `doctype 5` was deprecated around v1.0.
 
 Now we can add the main tags of the page:
 
-    html
-      head
+```pug
+html
+  head
+```
 
 The title of the each page is provided from the `appTitle` variable (aka, local):
 
+```pug
     title= appTitle
 
 Then, in the `head` tag, we list all the front-end assets that we need app-wide (on each page):
 
-        script(type="text/javascript", src="js/jquery-2.0.3.min.js")
-        link(rel='stylesheet', href='/css/bootstrap-3.0.2/css/bootstrap.min.css')
-        link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap-theme.min.css")
-        link(rel="stylesheet", href="/css/style.css")
-        script(type="text/javascript", src="/css/bootstrap-3.0.2/js/bootstrap.min.js")
-        script(type="text/javascript", src="/js/blog.js")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+```pug
+    script(type="text/javascript", src="js/jquery-2.0.3.min.js")
+    link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap-theme.min.css")
+    link(rel="stylesheet", href="/css/style.css")
+    script(type="text/javascript", src="/css/bootstrap-3.0.2/js/bootstrap.min.js")
+    script(type="text/javascript", src="/js/blog.js")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+```
 
 The main content lives in `body` which has the same level indentation as `head`:
 
-      body
+```pug
+  body
+```
 
 Inside the body, we write an ID and some classes for the styles that we&#39;ll add later:
 
-        #wrap
-          .container
+```pug
+    #wrap
+      .container
+```
 
 The `appTitle` value is printed dynamically, but the `p.lead` element only has text:
 
-            h1.page-header= appTitle
-            p.lead Welcome to example from Express.js Experience by
-              a(href="http://twitter.com/azat_co") @azat_co
-              |. Please enjoy.
+```pug
+        h1.page-header= appTitle
+        p.lead Welcome to example from Express.js Experience by
+          a(href="http://twitter.com/azat_co") @azat_co
+          |. Please enjoy.
+```
 
 The `block` sections can be overwritten by the children templates (templates that extend this file):
 
-            block page
-            block header
-              div
+```pug
+        block page
+        block header
+          div
+```
 
 Menu is a partial (i.e., an include) that is stored in the `views/includes` folder. Note the absence of quotation marks:
 
-                include includes/menu
+```pug
+            include includes/menu
+```
 
 In this block, we can display messages for users:
 
+```pug
             block alert
               div.alert.alert-warning.hidden
+```
 
 Main content goes in this block:
 
-            .content
-              block content
+```pug
+        .content
+          block content
+``
 
 Lastly, the footer looks as follows:
 
-        block footer
-          footer
-            .container
-              p
-                | Copyright &copy; 2014 | Issues? Submit to
-                a(href="https://github.com/azat-co/blog-express/issues") GitHub
-                | .
+```pug
+    block footer
+      footer
+        .container
+          p
+            | Copyright &copy; 2018 | Issues? Submit to
+            a(href="https://github.com/azat-co/blog-express/issues") GitHub
+            | .
+```            
 
 The full code of `layout.pug` is as follows:
 
-    doctype html
-    html
-      head
-        title= appTitle
-        script(type="text/javascript", src="js/jquery-2.0.3.min.js")
-        link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap.min.css")
-        link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap-theme.min.css")
-        link(rel="stylesheet", href="/css/style.css")
-        script(type="text/javascript", src="/css/bootstrap-3.0.2/js/bootstrap.min.js")
-        script(type="text/javascript", src="/js/blog.js")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-      body
-        #wrap
-          .container
-            h1.page-header= appTitle
-            p.lead Welcome to example from Express.js Experience by
-              a(href="http://twitter.com/azat_co") @azat_co
-              |. Please enjoy.
-            block page
-            block header
-              div
-                include includes/menu
-            block alert
-              div.alert.alert-warning.hidden
-            .content
-              block content
-        block footer
-          footer
-            .container
-              p
-                | Copyright &copy; 2014 | Issues? Submit to
-                a(href="https://github.com/azat-co/blog-express/issues") GitHub
-                | .
+```pug
+doctype html
+html
+  head
+    title= appTitle
+    script(type="text/javascript", src="js/jquery-2.0.3.min.js")
+    link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/css/bootstrap-3.0.2/css/bootstrap-theme.min.css")
+    link(rel="stylesheet", href="/css/style.css")
+    script(type="text/javascript", src="/css/bootstrap-3.0.2/js/bootstrap.min.js")
+    script(type="text/javascript", src="/js/blog.js")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  body
+    #wrap
+      .container
+        h1.page-header= appTitle
+        p.lead Welcome to example from Express.js Experience by
+          a(href="http://twitter.com/azat_co") @azat_co
+          |. Please enjoy.
+        block page
+        block header
+          div
+            include includes/menu
+        block alert
+          div.alert.alert-warning.hidden
+        .content
+          block content
+    block footer
+      footer
+        .container
+          p
+            | Copyright &copy; 2014 | Issues? Submit to
+            a(href="https://github.com/azat-co/blog-express/issues") GitHub
+            | .
+```
 
 ## index.pug
 
 Now we can look at the home page template `index.pug` that extends layout:
 
-    extends layout
+```pug
+extends layout
+```
 
 We set the `menu` variable to `index`, so the menu include (i.e., `menu.pug`) can determine which tab to show as active:
 
-    block page
-      - var menu = &#39;index&#39;
+```pug
+block page
+  - var menu = &#39;index&#39;
+```
 
 The main content with the list of articles that comes from `locals` is as follows:
 
-    block content
-      if (articles.length === 0)
-        | There's no published content yet.
-        a(href="/login") Log in
-        |  to post and publish.
-      else
-        each article, index in articles
-          div
-            h2
-              a(href="/articles/#{article.slug}")= article.title
+```pug
+block content
+  if (articles.length === 0)
+    | There's no published content yet.
+    a(href="/login") Log in
+    |  to post and publish.
+  else
+    each article, index in articles
+      div
+        h2
+          a(href="/articles/#{article.slug}")= article.title
+```
 
 The full code of `index.pug` is as follows:
 
-    extends layout
+```pug
+extends layout
 
-    block page
-      - var menu = 'index'
-    block content
-      if (articles.length === 0)
-        | There's no published content yet.
-        a(href="/login") Log in
-        |  to post and publish.
-      else
-        each article, index in articles
-          div
-            h2
-              a(href="/articles/#{article.slug}")= article.title
+block page
+  - var menu = 'index'
+block content
+  if (articles.length === 0)
+    | There's no published content yet.
+    a(href="/login") Log in
+    |  to post and publish.
+  else
+    each article, index in articles
+      div
+        h2
+          a(href="/articles/#{article.slug}")= article.title
+```
 
 Figure 4-4 shows how the home page looks after adding style sheets.
 
@@ -1263,12 +1343,14 @@ Figure 4-4 shows how the home page looks after adding style sheets.
 
 The individual article page (Figure 4-5) is relatively unsophisticated because most of the elements are abstracted into `layout.pug`:
 
-    extends layout
+```pug
+extends layout
 
-    block content
-      p
-        h1= title
-        p= text
+block content
+  p
+    h1= title
+    p= text
+```
 
 ![alt](media/image5.png)
 
@@ -1278,23 +1360,25 @@ The individual article page (Figure 4-5) is relatively unsophisticated because m
 
 Similarly, the login page contains only a form and a button (with the Twitter Bootstrap classes/markup):
 
-    extends layout
+```pug
+extends layout
 
-    block page
-      - var menu = 'login'
+block page
+  - var menu = 'login'
 
-    block content
-      .col-md-4.col-md-offset-4
-        h2 Log in
-        div= error
-        div
-          form(action="/login", method="POST")
-            p
-              input.form-control(name="email", type="text", placeholder="hi@azat.co")
-            p
-              input.form-control(name="password", type="password", placeholder="***")
-            p
-              button.btn.btn-lg.btn-primary.btn-block(type="submit") Log in
+block content
+  .col-md-4.col-md-offset-4
+    h2 Log in
+    div= error
+    div
+      form(action="/login", method="POST")
+        p
+          input.form-control(name="email", type="text", placeholder="hi@azat.co")
+        p
+          input.form-control(name="password", type="password", placeholder="***")
+        p
+          button.btn.btn-lg.btn-primary.btn-block(type="submit") Log in
+```
 
 Figure 4-6 shows how the login page looks.
 
@@ -1306,27 +1390,29 @@ Figure 4-6 shows how the login page looks.
 
 The post page (Figure 4-7) has another form. This time, the form contains a text area element:
 
-    extends layout
-    block page
-      - var menu = 'post'
-    block content
+```pug
+extends layout
+block page
+  - var menu = 'post'
+block content
 
-        h2 Post an Article
-        div= error
-        div.col-md-8
-          form(action="/post", method="POST", role="form")
-            div.form-group
-              label(for="title") Title
-              input#title.form-control(name="title", type="text", placeholder="JavaScript is good")
-            div.form-group
-              label(for="slug") Slug
-              input#slug.form-control(name="slug", type="text", placeholder="js-good")
-              span.help-block This string will be used in the URL.
-            div.form-group
-              label(for="text") Text
-              textarea#text.form-control(rows="5", name="text", placeholder="Text")
-            p
-              button.btn.btn-primary(type="submit") Save
+    h2 Post an Article
+    div= error
+    div.col-md-8
+      form(action="/post", method="POST", role="form")
+        div.form-group
+          label(for="title") Title
+          input#title.form-control(name="title", type="text", placeholder="JavaScript is good")
+        div.form-group
+          label(for="slug") Slug
+          input#slug.form-control(name="slug", type="text", placeholder="js-good")
+          span.help-block This string will be used in the URL.
+        div.form-group
+          label(for="text") Text
+          textarea#text.form-control(rows="5", name="text", placeholder="Text")
+        p
+          button.btn.btn-primary(type="submit") Save
+```
 
 ![alt](media/image7.png)
 
@@ -1336,43 +1422,49 @@ The post page (Figure 4-7) has another form. This time, the form contains a text
 
 The admin page (Figure 4-8) has a loop of articles just like the home page. In addition, we can include a front-end script (`js/admin.js`) specific to this page:
 
-    extends layout
+```pug
+extends layout
 
-    block page
-      - var menu = 'admin'
+block page
+  - var menu = 'admin'
 
-    block content
-      div.admin
-        if (articles.length === 0 )
-          p
-            | Nothing to display. Add a new
-            a(href="/post") article
-            |.
-        else
-          table.table.table-stripped
-            thead
-              tr
-                th(colspan="2") Actions
-                th Post Title
-            tbody
-              each article, index in articles
-                tr(data-id="#{article._id}", class=(!article.published)?'unpublished':'')
-                  td.action
-                    button.btn.btn-danger.btn-sm.remove(type="button")
-                      span.glyphicon.glyphicon-remove(title="Remove")
-                  td.action
-                    button.btn.btn-default.btn-sm.publish(type="button")
-                      span.glyphicon(class=(article.published)?"glyphicon-pause":"glyphicon-play", title=(article.published)?"Unpublish":"Publish")
-                  td= article.title
-          script(type="text/javascript", src="js/admin.js")
+block content
+  div.admin
+    if (articles.length === 0 )
+      p
+        | Nothing to display. Add a new
+        a(href="/post") article
+        |.
+    else
+      table.table.table-stripped
+        thead
+          tr
+            th(colspan="2") Actions
+            th Post Title
+        tbody
+          each article, index in articles
+            tr(data-id="#{article._id}", class=(!article.published)?'unpublished':'')
+              td.action
+                button.btn.btn-danger.btn-sm.remove(type="button")
+                  span.glyphicon.glyphicon-remove(title="Remove")
+              td.action
+                button.btn.btn-default.btn-sm.publish(type="button")
+                  span.glyphicon(class=(article.published) ? "glyphicon-pause" : "glyphicon-play", title=(article.published) ? "Unpublish" : "Publish")
+              td= article.title
+      script(type="text/javascript", src="js/admin.js")
+```
 
-We use interpolation to print article IDs as attributes `data-id`:
+We use interpolation to print article IDs as attributes `data-id` (indentation was removed):
 
-          tr(data-id="#{article._id}", class=(!article.published)?'unpublished':'')
+```pug
+tr(data-id="#{article._id}", class=(!article.published) ? 'unpublished':'')
+```
 
-And, a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used for classes and title attributes. Remember, it&#39;s JavaScript!
+And, a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used for classes and title attributes. Remember, it&#39;s JavaScript! (Indentation was removed for better viewing.)
 
-                      span.glyphicon(class=(article.published)?"glyphicon-pause":"glyphicon-play", title=(article.published)?"Unpublish":"Publish")
+```pug
+span.glyphicon(class=(article.published) ? "glyphicon-pause" : "glyphicon-play", title=(article.published) ? "Unpublish" : "Publish")
+```
 
 ![alt](media/image8.png)
 
