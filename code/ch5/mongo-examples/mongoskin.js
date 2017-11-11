@@ -3,7 +3,7 @@ const { toObjectID } = mongoskin.helper
 const dbHost = '127.0.0.1'
 const dbPort = 27017
 
-var db = mongoskin.db(`mongodb://${dbHost}:${dbPort}/local`, {safe: true})
+const db = mongoskin.db(`mongodb://${dbHost}:${dbPort}/local`)
 
 db.bind('messages').bind({
   findOneAndAddText: function (text, fn) { // no fat arrow fn because we need to let bind pass the collection to use this on the next line... this can be replaced with db.messages too

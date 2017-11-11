@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "seed": "sh ./seed.sh",
+    "seed": "make db",
     "test": "make test",
     "st": "standard app.js && standard tests/index.js && standard routes/*"
   },

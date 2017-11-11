@@ -20,21 +20,26 @@ db.open((error, dbConnection) => {
     item.text = 'hi'
     var id = item._id.toString() // we can store ID in a string
     console.info('before saving: ', item)
-    dbConnection.collection('messages').save(item, function (error, document) {
-      if (error) {
-        console.error(error)
-        return process.exit(1)
-      }
-      console.info('save: ', document)
-      dbConnection.collection('messages').find({_id: new mongo.ObjectID(id)}).toArray(function (error, documents) {
+    dbConnection
+      .collection('messages')
+      .save(item, (error, document) => {
         if (error) {
           console.error(error)
           return process.exit(1)
         }
-        console.info('find: ', documents)
-        db.close()
-        process.exit(0)
-      })
+        console.info('save: ', document)
+        dbConnection.collection('messages')
+          .find({_id: new mongo.ObjectID(id)})
+          .toArray((error, documents) => {
+            if (error) {
+              console.error(error)
+              return process.exit(1)
+            }
+            console.info('find: ', documents)
+            db.close()
+            process.exit(0)
+          }
+        )
     })
   })
 })
