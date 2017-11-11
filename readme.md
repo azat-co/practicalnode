@@ -42,7 +42,7 @@ If you'd like to contribute financially towards the effort (or any of my other o
 11. [Deploying Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter11/chapter11.md) [1s Edition]
 12. [Publishing Node.js Modules and Contributing to Open Source](https://github.com/azat-co/practicalnode/blob/master/chapter12/chapter12.md) [1s Edition]
 
-Note: It's work in progress (2nd -> 3rd Edition) and the draft will be completed in the end of 2017. See for [3rd Edition] for newer updated content.
+Note: It's work in progress (1st -> 2nd Edition) and the draft will be completed in the end of 2017. See for [2nd Edition] for newer updated content.
 
 # Help Needed
 
