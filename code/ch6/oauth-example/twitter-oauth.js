@@ -1,8 +1,8 @@
-var OAuth = require('oauth')
-var OAuth2 = OAuth.OAuth2
-var twitterConsumerKey = 'your key'
-var twitterConsumerSecret = 'your secret'
-var oauth2 = new OAuth2(twitterConsumerKey,
+const OAuth = require('oauth')
+const OAuth2 = OAuth.OAuth2
+const twitterConsumerKey = 'your key'
+const twitterConsumerSecret = 'your secret'
+const oauth2 = new OAuth2(twitterConsumerKey,
   twitterConsumerSecret,
   'https://api.twitter.com/',
   null,
