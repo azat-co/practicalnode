@@ -1,2 +1,2 @@
-exports.Article = require('./article');
-exports.User = require('./user');
+exports.Article = require('./article')
+exports.User = require('./user')

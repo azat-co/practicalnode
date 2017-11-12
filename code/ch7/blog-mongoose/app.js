@@ -1,5 +1,5 @@
-var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY || 'ABC'
-var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET || 'XYZXYZ'
+const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY || 'ABC'
+const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET || 'XYZXYZ'
 
 const express = require('express')
 const routes = require('./routes')
@@ -82,7 +82,11 @@ app.use((req, res, next) => {
 
 // Authorization
 const authorize = function (req, res, next) {
-  if (req.session && req.session.admin) { return next() } else { return res.send(401) }
+  if (req.session && req.session.admin) { 
+    return next() 
+  } else { 
+    return res.send(401) 
+  }
 }
 
 // Pages and routes
