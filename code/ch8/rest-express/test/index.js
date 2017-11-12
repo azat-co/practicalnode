@@ -2,8 +2,8 @@ const boot = require('../index.js').boot
 const shutdown = require('../index.js').shutdown
 const port = require('../index.js').port
 
-var superagent = require('superagent')
-var expect = require('expect.js')
+const superagent = require('superagent')
+const expect = require('expect.js')
 
 // const port = process.env.PORT || 3000
 
@@ -12,7 +12,7 @@ before(() => {
 })
 
 describe('express rest api server', () => {
-  var id
+  let id
 
   it('post object', (done) => {
     superagent.post(`http://localhost:${port}/collections/test`)
@@ -88,6 +88,7 @@ describe('express rest api server', () => {
       })
   })
 })
+
 after(() => {
   shutdown()
 })

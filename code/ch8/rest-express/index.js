@@ -33,6 +33,7 @@ app.get('/collections/:collectionName', (req, res, next) => {
 })
 
 app.post('/collections/:collectionName', (req, res, next) => {
+  // TODO: Validate req.body
   req.collection.insert(req.body, {}, (e, results) => {
     if (e) return next(e)
     res.send(results.ops)
