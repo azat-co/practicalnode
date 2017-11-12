@@ -1,10 +1,10 @@
 Chapter 7
 ---------
-# Boosting Your Node.js Data with the Mongoose ORM Library
+# Boosting Your Node.js Data with the Mongoose ODM Library
 
-Mongoose is a fully developed object relational mapping (ORM) library for Node.js and MongoDB. The advantages of using ORM are many and go far beyond code organization or the ease of development. Typical ORM is a crucial piece of modern software engineering. 
+Mongoose is a fully developed object document mapping (ODM) library for Node.js and MongoDB. The advantages of using ODM are many and go far beyond code organization or the ease of development. Typical ODM is a crucial piece of modern software engineering. 
 
-Mongoose abstracts everything from the database, and the application code interacts only with objects and their methods. ORM also allows specifying relationships between different types of objects and putting business logic (related to those objects) in the classes. 
+Mongoose abstracts everything from the database, and the application code interacts only with objects and their methods. ODM also allows specifying relationships between different types of objects and putting business logic (related to those objects) in the classes. 
 
 In addition, Mongoose has built-in validation and type casting that can be extended and customized according to needs. When used together with Express.js, Mongoose makes the stack truly adherent to the MVC concept.
 
@@ -252,7 +252,7 @@ bookSchema.static({ // Static methods for generic, not instance/document specifi
 
 # Mongoose Models
 
-As in many other ORMs, in Mongoose, the cornerstone object is a model. To compile a schema into a model, use `mongoose.model(name, schema)`—for example,
+As in many other ORMs/ODMs, in Mongoose, the cornerstone object is a model. To compile a schema into a model, use `mongoose.model(name, schema)`—for example,
 
 ```js
 const Book = mongoose.model('Book', bookSchema)
@@ -570,7 +570,7 @@ Path is just a fancy name for the nested field name and its parent objects, for 
 
 # Express.js + Mongoose = True MVC
 
-To avoid rebuilding all other components unrelated to ORM, such as templates, routes, and so forth, we can factor the existing Blog from the previous chapter by making it use Mongoose instead of Mongoskin. This requires minimal effort but produces an abstraction layer between MongoDB and the request handlers. As  always, the fully functional code is available on GitHub, in the `ch7` folder. (<https://github.com/azat-co/practicalnode/tree/master/ch7>)
+To avoid rebuilding all other components unrelated to ODM, such as templates, routes, and so forth, we can factor the existing Blog from the previous chapter by making it use Mongoose instead of Mongoskin. This requires minimal effort but produces an abstraction layer between MongoDB and the request handlers. As  always, the fully functional code is available on GitHub, in the `ch7` folder. (<https://github.com/azat-co/practicalnode/tree/master/ch7>)
 
 The process of refactoring starts with the creation of a new branch: `mongoose`. You can use the final solution in [the GitHub repository](https://github.com/azat-co/blog-express/tree/mongoose). (<https://github.com/azat-co/blog-express/tree/mongoose>) First, we need to remove Mongoskin and install Mongoose:
 
