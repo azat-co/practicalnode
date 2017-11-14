@@ -39,7 +39,7 @@ If you'd like to contribute financially towards the effort (or any of my other o
 8. [Building Node.js REST API Servers with Express.js and Hapi](https://github.com/azat-co/practicalnode/blob/master/chapter8/chapter8.md) [2nd Edition] <-- NEEDS REVIEW! 👀
 9. [Real-Time Apps with WebSocket, Socket.IO, and DerbyJS](https://github.com/azat-co/practicalnode/blob/master/chapter9/chapter9.md) [1s Edition] WIP
 10. [Getting Node.js Apps Production Ready](https://github.com/azat-co/practicalnode/blob/master/chapter10/chapter10.md) [1s Edition] WIP
-11. [Deploying Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter11/chapter11.md) [1s Edition]
+11. [Deploying Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter11/chapter11.md) [1s Edition]  <-- NEEDS REVIEW! 👀
 12. [Publishing Node.js Modules and Contributing to Open Source](https://github.com/azat-co/practicalnode/blob/master/chapter12/chapter12.md) [1s Edition]
 
 Note: It's work in progress (1st -> 2nd Edition) and the draft will be completed in the end of 2017. See for [2nd Edition] for newer updated content.
