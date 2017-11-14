@@ -45,14 +45,14 @@ module.exports = function(grunt) {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint', 'qunit']
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-uglify')
+  grunt.loadNpmTasks('grunt-contrib-jshint')
+  grunt.loadNpmTasks('grunt-contrib-concat')
+  grunt.loadNpmTasks('grunt-contrib-coffee')
 
 
-  grunt.registerTask('default', [ 'jshint', 'coffee','concat', 'uglify']);
+  grunt.registerTask('default', [ 'jshint', 'coffee','concat', 'uglify'])
 
-};
+}

@@ -10,25 +10,15 @@ Chapter 10
 Yes, the apps differ in structures, frameworks they use, and goals they try to achieve; however, there are a few commonalities worth knowing about, for example, environmental variables, multithreading, logging and error handling. So, in this chapter we cover the following topics:
 
 -   Environment variables
-
 -   Express.js in production
-
 -   Socket.IO in production
-
 -   Error handling
-
 -   Node.js domains for error handling
-
 -   Multithreading with Cluster
-
 -   Multithreading with Cluster2
-
 -   Event logging and monitoring
-
 -   Building tasks with Grunt
-
 -   Git for version control and deployments
-
 -   Running tests in Cloud with TravisCI
 
 Environment Variables
@@ -36,13 +26,17 @@ Environment Variables
 
 Before deployment to the production environment, it’s good to prepare our app’s code. Let’s start with information that needs to be private and can’t be shared in a version control system. Sensitive information such as API keys, passwords, and database URIs are best stored in [environment variables](http://en.wikipedia.org/wiki/Environment_variable) (<http://en.wikipedia.org/wiki/Environment_variable>), not in the source code itself. Node.js makes it fairly easy to access these variables:
 
-    console.log (process.env.NODE_ENV,
-      process.env.API_KEY,
-      process.env.DB_PASSWORD)
+```js
+console.log (process.env.NODE_ENV,
+  process.env.API_KEY,
+  process.env.DB_PASSWORD)
+```
 
 Then, before the application is started, set these variables:
 
-    $ NODE_ENV=test API_KEY=XYZ DB_PASSWORD=ABC node envvar.js
+```
+$ NODE_ENV=test API_KEY=XYZ DB_PASSWORD=ABC node envvar.js
+```
 
 **Note** There's no space between `NAME` and value (`NAME=VALUE`).
 
@@ -51,382 +45,378 @@ Typically, the environment variable setting is a part of the deployment or opera
 Express.js in Production
 ========================
 
-In Express.js 4.x, use `if/else` statements to check for `NODE_ENV` values:
+In Express.js, use `if/else` statements to check for `NODE_ENV` values:
 
-    var errorHandler = require('errorhandler');
-    if (process.env.NODE_ENV === 'development') {
-      app.use(errorHandler({
-        dumpExceptions: true,
-        showStack: true
-      }));
-    } else if (process.env.NODE_ENV === 'production') {
-      app.use(errorHandler());
-    }
+```js
+const errorHandler = require('errorhandler')
+if (process.env.NODE_ENV === 'development') {
+  app.use(errorHandler({
+    dumpExceptions: true,
+    showStack: true
+  }))
+} else if (process.env.NODE_ENV === 'production') {
+  app.use(errorHandler())
+}
+```
 
-Express.js 3.x provides `app.configure()`, the so-called sugarcoating methods for different modes: development, test, stage, production, and so on.
-
-    app.configure('development', function(){
-      app.use(express.errorHandler({
-        dumpExceptions: true, 
-        showStack: true
-      }));
-    });
-
-    app.configure('production', function(){
-      app.use(express.errorHandler());
-    });
-
-Each `app.configure` pattern is equivalent to a series of `if/else` statements:
-
-    if (process.env.NODE_ENV === 'development') {
-      app.use(express.errorHandler({ 
-        dumpExceptions: true, 
-        showStack: true 
-      }));
-    } else if (process.env.NODE_ENV === 'production') {
-      app.use(express.errorHandler());
-    }
 
 To run the server in a specific mode, just set an environment variable. For example,
 
-    $ NODE_ENV=production node app.js
+```
+$ NODE_ENV=production node app.js
+```
 
 or:
 
-    $ export NODE_ENV=production
-    $ node app.js
+```
+$ export NODE_ENV=production
+$ node app.js
+```
 
 **Note** By default, Express.js falls back to development mode as we see in the [source code](<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) 
 (<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) (<http://bit.ly/1l7UEi6>).
 
 When using in-memory session store (the default choice), the data can’t be shared across different processes/servers (which we want in production mode). Conveniently, Express.js and Connect notify us about this as we see in this [source code](http://bit.ly/1nnvvhf) (<http://bit.ly/1nnvvhf>) with this message:
 
-    Warning: connect.session() MemoryStore is not
-    designed for a production environment, as it will leak
-    memory, and will not scale past a single process.
+```
+Warning: connect.session() MemoryStore is not
+designed for a production environment, as it will leak
+memory, and will not scale past a single process.
+```
 
-This problem is solved easily by using a shared Redis instance as a session store. For example, for Express.js 4, execute the following:
+This problem is solved easily by using a shared Redis instance as a session store. For example, for Express.js, execute the following:
 
-    var session = require('express-session'),
-      RedisStore = require('connect-redis')(session);
+```js
+const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
 
-    app.use(session({
-      store: new RedisStore(options),
-      secret: 'keyboard cat'
-    }));
+app.use(session({
+  store: new RedisStore(options),
+  secret: 'keyboard cat'
+}))
+```
+
 
 The more advanced example with session options is as follows:
 
-    var SessionStore = require('connect-redis');
-    var session = require('express-session');
+```js
+const SessionStore = require('connect-redis')
+const session = require('express-session')
 
-    app.use(session({
-      key: '92A7-9AC',
-      secret: '33D203B7-443B',
-      store: new SessionStore({
-        cookie: { domain: '.webapplog.com' },
-        db: 1, // Redis DB
-        host: 'webapplog.com' 
-    }));
-
-For Express.js 3.x application use this middleware configuration:
-
-    var SessionStore = require('connect-redis');
-
-    app.configure(function(){
-      this.use(express.session({
-        key: '92A7-9AC',
-        secret: '33D203B7-443B',
-        store: new SessionStore({
-          cookie: { domain: '.webapplog.com' },
-          db: 1, // Redis DB
-          host: 'webapplog.com'
-        })
-      }));
-    });
+app.use(session({
+  key: '92A7-9AC',
+  secret: '33D203B7-443B',
+  store: new SessionStore({
+    cookie: { domain: '.webapplog.com' },
+    db: 1, // Redis DB
+    host: 'webapplog.com' 
+}))
+```
 
 Options for `connect-redis` are `client`, `host`, `port`, `ttl`, `db`, `pass`, `prefix`, and `url`. For more information, please refer to the official `connect-redis` documentation(<https://github.com/visionmedia/connect-redis>) (<https://github.com/visionmedia/connect-redis>).
 
-<span id="socket.io-in-production" class="anchor"><span id="socket" class="anchor"></span></span>Socket.IO in Production
+Socket.IO in Production
 ========================================================================================================================
 
-Akin to Express.js 3.x, the Socket.IO library has `configure()` method
+The Socket.IO library has `configure()` method
 that can be used to define different rules for different environments:
 
-    var io = require('socket.io').listen(80);
+```js
+const io = require('socket.io').listen(80)
 
-    io.configure('production', function(){
-      io.enable('browser client etag');
-      io.set('log level', 1);
-      io.set('transports', [ 
-        'websocket', 
-        'flashsocket', 
-        'tmlfile', 
-        'xhr-polling', 
-        'jsonp-polling' 
-      ]);
-    });
-    io.configure('development', function(){
-      io.set('transports', ['websocket']);
-    });
+io.configure('production', function(){
+  io.enable('browser client etag')
+  io.set('log level', 1)
+  io.set('transports', [ 
+    'websocket', 
+    'flashsocket', 
+    'tmlfile', 
+    'xhr-polling', 
+    'jsonp-polling' 
+  ])
+})
+
+io.configure('development', function(){
+  io.set('transports', ['websocket'])
+})
+```
 
 Often, WebSockets data are stored in a high-performance database such as Redis. In this example, you can use environment variables for values of `port` and `hostname`:
 
-    var sio = require('socket.io'), 
-      RedisStore = sio.RedisStore,
-      io = sio.listen();
+```js
+const sio = require('socket.io')
+const RedisStore = sio.RedisStore
+const io = sio.listen()
 
-    io.configure(function () {
-      io.set('store', new RedisStore({ host: 'http://webapplog.com' }));
-    });
+io.configure(() => {
+  io.set('store', new RedisStore({ host: 'http://webapplog.com' }))
+})
 
-    var redis = require('redis'),
-      redisClient = redis.createClient(port, hostname),
-      redisSub = redis.createClient(port, hostname);
+const redis = require('redis')
+const redisClient = redis.createClient(port, hostname)
+const redisSub = redis.createClient(port, hostname)
 
-    redisClient.on('error', function (err) {
-      console.error(err);
-    });
+redisClient.on('error', (err) => {
+  console.error(err)
+})
 
-    redisSub.on('error', function (err) {
-      console.error(err);
-    });
+redisSub.on('error', (err) => {
+  console.error(err)
+})
 
-    io.configure(function () {
-      io.set('store', new RedisStore({
-        nodeId: function () { return nodeId; },
-        redisPub: redisPub,
-        redisSub: redisSub,
-        redisClient: redisClient
-      }));
-    });
+io.configure(() => {
+  io.set('store', new RedisStore({
+    nodeId: () => { return nodeId; },
+    redisPub: redisPub,
+    redisSub: redisSub,
+    redisClient: redisClient
+  }))
+})
+```
+
 
 Error Handling
 ==============
 
 As a rule of thumb, listen to all error events from `http.Server` and `https.Server` (i.e., always have `onerror` event listeners doing something):
 
-    server.on('error', function (err) {
-      console.error(err);
-      ...
-    })
+```js
+server.on('error', (err) => {
+  console.error(err)
+  // ...
+})
+```
 
 Then, have a catchall event listener (`uncaughtException`) for unforeseen cases. These cases won’t make it to the `onerror` handlers:
 
-    process.on('uncaughtException', function (err) {
-      console.error('uncaughtException: ', err.message);
-      console.error(err.stack);
-      process.exit(1);
-    });
+```js
+process.on('uncaughtException', (err) => {
+  console.error('uncaughtException: ', err.message)
+  console.error(err.stack)
+  process.exit(1)
+})
+```
 
 Alternatively, you can use the `addListener` method:
 
-    process.addListener('uncaughtException', function (err) {
-      console.error('uncaughtException: ', err.message);
-      console.error(err.stack);
-      process.exit(1);
-    });
+```js
+process.addListener('uncaughtException', (err) => {
+  console.error('uncaughtException: ', err.message)
+  console.error(err.stack);
+  process.exit(1)
+})
+```
 
 The following snippet is devised to catch uncaught exceptions, log them, notify development and operations (DevOps) via e-mail/text messages, and then exit:
 
-    process.addListener('uncaughtException', function (e) {
-      server.statsd.increment('errors.uncaughtexception');
-      log.sub('uncaughtException').error(e.stack || e.message);
-      if(server.sendgrid && server.set('env') === 'production') {
-        server.notify.error(e);
-      }
-      exit();
-    });
+```js
+process.addListener('uncaughtException', (e) => {
+  server.statsd.increment('errors.uncaughtexception')
+  log.sub('uncaughtException').error(e.stack || e.message)
+  if(server.sendgrid && server.set('env') === 'production') {
+    server.notify.error(e)
+  }
+  exit()
+})
+```
 
 You might wonder what to do in the event of these uncaught exceptions (the `server.notify.error()` method). It depends. Typically, at a minimum, we want them to be recorded, most likely in the logs. For this purpose, later we'll cover a more advanced alternative to `console.log`—the Winston library (<https://github.com/flatiron/winston>). 
 
 At a maximum, you can implement text message alerts effortlessly using the Twilio API (<http://www.twilio.com>). The following is an example in which helpers can send [HipChat](https://www.hipchat.com) (<https://www.hipchat.com>) messages via their REST API and send an e-mail containing an error stack:
 
-      var sendHipChatMessage = function(message, callback) {   
-        var fromhost = server
-          .set('hostname')
-          .replace('-','')
-          .substr(0, 15); //truncate the string
-        try {
-          message = JSON.stringify(message);
-        } catch(e) {}
-        var data = {
-          'format': 'json',
-          auth_token: server.config.keys.hipchat.servers,
-          room_id: server.config.keys.hipchat.serversRoomId,
-          from: fromhost,
-          message: 'v' 
-            + server.set('version') 
-            + '
-            + nmessage: ' 
-            + message`
-        };`
-        request({
-          url:'http://api.hipchat.com/v1/rooms/message',
-          method:'POST',
-          qs: data}, function (e, r, body) {
-            if (e) console.error(e);
-            if (callback) return callback();
-        });
-      };
-      server.notify = {};
-      server.notify.error = function(e) {
-        var message = e.stack || e.message || e.name || e;
-        sendHipChatMessage(message);
-        console.error(message);
-        server.sendgrid.email({
-          to: 'error@webapplog.com',
-          from: server.set('hostname') + '@webapplog.com',
-          subject: 'Webapp ' 
-            + server.set('version') 
-            + ' error: "' 
-            + e.name 
-            + '"',
-          category: 'webapp-error',
-          text: e.stack || e.message
-        }, exit);
-        return;
-      }
+```js
+  const sendHipChatMessage = (message, callback) => {   
+    const fromhost = server
+      .set('hostname')
+      .replace('-','')
+      .substr(0, 15); //truncate the string
+    try {
+      message = JSON.stringify(message)
+    } catch(e) {}
+    const data = {
+      'format': 'json',
+      auth_token: server.config.keys.hipchat.servers,
+      room_id: server.config.keys.hipchat.serversRoomId,
+      from: fromhost,
+      message: `v ${server.set('version')} message: ${message}`
+    }
+    request({
+      url:'http://api.hipchat.com/v1/rooms/message',
+      method:'POST',
+      qs: data}, function (e, r, body) {
+        if (e) console.error(e)
+        if (callback) return callback();
+    })
+  }
+  server.notify = {}
+  server.notify.error = (e) => {
+    const message = e.stack || e.message || e.name || e
+    sendHipChatMessage(message)
+    console.error(message)
+    server.sendgrid.email({
+      to: 'error@webapplog.com',
+      from: server.set('hostname') + '@webapplog.com',
+      subject: `Webapp ${server.set('version')} error: "${e.name}"`,
+      category: 'webapp-error',
+      text: e.stack || e.message
+    }, exit)
+    return
+  }
+```
 
 Node.js Domains for Error Handling
 ==================================
 
-<span id="node" class="anchor"></span>Because Node.js allows developers to write asynchronous code, and that’s what we usually do, and because state changes during different async parts of code, sometimes it’s harder to trace errors and have a meaningful state and context in which the application was during that exception. To mitigate this, we have domains in Node.js.
+TK: Probably remove this.
 
-Contrary to its more popular homonym (domain as in webapplog.com or google.com), domain is a core Node.js [module](http://nodejs.org/api/domain.html) (<http://nodejs.org/api/domain.html>). It aids developers in tracking and isolating errors that could be a juggernaut task. Think of domains as a smarter version of `try/catch` [statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch>).
+Because Node.js allows developers to write asynchronous code, and that’s what we usually do, and because state changes during different async parts of code, sometimes it’s harder to trace errors and have a meaningful state and context in which the application was during that exception. To mitigate this, we have domains in Node.js.
+
+Contrary to its more popular homonym (domain as in Webapplog.com or Node.University), domain is a core Node.js [module](http://nodejs.org/api/domain.html) (<http://nodejs.org/api/domain.html>). It aids developers in tracking and isolating errors that could be a juggernaut task. Think of domains as a smarter version of `try/catch` [statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch>).
 
 When it comes to Express.js (and other frameworks), we can apply domains in error-prone routes. A route can become error prone if it has pretty much any nontrivial code (i.e., any route can be prone to error), but usually developers can just analyze logs and determine which URL and path are causing the crashes. Typically, these routes rely on third-party modules, some communication, or file system/database input/output.
 
-Before defining the routes, we need to define custom handlers to catch errors from domains. In Express.js 4.x we do the following:
+Before defining the routes, we need to define custom handlers to catch errors from domains. In Express.js we do the following:
 
-     var express = require('express');
-     var domain = require('domain');
-     var defaultHandler = require('errorhandler');
-In Express.js 3.x, we execute:
+```js
+const express = require('express')
+const domain = require('domain')
+const defaultHandler = require('errorhandler')
+```
 
-     var express = require('express');
-     var domain = require('domain');
-     var defaultHandler = express.errorHandler();
-Then, for Express.js 4.x and 3.x, we add middleware:
+Then, we add middleware:
 
-     app.use(function (error, req, res, next) {
-       if (domain.active) {
-         console.info('caught with domain');
-         domain.active.emit("error", error);
-       } else {
-         console.info('no domain');
-         defaultHandler(error, req, res, next);
-       }
-     });
+```js
+app.use((error, req, res, next) => {
+  if (domain.active) {
+    console.info('caught with domain')
+    domain.active.emit("error", error);
+  } else {
+    console.info('no domain')
+    defaultHandler(error, req, res, next)
+  }
+})
+```
 
 Here is a “crashy route” in which the error-prone code goes inside the `d.run` callback:
 
-    app.get('/e', function (req, res, next) {
-      var d = domain.create();
-      d.on('error', function (error) {
-        console.error(error.stack);
-        res.send(500, {'error': error.message});
-      });
-      d.run(function () {
-        *// Error-prone code goes here*
-        throw new Error('Database is down.');
-      });
-    });
+```js
+app.get('/e', (req, res, next) => {
+  const d = domain.create()
+  d.on('error', (error) => {
+    console.error(error.stack)
+    res.send(500, {'error': error.message})
+  })
+  d.run(() => {
+    // Error-prone code goes here*
+    throw new Error('Database is down.') // Like a real crash
+  })
+})
+```
 
 On the other hand, we can call `next` with an error object (e.g., when an error variable comes from other nested calls):
 
-    app.get('/e', function (req, res, next) {
-      var d = domain.create();
-      d.on('error', function (error) {
-        console.error(error.stack);
-        res.send(500, {'error': error.message});
-      });
-      d.run(function () {
-        *// Error-prone code goes here*
-        next(new Error('Database is down.'));
-      });
-    });
+```js
+app.get('/e', (req, res, next) => {
+  var d = domain.create()
+  d.on('error', (error) => {
+    console.error(error.stack)
+    res.send(500, {'error': error.message})
+  })
+  d.run(() => {
+    // Error-prone code goes here*
+    next(new Error('Database is down.'))
+  })
+})
+```
 
 After you launch this example with `$ node app`, go to the `/e` URL. You should see the following information in your logs:
 
-    caught with domain { domain: null,
-      _events: { error: [Function] },
-      _maxListeners: 10,
-        members: [] }
-    Error: Database is down.
-        at /Users/azat/Documents/Code/practicalnode/ch10/domains/app.js:29:10
-        at b (domain.js:183:18)
-        at Domain.run (domain.js:123:23)
+```
+caught with domain { domain: null,
+  _events: { error: [Function] },
+  _maxListeners: 10,
+    members: [] }
+Error: Database is down.
+    at /Users/azat/Documents/Code/practicalnode/ch10/domains/app.js:29:10
+    at b (domain.js:183:18)
+    at Domain.run (domain.js:123:23)
+```        
 
 The stack trace information (lines after `Error: Database is down.`) might be very handy in debugging async code. And the browser should output a nice JSON error message:
 
-    {"error":"Database is down."}
+```
+{"error":"Database is down."}
+```
 
 The working (or should we write *crashing)* example of Express.js 4.1.2 and domains in routes is in the `ch10/domains` folder on [GitHub](https://github.com/azat-co/practicalnode/tree/master/ch10/domains)
 (<https://github.com/azat-co/practicalnode/tree/master/ch10/domains>).
 
 The `package.json` for this example looks like this:
 
-    {
-      "name": "express-domains",
-      "version": "0.0.1",
-      "private": true,
-      "scripts": {
-        "start": "node app.js"
-      },
-      "dependencies": {
-        "express": "4.1.2",
-        "jade": "1.3.1",
-        "errorhandler": "1.0.1"
-      }
-    }
+```js
+{
+  "name": "express-domains",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.1.2",
+    "jade": "1.3.1",
+    "errorhandler": "1.0.1"
+  }
+}
+```
 
 For your convenience, here’s the full content of `practicalnode/ch10/domains/app.js`:
 
-    var express = require('express');
-    var routes = require('./routes');
-    var http = require('http');
-    var path = require('path');
-    var errorHandler = require('errorhandler');
+```js
+var express = require('express');
+var routes = require('./routes');
+var http = require('http');
+var path = require('path');
+var errorHandler = require('errorhandler');
 
-    var app = express();
+var app = express();
 
-    app.set('port', process.env.PORT || 3000);
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
-    app.use(express.static(path.join(__dirname, 'public')));
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, 'public')));
 
-    var domain = require('domain');
-    var defaultHandler = errorHandler();
-    app.get('/', routes.index);
+var domain = require('domain');
+var defaultHandler = errorHandler();
+app.get('/', routes.index);
 
-    app.get('/e', function (req, res, next) {
-      var d = domain.create();
-      d.on('error', function (error) {
-        console.error(error.stack);
-        res.send(500, {'error': error.message});
-      });
-      d.run(function () {
-        // Error-prone code goes here
-        throw new Error('Database is down.');
-        // next(new Error('Database is down.'));
-      });
-    });
+app.get('/e', function (req, res, next) {
+  var d = domain.create();
+  d.on('error', function (error) {
+    console.error(error.stack);
+    res.send(500, {'error': error.message});
+  });
+  d.run(function () {
+    // Error-prone code goes here
+    throw new Error('Database is down.');
+    // next(new Error('Database is down.'));
+  });
+});
 
-    app.use(function (error, req, res, next) {
-      if (domain.active) {
-        console.info('caught with domain', domain.active);
-        domain.active.emit('error', error);
-      } else {
-        console.info('no domain');
-        defaultHandler(error, req, res, next);
-      }
-    });
+app.use(function (error, req, res, next) {
+  if (domain.active) {
+    console.info('caught with domain', domain.active);
+    domain.active.emit('error', error);
+  } else {
+    console.info('no domain');
+    defaultHandler(error, req, res, next);
+  }
+});
 
-    http.createServer(app).listen(app.get('port'), function () {
-      console.log('Express server listening on port ' 
-        + app.get('port'));
-    });
+http.createServer(app).listen(app.get('port'), function () {
+  console.log('Express server listening on port ' 
+    + app.get('port'));
+});
+```
 
 For more ways to apply domains with Express.js, take a look at the *Node.js domains your friends and neighbors* by Forrest L Norvell (<https://twitter.com/othiym23>) & Domenic Denicola
 (<http://domenicdenicola.com>) presentation from NodeConf 2013 slide 4-1 (<http://othiym23.github.io/nodeconf2013-domains/#/4/1>).
@@ -436,74 +426,52 @@ For more ways to apply domains with Express.js, take a look at the *Node.js doma
 Multithreading with Cluster
 ===========================
 
-<span id="cluster" class="anchor"></span>There are a lot of opinions out there against Node.js that are rooted in the myth that Node.js-based systems *have* to be single threaded. Although a single Node.js process *is* single threaded, nothing can be further from the truth about the systems. And with the core `cluster` module (<http://nodejs.org/api/cluster.html>), we can spawn many Node.js processes effortlessly to handle the system’s load. These individual processes use the same source code and they can listen to the same port. Typically, each process uses one machine's CPU. There’s a master process that spawns all other processes and, in a way, controls them (can kill, restart, and so on).
+There are a lot of opinions out there against Node.js that are rooted in the myth that Node.js-based systems *have* to be single threaded. Although a single Node.js process *is* single threaded, nothing can be further from the truth about the systems. And with the core `cluster` module (<http://nodejs.org/api/cluster.html>), we can spawn many Node.js processes effortlessly to handle the system’s load. These individual processes use the same source code and they can listen to the same port. Typically, each process uses one machine's CPU. There’s a master process that spawns all other processes and, in a way, controls them (can kill, restart, and so on).
 
 Here is a working example of an Express.js (version 4.x or 3.x) app that runs on four processes. At the beginning of the file, we import dependencies:
 
-    var cluster = require('cluster');
-    var http = require('http');
-    var numCPUs = require('os').cpus().length;
-    var express = require('express');
+```js
+const cluster = require('cluster')
+const http = require('http')
+const numCPUs = require('os').cpus().length
+const express = require('express')
+```
 
 The `cluster` module has a property that tells us whether the process is master or child (master controls children). We use it to spawn four workers (the default workers use the same file, but this can be overwritten with `setupMaster` (<http://nodejs.org/docs/v0.9.0/api/cluster.html#cluster_cluster_setupmaster_settings>)). In addition, we can attach event listeners and receive messages from workers (e.g., `kill`).
 
-     if (cluster.isMaster) {
-       console.log (' Fork %s worker(s) from master', numCPUs)
-       for (var i = 0; i &lt; numCPUs; i++) {
-         cluster.fork();
-       };
-       cluster.on('online', function(worker) {
-         console.log ('worker is running on %s pid', worker.process.pid)
-       });
-       cluster.on('exit', function(worker, code, signal) {
-         console.log('worker with %s is closed', worker.process.pid);
-       });
-     }
+```js
+if (cluster.isMaster) {
+  console.log (' Fork %s worker(s) from master', numCPUs)
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork()
+  }
+  cluster.on('online', (worker) => {
+    console.log ('worker is running on %s pid', worker.process.pid)
+  })
+  cluster.on('exit', (worker, code, signal) => {
+    console.log('worker with %s is closed', worker.process.pid)
+  })
+}
+```
 
 The worker code is just an Express.js app with a twist. Let’s get the process ID:
 
-    } else if (cluster.isWorker) {
-      var port = 3000;
-      console.log('worker (%s) is now listening to http://localhost:%s',
-        cluster.worker.process.pid, port);
-      var app = express();
-      app.get('*', function(req, res) {
-        res.send(200, 'cluser '
-          + cluster.worker.process.pid
-          + ' responded \n');
-      })
-      app.listen(port);
-    }
+```js
+} else if (cluster.isWorker) {
+  const port = 3000
+  console.log('worker (%s) is now listening to http://localhost:%s',
+    cluster.worker.process.pid, port)
+  const app = express()
+  app.get('*', (req, res) => {
+    res.send(200, 'cluser '
+      + cluster.worker.process.pid
+      + ' responded \n')
+  })
+  app.listen(port)
+}
+```
 
-The full source code of `practicalnode/ch10/cluster.js` is as follows:
-
-    var cluster = require('cluster');
-    var numCPUs = require('os').cpus().length;
-    var express = require('express');
-
-    if (cluster.isMaster) {
-      console.log (' Fork %s worker(s) from master', numCPUs);
-      for (var i = 0; i &lt; numCPUs; i++) {
-        cluster.fork();
-      }
-      cluster.on('online', function(worker) {
-        console.log ('worker is running on %s pid', worker.process.pid);
-      });
-      cluster.on('exit', function(worker, code, signal) {
-        console.log('worker with %s is closed', worker.process.pid);
-      });
-    } else if (cluster.isWorker) {
-      var port = 3000;
-      console.log('worker (%s) is now listening to http://localhost:%s',
-        cluster.worker.process.pid, port);
-      var app = express();
-      app.get('*', function(req, res) {
-        res.send(200, 'cluster '
-          + cluster.worker.process.pid
-          + ' responded \n');
-      });
-      app.listen(port);
-    }
+The full source code of `cluster.js` can be found in `practicalnode/code/ch10/examples/cluster.js`.
 
 As usual, to start an app, run `$ node cluster`. There should be four (or two, depending on your machine’s architecture) processes, as shown in Figure 10-1.
 
@@ -517,33 +485,10 @@ When we CURL with `$ curl http://localhost:3000`, there are different processes 
 
 ***Figure 10-2.** Server response is rendered by different processes*
 
-Multithreading with Cluster2
+Multithreading with pm2
 ============================
 
-If you prefer ready solutions to low-level libraries (such as `cluster`), check out the real-world production library created and used by eBay:`cluster2` ([GitHub](https://github.com/cubejs/cluster2) (<https://github.com/cubejs/cluster2>), [npm](https://www.npmjs.org/package/cluster2) (<https://www.npmjs.org/package/cluster2>)) which is a wrapper for the core cluster module. Cluster2 provides handy utility functions and is battle-tested on a large-scale production deployment.
-
-To install Cluster2, run:
-
-    $ npm install cluster2
-
-To use Cluster2 with Express.js, use `listen()` on an instance of the cluster object:
-
-    var Cluster2 = require('cluster2'),
-        express = require('express');
-
-    var app = express.createServer();
-    // Other Express.js configurations and routes
-    app.get('/', function(req, res) {
-      res.send('hello');
-    });
-
-    var cluster2 = new Cluster2({
-      port: 3000
-      // Other Cluster2 options
-    });
-    cluster2.listen(function(callback) {
-      callback(app);
-    });
+TK
 
 Event Logging and Monitoring
 ============================
@@ -551,7 +496,6 @@ Event Logging and Monitoring
 When things go south (e.g., overloads, crashes), there are two things software engineers can do:
 
 1.  Monitor via dashboard and health statuses (monitoring and REPL).
-
 2.  Analyze postmortems after the events have happened (Winston
     and Papertrail).
 
@@ -561,123 +505,130 @@ Monitoring
 <span id="monitor" class="anchor"></span>When going to production, software and development operations engineers need a way to get current status quickly. Having a dashboard or just an end point that spits out JSON-formatted properties is a good idea, including properties such as the following:
 
 -   `memoryUsage`: memory usage information
-
 -   `uptime`: number of seconds the Node.js process is running
-
 -   `pid`: process ID
-
 -   `connections`: number of connections
-
 -   `loadavg`: load average
-
 -   `sha`: Secure Hash Algorithm (SHA) of the Git commit deploy and /or
     version tag of the deploy
 
 Here's an example of the Express.js route `/status`:
 
-    app.get('/status', function(req, res){
-      res.send({`
-        pid: process.pid,`
-        memory: process.memoryUsage(),`
-        uptime: process.uptime()
-      })
-    })
+```js
+app.get('/status', (req, res) => {
+  res.send({`
+    pid: process.pid,`
+    memory: process.memoryUsage(),`
+    uptime: process.uptime()
+  })
+})
+```
 
 A more informative example with connections and other information is as
 follows:
 
-    var os = require('os'),
-      exec = require('child_process').exec,
-      async = require('async'),
-      started_at = new Date();
+```js
+const os = require('os')
+const exec = require('child_process').exec
+const async = require('async')
+const started_at = new Date()
 
-    module.exports = function(req, res, next) {
-      var server = req.app;
-      if(req.param('info')) {
-        var connections = {},
-          swap;
+module.exports = (req, res, next) => {
+  const server = req.app
+  if(req.param('info')) {
+    let connections = {}
+    let swap
 
-        async.parallel([
-          function(done) {
-            exec('netstat -an | grep :80 | wc -l', function(e, res) {
-              connections['80'] = parseInt(res,10);
-              done();
-            });
+    async.parallel([
+      (done) => {
+        exec('netstat -an | grep :80 | wc -l', (e, res) => {
+          connections['80'] = parseInt(res,10)
+          done()
+        })
+      },
+      (done) => {
+        exec(
+          'netstat -an | grep :'
+            + server.set('port')
+            + ' | wc -l', 
+          (e, res) => {
+            connections[server.set('port')] = parseInt(res,10)
+            done()
+          }
+        )
+      },
+      (done) => {
+        exec('vmstat -SM -s | grep "used swap" | sed -E "s/[^0-9]*([0-9]{1,8}).*/\1/"', (e, res) => {
+          swap = res
+          done()
+        })
+      }], (e) => {
+        res.send({
+          status: 'up',
+          version: server.get('version'), 
+          sha: server.et('git sha'), 
+          started_at: started_at, 
+          node: {
+            version: process.version,
+            memoryUsage: Math.round(process.memoryUsage().rss / 1024 / 1024)+"M",
+            uptime: process.uptime() 
+          }, 
+          system: {
+            loadavg: os.loadavg(),
+            freeMemory: Math.round(os.freemem()/1024/1024)+"M"
           },
-          function(done) {
-            exec(
-              'netstat -an | grep :'
-                + server.set('port')
-                + ' | wc -l', 
-              function(e, res) {
-                connections[server.set('port')] = parseInt(res,10);
-                done();
-              }
-            );
-          },
-          function(done) {
-            exec('vmstat -SM -s | grep "used swap" | sed -E "s/[^0-9]*([0-9]{1,8}).*/\1/"', function(e, res) {
-              swap = res;
-              done();
-            });
-          }], function(e) {
-            res.send({
-              status: 'up',
-              version: server.get('version'), 
-              sha: server.et('git sha'), 
-              started_at: started_at, 
-              node: {
-                version: process.version,
-                memoryUsage: Math.round(process.memoryUsage().rss / 1024 / 1024)+"M",
-                uptime: process.uptime() 
-              }, 
-              system: {
-                loadavg: os.loadavg(),
-                freeMemory: Math.round(os.freemem()/1024/1024)+"M"
-              },
-              env: process.env.NODE_ENV,
-              hostname: os.hostname(),
-              connections: connections,
-              swap: swap
-            });
-        });
-      }
-      else {
-        res.send({status: 'up'});
-      }
-    }
+          env: process.env.NODE_ENV,
+          hostname: os.hostname(),
+          connections: connections,
+          swap: swap
+        })
+    })
+  }
+  else {
+    res.send({status: 'up'})
+  }
+}
+```
 
 REPL in Production
 ------------------
 
 What can be better than poking around a live process and its context using the REPL tool? We can do this easily with production apps if we set up REPL as a server:
 
-    var net = require('net'),
-      options = {name: 'azat'};
+```js
+const net = require('net')
+const options = {name: 'azat'}
 
-    net.createServer(function(socket) {
-      repl.start(options.name + "> ", socket).context.app = app;
-    }).listen("/tmp/repl-app-" + options.name);
+net.createServer(function(socket) {
+  repl.start(options.name + "> ", socket).context.app = app
+}).listen("/tmp/repl-app-" + options.name)
+```
 
 Then, connect to the remote machine by using Secure Shell (SSH). Once on the remote machine, run:
 
-    $ telnet /tmp/repl-app-azat
+```
+$ telnet /tmp/repl-app-azat
+```
 
 You should be prompted with a standard &gt;, which means you’re in the REPL.
 
 Or, if you want to connect to the remote server right away, i.e., by-passing the SSH step, you can modify the code to this:
 
-    var repl = require('repl');
-    var net = require('net'),
-      options = { name: 'azat' };
-    app = {a: 1};
-    net.createServer(function(socket) {
-      repl.start(options.name + "> ", socket).context.app = app;
-    }).listen(3000);
+```js
+const repl = require('repl')
+const net = require('net')
+const options = { name: 'azat' }
+const app = {a: 1}
+net.createServer(function(socket) {
+  repl.start(options.name + "> ", socket).context.app = app
+}).listen(3000)
+```
 
 Please use `iptable` to restrict the Internet protocol addresses (IPs) when using this approach. Then, straight from your local machine (where the hostname is the IP of the remote box), execute:
 
-    $ telnet hostname 3000
+```
+$ telnet hostname 3000
+```
 
 Winston
 -------
@@ -685,36 +636,30 @@ Winston
 Winston provides a way to have one interface for logging events while defining multiple transports, e.g., e-mail, database, file, console, Software as a Service (SaaS), and so on. The list of transports supported by Winston include the following:
 
 -   Console
-
 -   File
-
 -   [Loggly](https://www.loggly.com/) (<https://www.loggly.com>)
-
 -   Riak
-
 -   MongoDB
-
 -   SimpleDB
-
 -   Mail
-
 -   Amazon SNS
-
 -   Graylog2
-
 -   Papertrail
-
 -   Cassandra
 
 It’s easy to get started with Winston:
 
-    $ npm install winston
+```
+$ npm install winston
+```
 
 In the code, execute the following:
 
-    var winston = require('winston');
-    winston.log('info', 'Hello distributed log files!');
-    winston.info('Hello again distributed logs');
+```js
+var winston = require('winston')
+winston.log('info', 'Hello distributed log files!')
+winston.info('Hello again distributed logs')
+```
 
 To add and remove transporters, use the `winston.add()` and `winston.remove()` functions. To add, use:
 
@@ -722,7 +667,9 @@ To add and remove transporters, use the `winston.add()` and `winston.remove()` f
 
 To remove, use:
 
-    winston.remove(winston.transports.Console);
+```js
+winston.remove(winston.transports.Console)
+```
 
 For more information, go to the [official documentation](https://github.com/flatiron/winston#working-with-transports)
 (<https://github.com/flatiron/winston#working-with-transports>).
@@ -734,7 +681,6 @@ Papertrail App for Logging
 
 1.  Write logs to a file and [`remote_sync`](https://github.com/papertrail/remote_syslog)
     (<https://github.com/papertrail/remote_syslog>) them to Papertrail.
-
 2.  Send logs with [`winston`](https://github.com/flatiron/winston#working-with-transports)
     (<https://github.com/flatiron/winston#working-with-transports>),
     which is described earlier, and [winston-papertrail](https://github.com/kenperkins/winston-papertrail)
@@ -748,188 +694,159 @@ Grunt is a Node.js-based task runner. It performs compilations, minifications, l
 
 Install Grunt globally with npm:
 
-    $ npm install -g grunt-cli
+```
+$ npm install -g grunt-cli
+```
 
 Grunt uses `Gruntfile.js` to store its tasks. For example,
 
-    module.exports = function(grunt) {
-      // Project configuration
+```js
+module.exports = function(grunt) {
+  // Project configuration
 
-      grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        uglify: {
-          options: {
-            banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'`
-          },
-          build: {
-            src: 'src/<%= pkg.name %>.js',
-            dest: 'build/<%= pkg.name %>.min.js'
-          }
-        }
-      });
-
-      // Load the plugin that provides the "uglify" task
-      grunt.loadNpmTasks('grunt-contrib-uglify');
-
-      // Default task
-      grunt.registerTask('default', ['uglify']);
-    };
-
-`package.json` should have plugins required by the
-`grunt.loadNpmTasks()` method. For example,
-
-    {
-      "name": "grunt-example",
-      "version": "0.0.1",
-      "devDependencies": {
-        "grunt": "~0.4.2",
-        "grunt-contrib-jshint": "~0.6.3",
-        "grunt-contrib-uglify": "~0.2.2",
-        "grunt-contrib-coffee": "~0.10.1",
-        "grunt-contrib-concat": "~0.3.0"
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      build: {
+        src: 'src/<%= pkg.name %>.js',
+        dest: 'build/<%= pkg.name %>.min.js'
       }
     }
+  })
+
+  // Load the plugin that provides the "uglify" task
+  grunt.loadNpmTasks('grunt-contrib-uglify')
+
+  // Default task
+  grunt.registerTask('default', ['uglify'])
+}
+```
+
+`package.json` should have plugins required by the `grunt.loadNpmTasks()` method. For example,
+
+```js
+{
+  "name": "grunt-example",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-coffee": "~0.10.1",
+    "grunt-contrib-concat": "~0.3.0"
+  }
+}
+```
 
 Let’s move to the more complex example in which we use `jshint`, `uglify`, `coffee`, and `concat` plugins in the default task in Gruntfile.js.
 
 Start by defining `package.json`:
 
-    module.exports = function(grunt) {
+```js
+module.exports = function(grunt) {
 
-      grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+```
 
 And then the `coffee` task:
 
-        coffee: {
-          compile: {
-            files: {
+```js
+    coffee: {
+      compile: {
+        files: {
+```
 
 The first parameter is the destination and the second is `source`:
 
-              'source/<%= pkg.name %>.js': ['source/**/*.coffee']
-              // Compile and concatenate into single file
-            }
-          }
-        },
+```js
+          'source/<%= pkg.name %>.js': ['source/**/*.coffee']
+          // Compile and concatenate into single file
+        }
+      }
+    },
+```
 
 `concat` merges multiple files into one to reduce the number of HTTP
 requests:
 
-        concat: {
-          options: {
-            separator: ';'
-          },
+```js
+    concat: {
+      options: {
+        separator: ';'
+      },
+```
 
 This time, our target is in the `build` folder:
 
-          dist: {
-            src: ['source/**/*.js'],
-            dest: 'build/<%= pkg.name %>.js'
-          }
-        },
+```js
+      dist: {
+        src: ['source/**/*.js'],
+        dest: 'build/<%= pkg.name %>.js'
+      }
+    },
+```
 
 The `uglify` method minifies our `*.js` file:
 
-        uglify: {
-          options: {
-            banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-          },
-          dist: {
-            files: {
+```js
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+```
 
 Again, the first value is the destination; the second dynamic name is from the `concat` task:
 
-              'build/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-            }
-          }
-        },
+```js
+          'build/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
+    },
+```
 
 `jshint` is a linter and shows errors if the code is not compliant:
 
-        jshint: {
-          files: ['Gruntfile.js', 'source/**/*.js'],
-          options: {
-            // options here to override JSHint defaults
-            globals: {
-              jQuery: true,
-              console: true,
-              module: true,
-              document: true
-            }
-          }
+```js
+    jshint: {
+      files: ['Gruntfile.js', 'source/**/*.js'],
+      options: {
+        // options here to override JSHint defaults
+        globals: {
+          jQuery: true,
+          console: true,
+          module: true,
+          document: true
         }
-      });
+      }
+    }
+  })
+```
 
 Load the modules to make them accessible for Grunt:
 
-      grunt.loadNpmTasks('grunt-contrib-uglify');
-      grunt.loadNpmTasks('grunt-contrib-jshint');
-      grunt.loadNpmTasks('grunt-contrib-concat');
-      grunt.loadNpmTasks('grunt-contrib-coffee');
+```js
+grunt.loadNpmTasks('grunt-contrib-uglify')
+grunt.loadNpmTasks('grunt-contrib-jshint')
+grunt.loadNpmTasks('grunt-contrib-concat')
+grunt.loadNpmTasks('grunt-contrib-coffee')
+```
 
 Last, define the default task as sequence of subtasks:
 
-      grunt.registerTask('default', [ 'jshint', 'coffee','concat', 'uglify']);
-    };
+```js
+  grunt.registerTask('default', [ 'jshint', 'coffee','concat', 'uglify'])
+}
+```
 
 To run the task, simply execute `$ grunt` or `$ grunt default`.
 
-`Gruntfile.js` is as follows:
-
-    module.exports = function(grunt) {
-
-      grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        coffee: {
-          compile: {
-            files: {
-              'source/<%= pkg.name %>.js': ['source/**/*.coffee'] // compile and concat into single file
-            }
-          }
-        },
-        concat: {
-          options: {
-            separator: ';'
-          },
-          dist: {
-            src: ['source/**/*.js'],
-            dest: 'build/<%= pkg.name %>.js'
-          }
-        },
-        uglify: {
-          options: {
-            banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-          },
-          dist: {
-            files: {
-              'build/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-            }
-          }
-        },
-
-        jshint: {
-          files: ['Gruntfile.js', 'source/**/*.js'],
-          options: {
-            // options here to override JSHint defaults
-            globals: {
-              jQuery: true,
-              console: true,
-              module: true,
-              document: true
-            }
-          }
-        }
-      });
-
-      grunt.loadNpmTasks('grunt-contrib-uglify');
-      grunt.loadNpmTasks('grunt-contrib-jshint');
-      grunt.loadNpmTasks('grunt-contrib-concat');
-      grunt.loadNpmTasks('grunt-contrib-coffee');
-
-      grunt.registerTask('default', [ 'jshint', 'coffee','concat', 'uglify']);
-
-    };
+`Gruntfile.js` is in `code/ch10/grunt-example`.
 
 The results of running `$ grunt `are shown in Figure 10-3.
 
