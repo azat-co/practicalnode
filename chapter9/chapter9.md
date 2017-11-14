@@ -37,90 +37,115 @@ Let&#39;s examine this with a quick example.
 
 This is our front-end code (file `ch9/basic/index.html`) for Chrome version 32.0.1700.77. We start with typical HTML tags:
 
-    <html>
-      <head>
-      </head>
-      <body>
+```html
+<html>
+  <head>
+  </head>
+  <body>
+```
 
 The main code lives in the `script` tag, where we instantiate an object from global `WebSocket`:
 
-        <script type="text/javascript">
-          var ws = new WebSocket('ws://localhost:3000');
+```html
+    <script type="text/javascript">
+      var ws = new WebSocket('ws://localhost:3000');
+```
 
 As soon as the connection is established, we send a message to the server:
 
-          ws.onopen = function(event) {
-            ws.send('front-end message: ABC');
-          };
+```js
+      ws.onopen = function(event) {
+        ws.send('front-end message: ABC');
+      };
+```
 
 Usually, messages are sent in response to user actions, such as mouse clicks. When we get any message from the WebSocket location, the following handler is executed:
 
-          ws.onmessage = function(event) {
-            console.log('server message: ', event.data);
-          };
-
+```js
+      ws.onmessage = function(event) {
+        console.log('server message: ', event.data);
+      };
+```
 A good practice is to have an `onerror` event handler:
 
-          ws.onerror = function(event) {
-            console.log('server error message: ', event.data);
-          };
+```js
+      ws.onerror = function(event) {
+        console.log('server error message: ', event.data);
+      };
+```
 
 We then close the tags and save the file:
 
-        </script>
-      </body>
-    </html>
+```html
+    </script>
+  </body>
+</html>
+```
 
 To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch9/basic/index.html`:
 
-    <html>
-      <head>
-      </head>
-      <body>
-        <script type="text/javascript">
-          var ws = new WebSocket('ws://localhost:3000');
-          ws.onopen = function(event) {
-            ws.send('front-end message: ABC');
-          };
-          ws.onmessage = function(event) {
-            console.log('server message: ', event.data);
-          };
-        </script>
-      </body>
-    </html>
+```html
+<html>
+  <head>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var ws = new WebSocket('ws://localhost:3000');
+      ws.onopen = function(event) {
+        ws.send('front-end message: ABC');
+      };
+      ws.onmessage = function(event) {
+        console.log('server message: ', event.data);
+      };
+    </script>
+  </body>
+</html>
+```
 
 ## Node.js Server with ws Module Implementation
 
 WebSocket.org provides an echo service for testing the browser WebSocket, but we can build our own small Node.js server with the help of the [ws](http://npmjs.org/ws) (<http://npmjs.org/ws>) ([GitHub](https://github.com/einaros/ws)) (<https://github.com/einaros/ws>) library:
 
-    $ mkdir node_modules
-    $ npm install ws@0.4.31
+```
+$ mkdir node_modules
+$ npm install ws@0.4.31
+```
 
 In the `ch9/basic/server.js` file, we import `ws` and initialize the server:
 
-    var WebSocketServer = require('ws').Server,
-      wss = new WebSocketServer({port: 3000});
+```js
+const WebSocketServer = require('ws').Server
+const wss = new WebSocketServer({port: 3000})
+```
 
 Akin to the front-end code, we use an event pattern to wait for a connection. When the connection is ready, in the callback we send the string `XYZ` and attach an event listener on(`'message'`) to listen to incoming messages from the page:
 
-    wss.on('connection', function(ws) {
-        ws.send('XYZ');
-        ws.on('message', function(message) {
-            console.log('received: %s', message);
-        });
-    });
+```js
+wss.on('connection', (ws) => {
+  ws.send('XYZ')
+  ws.on('message', (message) => {
+    console.log('received: %s', message)
+  })
+})
+```
 
-Again, for reference, here's the full code of `ch9/basic/server.js`:
+Moreover, let's add some continuous logic which will provides current time to the browser using `ws.send()` and `new Date`:
 
-    var WebSocketServer = require('ws').Server,
-      wss = new WebSocketServer({port: 3000});
+```js
+wss.on('connection', (ws) => {
+  ws.send('XYZ')
+  setInterval(()=>{
+    ws.send((new Date).toLocaleTimeString())
+  }, 1000)
+  ws.on('message', (message) => {
+    console.log('received: %s', message)
+  })
+})
+```
 
-    wss.on('connection', function(ws) {
-        ws.send('XYZ');
-        ws.on('message', function(message) {
-            console.log('received: %s', message);
-        });
-    });
+
+The full code of the server code is in `code/ch9/basic/server.js`.
+
 
 Start the Node.js server with `$ node server`. Then, open `index.html` in the browser and you should see this message in the JavaScript console (option + command + j on Macs): `server message: XYZ` (Figure 9-1).
 
@@ -146,136 +171,109 @@ As in most real-time web apps, the communication between a server and a client h
 
 To include Socket.IO, we can use `$ npm install socket.io@0.9.16 --save` and repeat it for every module, or we can use `package.json` and `$ npm install`:
 
-    {
-      "name": "socket-express",
-      "version": "0.0.1",
-      "private": true,
-      "scripts": {
-        "start": "node ./bin/www"
-      },
-      "dependencies": {
-        "express": "~4.0.0",
-        "morgan": "~1.0.0",
-        "cookie-parser": "~1.0.1",
-        "body-parser": "~1.0.0",
-        "debug": "~0.7.4",
-        "jade": "~1.3.0",
-        "socket.io": "0.9.16"
-      }
-    }
+```js
+{
+  "name": "socket-express",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "1.18.2",
+    "cookie-parser": "1.4.3",
+    "debug": "3.1.0",
+    "express": "4.16.2",
+    "morgan": "1.9.0",
+    "pug": "2.0.0-rc.4",
+    "socket.io": "2.0.4"
+  }
+}
+```
 
 Socket.IO, in some way, might be considered another server, because it handles socket connections and not our standard HTTP requests. This is how we refactor autogenerated Express.js code:
 
-    var http = require('http');
-    var express = require('express');
-    var path = require('path');
-    var logger = require('morgan');
-    var bodyParser = require('body-parser');
+```js
+const http = require('http')
+const express = require('express')
+const path = require('path')
+const logger = require('morgan')
+const bodyParser = require('body-parser')
+```
 
-The standard Express.js 4.x configuration is as follows:
+The standard Express.js configuration is as follows:
 
-    var routes = require('./routes/index');
-    var app = express();
+```js
+const routes = require('./routes/index')
+const app = express()
 
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'jade');
+// view engine setup
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
 
-    app.use(logger('dev'));
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded());
-    app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.static(path.join(__dirname, 'public')))
 
-    app.use('/', routes);
+app.use('/', routes)
+```
 
 Then, the Socket.IO piece is as follows:
 
-    var server = http.createServer(app);
-    var io = require('socket.io').listen(server);
+```js
+const server = http.createServer(app)
+const io = require('socket.io').listen(server)
+```
 
 When the Socket server connection is established, we attach a `messageChange` event listener that implements logic that is reversing an incoming string:
 
-    io.sockets.on('connection', function (socket) {
-      socket.on('messageChange', function (data) {
-        console.log(data);
-        socket.emit('receive',
-          data.message.split('').reverse().join('')
-        );
-      })
-    });
+```js
+io.sockets.on('connection', (socket) => {
+  socket.on('messageChange', (data) => {
+    console.log(data)
+    socket.emit('receive', data.message.split('').reverse().join(''))
+  })
+})
+```
 
 We finish by starting the server without standard methods:
 
-    app.set('port', process.env.PORT || 3000);
-    server.listen(app.get('port'), function(){
-      console.log('Express server listening on port ' + app.get('port'));
-    });
+```js
+app.set('port', process.env.PORT || 3000)
+server.listen(app.get('port'), () => {
+  console.log(`Express server listening on port ${app.get('port')}`)
+})
+```
 
-Just in case these snippets are confusing, here&#39;s the full content of `ch9/socket-express/app.js`:
-
-    var http = require('http');
-    var express = require('express');
-    var path = require('path');
-    var logger = require('morgan');
-    var bodyParser = require('body-parser');
-
-    var routes = require('./routes/index');
-    var app = express();
-
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'jade');
-
-    app.use(logger('dev'));
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded());
-    app.use(express.static(path.join(__dirname, 'public')));
-
-    app.use('/', routes);
-
-    var server = http.createServer(app);
-    var io = require('socket.io').listen(server);
-
-    io.sockets.on('connection', function (socket) {
-      socket.on('messageChange', function (data) {
-        console.log(data);
-        socket.emit('receive',
-          data.message.split('').reverse().join('')
-        );
-      });
-    });
-
-    app.set('port', process.env.PORT || 3000);
-    server.listen(app.get('port'), function(){
-      console.log('Express server listening on port ' +
-        app.get('port')
-      );
-    });
+Just in case these snippets are confusing, the full content of the Express app with SocketIO is in `code/ch9/socket-express/app.js`.
 
 A quick remark about port numbers: by default, WebSocket connections can use the standard ports: 80 for HTTP and 443 for HTTPS.
 
 Last, our app needs some front-end love in `index.jade`. Nothing fancy; just a form field and some front-end JavaScript in the Jade template:
 
-    extends layout
+```pug
+extends layout
 
-    block content
-      h1= title
-      p Welcome to
-        span.received-message #{title}
-      input(type='text', class='message', placeholder='what is on your mind?', onkeyup='send(this)')
-      script(src="/socket.io/socket.io.js")
-      script.
-        var socket = io.connect('http://localhost');
-        socket.on('receive', function (message) {
-          console.log('received %s', message);
-          document
-            .querySelector('.received-message')
-            .innerText = message;
-        });
-        var send = function(input) {
-          console.log(input.value);
-          var value = input.value;
-          console.log('sending %s to server', value);
-          socket.emit('messageChange', {message: value});
-        };
+block content
+  h1= title
+  p Welcome to
+    span.received-message #{title}
+  input(type='text', class='message', placeholder='what is on your mind?', onkeyup='send(this)')
+  script(src="/socket.io/socket.io.js")
+  script.
+    var socket = io.connect('http://localhost:3000');
+    socket.on('receive', function (message) {
+      console.log('received %s', message);
+      document.querySelector('.received-message').innerText = message;
+    });
+    var send = function(input) {
+      console.log(input.value)
+      var value = input.value;
+      console.log('sending %s to server', value);
+      socket.emit('messageChange', {message: value});
+    }
+```    
 
 Again, start the server and open the browser to see real-time communication. Typing text in the browser field logs data on the server without messing up HTTP requests and waiting. The approximate browser results are shown in Figure 9-3; the server logs are shown in Figure 9-4.
 
@@ -291,6 +289,8 @@ For more Socket.IO examples, go to [socket.io/#how-to-use](http://socket.io/#how
 
 # Collaborative Online Code Editor Example with DerbyJS, Express.js, and MongoDB
 
+**TK: Most likely to be replaced with something else**
+
 [Derby](http://derbyjs.com) (<http://derbyjs.com>) is a new, sophisticated [MVC](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (<http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller>) framework designed to be used with [Express](http://expressjs.com) (<http://expressjs.com>) as its middleware, whereas [Express.js](http://expressjs.com) (<http://expressjs.com>) is a popular node framework that uses the middleware concept to enhance the functionality of applications. Derby also comes with the support of [Racer](https://github.com/codeparty/racer) (<https://github.com/codeparty/racer>), a data synchronization engine, and [Handlebars](https://github.com/wycats/handlebars.js) (<https://github.com/wycats/handlebars.js>)-like template engine, among [many other features](http://derbyjs.com/#features) (<http://derbyjs.com/#features>).
 
 [Meteor](http://meteor.com) (<http://meteor.com>) and [Sails.js](http://sailsjs.org) (<http://sailsjs.org>) are other reactive (real-time) full-stack MVC Node.js frameworks comparable with DerbyJS. However, Meteor is more opinionated and often relies on proprietary solutions and packages.
@@ -300,13 +300,9 @@ The following example illustrates how easy it is to build a real-time applicatio
 The structure for this DerbyJS mini project is as follows:
 
 - Project dependencies and `package.json`
-
 - Server-side code
-
 - DerbyJS app
-
 - DerbyJS view
-
 - Editor tryout
 
 ## Project Dependencies and package.json
