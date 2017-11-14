@@ -9,13 +9,9 @@ Chapter 11
 As we approach the end of the book, there’s a vital step we have to explore: the deployment itself. To help you navigate between PaaS and IaaS options, and have some scripts you can use on your servers, we cover the following topics:
 
 -   Deploying to Heroku (PaaS)
-
 -   Deploying to Amazon Web Services (AWS)
-
 -   Keeping Node.js apps alive with forever, Upstart, and init.d
-
 -   Serving static resources properly with Nginx
-
 -   Caching with Varnish
 
 Deploying to Heroku
@@ -25,10 +21,8 @@ Deploying to Heroku
 
 1.  It’s easy to deploy, i.e., just one Git command to deploy `$ git push
     heroku master`.
-
 2.  It’s easy to scale, e.g., log in to Heroku.com and click a
     few options.
-
 3.  It’s easy to secure and maintain, e.g., no need to set up startup
     scripts manually.
 
@@ -37,15 +31,12 @@ Heroku works similarly to [Windows Azure](http://azure.microsoft.com/en-us/) (ht
 To get started with the process, we need to follow these steps:
 
 1.  Install [Heroku Toolbelt](https://toolbelt.heroku.com) (https://toolbelt.heroku.com)—a bundle that includes Git and others tools.
-
 2.  Log in to Heroku, which should upload a public SSH key file (e.g., `id_rsa.pub`) to the cloud (i.e., heroku.com).
 
 To set up Heroku, follow these steps:
 
 1.  Sign up at <http://heroku.com>. Currently, they have a free account. To use it, select all options as minimum (0) and the database as shared.
-
 2.  Download Heroku Toolbelt at <https://toolbelt.heroku.com>. Toolbelt is a package of tools, i.e., libraries, that consists of Heroku, Git, and [Foreman](https://github.com/ddollar/foreman) (https://github.com/ddollar/foreman). For users of older Macs, get this [client](http://assets.heroku.com/heroku-client/heroku-client.tgz) (http://assets.heroku.com/heroku-client/heroku-client.tgz) directly. If you use another OS, browse [Heroku Client GitHub](https://github.com/heroku/heroku) (https://github.com/heroku/heroku).
-
 3.  After the installation is done, you should have access to the `heroku` command. To check it and log in to Heroku, type
 
 		$ heroku login
@@ -287,21 +278,25 @@ To install npm, run
 
 Relax and enjoy the build. The next step is to configure AWS ports / firewall settings. Here's a short example of `server.js`, which outputs "Hello readers" and looks like this:
 
-    var http = require('http')
-    http.createServer(function(req, res) {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      console.log ('responding');
-      res.end('Hello readers!'
-        + 'If you see this, then your Node.js server '
-        + 'is running on AWS EC2!');
-    }).listen(80);
-    console.log ('server is up');
+```js
+const http = require('http')
+http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'})
+    console.log ('responding')
+    res.end('Hello readers!'
+    + 'If you see this, then your Node.js server '
+    + 'is running on AWS EC2!')
+}).listen(80)
+console.log ('server is up')
+```
 
 On the EC2 instance, either configure the firewall to redirect connections (e.g., port to Node.js 3000, but this is too advanced for our example) or disable the firewall (okay for our quick demonstration and development purposes):
 
-    $ service iptables save
-    $ service iptables stop
-    $ chkconfig iptables off
+```
+$ service iptables save
+$ service iptables stop
+$ chkconfig iptables off
+```
 
 In the AWS console, find your EC2 instance and apply a proper rule to allow for inbound traffic, as show in Figure 11-3. For example,
 
@@ -484,7 +479,7 @@ To determine the app’s status, type
 The previous example was inspired by [Deploy Nodejs app in Centos 6.2](http://sqllyw.wordpress.com/2012/02/19/deploy-nodejs-app-in-centos-6-2/) (<http://bit.ly/1qwIeTJ>). For more information on Upstart, see [How to Write CentOS Initialization Scripts with Upstart](http://www.openlogic.com/wazi/bid/281586/How-to-write-CentOS-initialization-scripts-with-Upstart) (<http://bit.ly/1pNFlxT>) and [Upstart
 Cookbook](http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf) (<http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf>).
 
-<span id="init.d" class="anchor"><span id="initscript" class="anchor"></span></span>init.d
+init.d
 ------------------------------------------------------------------------------------------
 
 If Upstart is unavailable, you can create an `init.d` script. init.d is a technology available on most Linux OSs. Usually, development operations engineers resort to init.d when Upstart is not available and when they need something more robust than forever. Without going into too much detail, Upstart is a newer alternative to `init.d` scripts. We put `init.d` scripts into the `/etc/` folder.
@@ -564,7 +559,7 @@ The best option is to use [Nginx](http://nginx.org/) (http://nginx.org), [Amazon
 Nginx is a popular choice among development operations engineers. It's an HTTP and reverse-proxy server. To install Nginx on a CentOS system
 (v6.4+), type:
 
-		sudo yum install nginx 
+    sudo yum install nginx 
 
 As a side note, for Ubuntu, you can use the `apt` packaging tool: `sudo apt-get install nginx`. For more information about `apt`, refer to the
 [docs](https://help.ubuntu.com/12.04/serverguide/apt-get.html) (https://help.ubuntu.com/12.04/serverguide/apt-get.html).
