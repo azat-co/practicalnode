@@ -19,17 +19,19 @@ In this chapter we cover the following topics, which serve as an introduction to
 
 # What Is Express.js?
 
-Express.js is a web framework based on the core Node.js `http` module and [Connect](http://www.senchalabs.org/connect) (<http://www.senchalabs.org/connect>) components. The components are called *middleware* and they are the cornerstones of the framework philosophy *configuration over convention*. In other words, Express.js systems are highly configurable, which allows developers to pick freely whatever libraries they need for a particular project. For these reasons, the Express.js framework leads to flexibility and high customization in the development of web applications.
+Express.js is a web framework based on the core Node.js `http` module and [Connect](http://www.senchalabs.org/connect) (<http://www.senchalabs.org/connect>) components. The components are called *middleware* and they are the cornerstones of the framework philosophy which is *configuration over convention*. In other words, Express.js systems are highly configurable, which allows developers to pick freely whatever libraries they need for a particular project. For these reasons, the Express.js framework leads to flexibility and high customization in the development of web applications.
 
-If you write serious apps using only core Node.js modules (refer to the following snippet for an example), you most likely find yourself reinventing the wheel by writing the same code continually for similar tasks, such as the following:
+If you write serious Node web apps using only core Node.js modules (refer to the following snippet for an example), you most likely find yourself reinventing the wheel by writing the same code continually over and over for similar boring mundane tasks, such as the following:
 
 - Parsing of HTTP request bodies
 - Parsing of cookies
-- Managing sessions
+- Getting information from URL
+- Reading query string data from URLs or request bodies (payloads)
+- Managing web sessions
 - Organizing routes with a chain of `if` conditions based on URL paths and HTTP methods of the requests
 - Determining proper response headers based on data types
 
-To illustrate my point, here is an example of a two-route [representational state transfer](http://en.wikipedia.org/wiki/Representational_state_transfer) (REST) API server, i.e., we have only two endpoints and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external native MongoDB driver module is used for persistence. This example is taken from beginner-friendly [Full Stack JavaScript](https://github.com/azat-co/fullstack-javascript) (<http://https://github.com/azat-co/fullstack-javascript>)[Apress, 2018]:
+The list could go on and on but a good example is worth 100s of words. To illustrate my point, here is an example of a two-route [representational state transfer](http://en.wikipedia.org/wiki/Representational_state_transfer) (REST) API server, i.e., we have only two endpoints and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external module native MongoDB driver is used for persistence. This example is taken from my another best selling book on Node, a beginner-friendly [Full Stack JavaScript](https://github.com/azat-co/fullstack-javascript) (<http://https://github.com/azat-co/fullstack-javascript>)[Apress, 2018]. Pay attention to how I had to use if/else and parse the incoming data. 
 
 ```js
 const http = require('http')
@@ -82,7 +84,7 @@ mongo.Db.connect(host, (error, client) => {
 })
 ```
 
-As you can see, developers have to do *a lot* of manual work themselves, such as interpreting HTTP methods and URLs into routes, and parsing input and output data.
+As you can see, developers have to do *a lot* of manual work themselves, such as interpreting HTTP methods and URLs into routes, and parsing input and output data. And I didn't even use URL parameters such as /message/ID. Not nice!
 
 Express.js solves these and many other problems as abstraction and code organization. The framework provides a model-view-controller-like (MVC-like) structure for your web apps with a clear separation of concerns (views, routes, models).
 
@@ -125,30 +127,40 @@ Because we can have multiple middleware functions processing each HTTP request, 
 
 # Express.js Installation
 
-The Express.js package comes in two flavors:
+The Express.js app can be created using two methods:
 
-1. `express-generator`: a global npm package that provides the command-line tool for rapid app creation (scaffolding)
-2. `express`: a local package module in your Node.js app&#39;s `node_modules` folder
+1. `express-generator`: a global npm package that provides the command-line tool for rapid app creation (scaffolding) - recommended for quick prototyping and server-side rendering (thick server) apps
+2. `express`: a local package module in your Node.js app&#39;s `node_modules` folder - recommended for any project
 
-## Express.js Version
+## Express.js Generator Version
 
 Before we proceed with installations, let&#39;s check the Express.js versions. We&#39;ll use an exact version 4.15.4 to avoid confusion resulting from potential future changes to the Express.js skeleton-generating mechanism and the module API.
 
-For the Express.js Generator, which is a separate module, we&#39;ll use version 4.0.0, which is compatible with Express.js 4.x. If you have a version other than 4.0.0 (`$ express -V` to check), you can uninstall it using `$ sudo npm uninstall -g express-generator`. Or `$ sudo npm uninstall -g express` for Express.js 2.x and 3.x. Before, version 4.x, Express.js Generator was a part of the Express.js module itself. After you&#39;ve uninstalled the older versions, install the proper version with the next section&#39;s commands.
+For the Express.js Generator, which is a separate module, we&#39;ll use version 4.15.5, which is compatible with Express.js 4.15.5 and most likely with any other Express version which starts with number 4. Luckily, generator will write the version of express it needs in package.json so we, developers, don't have to preoccupy ourselves too much with the having an incombatible version. 
 
-## Express.js Generator
+If you already have the generator, then check the version with `$ express -V` to check. Yes, the actuall command for the generator is confusingly enough is not `express-generator` but `express`. Go figure. You can uninstall generator using `$ sudo npm uninstall -g express-generator`. Or `$ sudo npm uninstall -g express` for Express.js 2.x and 3.x because before, version 4.x, Express.js Generator was a part of the Express.js module itself. After you&#39;ve uninstalled the older versions, install the proper version with the next section&#39;s commands.
 
-To install the Express.js Generator as global package, run `$ npm install -g express-generator@4.15.0` from anywhere on your computer. This downloads and links the `$ express` terminal command to the proper path, so that later we can access its command-line interface (CLI) for the creation of new apps.
+Alternatively, you can just install a new version and it should overwrite any prior installations. Here's the command to install the latest version:
+
+```
+npm i -g express-generator@latest
+```
+
+Let's see some other ways to install the generator
+
+## Express.js Generator Installation
+
+To install the Express.js Generator as global package, run `$ npm install -g express-generator@4.15.5` from anywhere on your computer. This downloads and links the `$ express` terminal command to the proper path, so that later we can access its command-line interface (CLI) for the creation of new apps.
 
 **Note**: For Max OS X and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.15.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
 
-Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm i –g express-generator@4.15.0`. But in this case your results might be inconsistent with the book&#39;s examples.
+Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm i –g express-generator@4.15.5`. But in this case your results might be inconsistent with the book&#39;s examples.
 
 The results of running the aforementioned command:
 
 ```
 /usr/local/bin/express -> /usr/local/lib/node_modules/express-generator/bin/express-cli.js
-+ express-generator@4.15.0
++ express-generator@4.15.5
 updated 1 package in 1.793s
 ```
 
@@ -162,7 +174,7 @@ Express is used with `require()` and it's a local project dependency. Let's buil
 
 ## Local Express.js
 
-For the local Express.js 4.15.4 module installation, let&#39;s create a new folder `hello-simple` somewhere on your computer: `$ mkdir hello-simple`. This will be our project folder for the chapter. Now we can open it with `$ cd hello-simple`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command.
+For the local Express.js 4.15.5 module installation, let&#39;s create a new folder `hello-simple` somewhere on your computer: `$ mkdir hello-simple`. This will be our project folder for the chapter. Now we can open it with `$ cd hello-simple`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command.
 
 
 The following is an example of the `package.json` file with vanilla `$ npm init` options (the licence and author is configured by defaults in `nmp config`):
@@ -237,7 +249,7 @@ npm WARN hello-simple@1.0.0 No repository field.
 added 43 packages in 4.686s
 ```
 
-If you want to install Express.js to an existing project and save the dependency (smart thing to do!) into the `package.json` file, which is already present in that project&#39;s folder, run `$ npm install express@4.15.4 --save`.
+If you want to install Express.js to an existing project and save the dependency (smart thing to do!) into the `package.json` file, which is already present in that project&#39;s folder, run `$ npm install express@4.15.5 --save`.
 
 Create a `server.js` file in the  `hello-simple` folder:
 
@@ -255,6 +267,8 @@ app.listen(3000,
 ```
 
 Then launch it with `node server.js` to see "Welcome to the Practical Node.js!" in a browser at <http://localhost:3000/>. You first Express app is working! 
+
+Now let's actually see how to use the generator cause let's admit it: who doesn't like to have software to write our software?
 
 # Express.js Scaffolding
 
@@ -302,7 +316,7 @@ Open the browser of your choice at <http://localhost:3000> and you'll see "Expre
 
 ***Figure 2-5.** The result of using Express.js Generator*
 
-If you don&#39;t have computer in front of your right now, here&#39;s the full code of `express-styl/app.js` using Express.js Generator v4.15.0. The server file has routes from `routes` folder, stylus and a rudimentary error handler (the `;` and `var` style is preserved from the code generated by the tool)
+If you don&#39;t have computer in front of your right now, here&#39;s the full code of `express-styl/app.js` using Express.js Generator v4.15.0. The server file has routes from `routes` folder, stylus and a rudimentary error handler. You know I don't like semicolons. The `;` and `var` style is preserved from the code generated by the tool. 
 
 
 ```js
@@ -502,14 +516,14 @@ The middleware includes pass-through functions that either do something useful o
 
 ## Configuration of an Express.js App
 
-Here is how we define configuration statements in a typical Express.js app (the `app.js` file):
+Here is how we define configuration statements in a typical Express.js app (the `app.js` file) with the usage of `app.set()` methods which take the name as a first argument and the value as the second:
 
 ```js
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 ```
 
-And in bin/www:
+And then in the `bin/www` file, you will see the statement which saves the value of the port which will be used later during the server bootup. The value is coming either from the environment variable or the hard coded value of 3000 as a fallback when the environment variable `PORT` is undefined:
 
 ```js
 app.set('port', process.env.PORT || 3000);
@@ -521,7 +535,7 @@ Sometimes there is more than one way to define a certain setting. For example, `
 
 ## Pug Is Haml for Express.js/Node.js
 
-The Pug template engine is akin to the Ruby on Rails’ Haml in the way it uses whitespace and indentation, such as `layout.pug`:
+The Pug template engine is akin to the Ruby on Rails’ Haml in the way it uses whitespace and indentation, such as `layout.pug`. 
 
 ```pug
 doctype html
@@ -532,6 +546,8 @@ html
   body
     block content
 ```
+
+Yes, it might look weird and yes, you might [hate it](https://webapplog.com/jade) in the beginning because of a missing white space that breaks your app but believe me Pug is awesome... when you know it. Luckily there's a whole chapter dedicated to templates and you can learn Pug in there.
 
 Other than that, it&#39;s possible to use a full-blown JavaScript code inside of Pug templates with the `-` prefix. More information on Pug and Handlebars template engines is in Chapter 4.
 
@@ -631,7 +647,7 @@ mkdir {public,public/css,public/img,public/js,db,views,views/includes,routes}
 
 Now we&#39;re all set to add project metadata with npm.
 
-## npm Init and package.json
+## npm init and package.json
 
 For this example we will be creating the Express.js app from scratch, i.e., without Express.js Generator. We&#39;ll start with defining dependencies with package.json and npm.
 
