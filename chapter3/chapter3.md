@@ -6,7 +6,9 @@ Test-driven development (TDD), as many of you might know, is one of the main, ag
 
 Historically, web apps have been hard to autotest, and developers relied heavily on manual testing. But, certain parts such as standalone services and REST API can be *and should be* tested thoroughly by the TDD. At the same time, rich user interface (UI) / user experience (UX) can be tested with headless browsers such as PhantomJS.
 
-The behavior-driven development (BDD) concept is based on TDD. It differs from TDD in language, which encourages collaboration between product owners and programmers.
+And before you start yawning and thinking about skipping this chapter because well, I won't be far off to say that a lot of developers like testing as much as they might like a warm can of beer on a hot Sunday afternoon at the beach, please think about testing as the **time saver**. With proper tests in place and a bit of time spent on writing them, developers save time in the long-term. The longer the long-term the more the pay off. It's not uncommone for *a good module* to have 2-3x of tests than the code itself. Crazy? No. It's not an overkill but a smart and pragmatic strategy!
+
+But what is BDD then? The behavior-driven development (BDD) concept is based on TDD. It differs from TDD in language, which encourages collaboration between product owners and programmers.
 
 Similar to building apps themselves, most of the time software engineers should use a testing framework. To get you started with the Node.js testing framework, Mocha, in this chapter, we cover the following:
 
@@ -19,29 +21,34 @@ The source code for this chapter is in the `ch3` folder of the practicalnode(<ht
 
 # Installing and Understanding Mocha
 
-Mocha is a mature and powerful testing framework for Node.js. To install it, simply run:
+Mocha is a mature and powerful testing framework for Node.js. To install it globally, simply run:
 
 ```
-$ npm install –g mocha@1.16.2
+$ npm i –g mocha@4.0.1
 ```
 
-**Note**: We use a specific version (the latest as of this writing is 1.16.2) to prevent inconsistency in this book&#39;s examples caused by potential breaking changes in future versions of Mocha.
+**Note**: We use a specific version (the latest as of this writing is 4.0.1) to prevent inconsistency in this book&#39;s examples caused by potential breaking changes in future versions of Mocha.
 
 If you encounter the lack-of-permissions issue, discussed in Chapters 1 and 2, run:
 
 ```
-$ sudo npm install –g mocha@1.16.2
+$ sudo npm i –g mocha@4.0.1
 ```
 
-To avoid using `sudo`, follow the instructions in Chapter 1 on how to install Node.js correctly.
+To avoid using `sudo`, follow the instructions in Chapter 1 on how to install Node.js correctly... or just install Mocha locally. 
 
 **Tip**: It&#39;s possible to have a separate version of Mocha for each project by simply pointing to the local version of Mocha, which you install like any other npm module into `node_modules`. The command will be:
 
 ```
-$ ./node_modules/mocha/bin/mocha test_name
+$ ./node_modules/.bin/mocha test_name
 ```
 
-for macOS / Linux. For an example, refer to "Putting Configs into a Makefile" later in this chapter.
+for macOS / Linux. For an example, refer to "Putting Configs into a Makefile" later in this chapter. For my Windows users which cannot use `.` just remove it to have this command:
+
+```
+$ node_modules\.bin\mocha test_name
+```
+
 
 Most of you have heard about TDD and why it&#39;s a good thing to follow. The main idea of TDD is to do the following:
 
@@ -55,7 +62,7 @@ BDD is a specialized version of TDD that specifies what needs to be unit-tested 
 - Asynchronous support
 - Rich configurability
 
-Here is a list of optional parameters (options) that the `$ mocha [options]` command takes:
+Here is a list of some of the  optional parameters (options) that the `$ mocha [options]` command takes (full list is obtainable with `mocha -h`):
 
 - `-h` or `--help`: print help information for the Mocha command
 - `-V` or `--version`: print the version number that's being used
@@ -89,15 +96,17 @@ Figure 3-1 shows an example of nyan cat reporter with the command `$ mocha test-
 
 Usually, when it comes to choosing a type of framework, there are a few options. Mocha is one of the more robust and widely used. However, the following alternatives to Mocha are worth considering:
 
-- [Jest](https://facebook.github.io/jest) (<https://facebook.github.io/jest>)
-- [Encyme](http://airbnb.io/enzyme) (<http://airbnb.io/enzyme>)
+- [Jasmine](https://jasmine.github.io): (<https://jasmine.github.io>): A BDD framework which can be used for Node and browser testing and which follows Mocha notation
+- [Vows](http://vowsjs.org) (<http://vowsjs.org>): A BDD framework for asynchronous testing
 - [NodeUnit](https://github.com/caolan/nodeunit) (<https://github.com/caolan/nodeunit>)
-- [Jasmine](http://pivotal.github.com/jasmine) (<http://pivotal.github.com/jasmine>)
-- [Vows](http://vowsjs.org) (<http://vowsjs.org>)
+- [Jest](https://facebook.github.io/jest) (<https://facebook.github.io/jest>): A framework for *mostly* React and browser testing which is built on Jasmine and has a lot of things included
+- [Encyme](http://airbnb.io/enzyme) (<http://airbnb.io/enzyme>): A language *mostly* for React apps which has a jQuery-like syntax and is used with Mocha, Jasmine or other test frameworks
+- [Karma](https://karma-runner.github.io/1.0/index.html) (<https://karma-runner.github.io/1.0/index.html>): A testing framework *mostly* for Angular apps
+- [TAP](http://www.node-tap.org) (<http://www.node-tap.org/>: A Test-Anything-Protocol library for Node.js which is simpler and ascetic than Mocha or Jasmine
 
 ## Understanding Mocha Hooks
 
-A hook is some logic, typically a function or a few statements, which is executed when the associated event happens; for example, in Chapter 7 we&#39;ll use hooks to explore the Mongoose library `pre` hooks. Mocha has hooks that are executed in different parts of suites—before the whole suite, before each test, and so on.
+ A hook is some logic, typically a function or a few statements. And only you thought we'll be talking about something actually interesting such as pirates...sorry. So this type of a hook is executed when the associated event happens; for example, in Chapter 7 we&#39;ll use hooks to explore the Mongoose library `pre` hooks. Mocha has hooks that are executed in different parts of suites—before the whole suite, before each test, and so on.
 
 In addition to `before` and `beforeEach` hooks, there are `after()`, and `afterEach()` hooks. They can be used to clean up the testing setup, such as database data?
 
@@ -115,7 +124,7 @@ All hooks support asynchronous modes. The same is true for tests as well. For ex
   })
 ```
 
-But, as soon as we add a `done` parameter to the test&#39;s function, our test case waits for the HTTP request to come back:
+But, as soon as we add a `done` parameter to the test&#39;s function, our test case waits for the HTTP request to come back. We call `done()` to let Mocha (or Jasmine or Jest since they share this syntax) know that "hey, you can move on, nothing else to assert here". If this `done()` is omitted then the test will timeout because no one will let the test runner/framework know about the finish.
 
 ```js
   describe('homepage', () => {
@@ -151,12 +160,12 @@ After global Mocha installation is finished, a test file can be created in a `te
 
 ```
 $ mkdir test-example
-$ subl test-example/test.js
+$ code test-example/test.js
 ```
 
-**Note**: `subl` is a Sublime Text alias command which allows developers to open a folder in a code editor by executing this command in a terminal. You can use any other editor, such as VS Code (`code`), Vi (`vi`) or TextMate (`mate`).
+**Note**: `code` is a VS Code alias command which allows developers to open a folder in a code editor by executing this command in a terminal. You can use any other editor, such as Sublime Text 3 (`subl`), Vi (`vi`) or TextMate (`mate`) assuming you have these commands configured in your PATH variable or `bash_profile`.
 
-With the following content:
+Let's just put some simple test with the following content, maybe test an array method `split()` which creates an array out of a string:
 
 ```js
 const assert = require('assert')
@@ -167,7 +176,7 @@ describe('String#split', () => {
 })
 ```
 
-We can run this simple `test.js` (inside the `test-example` folder), which checks for Array type, with:
+We can run this simple `test.js` (inside the `test-example` folder), which checks for Array type, with a file name:
 
 ```
 $ mocha test
@@ -176,7 +185,19 @@ $ mocha test
 or
 
 ```
-$ mocha test.js.
+$ mocha test.js
+```
+
+If you installed Mocha locally (see you package.json and node_modules), then you *might* need to specify the path directly to the local installation because the local installation is not exposed in PATH automatically. This is the command for Linux, macOS and other POSIX systems:
+
+```
+$ ./node_modules/.bin/mocha test.js
+```
+
+And this is the command for Windows:
+
+```
+$ node_modules\.bin\mocha test.js
 ```
 
 The results of these Mocha commands are shown in Figure 3-2.
@@ -212,7 +233,9 @@ describe('String#split', () => {
 })
 ```
 
-As you can see, some code is repeated, so we can abstract it into `beforeEach` and `before` constructions. A little bit of abstraction is always a good thing! At the same time, there's a `chai` library which has assert module. Developers prefer to use chai assert over core assert because chai assert has more features. Here's a new version of the test. It's in `code/ch3/test-example/test2.js`:
+As you can see, some code is repeated, so we can abstract it into `beforeEach` and `before` constructions. A little bit of abstraction is always a good thing! (Abstraction is just a fancy word for cut and paste, a word which software architects like to use to justify a higher wage.)
+
+At the same time, there's a `chai` library which has assert module. Developers prefer to use chai assert over core assert because chai assert has more features. Here's a new version of the test. It's in `code/ch3/test-example/test2.js`:
 
 ```js
 var assert = require('assert')
