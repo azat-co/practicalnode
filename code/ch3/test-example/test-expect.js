@@ -1,6 +1,6 @@
-const expect = require('chai').expect
-let expected,
-  current
+const {expect} = require('chai')
+let expected
+let current
 
 before(() => {
   expected = ['a', 'b', 'c']

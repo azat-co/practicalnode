@@ -154,13 +154,12 @@ As an alternative to the BDD interface&#39;s `describe`, `it`, `before`, and oth
 
 # TDD with the Assert
 
-Let&#39;s write our first tests with the assert library. This library is part of the Node.js core, which makes it easy to access. It has minimal functionality, but it might be enough for some cases, such as unit tests.
+Let&#39;s write our first tests with the assert library. This library is part of the Node.js core, which makes it easy to access. It has minimal set of methods, but it might be enough for some cases, such as unit tests... and less is more in some cases, right?
 
-After global Mocha installation is finished, a test file can be created in a `test-example` folder:
+Again, like in the previous project, developers can install Mocha globally or locally. After the Mocha installation is finished, a test file can be created in a `test-example` folder:
 
 ```
-$ mkdir test-example
-$ code test-example/test.js
+$ code test-example/test-assert.js
 ```
 
 **Note**: `code` is a VS Code alias command which allows developers to open a folder in a code editor by executing this command in a terminal. You can use any other editor, such as Sublime Text 3 (`subl`), Vi (`vi`) or TextMate (`mate`) assuming you have these commands configured in your PATH variable or `bash_profile`.
@@ -179,13 +178,13 @@ describe('String#split', () => {
 We can run this simple `test.js` (inside the `test-example` folder), which checks for Array type, with a file name:
 
 ```
-$ mocha test
+$ mocha test-assert
 ```
 
 or
 
 ```
-$ mocha test.js
+$ mocha test-assert.js
 ```
 
 If you installed Mocha locally (see you package.json and node_modules), then you *might* need to specify the path directly to the local installation because the local installation is not exposed in PATH automatically. This is the command for Linux, macOS and other POSIX systems:
@@ -206,7 +205,7 @@ The results of these Mocha commands are shown in Figure 3-2.
 
 ***Figure 3-2.** Running Array-type test*
 
-We can add to our example another test case (`it`) that asserts equality of array values (`code/ch3/test-example/test.js`):
+We can add to our example another test case (`it`) that asserts equality of array values (`code/ch3/test-example/test.js`) using a `for` loop and `assert.equal` on individual array items:
 
 ```js
 const assert = require('assert')
@@ -235,7 +234,7 @@ describe('String#split', () => {
 
 As you can see, some code is repeated, so we can abstract it into `beforeEach` and `before` constructions. A little bit of abstraction is always a good thing! (Abstraction is just a fancy word for cut and paste, a word which software architects like to use to justify a higher wage.)
 
-At the same time, there's a `chai` library which has assert module. Developers prefer to use chai assert over core assert because chai assert has more features. Here's a new version of the test. It's in `code/ch3/test-example/test2.js`:
+Here's a new version of the test in which we abstracted away the seed data of the `current` variable. It's in `code/ch3/test-example/test-assert-v2.js`:
 
 ```js
 var assert = require('assert')
@@ -271,15 +270,40 @@ describe('String#split', () => {
 
 ## Chai Assert
 
-In the previous example with `test.js` and assert, we used the Node.js core module assert. Chai is a subset of that library. We can modify our previous example to use chai assert with following code:
+In the previous example with `test.js` and assert, we used the Node.js core module assert. At the same time, there's a `chai` library which has assert module (and expect module, and should module). Developers prefer to use chai assert over core assert because chai assert has more features. 
 
-`$ npm install chai@4.1.2`
+To get started with chai assert, simply replace 
 
-And in `test-example/test.js`:
+```
+const assert = require('assert')
+``` 
 
-    var assert = require('chai').assert;
+with 
 
-The following are some of the methods from the chai assert library:
+```
+const assert = require('chai').assert
+```
+
+Ergo, we can modify our previous example to use chai assert but first of all, we MUST INSTALL chai:
+
+```
+$ npm install chai@4.1.2
+```
+
+And then import the chai assert with following code which goes in `test-example/test.js`:
+
+```js
+const assert = require('chai').assert
+```
+
+
+Or the code which uses destructuring:
+
+```js
+const {assert} = require('chai')
+```
+
+I mentioned that chai assert has more method than the Node's core assert. That's true. And the following are just some of the methods from the chai assert library:
 
 - `assert(expressions, message)`: throws an error if the expression is false
 - `assert.fail(actual, expected, [message], [operator])`: throws an error with values of `actual`, `expected`, and `operator`
@@ -289,30 +313,46 @@ The following are some of the methods from the chai assert library:
 - `assert.notEqual(actual, expected, [message])`: throws an error when `actual` is double equal (`==`)—in other words, not unequal (`!=`)—to `expected`
 - `.strictEqual(actual, expected, [message])`: throws an error when objects are not triple equal (`===`)
 
-For the full chai assert API, refer to [the official documentation](http://chaijs.com/api/assert) (<http://chaijs.com/api/assert>).
+Of course there's no need to duplicate the documentation here so for the full chai assert API, refer to [the official documentation](http://chaijs.com/api/assert) (<http://chaijs.com/api/assert>).
 
 **Note**: The chai assert (`chai.assert`) and the Node.js core assert (`assert`) modules are *not 100% compatible*, because the former has more methods. The same is true for chai expect and a standalone expect.js. We will use the Expect from Chai.
 
 # BDD with Expect
 
-Expect is one of the BDD languages. It's very popular.. Its syntax allows for chaining and is richer in features than core module assert. The syntax is very natural to read and understand... even by non-developers, designers and chihuahuas. There are two options to use Expect:
+Expect is one of the BDD languages. It's very popular because its syntax allows for chaining. It is richer in features than core module assert. Yes, the syntax is very natural to read and understand... even by product managers, designers and chihuahuas. And again, there are at least two flavors of Expect for you how to use choose from:
 
-1. Install as a local module
-2. Install as a part of the chai library
+1. Standalone: Install as a `expect.js` module
+2. Chai: Install as a part of the chai library (recommended)
 
-For the former, simply execute the following:
+For the former, simply execute the following in an *existing* Node project (must have package.json already there which you can create with `npm init -y`):
 
 ```
-$ mkdir node_modules
-$ npm install chai@4.1.2
+$ npm install chai@4.1.2 --save-exact
 ```
 
-And, use `const expect = require('chai').expect` inside a Node.js test file. You can use ES6 destructuring assignment as well: `const {expect} = require('chai')`. What about the usage of Expect? Each assertion can be re-written with Expect. For example, the previous test can be rewritten in expect BDD style:
+Tip: While `install` and `i` are the same, `--save-exact` or `-E` will add a precise version of the library to package.json and not a version with `^` which means install latest up to major (first digit in semantic versioning), a behavior responsible for sleepless nights trying to fix a breaking change in a newer version.
+
+And, then after you installed chai, import it inside a Node.js test file using: 
 
 ```js
 const expect = require('chai').expect
-let expected,
-  current
+``` 
+
+ Hey, you can use ES6 destructuring assignment as well. Check this out: 
+ 
+ ```js
+ const {expect} = require('chai')
+ ``` 
+ 
+ And what about the actual usage of Expect? How to write Expect assertions? Each assert assertion can be re-written with Expect. 
+ The idea is to use `expect()` and pass an object we are testing to it as an argument, e.g., `expect(current.length)`. Then use the properties and methods by chaining them in some assemblance of an English language: `expect(current.length).to.equal(3)`.
+
+For example, the previous test can be rewritten in expect's BDD style using `to.be.true`, `equal` and `to.equal`:
+
+```js
+const {expect} = require('chai')
+let expected
+let current
 
 before(() => {
   expected = ['a', 'b', 'c']
@@ -334,27 +374,27 @@ describe('String#split', () => {
       expect(expected[i]).equal(current[i])
     }
   })    
+
 })
 ```
 
-We will cover the expect syntax and methods later. Now I'll show you another library — standalone Expect.js. For the standalone expect.js (not 100% compatible with chai expect) approach, import another module called `expect.js` with the following command:
+We will cover more of the expect syntax and methods later. Now, I'll show you another library — standalone Expect.js. For the standalone expect.js (not 100% compatible with chai expect) approach, import another module called `expect.js` with the following command:
 
 ```
-$ mkdir node_modules
 $ npm install expect.js
 ```
 
-And, use `const expect = require('expect.js')` inside a Node.js test file. For example:
+And, replace the chai expect `const {expect} = require('chai')` inside a Node.js test file with the expect.js module:
 
 ```js
-var expect = require('expect.js')
+const expect = require('expect.js')
 ```
 
-**Note**: `$ mkdir node_modules` is needed only if you install npm modules in the folder that has neither the `node_modules` directory already nor a `package.json` file. For more information, please refer to Chapter 1.
+**Note**: `$ npm i expect.js` or any other `$ npm i name` needs to be in the project's root (top-most) folder which must contain either the `node_modules` directory already or a `package.json` file (recommended because you can save the version number in there). For more information on module installations and the ways of npm, please refer to Chapter 1.
 
 ## Expect Syntax
 
-The Expect.js library is very extensive. It has nice methods that mimic natural language. Often there are a few ways to write the same assertion, such as `expect(response).to.be(true)` and `expect(response).equal(true)`. The following lists some of the main Expect.js methods/properties:
+The Expect.js library is very extensive. Part of it is that it has nice methods that mimic natural language. Often there are a few ways to write the same assertion, such as `expect(response).to.be(true)` and `expect(response).equal(true)`. The following lists some of the main Expect.js methods/properties:
 
 - `ok`: checks for truthyness
 - `true`: checks whether the object is truthy
@@ -366,7 +406,7 @@ The Expect.js library is very extensive. It has nice methods that mimic natural 
 
 **Note**: Again, there is a slight deviation between the standalone `expect.js` module and its Chai counterpart.
 
-For the full documentation on chai expect.js, refer to http://chaijs.com/api/bdd/, and for the standalone, refer to https://github.com/LearnBoost/expect.js/.
+I bet you didn't buy this book to read the documentation so we will save you time and not list every single method. Hey, most likely you can get by with just a handful of them such as `equal` and `ok` and `true`. I do. But in case you need the whole list of methods, go to the full documentation on chai expect.js, refer to http://chaijs.com/api/bdd/, and for the standalone, refer to https://github.com/LearnBoost/expect.js/.
 
 # Project: Writing the First BDD Test for Blog
 
@@ -379,6 +419,8 @@ First, let&#39;s copy the Hello World project. It will serve as a foundation for
 - `request`(<https://npmjs.org/package/request>): the third most-starred npm module (as of this writing)
 - *core* `http` *module*: clunky and very low level
 - `supertest`: a superagent-based assertions library
+- `node-fetch`: a port of a native Fetch API from ECMAScript and browsers
+- `axios`: a promise and async/await based library which works in Node and browsers (recommended)
 
 Here's the updated `package.json`:
 
@@ -407,16 +449,17 @@ Here's the updated `package.json`:
 Now, create a test folder with `$ mkdir tests` and open `tests/index.js` in your editor. The test needs to start the server. We will use two methods `boot()` and `shutdown()` which are imported from the yet to be created `app.js`. The test is straightforward. It makes a single GET request to a homepage and checks that the response has status code 200 (OK).
 
 ```js
-var boot = require('../app').boot,
-  shutdown = require('../app').shutdown,
-  port = require('../app').port,
-  superagent = require('superagent'),
-  expect = require('expect.js')
+const boot = require('../app').boot
+const shutdown = require('../app').shutdown
+const port = require('../app').port
+const superagent = require('superagent')
+const expect = require('expect.js')
 
 describe('server', () => {
   before(() => {
     boot()
   })
+
   describe('homepage', () => {
     it('should respond to GET', (done) => {
       superagent
@@ -424,16 +467,21 @@ describe('server', () => {
         .end((error, response) => {
           expect(response.status).to.equal(200)
           done()
-      })
+        })
     })
   })
+
   after(() => {
     shutdown()
   })
 })
 ```
 
-Now the actual meat and potatoes (or rice and tofu bacon for my vegetarian readers). The Express server in `app.js`. We expose two methods, `boot` and `shutdown`, when the file is imported, in our case, by the test. So, instead of just using listen to boot up the server right in the `app.js` like we did before:
+Now, we will get to the actual meat and potatoes (or rice and tofu bacon for my vegetarian readers) of the Blog project, the Express server in `app.js`. 
+
+Remember, in the test we are using `boot` and `shutdown`. Thus, we expose those two methods, `boot` and `shutdown`, in `app.js` when the file `app.js` is imported by some other file. In our case the importation will be done by the test, i.e., `tests/index.js`. This is so the test can boot the server but so that we can also start the server without tests. 
+
+So, instead of just using `listen()` straight up to launch the server right in the `app.js` like we did before:
 
 ```js
 http.createServer(app).listen(app.get('port'), () => {
@@ -441,7 +489,7 @@ http.createServer(app).listen(app.get('port'), () => {
 })
 ```
 
-we can refactor into using an if/else condition with `require.main === module` which would either export the server Express app object (false) for usage in the Mocha test file (`tests/index.js`) or boot up the server right away (true):
+Let's refactor into using an if/else condition with `require.main === module` which would either export the server Express app object (false) for usage in the Mocha test file (`tests/index.js`) or boot up the server right away (true). We would move the `listen()` into the new `boot()` function which is either called directly or exported to be called by another file.
 
 ```js
 const server = http.createServer(app)
@@ -453,8 +501,8 @@ const boot = () => {
 const shutdown = () => {
   server.close()
 }
-if (require.main === module) {
-  boot()
+if (require.main === module) { 
+  boot() // "node app.js" command
 } else {
   console.info('Running app as a module')
   exports.boot = boot
@@ -463,7 +511,7 @@ if (require.main === module) {
 }
 ```
 
-To launch the test, simply run `$ mocha tests`. The `tests` is a folder. The file name `index.js` is optional. If you have more than one file in the `tests` folder, then all of them would be run by the Mocha test runner. When you run the tests, the server should boot and respond to the home page request (`/` route) as shown in Figure 3-3.
+To launch the test, simply run `$ mocha tests` or if that fails a more exact command with the path: `$ ./node_modules/.bin/mocha tests` (POSIX) or  `$ node_modules\.bin\mocha tests` (Win). The `tests` is a folder. The file name `index.js` is optional. If you have more than one file in the `tests` folder, then all of them would be run by the Mocha test runner. When you run the tests, the server should boot and respond to the home page request (`/` route) as shown in Figure 3-3.
 
 ![alt](media/image3.png)
 
@@ -473,7 +521,7 @@ So having tests bootup your server is convenient. You don't need to keep remembe
 
 ## Putting Configs into a Makefile
 
-The `mocha` accepts many options. It&#39;s often a good idea to have these options gathered in one place, which could be a Makefile. For example, we can have `test`, `test-w` test all files in the `test` folder, and have modes for just the `module-a.js` and `module-b.js` files to test them separately.
+The `mocha` command accepts many, many, many options. It&#39;s often a good idea to have these options gathered in one place, which could be a Makefile. For example, we can have `test`, `test-w` which test all files in the `test` folder, and have separate commands for just the `module-a.js` and `module-b.js` files to test them separately. We can add any extra flags/options such as reporter, timeout time, watch, growl notification, etc.
 
 ```makefile
 REPORTER = list
@@ -511,7 +559,9 @@ test-module-b:
 .PHONY: test test-w test-module-a test-module-b
 ```
 
-To launch this Makefile, run `$ make <mode>`. For example, `$ make test`. `test` is one of the commands in the Makefile. Other commands are `test-w`, `test-module-a` and `test-module-b`. Of course, developers are not limited only to testing in Makefiles. Anything can be there. Mostly the building, compilation, linting, configuration and maybe even deployment! For more information on a Makefile please refer to Understanding Make at http://www.cprogramming.com/tutorial/makefiles.html and Using Make and Writing Makefiles at http://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html.
+To launch this Makefile, run `$ make <mode>`. For example, `$ make test` where the `test` command is one of the commands in the Makefile. Other commands are `test-w`, `test-module-a` and `test-module-b`. 
+
+Of course, developers are not limited only to testing in Makefiles. Anything can be there. Mostly the building, compilation, linting, configuration and maybe even deployment! For more information on a Makefile please refer to Understanding Make at http://www.cprogramming.com/tutorial/makefiles.html and Using Make and Writing Makefiles at http://www.cs.swarthmore.edu/~newhall/unixhelp/howto_makefiles.html.
 
 For our Blog app, we can keep the Makefile simple:
 
@@ -531,7 +581,7 @@ test:
 .PHONY: test
 ```
 
-**Note**: We point to the local Mocha in the Makefile, so the dependency needs to be added to `package.json` and installed in the `node_modules` folder.
+**Note**: In this Makefile, we point to the local Mocha in the Makefile, so the dependency needs to be added to `package.json` and installed in the `node_modules` folder using `npm i` or `npm i mocha` commands.
 
 Now we can run tests with the `$ make test` command, which allows for more configuration compared with the simple `$ mocha tests` (Figure 3-4).
 
