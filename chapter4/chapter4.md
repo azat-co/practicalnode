@@ -880,7 +880,7 @@ Then we merge the template with this data. Notice the properties&#39; names are 
 }}
 ```
 
-The snippets above when compiled, produce HTML:
+The snippets above when compiled, produce HTML which prints values using the object name for every property:
 
 ```html
 <p>Azat</p>
@@ -891,7 +891,7 @@ The snippets above when compiled, produce HTML:
 
 ## Comments
 
-To output comments, use regular HTML `<!--` and `-->`. To hide comments in the final output, use `{{!` and `}}` or `{{!--` and `--}}`. For example,
+To output comments, use regular HTML `<!--` and `-->`. To hide comments in the final output, use `{{!` and `}}` or `{{!--` and `--}}`. For example, the code below has two types of comments:
 
 ```html
 <!-- content goes here -->
@@ -901,7 +901,7 @@ To output comments, use regular HTML `<!--` and `-->`. To hide comments in the f
 <p id="footer">Copyright 2018 Azat</p>
 ```
 
-outputs the comments with `<!-- ... -->` but omits comments with `{{! ... }}`:
+The code above outputs the comments with `<!-- ... -->` but omits comments with `{{! ... }}` so the result is this:
 
 ```html
 <!-- content goes here -->
@@ -909,17 +909,18 @@ outputs the comments with `<!-- ... -->` but omits comments with `{{! ... }}`:
 <p id="footer">Copyright 2014 Azat</p>
 ```
 
+
 ## Custom Helpers
 
 Custom Handlebars helpers are similar to built-in helper blocks and Pug mixins. To use custom helpers, we need to create them as a JavaScript function and register them with the Handlebars instance.
 
-This Handlebars template uses our custom helper `table` which we&#39;ll register (i.e., define) later in the JavaScript/Node.js code:
+For example, let's assume we have a custom helper `table` which we&#39;ll register (i.e., define) later in the JavaScript/Node.js code, then this Handlebars template uses our `table`:
 
 ```html
 {{table node}}
 ```
 
-Here goes the JavaScript/Node.js that tells the Handlebars compiler what to do when it encounters the custom `table` function (i.e., print an HTML table out of the provided array):
+Here goes the JavaScript/Node.js that *registers* or tells the Handlebars compiler what to do when it encounters the custom `table` function (i.e., print an HTML table out of the provided array):
 
 ```js
 handlebars.registerHelper('table', (data) => {
@@ -936,7 +937,7 @@ handlebars.registerHelper('table', (data) => {
 })
 ```
 
-This is our array for the table data:
+This is our array for the table data. It has an array of object. Each object has name and URL:
 
 ```js
 [
@@ -947,7 +948,7 @@ This is our array for the table data:
 ]
 ```
 
-The resulting HTML output looks like this:
+The resulting HTML from iterating over the name and URL objects within the table function looks like this:
 
 ```html
 <table>
@@ -970,9 +971,23 @@ The resulting HTML output looks like this:
 </table>
 ```
 
+Thus, helpers are good for reusing the code. Another way to reuse code is includes or partials.
+
 ## Includes (Partials)
 
-Includes or partials templates in Handlebars are interpreted by the `{{> partial_name}}` expression. Partials are akin to helpers and are registered with `Handlebars.registerPartial(name, source)`, where `name` is a string and `source` is a Handlebars template code for the partial.
+Includes or partials templates in Handlebars are interpreted by the `{{> partial_name}}` expression. Partials are akin to helpers and are registered with `Handlebars.registerPartial(name, source)`, where `name` is a string and `source` is a Handlebars template code for the partial (JS/Node code, not template).
+
+```js
+Handlebars.registerPartial('myPartial', '{{name}}')
+```
+
+Calling the partial is done with the following syntax (written in the Handlebars template, not JS/Node code):
+
+```handlebars
+{{> myPartial }}
+```
+
+For more includes and patials, see the documentation at <http://handlebarsjs.com/partials.html>.
 
 # Standalone Handlebars Usage
 
@@ -984,7 +999,7 @@ Developers can install Handlebars via npm with `$ npm install handlebars` or `$ 
 
 **Note** Handlebars can be installed via npm as a command-line tool with the `-g` or `--global` options. For more information on how to use Handlebars in this mode, refer to the `$ handlebar` command or the official documentation(<https://github.com/wycats/handlebars.js/%23usage-1>).
 
-Here&#39;s an example of standalone Node.js Handlebars usage from `handlebars-example.js`:
+Here&#39;s an example of standalone Node.js Handlebars usage from `handlebars-example.js` in which we import modules, then define `data` object (with book info), then register a few helpers and generate HTML.
 
 ```js
 const handlebars = require('handlebars')
@@ -1009,7 +1024,7 @@ data.tableData = [
 
 fs.readFile(filePath, 'utf-8', (error, source) => {
   if (error) return console.error(error)
-
+  // Register helper to generate table HTML from data (array)
   handlebars.registerHelper('table', (data) => {
     let str = '<table>'
     for (let i = 0; i < data.length; i++) {
@@ -1022,7 +1037,7 @@ fs.readFile(filePath, 'utf-8', (error, source) => {
     str += '</table>'
     return new handlebars.SafeString(str)
   })
-
+  // Register helper to create capitalize a string
   handlebars.registerHelper('custom_title', (title) => {
     let words = title.split(' ')
     for (let i = 0; i < words.length; i++) {
@@ -1033,14 +1048,14 @@ fs.readFile(filePath, 'utf-8', (error, source) => {
     title = words.join(' ')
     return title
   })
-
+  // Compile the template and hydrate it with data to generate HTML
   const template = handlebars.compile(source)
   const html = template(data)
   console.log(html)
 })
 ```
 
-And the `handlebars-example.html` file that uses `custom_title` helper has this content that calls the helper and outputs some other properties:
+And the `handlebars-example.html` *template* file that uses `custom_title` helper has this content that calls the helper and outputs some other properties:
 
 ```html
 <div class="header">
@@ -1084,11 +1099,12 @@ To use Handlebars in the browser, download the library in a straightforward mann
 
 # Pug and Handlebars Usage in Express.js
 
-By default, Express.js 4.x (and 3.x) uses either a template extension provided to the `res.render` method or the default extension set by the `view engine` setting, to invoke the `require` and `__express` methods on the template library. In other words, for Express.js to utilize a template engine library out of the box, that library needs to have the `__express` method.
+By default, Express.js uses either a template extension provided to the `response.render` (or `res.render`) method or the default extension set by the `view engine` setting, to invoke the `require` and `__express` methods on the template library. In other words, for Express.js to utilize a template engine library out of the box, that library needs to have the `__express` method.
 
 When the template engine library doesn&#39;t provide the `__express` method, or a similar one with `(path, options, callback)` parameters, it&#39;s recommended that you use Consolidate.js (https://github.com/visionmedia/consolidate.js/).
 
-Here is a quick example of Consolidate.js for Express.js 4 (version 4.2.0 and Consolidate version is 0.10.0):
+Here is a quick example of Consolidate.js for Express.js 4 (version 4.2.0 and Consolidate version is 0.10.0). In this example, a template engine Swig is used. It comes from the `consolidate` module and applied to express with the `app.engine('html', cons.swig)` statement. See the full server implementation which renders Swig templates:
+
 
 ```js
 const express = require('express')
@@ -1134,13 +1150,15 @@ For more information on how to configure Express.js settings and use Consolidate
 
 Pug is compatible with Express.js out of the box (in fact, it&#39;s the default choice), so to use Pug with Express.js, you just need to install a template engine module (`pug`) (<https://www.npmjs.org/package/pug>) and provide an extension to Express.js via the `view engine` setting.).
 
-For example, in the main server file we set the setting:
+For example, in the main Express server file we set the `view engine` setting as `pug` to let Express know which library to use for templates:
 
 ```js
 app.set('view engine', 'pug')
 ```
 
-**Note**  If you use `$ express <app_name>` command-line tool, you can add the option for engine support, i.e., `–e` option for EJS and –H for Hogan. This will add EJS or Hogan automatically to your new project. Without either of these options, the express-generator (versions 4.0.0-4.2.0) will use Pug.
+Of course, developers need to install the `pug` npm module into their project so the pug package is stored locally in `node_modules`. Express will use the name `pug` provided to `view engine` to import the `pug` package and *also* use the `pug` as a template files extension in the `views` folder (`views` is the default name). 
+
+**Note**  If you use `$ express <app_name>` command-line tool, you can add the option for engine support, i.e., `–e` option for EJS and –H for Hogan. This will add EJS or Hogan automatically to your new project. Without either of these options, the `express-generator` (versions 4.0.0-4.2.0) will use Pug.
 
 In the route file, we can call the template—for example, `views/page.pug` (the `views` folder name is another Express.js default, which can be overwritten with the `view` setting):
 
@@ -1151,19 +1169,21 @@ app.get('/page', (req, res, next) => {
 })
 ```
 
-If we don&#39;t specify the `views engine` setting, then the extension must be passed explicitly to `res.render()`:
+If we don&#39;t specify the `view engine` setting, then the extension must be passed explicitly to `res.render()` as a first argument, such as:
 
 ```js
   res.render('page.pug', data)
 ```
 
+Next, let's cover the Express usage for Handlebars.
+
 ## Handlebars and Express.js
 
-Contrary to Pug, the Handlebars library from <http://handlebarsjs.com/> doesn&#39;t come with the `__express` method, but there are a few options to make Handlebars work with Express.js:).
+Contrary to Pug, the Handlebars library from <http://handlebarsjs.com> doesn&#39;t come with the `__express` method, but there are a few options to make Handlebars work with Express.js:).
 
-- `consolidate`: a Swiss-army knife of Express.js template engine libraries (shown above)
-- `hbs`(<https://github.com/donpark/hbs>): wrapper library for Handlebars
-- `express3-Handlebars` despite the name, this module should work just fine with Express.js 4 as well as version 3.x
+- [`consolidate`](https://www.npmjs.com/package/consolidate) (<https://github.com/tj/consolidate.js>): a Swiss-army knife of Express.js template engine libraries (shown above)
+- [`hbs`](https://www.npmjs.com/package/hbs) (<https://github.com/pillarjs/hbs>): wrapper library for Handlebars
+- [`express-handlebarss`](https://www.npmjs.com/package/express-handlebars) (<https://github.com/ericf/express-handlebars>) a module to use Handlebars with Express
 
 Here&#39;s how we can use `hbs` approach (extension `hbs`). Inside of the typical Express.js app code (i.e., configuration section of the main file that we launch with the `$ node` command) write the following statements:
 
@@ -1178,12 +1198,15 @@ app.set('view engine', 'html')
 pp.engine('html', require('hbs').__express)
 ```
 
-The `express3-handlebars` approach usage is as follows:
+The `express-handlebars` approach usage is as follows:
 
 ```js
+const exphbs  = require('express-handlebars')
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 ```
+
+Good. Now we can put our knowledge to practice.
 
 # Project: Adding Pug Templates to Blog
 
@@ -1206,8 +1229,6 @@ Let&#39;s open the project where we left off in the previous chapter and add `la
 doctype html
 ```
 
-**Note**  `doctype 5` was deprecated around v1.0.
-
 Now we can add the main tags of the page:
 
 ```pug
@@ -1219,6 +1240,7 @@ The title of the each page is provided from the `appTitle` variable (aka, local)
 
 ```pug
     title= appTitle
+```
 
 Then, in the `head` tag, we list all the front-end assets that we need app-wide (on each page):
 
@@ -1268,21 +1290,21 @@ Menu is a partial (i.e., an include) that is stored in the `views/includes` fold
             include includes/menu
 ```
 
-In this block, we can display messages for users:
+In this block named `alert`, we can display messages for users so let's use special alerty classes on a `div`:
 
 ```pug
             block alert
               div.alert.alert-warning.hidden
 ```
 
-Main content goes in this block:
+Main content goes in this block. It is empty now because other template will define it.
 
 ```pug
         .content
           block content
-``
+```
 
-Lastly, the footer looks as follows:
+Lastly, the footer block with `contaner` class `div` and `p` with text and a link (link is wrappen in text) looks as follows:
 
 ```pug
     block footer
@@ -1294,7 +1316,7 @@ Lastly, the footer looks as follows:
             | .
 ```            
 
-The full code of `layout.pug` is as follows:
+To give you a full picture as well as preserve proper indentation (which is PARAMOUNT in Pug), the full code of `layout.pug` is as follows:
 
 ```pug
 doctype html
@@ -1332,22 +1354,24 @@ html
             | .
 ```
 
+Next is the home page.
+
 ## index.pug
 
-Now we can look at the home page template `index.pug` that extends layout:
+Now, we can look at the home page template `index.pug` that extends `layout.pug`. Remember the syntax? It's `extends name`:
 
 ```pug
 extends layout
 ```
 
-We set the `menu` variable to `index`, so the menu include (i.e., `menu.pug`) can determine which tab to show as active:
+Because we can overwrite some blocks, we set the `menu` variable to `index`, so the menu include (i.e., `menu.pug`) can determine which tab to show as active:
 
 ```pug
 block page
-  - var menu = &#39;index&#39;
+  - var menu = 'index'
 ```
 
-The main content with the list of articles that comes from `locals` is as follows:
+Of course, we need to overwrite `content` block. Ergo, the main content with the list of articles that comes from `locals` iterates over the blog posts (articles). Each article link has a title and needless to say a URL which is formed by the `article.slug` value. When there's no posts/articles, then we show a message that nothing has been published yet. The code is as follows:
 
 ```pug
 block content
@@ -1362,7 +1386,7 @@ block content
           a(href="/articles/#{article.slug}")= article.title
 ```
 
-The full code of `index.pug` is as follows:
+For your reference and the ease of comprehension Pug's style, the full code of `index.pug` is as follows. You can see `extends` and two block overwrites (of `layout`):
 
 ```pug
 extends layout
@@ -1385,11 +1409,13 @@ Figure 4-4 shows how the home page looks after adding style sheets.
 
 ![alt](media/image4.png)
 
+Phew. Next is the actual blog posts (a.k.a. article).
+
 ***Figure 4-4.** The home page*
 
 ## article.pug
 
-The individual article page (Figure 4-5) is relatively unsophisticated because most of the elements are abstracted into `layout.pug`:
+The individual article page (Figure 4-5) is relatively unsophisticated because most of the elements are abstracted into `layout.pug`. We only have `extends` and then overwrite the `content` block without article title (h1 heading) and article's text (p for paragraph).
 
 ```pug
 extends layout
@@ -1400,13 +1426,17 @@ block content
     p= text
 ```
 
+This is the awesomeness which we get thanks to Twitter Bootstrap and h1 and p elements. You can clearly see that even despite defining only h1 and p, the webpage `/articles/node-fundamentals` has a page title menu and the footer. That's due to the inheritance, extends and `layout.pug`.
+
 ![alt](media/image5.png)
 
 ***Figure 4-5.** The article page*
 
+Did you notice that log in link?  Let's implement the log in page next.
+
 ## login.pug
 
-Similarly, the login page contains only a form and a button (with the Twitter Bootstrap classes/markup):
+Similarly to `article.pug`, the login page uses `login.pug` which contains... not much! *Only* a form and a button with some minimal Twitter Bootstrap classes/markup. So likewise to `article.pug`, we extend layout and overwrite two blocks. One for the actice menu value and the other for the content, that is the main part of the page. This main part has guess what? A LOGIN FORM!
 
 ```pug
 extends layout
@@ -1428,15 +1458,17 @@ block content
           button.btn.btn-lg.btn-primary.btn-block(type="submit") Log in
 ```
 
-Figure 4-6 shows how the login page looks.
+Again, thanks to Twitter Bootstrap, our page looks stellar. It has menu because of the `extends` and `layout.pug`. Figure 4-6 shows how the login page looks.
 
 ![alt](media/image6.png)
 
 ***Figure 4-6.** The login page*
 
+But how to create a new article? By posting it's title and text.
+
 ## post.pug
 
-The post page (Figure 4-7) has another form. This time, the form contains a text area element:
+The post page (Figure 4-7) has another form and it also extends `layout.pug`. This time, the form contains a text area element which will become the main text of the article. In addition to the text, there are title and the URL segment (or path) which is called slug 🐌. 
 
 ```pug
 extends layout
@@ -1462,13 +1494,19 @@ block content
           button.btn.btn-primary(type="submit") Save
 ```
 
+To give you some visual of the Pug of `post.pug`, take a look at the page for posting new articles. The action attribute of `<form>` will allow browsers send the data to the back-end and then Express will take care of it by processing and our Node code will save it to the database.
+
 ![alt](media/image7.png)
 
 ***Figure 4-7.** The post page*
 
+If a valid administrator user is logged in, then we want to show an admin interface. See the Admin link in the menu? Let's implement the admin page to which this link leads.
+
 ## admin.pug
 
-The admin page (Figure 4-8) has a loop of articles just like the home page. In addition, we can include a front-end script (`js/admin.js`) specific to this page:
+The admin page (Figure 4-8) has a loop of articles just like the home page but in addition to just showing articles, we can include a front-end script (`js/admin.js`) specific to this page. This script will do some AJAX-y calls to publish and unpublish articles. These functions will be available only to admins. Of course we will need an server-side validation on the backend later. Don't trust only the front-end validation or authorization!
+
+So the `admin.pug` file starts with the layout extension and has content overwrite in which there's a table of articles. In each row of the table, we use `glyphicon` to show a fancy icon pause or play. The icons come from Twitter Bootstrap and enabled via classes.
 
 ```pug
 extends layout
@@ -1491,7 +1529,7 @@ block content
             th Post Title
         tbody
           each article, index in articles
-            tr(data-id="#{article._id}", class=(!article.published)?'unpublished':'')
+            tr(data-id=`${article._id}`, class=(!article.published)?'unpublished':'')
               td.action
                 button.btn.btn-danger.btn-sm.remove(type="button")
                   span.glyphicon.glyphicon-remove(title="Remove")
@@ -1502,10 +1540,10 @@ block content
       script(type="text/javascript", src="js/admin.js")
 ```
 
-We use interpolation to print article IDs as attributes `data-id` (indentation was removed):
+Please notice that, we use ES6 string template (or interpolation) to print article IDs as attributes `data-id` (indentation was removed):
 
 ```pug
-tr(data-id="#{article._id}", class=(!article.published) ? 'unpublished':'')
+tr(data-id=`${article._id}`, class=(!article.published) ? 'unpublished':'')
 ```
 
 And, a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used for classes and title attributes. Remember, it&#39;s JavaScript! (Indentation was removed for better viewing.)
@@ -1513,6 +1551,8 @@ And, a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used
 ```pug
 span.glyphicon(class=(article.published) ? "glyphicon-pause" : "glyphicon-play", title=(article.published) ? "Unpublish" : "Publish")
 ```
+
+The result is a beautiful admin page (okay, enough with sarcasm and saying Twitter Bootstrap is stellar, pretty or cute. It's not... but compared to standard HTML which puts me to sleep, Twitter Bootstrap style is a HUGE improvement.) It has functionality to publish and unpublish articles.
 
 ![alt](media/image8.png)
 
