@@ -2,7 +2,7 @@ Chapter 4
 ---------
 # Template Engines: Pug and Handlebars
 
-A template engine is a library or a framework that uses some rules/languages to interpret data and render views. In the case of web applications, views are HTML pages (or parts of them), but they can be JSON or XML files, or, of desktop programs, GUIs. For those of you familiar with the model–view–controller concept, templates belong to the view.
+A template engine is a library or a framework that uses some rules/languages to interpret data and render views. In the case of web applications, views are HTML pages (or parts of them), but they can be JSON or XML files, or GUIs in the case of desktop programs. For those of you familiar with the model–view–controller concept, templates belong to the view.
 
 In web apps, it&#39;s beneficial to use templates because we can generate an infinite number of pages dynamically with a single template! Another side benefit is when we need to change something; we can do it in one place only.
 
@@ -19,15 +19,15 @@ In this chapter we cover the following:
 
 # Pug Syntax and Features
 
-Pug is a Node.js brother of Haml, in the sense that it uses whitespace and indentation as part of its language. Therefore, we need to be careful to follow the proper syntax.
+Pug is a Node.js brother of Haml, in the sense that it uses whitespace and indentation as part of its language. As with a real pugs, this Pug can either be cute and friendly or can chew your butt off if you don't know how to use it. Therefore, we need to be careful to follow the proper syntax.
 
-You can follow the Pug syntax examples in this section online, at the official web site&#39;s demo page(<http://pug-lang.com/demo>) or at the @naltatis resource,(<http://naltatis.github.io/pug-syntax-docs>) or by writing standalone Node.js scripts (examples are presented in “Pug Standalone Usage,” which appears later in this chapter).
+You can follow the Pug syntax examples in this section online, at the official web site&#39;s demo page(<https://pugjs.org/api/reference.html>) or by writing standalone Node.js scripts (examples are presented in “Pug Standalone Usage,” which appears later in this chapter).
 
 ## Tags
 
-Any text at the beginning of a line—by default—is interpreted as an HTML tag. The main advantage of Pug is that this text renders both closing and opening tags for the HTML element, as well as the `<></>` symbols. Therefore, we save many keystrokes as developers writing in Pug!
+Any text at the beginning of a line—by default—is interpreted as an HTML tag. The main advantage of Pug is that this text renders both closing and opening tags for the HTML element, as well as the `<></>` symbols. Therefore, we save many keystrokes as developers writing in Pug! It's very important to type as less as possible. It will allow you not only to avoid silly typos but also to avoid having a repetitive stress injury on your hands.
 
-The text following a tag and a space (e.g., `tag <text>`) is parsed as the inner HTML (i.e., content inside the element). For example, if we have the following Pug code:
+The text following a tag and a space (e.g., `tag <text>`) is parsed as the inner HTML (i.e., content inside the element). For example, if we have the following Pug code with h1 and p tags (elements). After the tag/element name, there's a space then text:
 
 ```pug
 body
@@ -38,7 +38,7 @@ body
     footer &copy; Apress
 ```
 
-The output of the template above will be:
+The text after the first space becomes the content of those elements.The output of the template above will be `<h1>`, `<p>` and other elements with the corresponding text inside of them:
 
 ```pug
 <body>
@@ -52,7 +52,7 @@ The output of the template above will be:
 </body>
 ```
 
-The code above is an HTML body. How about some more interesting HTML like the entire web page with head and other tags? Sure. Here's an example of how to define `DOCTYPE`, and element attributes such as `id` and `class`.
+The code above is an HTML `<body>` element. How about some more interesting HTML elements to generate the entire web page with the `<head>` and other tags? Sure. You can do that too (eat that React!). Here's an example of how to define `DOCTYPE`, and element attributes such as `lang` (for `html`), `type` (for `script`), and `id` and `class` for `div`:
 
 ```pug
 doctype html
@@ -64,9 +64,9 @@ html(lang="en")
       console.log(`Some JavaScript code here and the value of a is ${a}`)
   body
     h1 Why JavaScript is Awesome
-    #container.col
-        p You are amazing
-        p Get on it!
+    div(id="container", class="col")
+      p You are amazing
+      p Get on it!
       p.
         JavaScript is fun. Almost everything 
         can be written in JavaScript. It is huge.
@@ -98,6 +98,23 @@ THe output will contain attributes defined with parenthesis `(key=value)`, JavaS
 </html>
 ```
 
+Check out the code bellow with the tag name... nothing? Huh. When you omit the tag name like in the `#contaner.col`, Pug will use `div` so the code below:
+
+```pug
+#container.col
+  p You are amazing
+  p Get on it!
+```
+
+Becomes a `<div` with the id container and the class col:
+
+```html
+<div class="col" id="container">
+  <p>You are amazing</p>
+  <p>Get on it!</p>
+</div>
+```
+
 You can play with these example using the code which is in the `code/ch4/pug-example/pug-method-example.js`. The code uses the `pug` npm modules and its `render()` method. For example,
 
 ```js
@@ -113,61 +130,59 @@ const htmlString = pug.render(pugTemplate, {pretty: true})
 console.log(htmlString)
 ```
 
-So far we just outputted some pre-programmed code which is not modifiable by the application. This is static and not much fun. Most of the times we want to have some dynamism in the form of the variables which will allow the application itself to modify the output (i.e., HTML).
+So far we just outputted some pre-programmed code which is not modifiable by the application. This is static and not much fun. Most of the times we want to have some dynamism in the form of the variables which will allow the application itself to modify the output, i.e., HTML.
 
 ## Variables/Locals
 
-Data that are passed to the Pug template are called *locals*. To output the value of a variable, use `=`. See the following examples:
+Data that are passed to the Pug template are called *locals*. To output the value of a variable, use `=`. See the following examples.
 
-Pug code:
+This Pug code print values of variables `title` and `body` using the equal `=` symbol:
 
 ```pug
 h1= title
 p= body
 ```
 
-Variables `title` and `body` which are called locals, i.e., data to supply to the Pug template to generate HTML:
+The variables `title` and `body` are called locals. They are the data to supply to the Pug template to generate HTML. The data comes in a form of an object which properties *must* be the names of the variables, i.e., `title` and `body`:
 
-```
+```js
 {
   title: "Express.js Guide",
   body: "The Comprehensive Book on Express.js"
 }
 ```
 
-HTML output generated from the Pug template and locals. It shows the values of the variables `title` and `body`:
+The HTML output generated from the Pug template and locals shows the values of the variables `title` and `body`:
 
 ```html
 <h1>Express.js Guide</h1>
 <p>The Comprehensive Book on Express.js</p>
 ```
 
-What about attributes? You saw some of the already but let's dive deeper.
+What about HTML element attributes such as `href` or `class`? You saw some of the already but let's dive deeper. 
 
 ## Attributes
 
-Attributes are added by putting them into parentheses right after the tag name. They follow `name=value` format. In addition, multiple attributes need to be separated by a comma. For example,
+Attributes are added by putting them into parentheses right after the tag name. They follow `tagName(name=value)` format. In addition, multiple attributes *need* to be separated by a comma. For example, this Pug code has various attributes on `div`, `a` and other elements:
 
 ```pug
 div(id="content", class="main")
   a(href="http://expressjsguide.com", title="Express.js Guide", target="_blank") Express.js Guide
   form(action="/login")
-    button(type="submit, value="save")
+    button(type="submit", value="save")
   div(class="hero-unit") Lean Node.js!
 ```
 
-The Pug template code above turns int this HTML:
+The Pug template code above turns int this HTML with attributes rendered inside of the HTML elements. Yes, the `<a>` element is right on the same line as `<div>`. It's a mystery to me too.
 
 ```html
-<div id="content" class="main"><a href="http://expressjsguide.com" title="Express.js Guide" target="_blank">Express.js Guide</a>
-  <form action="/login">
-    <button type="submit" value="save"></button>
-  </form>
-  <div class="hero-unit">Learn Node.js</div>
+<div class="main" id="content"><a href="http://expressjsguide.com" title="Express.js Guide" target="_blank">Express.js Guide</a>
+  <form action="/login"><button type="submit" value="save"></button></form>
+  <div class="hero-unit">Lean Node.js!</div>
 </div>
 ```
 
-Sometimes, the value of an attribute needs to be dynamic. In this case, just use the variable name! The pipe, or `|`, allows us to write the content of the HTML node on the new line—in other words, the line with the pipe becomes inner text (an example is as follows):
+Sometimes, the value of an attribute needs to be dynamic. It's more fun this way! In this case, just use the variable name. The pipe, or `|`, allows us to write the content of the HTML node on the new line—in other words, the line with the pipe becomes inner text. An example is defining input content text `yes/no` on a new line:
 
 ```pug
 a(href=url, data-active=isActive)
@@ -176,7 +191,7 @@ label
   |  yes / no
 ```
 
-The template above is provided with locals:
+If The template above is provided with these locals:
 
 ```js
 {
@@ -186,7 +201,7 @@ The template above is provided with locals:
 }
 ```
 
-And they both, i.e., template and locals data, produce this HTML output:
+Then they both, meaning template and locals data, produce this HTML output which doesn't necessarily have `yes/no` on a new line. 
 
 ```html
 <a href="/logout" data-active="data-active"></a>
@@ -211,6 +226,7 @@ The attributes checked will be omitted when the value is false. When the value i
 <input type="radio"/>
 ```
 
+Next we will study literals.
 
 ## Literals
 
@@ -253,29 +269,56 @@ div
   | It can be used in Node.js and in the browser JavaScript.
 ```
 
+If you want to render all nested (indented) lines as inner text, then use dot `.`:
+
+```pug
+div.
+  Pug is a template engine.
+  It can be used in Node.js and in the browser JavaScript.
+```
+
+The result in both cases is HTML with `<div>` and text inside:
+
+```html
+<div>Pug is a template engine. It can be used in Node.js and in the browser JavaScript.</div>
+```
+
+The dot comes in handy for writing JavaScript.
+
 ## Script and Style Blocks
 
-Sometimes, developers want to write chunks of content for `script` or `style` tags in the HTML! This is possible with a dot. For example, we can write inline front-end JavaScript like this:
+Sometimes, developers want to write chunks of content for `script` or `style` tags in the HTML! This is possible with a dot. 
+
+For example, we can write inline front-end JavaScript like this:
 
 ```pug
 script.
-    console.log('Hello Pug!')
-    setTimeout(function(){
-    window.location.href='http://rpjs.co'
-    },200))
-    console.log('Good bye!')
-<script>
   console.log('Hello Pug!')
   setTimeout(function(){
     window.location.href='http://rpjs.co'
   },200))
   console.log('Good bye!')
+```
+
+And the HTML output will have the `<script>` tag with all of our code:
+
+```html  
+<script>
+  console.log('Hello Pug!')
+  setTimeout(function() {
+  window.location.href = 'http://rpjs.co'
+  }, 200))
+  console.log('Good bye!')
 </script>
 ```
 
+Did you like this little trick with the dot and JavaScript? Of course! But this code is not executed until the page loads. In other words, it's runtime but not compile.
+
 ## JavaScript Code
 
-Contrary to the previous example, if we want to use *any* JavaScript at template compilation time—in other words, to write executable JavaScript code that manipulates the output of the Pug (i.e., HTML)—we can use the `-`, `=`, or `!=` symbols. This might come in handy when we output HTML elements and inject JavaScript. Obviously, these types of things should be done carefully to avoid cross-site scripting (XSS) attacks. For example, if we want to define an array and output <> symbols, we can use `!=`.
+Contrary to the previous example, if we want to use *any* JavaScript at template compilation time—in other words, to write executable JavaScript code that manipulates the output of the Pug (i.e., HTML)—we can use the `-`, `=`, or `!=` symbols. This might come in handy when we output HTML elements and inject JavaScript. 
+
+Obviously, these types of things should be done carefully to avoid cross-site scripting (XSS) attacks. For example, if we want to define an array and output `<>` symbols, we can use `!=`.
 
 ```pug
 - var arr = ['<a>','<b>','<c>']
@@ -287,7 +330,7 @@ ul
       span= "escaped: " + arr[i]
 ```
 
-The Pug above produces this HTML which does NOT include JavaScript but the result of the JavaScript code:
+The Pug above produces this HTML which does *NOT include* JavaScript, but the result of the JavaScript code because this JS is a compile-time JS for Pug not for a browser later. Resulting HTML has only `<ul>` and `<li>` elements:
 
 ```html
 <ul>
@@ -299,6 +342,7 @@ The Pug above produces this HTML which does NOT include JavaScript but the resul
 
 **Tip**  One of the main differences between Pug and Handlebars is that the former allows pretty much any JavaScript in its code whereas the latter restricts programmers to only a handful of built-in and custom-registered helpers.
 
+
 ## Comments
 
 When it comes to comments, we have a choice to output them or not. For the former, use JavaScript style `//`; for the latter, use `//-`. For example,
@@ -309,7 +353,6 @@ p Node.js is a non-blocking I/O for scalable apps.
 //- @todo change this to a class
 p(id="footer") Copyright 2014 Azat
 ```
-
 
 The Pug above with comments outputs the HTML style comments with `//` but hide them with `//-` so result is only `content goes here` without `@todo change this to a class`:
 
@@ -338,7 +381,7 @@ There&#39;s also `unless`, which is equivalent to `not` or `!`.
 
 ## Iterations (each loops)
 
-Similar to conditions, iterators in Pug can be written simply with `each`—for example,
+Similar to conditions, iterators in Pug can be written simply with `each`—for example, this is code to iterate over an array of programming languages and create paragraphs for each of them:
 
 ```pug
 - var languages = ['php', 'node', 'ruby']
@@ -347,7 +390,7 @@ div
     p= index + ". " + value
 ```
 
-The HTML output is as follows:
+The HTML output with three `<p>` elements is as follows:
 
 ```html
 <div>
@@ -357,7 +400,7 @@ The HTML output is as follows:
 </div>
 ```
 
-The same construction works with objects as well:
+The same iterative `each` construction works with objects as well. Developers even can access a `key` value. Take a look at this object with launguages as keys and their importance as values:
 
 ```pug
 - var languages = {'php': -1, 'node': 2, 'ruby':1}
@@ -366,7 +409,7 @@ div
     p= key + ": " + value
 ```
 
-The Pug above is compiled into the HTML output in which each iteration over the array values produced a paragraph `<p>` element:
+The Pug above is compiled into the HTML output in which each iteration over the array values produced a paragraph `<p>` element for each language:
 
 ```html
 <div>
@@ -375,6 +418,8 @@ The Pug above is compiled into the HTML output in which each iteration over the 
   <p>ruby: 1</p>
 </div>
 ```
+
+Next are filters!
 
 ## Filters
 
@@ -391,18 +436,18 @@ p
 
 ## Interpolation
 
-Interpolation in Pug is achieved via `#{name}`. For example, to output `title` in a paragraph, do the following:
+Interpolation is mixing of strings and dynamic values from variables. That's another word which will make you look 5 IQ points smarter. You are welcome. In Pug interpolation is achieved via the syntax with curly braces and a hashtag: `#{name}` where `name` is the name of a variable. For example, to output `title` in a paragraph, simply use `#{title}` *in the text* as in the following code:
 
 ```pug
 - var title = "React Quickly: Painless web apps with React, JSX, Redux, and GraphQL"
 p Read the #{title} in PDF, MOBI and EPUB
 ```
 
-The interpolation is processed at template compilation; therefore, don't use it in executable JavaScript (`-`).:
+The interpolation is processed at the template compilation. Therefore, don't use interpolation in executable JavaScript, i.e., JS with `-`. For the `-` JS, use standard ES6 string interpolation with `${name}`.
 
 ## Case
 
-Here&#39;s an example of the `case` statement in Pug:
+Case allows to avoid a chain of if/else condition. Here&#39;s an example of the `case` statement in Pug:
 
 ```pug
 - var coins = Math.round(Math.random()*10)
@@ -418,7 +463,7 @@ case coins
 
 ## Mixins
 
-Mixins are functions that take parameters and produce some HTML. The declaration syntax is `mixin name(param, param2,...)`, and the usage is `+name(data)`. For example,
+Mixins are functions that take parameters and produce some HTML. They are super cool because they allow you reuse boatloads of code if used correctly. The declaration syntax is `mixin name(param, param2,...)`, and the usage is `+name(data)`. For example, here I define a `row` and `table` mixins which I use later with real data from arrays:
 
 ```pug
 mixin row(items)
@@ -436,7 +481,6 @@ mixin table(tableData)
 - var js = [{name: "backbone"}, {name: "angular"}, {name: "ember"}]
 +table(js)
 ```
-
 
 The Pug code, above when used in Express or elsewhere, produces the following output by "invoking" the mixins `table` and `row` just as a function would be invoked with arguments (bonus: developers can use `table` and `row` mixins over and over for other data!):
 
@@ -467,17 +511,17 @@ The Pug code, above when used in Express or elsewhere, produces the following ou
 
 ## Include
 
-`include` is a way to split logic into a separate file for the purpose of reusing it across multiple files. It&#39;s a top-to-bottom approach; we dictate what to use in the file that includes another file. The file that includes is processed first (we can define locals there), then the included file is processed (we can use earlier defined locals).
+`include` is a way to split logic into a separate file for the purpose of reusing it across multiple files. Don't confuse this with ES6 `include`. That's JavaScript but we are talking about Pug here. 
 
-To include a Pug template, use `include /path/filename`. For example, in file A:
+This `include` is a *top-to-bottom* approach meaning we dictate what to use in the file that includes another file. The file that includes is processed first (we can define locals there), then the included file is processed (we can use earlier defined locals).
+
+To include a Pug template, use `include /path/filename`. No need for double quotes `"` or single quotes `'`. I like it! For example, in a layout file you can import a header:
 
 ```pug
 include ./includes/header
 ```
 
-Notice there&#39;s no need for double or single quotes for the template name and its path.
-
-It&#39;s possible to traverse up the tree:
+Notice there&#39;s no need for double or single quotes for the template name and its path. And it&#39;s possible to traverse up the folder tree. This footer can be in a parent folder's includes folder:
 
 ```pug
 include ../includes/footer
@@ -487,9 +531,9 @@ But, there&#39;s no way to use a dynamic value for the file and path (use a vari
 
 ## Extend
 
-`extend` is a bottom-to-top approach (as oppose to `include`), in the sense that the included file commands which parts of the main file it wants to replace. The way it works is with `extend filename` and `block blockname` statements:
+`extend` is a *bottom-to-top* approach (as oppose to `include`), in the sense that the included file commands which parts of the main file it wants to replace. The way it works is with `extend filename` and `block blockname` statements:
 
-In `file_a`:
+In `file_a` which is like a layout you define blocks:
 
 ```pug
 block header
@@ -500,7 +544,7 @@ block footer
   p copyright
 ```
 
-In `file_b`:
+In `file_b`, which is like a subview you define what layout to use and what blocks to overwrite (and what not- by omission). For example, in this `file_b` the header and content blocks will have new content, but footer will stay as in `file_a`. Here's the `file_b` example:
 
 ```pug
 extend file_a
@@ -510,9 +554,10 @@ block content
   .main-content
 ```
 
+
 # Standalone Pug Usage
 
-Template engines are not always used with Node.js (and frameworks like Express.js). Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an e-mail template, precompiling Pug before deployment, and debugging. In this section, we do the following:
+Template engines (Pug) and web frameworks (Express) go like ketchup and hotdogs but not always. Template engines are not not always used with Node.js frameworks like Express.js. Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an e-mail template, precompiling Pug before deployment, and debugging. In this section, we do the following:
 
 - Install a Pug module
 - Create our first Pug file
@@ -521,8 +566,11 @@ Template engines are not always used with Node.js (and frameworks like Express.j
 
 To add a `pug` dependency to your project, or if you&#39;re starting from scratch from an empty project folder, do the following:
 
-- Create an empty `node_modules` folder with `$ mkdir node_modules`
-- Install and add `pug` to `package.json` with `$ npm install pug –save`. See the results in Figure 4-1.
+1. Create a `package.json` file manually or with `$ npm init -y`
+1. Install and add `pug` to `package.json` with `$ npm i pug –save`. See the results in Figure 4-1.
+1. Create a Node file
+1. Import `pug` in the Node file
+1. Invoke a method from `pug` module in your Node file
 
 ![alt](media/image1.png)
 
@@ -530,7 +578,7 @@ To add a `pug` dependency to your project, or if you&#39;re starting from scratc
 
 Tip: Add `{pretty: true}` to `pug.render()` as in `pug.render(pugTemplate, {pretty: true})` in order to have properly formatted *pretty* HTML.
 
-Let&#39;s say we have some Node.js script that sends e-mail and we need to use a template to generate HTML dynamically for e-mail. This is how it might look (file `pug-example.pug`):
+Let&#39;s say we have some Node.js script that sends an e-mail and we need to use a template to generate HTML dynamically for the e-mail. This is how it might look (file `pug-example.pug`):
 
 ```pug
 .header
@@ -553,7 +601,7 @@ In this case, our Node.js script needs to hydrate, or populate, this template wi
 - `author`: string
 - `tags`: array
 
-We can extract these variables from multiple sources (databases, file systems, user input, and so on). For example, in the `pug-example.js` file, we use hard-coded values for `title`, `author`, `tags`, but pass through a command-line argument for `body`:
+We can extract these variables from multiple sources (databases, file systems, user input, tassology, and so on). For example, in the `pug-example.js` file, we use hard-coded values for `title`, `author`, `tags`, but pass through a command-line argument for `body` using `process.argv[2]`:
 
 ```js
 const pug = require('pug'),
@@ -576,13 +624,13 @@ fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
 })
 ```
 
-In this way, when we run `$ node pug-example.js 'email body'`, we get the output shown in Figure 4-2.
+In this way, when we run `$ node pug-example.js 'email body'`, we get the HTML output printed in the terminal as shown in Figure 4-2.
 
 ![alt](media/image2.png)
 
 ***Figure 4-2.** The result of `pug-example` output*
 
-The "prettified" HTML output is as follows:
+The "prettified" HTML output with proper spaces and indentation which I took from the terminal looks as follows:
 
 ```js
 <div class="header">
@@ -612,7 +660,7 @@ fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
 })
 ```
 
-Furthermore, with `pug.renderFile`, the `pug-example.js` file is even more compact:
+Furthermore, with `pug.renderFile`, the `pug-example.js` file is even more compact because they will do two things as the same time: read a file and render it:
 
 ```js
 pug.renderFile('pug-example.pug', data, (error, html) => {
@@ -624,7 +672,7 @@ pug.renderFile('pug-example.pug', data, (error, html) => {
 
 To use Pug in a browser, you can use browserify (<https://github.com/substack/node-browserify>) and its pugify (<https://www.npmjs.org/package/pug-browser>) middleware.
 
-**Note**  To use the same Pug templates on front-end (browser) and server sides, I recommend `jade-browser`(<https://www.npmjs.org/package/jade-browser>) by Storify, for which I was the maintainer for a time during my work there. `jade-browser` acts as an Express.js middleware and it exposes server-side templates to the browser along with a helpful utility functions. 
+**Note**  To use the same Pug templates on front-end (browser) and server sides, I recommend `jade-browser` (<https://www.npmjs.org/package/jade-browser>) by Storify, for which I was the maintainer for a time during my work there. `jade-browser` acts as an Express.js middleware and it exposes server-side templates to the browser along with a helpful utility functions. 
 
 # Handlebars Syntax
 
