@@ -676,11 +676,11 @@ To use Pug in a browser, you can use browserify (<https://github.com/substack/no
 
 # Handlebars Syntax
 
-The Handlebars library is another template engine. It inherits from Mustache and, for the most part, is compatible with Mustache&#39;s syntax. However, Handlebars adds more features (i.e., a superset).
+The Handlebars library is another template engine. It inherits from Mustache and, for the most part, is compatible with Mustache&#39;s syntax. However, Handlebars adds more features i.e., Handlebars is a superset of Mustache.
 
 Unlike Pug, by design, Handlebars was made so that developers *can&#39;t write* a lot of JavaScript logic inside the templates. This helps to keep templates lean and related strictly to the representation of the data (no business logic).
 
-Another drastic difference between Pug and Handlebars is that the latter requires full HTML code (`<`, `>`, and so on), and for this reason it could care less about whitespace and indentation.
+Another drastic difference between Pug and Handlebars is that the latter requires full HTML code (`<`, `>`, closing `</>` tags, and so on), and for this reason it could care less about whitespace and indentation. It means it's easy to copypasta your existing HTML and make it Handlebars. It also means developers have to type more code when writing templates from scratch instead of copypasting.
 
 ## Variables
 
@@ -753,7 +753,7 @@ As data, let&#39;s use this object that has an array with some HTML tags (angle 
 }
 ```
 
-To apply this Handlebars template to our data above (i.e., hydration):
+To apply this Handlebars template to our data above (i.e., hydration) use an iterator `each` with `{{{this}}}` for the unescaped value of an individual array item which is HTML hence *needs* to be unescaped:
 
 ```html
 <ul>
@@ -767,7 +767,7 @@ To apply this Handlebars template to our data above (i.e., hydration):
 </ul>
 ```
 
-The hydrated template produces this HTML:
+The hydrated template produces this HTML which printed array indices for `{{@index}}` and escaped HTML (`&name;`) when double curly braces where used:
 
 ```html
 <ul>
@@ -791,7 +791,7 @@ The hydrated template produces this HTML:
 
 ## Conditions (if)
 
-`if` is another built-in helper invoked via `#`. For example, this Handlebars code:
+`if` is another built-in helper invoked via `#`. For example, this Handlebars code uses an if/else conditon to check for `user.admin` value (if a user is an administrator):
 
 ```html
 {{#if user.admin}}
@@ -801,7 +801,7 @@ The hydrated template produces this HTML:
 {{/if}}
 ```
 
-populated with data which will make if/else condition true:
+The template is populated with data which will make if/else condition true:
 
 ```js
 {
@@ -811,7 +811,7 @@ populated with data which will make if/else condition true:
 }
 ```
 
-turns into this HTML output which has `launch` element rendered due to the value of `user.admin` being true:
+Everything turns into this HTML output which has `launch` element rendered due to the value of `user.admin` being true:
 
 ```html
 <button class="launch">Launch Spacecraft</button>
@@ -821,7 +821,7 @@ turns into this HTML output which has `launch` element rendered due to the value
 
 To inverse an `if not ... (if ! ...)` statement (convert negative to positive), we can harness the `unless` built-in helper block. For example, the previous code snippet can be rewritten with `unless`.
 
-The Handlebars code that check the truthness of the admin flag (property `user.admin`):
+The Handlebars code that check the truthness of the admin flag (property `user.admin`). If value is true, then else will be applied. Notice the change in Log in and Launch Spacecraft. They are flipped now compared to if/else.
 
 ```html
 {{#unless user.admin}}
@@ -831,7 +831,7 @@ The Handlebars code that check the truthness of the admin flag (property `user.a
 {{/unless}}
 ```
 
-We supply our template with this data that means that the user is the administrator:
+We supply our template with this data that means that the user is an administrator:
 
 ```js
 {
@@ -841,7 +841,7 @@ We supply our template with this data that means that the user is the administra
 }
 ```
 
-The HTML output renders the launch button, which is available only to admins:
+The HTML output renders the launch button, which is available only to admins. It was in `else` and the value is true.
 
 ```html
 <button class="launch">Launch Spacecraft</button>
