@@ -363,7 +363,7 @@ The `package.json` for this example looks like this:
   },
   "dependencies": {
     "express": "4.1.2",
-    "jade": "1.3.1",
+    "pug": "",
     "errorhandler": "1.0.1"
   }
 }

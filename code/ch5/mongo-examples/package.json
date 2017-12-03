@@ -1,5 +1,5 @@
 {
-  "name": "ch5",
+	"name": "mongodb-examples",
   "version": "1.0.1",
   "description": "",
   "main": "mongo-native-insert.js",

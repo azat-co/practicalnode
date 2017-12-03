@@ -6,7 +6,7 @@ const dbPort = 27017
 const db = mongoskin.db(`mongodb://${dbHost}:${dbPort}/local`)
 
 db.bind('messages').bind({
-  findOneAndAddText: function (text, fn) { // no fat arrow fn because we need to let bind pass the collection to use this on the next line... this can be replaced with db.messages too
+  findOneAndAddText: function (text, fn) { // No fat arrow fn because we need to let bind pass the collection to use this on the next line... this can be replaced with db.messages too
     this.findOne({}, (error, document) => {
       if (error) {
         console.error(error)
@@ -14,7 +14,7 @@ db.bind('messages').bind({
       }
       console.info('findOne: ', document)
       document.text = text
-      var id = document._id.toString() // we can store ID in a string
+      var id = document._id.toString() // We can store ID in a string
       console.info('before saving: ', document)
       this.save(document, (error, count) => {
         if (error) {

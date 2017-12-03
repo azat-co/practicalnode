@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // development only
 if (app.get('env') === 'development') {
-  app.use(errorHandler())
+  app.use(errorHandler('dev'))
 }
 
 // Pages and routes

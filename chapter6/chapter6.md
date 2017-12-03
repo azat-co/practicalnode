@@ -516,14 +516,14 @@ Let’s add a Sign in with Twitter button to our project. We need the button its
 
 ## Adding a Sign-in with a Twitter Link
 
-By default, Everyauth uses the `/auth/:service_provider_name` pattern to initiate the three-legged OAuth 1.0 strategy. This, of course, can be customized, but to keep it short and simple (KISS), we can just add this link to `code/ch6/blog-everyauth/views/includes/menu.jade`:
+By default, Everyauth uses the `/auth/:service_provider_name` pattern to initiate the three-legged OAuth 1.0 strategy. This, of course, can be customized, but to keep it short and simple (KISS), we can just add this link to `code/ch6/blog-everyauth/views/includes/menu.pug`:
 
 ```pug
       li(class=(menu === 'login') ? 'active' : '')
         a(href='/auth/twitter') Sign in with Twitter
 ```
 
-The whole `menu.jade` looks like this:
+The whole `menu.pug` looks like this:
 
 ```pug
 .menu

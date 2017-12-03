@@ -167,7 +167,7 @@ In addition, often the connection may be lost and may need to be re-established.
 
 Full coverage of the [Socket.IO](http://socket.io) (<http://socket.io>) library absolutely deserves its own book. Nevertheless, because it&#39;s such a popular library, and getting started with it is very easy with Express.js, we include in this chapter an example that covers the basics. This mini project illustrates duplex-channel communication between browser and server.
 
-As in most real-time web apps, the communication between a server and a client happens in response either to some user actions or as a result of updates from the server. So, in our example, the web page renders a form field in which each character echoes (browser to server and back) in reverse in real time. The example harnesses Express.js command-line tool scaffolding, Socket.IO, and Jade (see screenshots of the working app in Figures 9-3 and 9-4). Of course, you can just download the app from [github.com/azat-co/practicalnode](http://github.com/azat-co/practicalnode) (<http://github.com/azat-co/practicalnode>).
+As in most real-time web apps, the communication between a server and a client happens in response either to some user actions or as a result of updates from the server. So, in our example, the web page renders a form field in which each character echoes (browser to server and back) in reverse in real time. The example harnesses Express.js command-line tool scaffolding, Socket.IO, and Pug (see screenshots of the working app in Figures 9-3 and 9-4). Of course, you can just download the app from [github.com/azat-co/practicalnode](http://github.com/azat-co/practicalnode) (<http://github.com/azat-co/practicalnode>).
 
 To include Socket.IO, we can use `$ npm install socket.io@0.9.16 --save` and repeat it for every module, or we can use `package.json` and `$ npm install`:
 
@@ -250,7 +250,7 @@ Just in case these snippets are confusing, the full content of the Express app w
 
 A quick remark about port numbers: by default, WebSocket connections can use the standard ports: 80 for HTTP and 443 for HTTPS.
 
-Last, our app needs some front-end love in `index.jade`. Nothing fancy; just a form field and some front-end JavaScript in the Jade template:
+Last, our app needs some front-end love in `index.pug`. Nothing fancy; just a form field and some front-end JavaScript in the Pug template:
 
 ```pug
 extends layout

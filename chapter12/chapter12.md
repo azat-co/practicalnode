@@ -254,7 +254,7 @@ Locking Versions
 
 The rule of thumb is that when we publish external modules, we don’t lock dependencies’ versions. However, when we deploy apps, we lock versions in `package.json`. This is a common convention that many projects on npm follow (i.e., they don’t lock the versions). So, as you might guess, this may lead to trouble.
 
-Consider this scenario: We use Express.js that depends on, say, Jade of the latest version (*). Everything works until, unknown to us, Jade is updated with breaking changes. Express.js now uses Jade that breaks our code. No bueno.
+Consider this scenario: We use Express.js that depends on, say, Pug of the latest version (*). Everything works until, unknown to us, Pug is updated with breaking changes. Express.js now uses Pug that breaks our code. No bueno.
 
 The solution: Commit `node_modules`! The following article describes nicely why committing your application’s `node_modules` folder (not the one for the external module!) to Git repo is a good idea: [node_modules in git](http://www.futurealoof.com/posts/nodemodules-in-git.html).
 
@@ -276,12 +276,12 @@ Open-source factors have contributed to the success and widespread use of the No
 
 Lo and behold, this is the end of the book. There was a study that showed that the majority of programmers read zero books per year ([source](http://blog.codinghorror.com/programmers-dont-read-books-but-you-should/)). So, pat yourself on the back, because you’re on the road to awesomeness when it comes to building Node.js web apps. &#x263A;
 
-Regarding the material covered in *Practical Node.js*, we explored real-world aspects of the Node.js stack. To do this, many things were essential, and by now you should have an awareness of how pieces fit together. For some technologies such as Jade and REST API, our coverage was quite extensive. However, most of the packages are very specific and tailored to our apps’ goals, so those topics were given a brief introduction, with references for further learning. Here’s a list of topics we covered:
+Regarding the material covered in *Practical Node.js*, we explored real-world aspects of the Node.js stack. To do this, many things were essential, and by now you should have an awareness of how pieces fit together. For some technologies such as Pug and REST API, our coverage was quite extensive. However, most of the packages are very specific and tailored to our apps’ goals, so those topics were given a brief introduction, with references for further learning. Here’s a list of topics we covered:
 
 -   Node.js and npm setup and development tools
 -   Web apps with Express.js
 -   TDD with Mocha
--   Jade and Handlebars
+-   Pug and Handlebars
 -   MongoDB and Mongoskin
 -   Mongoose MongoDB ORM
 -   Session, token authentication, and OAuth with Everyauth
