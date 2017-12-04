@@ -779,6 +779,7 @@ The next section is where we define routes themselves (the order in `app.js` mat
 - `get`: catch GET requests
 - `post`: catch POST requests
 - `put`: catch PUT requests
+- `patch`: catch patch requests
 - `del`: catch DELETE requests
 
 **Note**: `del` and `delete` methods are aliases, just remember that `delete` is a valid operator in JavaScript/ECMAScript, and therefore in Node.js. The operator removes a property from an object, e.g., `delete books.nodeInAction`.
