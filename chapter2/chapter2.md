@@ -177,7 +177,7 @@ Express is used with `require()` and it's a local project dependency. Let's buil
 For the local Express.js 4.15.5 module installation, let&#39;s create a new folder `hello-simple` somewhere on your computer: `$ mkdir hello-simple`. This will be our project folder for the chapter. Now we can open it with `$ cd hello-simple`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command.
 
 
-The following is an example of the `package.json` file with vanilla `$ npm init` options (the licence and author is configured by defaults in `nmp config`):
+The following is an example of the `package.json` file with vanilla `$ npm init` options (the licence and author is configured by defaults in `npm config`):
 
 ```js
 {
