@@ -663,7 +663,7 @@ After the wizard has finished and the `package.json` file is there (don&#39;t wo
 $ npm install express --save
 ```
 
-The previous command uses the latest stable version (4.15.4 as of Sep 2017). We recommend being more specific—which is more robust in the land of the rapidly growing Node.js community—and ask for a specific version:
+The previous command uses the latest stable version (4.16.2 as of Dec 2017). We recommend being more specific—which is more robust in the land of the rapidly growing Node.js community—and ask for a specific version:
 
 ```
 $ npm install express@4.15.4 --save
