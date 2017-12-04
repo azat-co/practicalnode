@@ -3,7 +3,7 @@ Chapter 6
 
 # Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps
 
-Security is an important aspect of any real-world web application. This is especially true nowadays, because our apps don’t function in silos anymore. We, as developers, can and should leverage numerous third-party services (e.g., Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
+Security is an important aspect of any real-world web application. This is especially true nowadays, because our apps don’t function in silos anymore. We, as developers, can and should leverage numerous third-party services (e.g., Google, Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
 
 We can makes our apps and communications secure with the usage of various approaches, such as token-based authentication and/or OAuth(<http://oauth.net>). Therefore, in this practical guide, I dedicate the whole chapter to matters of authorization, authentication, OAuth, and best practices. We'll look at the following topics:
 
@@ -11,9 +11,8 @@ We can makes our apps and communications secure with the usage of various approa
 - Token-based authentication
 - Session-based authentication
 - Project: adding e-mail and password login to Blog
-
-- Node.js OAut
-- Project: Adding Twitter OAuth 1.0 sign-in to Blog with Everyauth(<https://github.com/bnoguchi/everyauth>)
+- Node.js OAuth
+- Project: Adding Twitter OAuth 1.0 sign-in to Blog with Everyauth (<https://github.com/bnoguchi/everyauth>)
 
 # Authorization with Express.js Middleware
 
@@ -25,7 +24,7 @@ Express.js middleware allows us to apply certain rules seamlessly to all routes,
 - *Groups of routes*: `app.get('/api/*', auth)`
 - *Individual routes*: `app.get('/admin/users', auth)`
 
-For example, if we want to protect all `/api/` endpoints, we execute the following:
+For example, if we want to protect all `/api/` endpoints, we utilize the following middleware with `*`:
 
 ```js
 app.all('/api/*', auth)
@@ -33,25 +32,35 @@ app.get('/api/users', users.list)
 app.post('/api/users', users.create)
 ```    
 
-Another way of doing the same thing is to execute:
+Interestingly enough, `app.all()` with a URL pattern and an `*` is functionally the same as utilizing `app.use()` with a URL in a sense that they both will be triggered only on those URLs that are matching the URL pattern.
 
 ```js
-app.get('/api/users', auth, users.list)
-app.post('/api/users', auth, users.create)
+app.use('/api', auth)
 ```
 
-In the previous examples, `auth()` is a function with three parameters: `req`, `res`, and `next`—for example,
+Another way of doing the same thing is to use `auth` middleware on each route which requires it:
+
+```js
+app.get('/', home) // no Auth needed
+app.get('/api/users', auth, users.list) // Auth needed
+app.post('/api/users', auth, users.create) // Auth needed
+```
+
+In the previous examples, `auth()` is a function with three parameters: `req`, `res`, and `next`—for example in this middleware, you can call OAuth service or query a database to get the user profile to authorize it (check for permissions) or to check for JWT or web session to authenticate the user (who is it). Or most likely do both!
 
 ```js
 const auth = (req, res, next) => {
-  //authorize user
-  //if auth failed, then exit is next(new Error('Not authorized'));
-  //or res.send(401);
-    return next()
+  // ...
+  // Assuming you get user profile and user.auth is true or false
+  if (user.auth) return next()
+  else next(new Error('Not authorized')) // or res.send(401)
 }
 ```
 
-The `next()` part is important, because this is how Express.js proceeds to execute subsequent request handlers and routes (if there’s a match in a URL pattern).
+The `next()` part is important, because this is how Express.js proceeds to execute subsequent request handlers and routes (if there’s a match in a URL pattern). If `next()` is invoked without anything, then the normal execution of the server will proceed. That is Express will go to the next middleware and then to the routes which match the URL. 
+
+If `next()` is invoked with an error object such as `next(new Error('Not authorized'))`, then Express will jump straight to the first error handler and none of the subsequent middleware or routes will be executed.
+
 # Token-Based Authentication
 
 For applications to know which privileges a specific client has (e.g., admin), we must add an authentication step. In the previous example, this step goes inside the `auth()` function.
@@ -77,13 +86,23 @@ In a more realistic example, we use API keys and secrets to generate HMAC-SHA1 (
 
 **Note** Calling `next()` with an error argument is analogous to throwing in the towel (i.e., to give up). The Express.js app enters the error mode and proceeds to the error handlers.
 
-We just covered token-based authentication, which is often used in REST APIs. However, the user-facing web apps (i.e., browser-enabled users & consumers) come with cookies. We can use cookies to store and send session IDs with each request. Cookies are similar to tokens, but require less work for us, the developers!. This approach is the cornerstone of session-based authentication. The session-based method is the recommended way for basic web apps, because browsers already know what to do with session headers. In addition, in most platforms and frameworks, the session mechanism is built into the core. So, let’s jump straight into session-based authentication with Node.js.
+We just covered token-based authentication, which is often used in REST APIs. However, the user-facing web apps (i.e., browser-enabled users & consumers) come with cookies. We can use cookies to store and send session IDs with each request. 
+
+Cookies are similar to tokens, but require less work for us, the developers! This approach is the cornerstone of session-based authentication. The session-based method is the recommended way for basic web apps, because browsers already know what to do with session headers. In addition, in most platforms and frameworks, the session mechanism is built into the core. So, let’s jump straight into session-based authentication with Node.js.
 
 # Session-Based Authentication
 
 Session-based authentication is done via the `session` object in the request object `req`. A web session in general is a secure way to store information about a client so that subsequent requests from that same client can be identified.
 
-In the Express.js 4.x (versions 4.1.2 and 4.2.0 as of this writing), we'll need to import (`require()`) these modules manually, because Express.js 4.x separated these and some other middleware out of its package. For example, to include and use `cookie-parser` and `express-session`:
+In the Express.js file, we'll need to import (`require()`) two modules to enable sessions. We need to include and use `cookie-parser` and `express-session`. 
+
+1. `express.cookieParser()`: allows for parsing of the client/request cookies
+2. `express.session()`: exposes the `res.session` object in each request handler, and stores data in the app memory or some other persistent store like MongoDB or Redis
+
+Needless to say, `cookie-parser` and `express-session` must be installed via npm into the project's `node_modules` folder, i.e., you need to install them with `npm i cookie-parser express-session -SE`.
+
+
+Import with `require()` and apply to the Express app with `app.use()`:
 
 ```js
 const cookieParser = require('cookie-parser')
@@ -93,16 +112,8 @@ app.use(cookieParser())
 app.use(session())
 ```
 
-Needless to say, `cookie-parser` and `express-session` must be installed via npm into the project's `node_modules` folder.
 
-To use the session in a typical Express.js 3.x app, two pieces of middleware need to be added to the configuration:
-
-1. `express.cookieParser()`: allows for parsing of the client/request cookies
-2. `express.session()`: exposes the `res.session` object in each request handler, and stores data in the app memory or some other persistent store like MongoDB or Redis
-
-In later examples don't mention Express.js version, assume that it works for both 3.x and 4.x.
-
-The rest is trivial; we can store any data in `req.session` and it appears automagically on each request from the same client (assuming their browser supports cookies). Hence, the authentication consists of a route that stores some flag (true/false) in the session and of an authorization function in which we check for that flag (if true, then proceed; otherwise, exit). For example,
+The rest is straightforward. We can store any data in `req.session` and it appears automagically on each request from the same client (assuming their browser supports cookies). Hence, the authentication consists of a route that stores some flag (true/false) in the session and of an authorization function in which we check for that flag (if true, then proceed; otherwise, exit). For example,
 
 ```js
 app.post('/login', (req, res, next) => {
@@ -131,6 +142,8 @@ To enable session-based authentication in Blog, we need to do the following:
 3. Add the middleware from #2 (step above) to protected pages and routes in `app.js` routes, e.g., `app.get('/api/, authorize, api.index)`.
 4. Implement an authentication route POST `/login`, and a logout route, GET `/logout` in `user.js`.
 
+We will start with the session middleware.
+
 ## Session Middleware
 
 Let’s add the automatic cookie parsing and support for session middleware in these two lines by putting them in the middle of configurations in `app.js`:
@@ -138,29 +151,40 @@ Let’s add the automatic cookie parsing and support for session middleware in t
 ```js
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-//Other middleware
+// Other middleware
 app.use(cookieParser('3CCC4ACD-6ED1-4844-9217-82131BDCB239'))
 app.use(session({secret: '2C44774A-D649-4D44-9535-46E296EF984F'}))
-//Routes
+// Routes
 ```
 
 **Warning** You should replace randomly generated values with your own ones.
 
 `session()` must be preceded by `cookieParser()` because session depend on cookies to work properly. For more information about these and other Express.js/Connect middleware, refer to Pro Express.js 4 [Apress, 2014].
 
-`cookie-session` can be used in some cases, such as `var cookieSession = require('cookie-session'); app.use(cookieSession({secret: process.env.SESSION_SECRET}));.` The difference is that `express-session` uses secure in-memory or Redis storage—and cookies store only for the session ID, i.e., `sid`—whereas `cookie-session` uses browser cookies to store session information. In other words, the entire session is serialized into cookie-based storage, not just the session key. This approach should be avoided because of cookie size limitations and security concerns.
+Beware of another cookies middleware. It's name is `cookie-sesison`. It's not as secure as `cookie-parser` and `express-session`. `cookie-session` can be used in some cases but I don't recommend it because it stores all information in the cookie, not on the server. The usage is import and apply:
 
-It’s useful to pass information to the templates regardless of whether the request is authenticated. We can do so by adding middleware that checks the `req.session.admin` value for truthyness and adds an appropriate property to `res.locals`:
+```js
+const cookieSession = require('cookie-session')
+app.use(cookieSession({secret: process.env.SESSION_SECRET}))
+``` 
 
-    app.use(function(req, res, next) {
-      if (req.session && req.session.admin)
-        res.locals.admin = true;
-      next();
-    });
+Again, the difference is that `express-session` uses secure in-memory or Redis storage—and cookies store only for the session ID, i.e., `sid`—whereas `cookie-session` uses browser cookies to store session information. In other words, the entire session is serialized into cookie-based storage, not just the session key. This approach should be avoided because of cookie size limitations and security concerns.
+
+It’s useful to pass request authentication information to the templates. We can do so by adding middleware that checks the `req.session.admin` value for truthyness and adds an appropriate property to `res.locals`:
+
+```js
+app.use(function(req, res, next) {
+  if (req.session && req.session.admin)
+    res.locals.admin = true
+  next()
+})
+```
+
+Let's add authorization to the Blog project.
 
 ## Authorization in Blog
 
-Authorization is also done via middleware, but we won’t set it up right away with `app.use` like we did in the snippet for `res.locals`. Instead, we define a function that checks for `req.session.admin` to be true, and proceeds if it is. Otherwise, the 401 Not Authorized error is thrown and the response is ended.
+Authorization is also done via middleware, but we won’t set it up right away with `app.use()` like we did in the snippet for `res.locals`. Instead, we define a function that checks for `req.session.admin` to be true, and proceeds if it is. Otherwise, the 401 Not Authorized error is thrown and the response is ended.
 
 ```js
 // Authorization
@@ -172,7 +196,7 @@ const authorize = (req, res, next) => {
 }
 ```    
 
-Now we can add this middleware to certain protected end points:
+Now we can add this middleware to certain protected endpoints (another name for routes). Specifically, we will protect the endpoints to see the admin page (GET `/admin`), to create a new article (POST `/post`) and to see the create new article page (GET `/post`):
 
 ```js
 app.get('/admin', authorize, routes.article.admin)
@@ -180,7 +204,7 @@ app.get('/post', authorize, routes.article.post)
 app.post('/post', authorize, routes.article.postArticle)
 ```
 
-We add the authorize middleware to API routes as well:
+We add the authorize middleware to API routes as well... to *all* of them using `app.all()`:
 
 ```js
 app.all('/api', authorize)
@@ -190,9 +214,9 @@ app.put('/api/articles/:id', routes.article.edit)
 app.delete('/api/articles/:id', routes.article.del)
 ```
 
-The `app.all('/api', authorize);` is a more compact alternative to adding `authorize` to all `/api/...` routes.
+The `app.all('/api', authorize)` is a more compact alternative to adding `authorize` to all `/api/...` routes manually. Less copy-paste and more code re-usage please.
 
-The full source code of the `app.js` file after adding session support and authorization middleware is as follows (under the `ch6/blog-password` folder):
+I know there are a lot of readers who like to see entire source code. Thus, the full source code of the `app.js` file after adding session support and authorization middleware is as follows (under the `ch6/blog-password` folder):
 
 ```js
 const express = require('express')
@@ -306,11 +330,17 @@ if (require.main === module) {
 }
 ```
 
+Now we can implement authentication (different from authorization).
+
 ## Authentication in Blog
 
 The last step in session-based authorization is to allow users and clients to turn the `req.session.admin` switch on and off. We do this by having a login form and processing the POST request from that form. 
 
-For authenticating users as admins we set the appropriate flag (`admin=true`), in the `routes.user.authenticate` in the `user.js` file. This is done in the POST `/login` route which we defined in the `app.js` — a line that has this statement: `app.post('/login', routes.user.authenticate);`.
+For authenticating users as admins we set the appropriate flag (`admin=true`), in the `routes.user.authenticate` in the `user.js` file. This is done in the POST `/login` route which we defined in the `app.js` — a line that has this statement: 
+
+```
+app.post('/login', routes.user.authenticate)
+```
 
 In `user.js`, expose the method to the importer, i.e., the file that imports this `user.js` module:
 
@@ -318,7 +348,9 @@ In `user.js`, expose the method to the importer, i.e., the file that imports thi
 exports.authenticate = (req, res, next) => {
 ```
 
-The form on the login page submits data to this route. In general, a sanity check for the input values is always a good idea. If values are falsy (including empty values), we'll render the login page again with the message `error`. The `return` keyword ensures the rest of the code in this method isn’t executed. If the values non-empty (or otherwise truthy), then the request handler will not terminate yet and proceed to the next statements:
+The form on the login page submits data to this route. In general, a sanity check for the input values is always a good idea. If values are falsy (including empty values), we'll render the login page again with the message `error`. 
+
+The `return` keyword ensures the rest of the code in this method isn’t executed. If the values non-empty (or otherwise truthy), then the request handler will not terminate yet and proceed to the next statements:
 
 ```js
 exports.authenticate = (req, res, next) => {
@@ -328,7 +360,7 @@ exports.authenticate = (req, res, next) => {
     })
 ```
 
-Thanks to the database middleware in `app.js`, we can access database collections in `req.collections`. In our app’s architecture, e-mail is a unique identifier (there are no two accounts with the same e-mail), so we use the `findOne` function to find a match of the e-mail and password combination (logical AND):
+Thanks to the database middleware in `app.js`, we can access database collections in `req.collections`. In our app’s architecture, e-mail is a unique identifier (there are no two accounts with the same e-mail), so we use the `findOne()` function to find a match of the e-mail and password combination (logical AND):
 
 ```js
   req.collections.users.findOne({
@@ -339,7 +371,7 @@ Thanks to the database middleware in `app.js`, we can access database collection
 
 **Warning** In virtually all cases, we don’t want to store passwords as a plain text; we should store salts and password hashes instead. In this way, if the database gets compromised, passwords are not seen. For salting, use the core Node.js module crypto.
 
-`findOne` returns an error object and the `user` result object. However, we should still do error processing manually:
+`findOne()` returns an error object and the `user` result object. However, we should still do error processing manually:
 
 ```js
     if (error) return next(error)
@@ -396,6 +428,8 @@ exports.authenticate = function (req, res, next) {
 }
 ```
 
+It's better to test the enhancements earlier. Everything should be ready for running the app.
+
 ## Running the App
 
 Now everything should be set up properly to run Blog. Contrary to the example in Chapter 5, we see protected pages only when we’re logged in. These protected pages enable us to create new posts, and to publish and unpublish them. But as soon as we click "Logout" in the menu, we no longer can access the administrator page. 
@@ -404,7 +438,9 @@ The executable code is under the `code/ch6/blog-password` folder of the `practic
 
 # Node.js OAuth
 
-OAuth ([npm](https://www.npmjs.org/package/oauth) (<https://www.npmjs.org/package/oauth>), [GitHub](https://github.com/ciaranj/node-oauth) (<https://github.com/ciaranj/node-oauth>)) is the powerhouse of OAuth 1.0/2.0 schemes for Node.js. It’s a module that generates signatures, encryptions, and HTTP headers, and makes requests. We still need to initiate the OAuth dances (i.e., requests back and forth between consumer, provider and our system), write the callback routes, and store information in sessions or databases. Refer to the service provider’s (e.g., Facebook, Twitter, Google) documentation for end points, methods, and parameter names.
+OAuth ([npm](https://www.npmjs.org/package/oauth) (<https://www.npmjs.org/package/oauth>), [GitHub](https://github.com/ciaranj/node-oauth) (<https://github.com/ciaranj/node-oauth>)) is the powerhouse of OAuth 1.0/2.0 schemes for Node.js. It’s a module that generates signatures, encryptions, and HTTP headers, and makes requests. 
+
+We still need to initiate the OAuth dances (i.e., requests back and forth between consumer, provider and our system), write the callback routes, and store information in sessions or databases. Refer to the service provider’s (e.g., Facebook, Twitter, Google) documentation for end points, methods, and parameter names.
 
 It is recommended that `node-auth` be used when complex integration is needed or when only certain pieces of OAuth are needed (e.g., header signatures are generated by node-auth, but the request is made by the `superagent` library).
 
@@ -523,7 +559,7 @@ By default, Everyauth uses the `/auth/:service_provider_name` pattern to initiat
         a(href='/auth/twitter') Sign in with Twitter
 ```
 
-The whole `menu.pug` looks like this:
+The whole `menu.pug` has if/else ternary expressions and looks like this:
 
 ```pug
 .menu
@@ -549,7 +585,7 @@ The whole `menu.pug` looks like this:
 To add the Everyauth module (`everyauth)` to Blog, type the following in the terminal:
 
 ```
-$ npm install everyauth@0.4.9 --save
+$ npm i everyauth@0.4.9 -SE
 ```
 
 
@@ -681,156 +717,23 @@ Last but not least, the line that follows, enable Everyauth routes and it must g
 app.use(everyauth.middleware())
 ```
 
-The full source code of the `code/ch6/blog-everyauth/app.js` file after adding the Everyauth Twitter OAuth1.0 strategy is as follows:
+The full source code of the `code/ch6/blog-everyauth/app.js` file after adding the Everyauth Twitter OAuth1.0 strategy is rather lengthy thus is not listed here but can be found on GitHub.
 
-```js
-const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY
-const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET
 
-const express = require('express')
-const routes = require('./routes')
-const http = require('http')
-const path = require('path')
+To run the app, execute `$ make start`, and **don’t forget to replace** the Twitter username, consumer key, and secret with yours. Then when you click on "Sign in with Twitter", you'll be redirected to Twitter to authorize this application. Then you'll be redirected back to the localhost app and should see the admin page menu. We have been authorized by a third-party service provider! 
 
-const mongoskin = require('mongoskin')
-const dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/blog'
-
-const db = mongoskin.db(dbUrl)
-const collections = {
-  articles: db.collection('articles'),
-  users: db.collection('users')
-}
-const everyauth = require('everyauth')
-
-// Express.js Middleware
-const cookieParser = require('cookie-parser')
-const session = require('express-session')
-const logger = require('morgan')
-const errorHandler = require('errorhandler')
-const bodyParser = require('body-parser')
-const methodOverride = require('method-override')
-
-everyauth.debug = true
-everyauth.twitter
-  .consumerKey(TWITTER_CONSUMER_KEY)
-  .consumerSecret(TWITTER_CONSUMER_SECRET)
-  .findOrCreateUser(function (session, accessToken, accessTokenSecret, twitterUserMetadata) {
-    var promise = this.Promise()
-    process.nextTick(function () {
-      if (twitterUserMetadata.screen_name === 'azat_co') {
-        session.user = twitterUserMetadata
-        session.admin = true
-      }
-      promise.fulfill(twitterUserMetadata)
-    })
-    return promise
-    // return twitterUserMetadata
-  })
-  .redirectPath('/admin')
-
-// we need it because otherwise the session will be kept alive
-// the Express.js request is intercepted by Everyauth automatically added /logout
-// and never makes it to our /logout
-everyauth.everymodule.handleLogout(routes.user.logout)
-
-everyauth.everymodule.findUserById((user, callback) => {
-  callback(user)
-})
-
-const app = express()
-app.locals.appTitle = 'blog-express'
-
-// Expose collections to request handlers
-app.use((req, res, next) => {
-  if (!collections.articles || !collections.users) return next(new Error('No collections.'))
-  req.collections = collections
-  return next()
-})
-
-// Express.js configurations
-app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
-
-// Express.js middleware configuration
-app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(cookieParser('3CCC4ACD-6ED1-4844-9217-82131BDCB239'))
-app.use(session({secret: '2C44774A-D649-4D44-9535-46E296EF984F',
-  resave: true,
-  saveUninitialized: true}))
-app.use(everyauth.middleware())
-app.use(methodOverride())
-app.use(require('stylus').middleware(path.join(__dirname, 'public')))
-app.use(express.static(path.join(__dirname, 'public')))
-
-// Authentication middleware
-app.use((req, res, next) => {
-  if (req.session && req.session.admin) {
-    res.locals.admin = true
-  }
-  next()
-})
-
-// Authorization Middleware
-const authorize = (req, res, next) => {
-  if (req.session && req.session.admin) { return next() } else { return res.status(401).send() }
-}
-
-// Pages and routes
-app.get('/', routes.index)
-app.get('/login', routes.user.login)
-app.post('/login', routes.user.authenticate)
-app.get('/logout', routes.user.logout)
-app.get('/admin', authorize, routes.article.admin)
-app.get('/post', authorize, routes.article.post)
-app.post('/post', authorize, routes.article.postArticle)
-app.get('/articles/:slug', routes.article.show)
-
-// REST API routes
-app.all('/api', authorize)
-app.get('/api/articles', routes.article.list)
-app.post('/api/articles', routes.article.add)
-app.put('/api/articles/:id', routes.article.edit)
-app.delete('/api/articles/:id', routes.article.del)
-
-app.all('*', function (req, res) {
-  res.status(404).send()
-})
-
-// Development only
-if (app.get('env') === 'development') {
-  app.use(errorHandler())
-}
-
-const server = http.createServer(app)
-const boot = function () {
-  server.listen(app.get('port'), function () {
-    console.info(`Express server listening on port ${app.get('port')}`)
-  })
-}
-const shutdown = function () {
-  server.close(process.exit)
-}
-if (require.main === module) {
-  boot()
-} else {
-  console.info('Running app as a module')
-  exports.boot = boot
-  exports.shutdown = shutdown
-  exports.port = app.get('port')
-}
-```    
-
-To run the app, execute `$ make start`, and **don’t forget to replace** the Twitter username, consumer key, and secret with yours. Then when you click on "Sign in with Twitter", you'll be redirected to Twitter to authorize this application. Then you'll be redirected back to the localhost app and should see the admin page menu. We have been authorized by a third-party service provider! Also, the user information is available to your app so it can be stored in the database for future usage. If you already gave permissions, the redirect to and from Twitter might happen very fast. The terminal output is shown in Figure 6-1 shows each step of Everyauth process such as getting tokens and sending responses. Each step can be customized to your app's needs.
+Also, the user information is available to your app so it can be stored in the database for future usage. If you already gave permissions, the redirect to and from Twitter might happen very fast. The terminal output is shown in Figure 6-1 shows each step of Everyauth process such as getting tokens and sending responses. Each step can be customized to your app's needs.
 
 ![alt](media/image1.png)
 
 ***Figure 6-1.** Everyauth Twitter strategy with debug mode in action*
 
+Auths are important. Good job. 
+
 # Summary
 
 In this chapter, we learned how to implement a standard e-mail and password authentication, and used Express.js middleware to protect sensitive pages and end points in Blog. Then, we covered OAuth 1.0 and OAuth 2.0 with Everyauth and OAuth modules, respectively. 
 
-Now we have a few security options for Blog. In the next chapter we'll explore Mongoose (<http://mongoosejs.com>) object-relational mapping object-relational mapping (ORM) (<http://en.wikipedia.org/wiki/Object-relational_mapping>) Node.js library for MongoDB. This library is a good choice for complex systems with a lot of interdependent business logic between entities, because it completely abstracts the database and provides developers with tools to operate with data only via Mongoose objects. The chapter will touch on the main Mongoose classes and methods, explain some of the more advanced concepts, and re-factor persistence in Blog.
+Now we have a few security options for Blog. In the next chapter we'll explore Mongoose (<http://mongoosejs.com>) object-relational mapping object-document mapping (ODM) Node.js library for MongoDB. 
+
+The Mongoose library is a good choice for complex systems with a lot of interdependent business logic between entities, because it completely abstracts the database and provides developers with tools to operate with data only via Mongoose objects. The chapter will touch on the main Mongoose classes and methods, explain some of the more advanced concepts, and re-factor persistence in Blog.
