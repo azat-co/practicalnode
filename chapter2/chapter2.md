@@ -595,7 +595,7 @@ The first approach is traditional and is considered more search engine optimizat
 
 ***Figure 2-7.** Traditional server-side approach*
 
-Sending and receiving data via REST API/HTTP requests and rendering HTML on the client side is used with front-end frameworks such as Backbone.js, Angular, Ember, and [many others](http://todomvc.com) (<http://todomvc.com>) (Figure 2-8). The use of these frameworks is becoming more and more common nowadays because it allows for more efficiency (HTML is rendered on the client side and only the data are transmitted) and better code organization.
+Sending and receiving data via REST API/HTTP requests and rendering HTML on the client side is used with front-end frameworks such as React, Backbone.js, Angular, Ember, and [many others](http://todomvc.com) (<http://todomvc.com>) (Figure 2-8). The use of these frameworks is becoming more and more common nowadays because it allows for more efficiency (HTML is rendered on the client side and only the data are transmitted) and better code organization.
 
 ![alt](media/image8.png)
 
