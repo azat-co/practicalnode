@@ -517,10 +517,10 @@ const fWithImplicitReturn = (a,b) => a+b
 Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0 based) keys.
 
 ```js
-var arr = []
-var arr2 = [1, "Hi", {a:2}, () => {console.log('boo')}]
-var arr3 = new Array()
-var arr4 = new Array(1,"Hi", {a:2}, () => {console.log('boo')})
+let arr = []
+let arr2 = [1, "Hi", {a:2}, () => {console.log('boo')}]
+let arr3 = new Array()
+let arr4 = new Array(1,"Hi", {a:2}, () => {console.log('boo')})
 arr4[3]() // boo
 ```
 
@@ -535,7 +535,7 @@ There are *no classes* in JavaScript because objects inherit directly from other
 This is an example of the functional inheritance pattern:
 
 ```js
-var user = function (ops) {
+let user = function (ops) {
   return { firstName: ops.firstName || 'John', 
     lastName: ops.lastName || 'Doe', 
     email: ops.email || 'test@test.com', 
@@ -543,7 +543,7 @@ var user = function (ops) {
   }
 }
 
-var agency = function(ops) {
+let agency = function(ops) {
   ops = ops || {}
   var agency = user(ops)
   agency.customers = ops.customers || 0
