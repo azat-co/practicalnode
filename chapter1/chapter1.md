@@ -365,7 +365,7 @@ console.log(bufFromHex.toString()) // ¿Cómo está?
 Node object notation is the same as JavaScript which means it is super readable and compact:
 
 ```js
-var car = {
+const car = {
   color: "green",
   type: "suv",
   owner: {
@@ -422,7 +422,7 @@ function f() {
 An anonymous function expression assigned to a variable looks as follows (note that it must precede the invocation, because the function is not hoisted, unlike the previous example):
 
 ```js
-var f = function() {
+const f = function() {
   console.log('Hi')
   return true
 }
@@ -432,7 +432,7 @@ The new analog of the definition above is fat arrow function with an added benef
 
 ```js
 // outer "this"
-var f = () => {
+const f = () => {
   // still outer "this"
   console.log('Hi')
   return true
@@ -442,7 +442,7 @@ var f = () => {
 The following is an example of both approaches:
 
 ```js
-var f = function f() {
+const f = function f() {
   console.log('Hi')
   return true
 }
@@ -451,7 +451,7 @@ var f = function f() {
 A function with a property (remember, functions are just objects that can be invoked/initialized) is as follows:
 
 ```js
-var f = function() {console.log('Boo')}
+const f = function() {console.log('Boo')}
 f.boo = 1
 f() *//outputs Boo*
 console.log(f.boo) *//outputs 1*
@@ -464,10 +464,10 @@ Note: The return keyword is optional. When it is omitted, the function returns `
 JavaScript treats functions like any other objects, so we can pass them to other functions as parameters (usually, callbacks in Node.js):
 
 ```js
-var convertNum = function(num) {
+const convertNum = function(num) {
   return num + 10
 }
-var processNum = function(num, fn) {
+const processNum = function(num, fn) {
   return fn(num)
 }
 processNum(10, convertNum)
