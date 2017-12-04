@@ -377,8 +377,8 @@ The Express app is exported with `module.exports` and is launched with `listen()
 When you open `express-styl/app.js`, you see two routes in the middle:
 
 ```js
-var index = require('./routes/index');
-var users = require('./routes/users');
+const index = require('./routes/index');
+const users = require('./routes/users');
 ...
 app.use('/', routes);
 app.use('/users', users);
