@@ -629,8 +629,8 @@ Semicolon-less code works perfectly fine except two cases shown above and when y
 camelCase is the main naming pattern in JavaScript, except for class names, which are CapitalCamelCase. An example follows:
 
 ```js
-var MainView = Backbone.View.extend({...})
-var mainView = new MainView()
+let MainView = Backbone.View.extend({...})
+let mainView = new MainView()
 ```
 
 ### Naming
@@ -642,7 +642,7 @@ var mainView = new MainView()
 One in a while you might see comma-first style. An example of a comma-first style is as follows:
 
 ```js
-var obj = { firstName: "John"
+const obj = { firstName: "John"
   , lastName: "Smith"
   , email: "johnsmith@gmail.com"
 }
@@ -653,7 +653,7 @@ I recommend to avoid comma-first style. The *erroneous* (in my view) reason for 
 Moreover, with ES2017/ES8 developers can use trailing commas in function calls (for arguments) in addition to object literals and arrays. I recommend using traditional style (with or without trailing comma):
 
 ```js
-var obj = { firstName: "John", 
+const obj = { firstName: "John", 
   lastName: "Smith", 
   email: "johnsmith@gmail.com",  // trailing comma - okay
 }
