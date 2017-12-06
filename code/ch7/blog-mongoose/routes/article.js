@@ -43,11 +43,13 @@ exports.add = (req, res, next) => {
 
 exports.edit = (req, res, next) => {
   if (!req.params.id) return next(new Error('No article ID.'))
+  if (!req.body.article) return next(new Error('No article payload.'))
   req.models.Article.findById(req.params.id, (error, article) => {
     if (error) return next(error)
-    article.update({$set: req.body.article}, (error, count, raw) => {
+    article.set(req.body.article)
+    article.save((error, savedDoc) => {
       if (error) return next(error)
-      res.send({affectedCount: count})
+      res.send(savedDoc)
     })
   })
   // req.models.Article.findByIdAndUpdate(req.params.id, {$set: req.body.article}, function(error, doc) {

@@ -540,7 +540,7 @@ userSchema.virtual('fullName')
   })
 ```
 
-Another scenario is when only a subset of the full document is exposed. For example, if the user model has tokens and passwords, we omit these sensitive fields by whitelisting only the fields we want to expose:
+Another example is when only a subset of the full document *must* be exposed and not the full details as in the user model which has tokens and passwords. Thus we omit fields which we want to hide by whitelisting only the fields we want to expose such as username and avatar but not token, password or salt:
 
 ```js
 userSchema.virtual('info')
@@ -556,9 +556,13 @@ userSchema.virtual('info')
   })
 ```
 
+We used `get` for the virtual. Let's dig deeper into getters as well as it's close kin setter.
+
 # Schema Type Behavior Amendment
 
-Mongoose allows us to define/write getters (`get)`, setters (`set`), and defaults (`default`) right in the Schema! Same goes for validate and some other useful methods. 
+Schemas are not just static boring type definitions. Developers can add function to bring the dynamism to the fields in the schema. Mongoose allows us to define/write getters (`get)`, setters (`set`), and defaults (`default`) right in the Schema! Same goes for validate and some other useful methods. 
+
+`get` is invoked when a field is read while `set` when the field assigned a value. Developers can modify the actual value being read or assigned from/to the actual database document. For example, the URL field can have a `set()` method which enforces all strings into lowercase. Validate is triggered for the field validation and is typically used for some custom types such as emails.
 
 Here's an examples of defining `set` (transfer to lower case when the value is assigned), `get` (when the number is extracted the "thousands" commas are added to it), `default` (brand new ObjectID is generated), and `validate` (checks for e-mail patterns and is triggered upon `save()`) all right in a JSON-like structure of the `Schema`:
 
@@ -622,14 +626,14 @@ Path is just a fancy name for the nested field name and its parent objects, for 
 
 To avoid rebuilding all other components unrelated to ODM, such as templates, routes, and so forth, we can factor the existing Blog from the previous chapter by making it use Mongoose instead of Mongoskin. This requires minimal effort but produces an abstraction layer between MongoDB and the request handlers. As  always, the fully functional code is available on GitHub, in the `ch7` folder. (<https://github.com/azat-co/practicalnode/tree/master/ch7>)
 
-The process of refactoring starts with the creation of a new branch: `mongoose`. You can use the final solution in [the GitHub repository](https://github.com/azat-co/blog-express/tree/mongoose). (<https://github.com/azat-co/blog-express/tree/mongoose>) First, we need to remove Mongoskin and install Mongoose:
+The process of refactoring starts with the creation of a new branch: `mongoose`. You can use the final solution in [the GitHub repository](https://github.com/azat-co/blog-express/tree/mongoose). (<https://github.com/azat-co/blog-express/tree/mongoose>). First, we need to remove Mongoskin and install Mongoose:
 
 ```
 $ npm uninstall mongoskin –save
 $ npm install mongoose@4.13.0 --save
 ```
 
-`package.json` is amended to something like this:
+`package.json` is amended to include `mongoose` and looks similar to this:
 
 ```js
 {
@@ -667,19 +671,19 @@ $ npm install mongoose@4.13.0 --save
 }
 ```
 
-Now, in the `app.js` file, we can remove the Mongoskin inclusion (`mongoskin = require('mongoskin'),`) and add a new one for Mongoose:
+Now, in the `app.js` file, we can remove the Mongoskin inclusion (`mongoskin = require('mongoskin'),`) and add a new import statement for Mongoose:
 
 ```js
 const mongoose = require('mongoose')
 ```
 
-Let’s create a folder `models` (`$ mkdir models`) and include it:
+Mongoose uses models but Mongoskin does not. Thus, let’s create a folder `models` in our project folder (use bash: `$ mkdir models`) and include the folder with (it really includes `index.js` which we yet to create):
 
 ```js
 const models = require('./models')
 ```
 
-Substitute the connection, and `articles` and `users` collections statements:
+Substitute the Mongoskin connection, and `articles` and `users` collections statements shown below:
 
 ```js
 const db = mongoskin.db(dbUrl, {safe: true})
@@ -689,217 +693,37 @@ const collections = {
 }
 ```
 
-With just the connection statement **leaving out** the `collections`:
+With just the Mongoose connection statement **leaving out** the `collections`:
 
 ```js
 const db = mongoose.connect(dbUrl, {useMongoClient: true})
 ```
 
-In the collection middleware, we remove `collections`:
+In the collection middleware, we remove if/else and `req.collections` lines inside the `app.use()`:
 
 ```js
 app.use((req, res, next) => {
-  if (!collections.articles || ! collections.users) 
-    return next(new Error('No collections.'))
-  req.collections = collections
+  if (!collections.articles || ! collections.users) // <--- REMOVE
+    return next(new Error('No collections.')) 
+  req.collections = collections // <--- REMOVE
 })
 ```
 
-Then, add validation for `Article` and `User` models (coming from `models/article.js` and `models/user.js`, and the models in the request with the `req.models = models` statement:
+Then, add the if/else validation for `Article` and `User` models (coming from `models/article.js` and `models/user.js`), and the models in the request with the `req.models = models` statement:
 
 ```js
 app.use((req, res, next) => {
-  if (!models.Article || !models.User) { 
+  if (!models.Article || !models.User) { // <--- ADD
     return next(new Error('No models.')) 
   }
-  req.models = models
+  req.models = models // <--- ADD
   return next()
 })
 ```
 
-That’s it! The upgrade from Mongoskin to Mongoose is complete. ;-) Just for your reference, here’s the full code of the resulting `code/ch7/blog-mongoose/app.js`:
+That’s it! The upgrade from Mongoskin to Mongoose is complete. ;-) For your reference, the full code of the resulting app.js is in the `code/ch7/blog-mongoose/app.js`.
 
-```js
-const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY || 'ABC'
-const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET || 'XYZXYZ'
-
-const express = require('express')
-const routes = require('./routes')
-const http = require('http')
-const path = require('path')
-const mongoose = require('mongoose')
-const models = require('./models')
-const dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/blog'
-
-const db = mongoose.connect(dbUrl, {useMongoClient: true})
-
-const everyauth = require('everyauth')
-
-// Express.js Middleware
-const cookieParser = require('cookie-parser')
-const session = require('express-session')
-const logger = require('morgan')
-const errorHandler = require('errorhandler')
-const bodyParser = require('body-parser')
-const methodOverride = require('method-override')
-
-everyauth.debug = true
-everyauth.twitter
-  .consumerKey(TWITTER_CONSUMER_KEY)
-  .consumerSecret(TWITTER_CONSUMER_SECRET)
-  .findOrCreateUser(function (session, accessToken, accessTokenSecret, twitterUserMetadata) {
-    var promise = this.Promise()
-    process.nextTick(function () {
-      if (twitterUserMetadata.screen_name === 'azat_co') {
-        session.user = twitterUserMetadata
-        session.admin = true
-      }
-      promise.fulfill(twitterUserMetadata)
-    })
-    return promise
-    // return twitterUserMetadata
-  })
-  .redirectPath('/admin')
-
-// We need it because otherwise the session will be kept alive
-everyauth.everymodule.handleLogout(routes.user.logout)
-
-everyauth.everymodule.findUserById(function (user, callback) {
-  callback(user)
-})
-
-const app = express()
-app.locals.appTitle = 'blog-express'
-
-app.use((req, res, next) => {
-  if (!models.Article || !models.User) { return next(new Error('No models.')) }
-  req.models = models
-  return next()
-})
-
-// All environments
-app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
-
-app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(cookieParser('3CCC4ACD-6ED1-4844-9217-82131BDCB239'))
-app.use(session({secret: '2C44774A-D649-4D44-9535-46E296EF984F',
-  resave: true,
-  saveUninitialized: true}))
-app.use(everyauth.middleware())
-app.use(methodOverride())
-app.use(require('stylus').middleware(path.join(__dirname, 'public')))
-app.use(express.static(path.join(__dirname, 'public')))
-
-// Authentication middleware
-app.use((req, res, next) => {
-  if (req.session && req.session.admin) {
-    res.locals.admin = true
-  }
-  next()
-})
-
-// Authorization
-const authorize = function (req, res, next) {
-  if (req.session && req.session.admin) { 
-    return next() 
-  } else { 
-    return res.send(401) 
-  }
-}
-
-// Pages and routes
-app.get('/', routes.index)
-app.get('/login', routes.user.login)
-app.post('/login', routes.user.authenticate)
-app.get('/logout', routes.user.logout) // if you use everyauth, this /logout route is overwriting by everyauth automatically, therefore we use custom/additional handleLogout
-app.get('/admin', authorize, routes.article.admin)
-app.get('/post', authorize, routes.article.post)
-app.post('/post', authorize, routes.article.postArticle)
-app.get('/articles/:slug', routes.article.show)
-
-// REST API routes
-app.all('/api', authorize)
-app.get('/api/articles', routes.article.list)
-app.post('/api/articles', routes.article.add)
-app.put('/api/articles/:id', routes.article.edit)
-app.delete('/api/articles/:id', routes.article.del)
-
-app.all('*', function (req, res) {
-  res.status(404).send()
-})
-
-// Development only
-if (app.get('env') === 'development') {
-  app.use(errorHandler())
-}
-
-// http.createServer(app).listen(app.get('port'), function(){
-  // console.log('Express server listening on port ' + app.get('port'));
-// });
-
-const server = http.createServer(app)
-const boot = function () {
-  server.listen(app.get('port'), function () {
-    console.info(`Express server listening on port ${app.get('port')}`)
-  })
-}
-const shutdown = function () {
-  server.close(process.exit)
-}
-if (require.main === module) {
-  boot()
-} else {
-  console.info('Running app as a module')
-  exports.boot = boot
-  exports.shutdown = shutdown
-  exports.port = app.get('port')
-}
-```
-
-There are three files in the models folder:
-
-1. `index.js`: exposes models to `app.js`
-2. `article.js`: includes article schemas, methods, and models
-3. `user.js`: includes the user schema and its model
-
-The `index.js` file is as follows:
-
-```js
-exports.Article = require('./article')
-exports.User = require('./user')
-```
-
-The `article.js` file has the article schema:
-
-```js
-const articleSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    validate: [function (value) {
-      return value.length <= 120
-    }, 'Title is too long (120 max)'],
-    default: 'New Post'
-  },
-  text: String,
-  published: {
-    type: Boolean,
-    default: false
-  },
-  slug: {
-    type: String,
-    set: function (value) {
-      return value.toLowerCase().replace(' ', '-')
-    }
-  }
-})
-```
-
-In the schema above, `title` is required and it's limited to 120 characters with `validate`. The `published` defaults to `false` if not specified upon object creation. The slug should never have spaces due to the `set` method.
+Next, let's implement the schemas. In the `Article` schema, `title` is required and it's limited to 120 characters with `validate`. The `published` defaults to `false` if not specified upon object creation. The slug should never have spaces due to the `set` method.
 
 To illustrate code reuse, we abstract the `find` method from the routes (`routes/article.js`) into the model (`models/article.js`). This can be done with all database methods:
 
@@ -984,21 +808,30 @@ module.exports = mongoose.model('User', userSchema)
 
 The e-mail field is validated with RegExp, then is trimmed and forced to lowercase when it’s set.
 
-The `routes/article.js` file now needs to switch to Mongoose models instead of Mongoskin collections. So, in the `show` method, this Mongoskin line goes away:
+To connect app.js and models, there must be `models/index.js` file which simply acts as a layer of abstraction by importing and exporting all the models:
+
+```js
+exports.Article = require('./article')
+exports.User = require('./user')
+```
+
+We have `models/index.js` so that we don't need to import all schemas individually in our `app.js` and other files (potentially).
+
+Now we modify the routes files. The `routes/article.js` file now needs to switch to Mongoose models instead of Mongoskin collections. So, in the `show` method, this Mongoskin line goes away:
 
 ```js
 req.collections.articles.findOne({slug: req.params.slug}, 
   (error, article) => {
 ```
 
-Then, this Mongoose line comes in:
+Then, this Mongoose line comes in to use the Article model from `req.models`:
 
 ```js
 req.models.Article.findOne({slug: req.params.slug}, 
   (error, article) => {
 ```
 
-The resulting `show` uses  Mongoose method from `Article` model:
+The resulting `show` uses Mongoose method `findOne` from `Article` model and has slug presence validation before that:
 
 ```js
 exports.show = (req, res, next) => {
@@ -1011,13 +844,13 @@ exports.show = (req, res, next) => {
 }
 ```
 
-In the `list` method, remove Mongoskin code:
+In the `list` method, remove Mongoskin code show below since we are not working with collections directly anymore:
 
 ```js
 req.collections.articles.find({}).toArray((error, articles) => {
 ```
 
-and replace it with Mongoose code of `Article.list()`:
+and replace it with Mongoose model code of `Article.list()`:
 
 ```js
 req.models.Article.list((error, articles) => {
@@ -1034,7 +867,7 @@ exports.list = (req, res, next) => {
 }
 ```
 
-In the `exports.add` method, find this line of Mongoskin code:
+Next, in the `exports.add` method, find this line of Mongoskin code:
 
 ```js
 req.collections.articles.insert(
@@ -1042,7 +875,7 @@ req.collections.articles.insert(
   (error, articleResponse) => {
 ```
 
-is replaced with this Mongoose code:
+is replaced with this Mongoose code which uses model:
 
 ```js
 req.models.Article.create(article, (error, articleResponse) => {
@@ -1077,7 +910,7 @@ req.models.Article.findById(
 })
 ```
 
-Just to show you a more elegant one-step approach (the latter from the new `exports.edit` implementation list above):
+Just to show you a more elegant one-step approach which uses one method `findByIdAndUpdate()`(the latter from the new `exports.edit` implementation list above):
 
 ```js
 req.models.Article.findByIdAndUpdate(
