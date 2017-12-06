@@ -3,7 +3,7 @@
  * GET users listing.
  */
 
-exports.list = function (req, res) {
+exports.list = (req, res) => {
   res.send('respond with a resource')
 }
 
@@ -11,7 +11,7 @@ exports.list = function (req, res) {
  * GET login page.
  */
 
-exports.login = function (req, res, next) {
+exports.login = (req, res, next) => {
   res.render('login')
 }
 
@@ -19,7 +19,7 @@ exports.login = function (req, res, next) {
  * GET logout route.
  */
 
-exports.logout = function (req, res, next) {
+exports.logout = (req, res, next) => {
   req.session.destroy()
   res.redirect('/')
 }
@@ -28,8 +28,10 @@ exports.logout = function (req, res, next) {
  * POST authenticate route.
  */
 
-exports.authenticate = function (req, res, next) {
-  if (!req.body.email || !req.body.password) { return res.render('login', {error: 'Please enter your email and password.'}) }
+exports.authenticate = (req, res, next) => {
+  if (!req.body.email || !req.body.password) { 
+    return res.render('login', {error: 'Please enter your email and password.'}) 
+  }
   req.models.User.findOne({
     email: req.body.email,
     password: req.body.password

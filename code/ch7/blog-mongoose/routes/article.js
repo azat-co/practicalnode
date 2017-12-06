@@ -66,7 +66,7 @@ exports.del = (req, res, next) => {
   if (!req.params.id) return next(new Error('No article ID.'))
   req.models.Article.findById(req.params.id, (error, article) => {
     if (error) return next(error)
-    if (!article) return next(new Error('article not found'))
+    if (!article) return next(new Error('Article not found.'))
     article.remove((error, doc) => {
       if (error) return next(error)
       res.send(doc)

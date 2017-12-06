@@ -895,19 +895,21 @@ req.collections.articles.updateById(
   (error, count) => {
 ```
 
-We'll use the former two-step approach (i.e., find then update), because it's more versatile. So the above snippet is replaced by this code:
+Although there's `update()` in Mongoose as well, we'll use another, better approach with `save()`, because `save()` executes all the schema logic such as pre, post hooks and proper schema validation. It's smarter than the direct `update()`. `save()` is the special sauce that Mongoose brings to the table and it's a pitty not to harness its power. So the above Mongoskin snippet with `updateById()` is replaced by this code with Mongoose's `set()` and `save()`:
 
 ```js
-req.models.Article.findById(
-  req.params.id, 
-  (error, article) => {
+exports.edit = (req, res, next) => {
+  if (!req.params.id) return next(new Error('No article ID.'))
+  if (!req.body.article) return next(new Error('No article payload.'))
+  req.models.Article.findById(req.params.id, (error, article) => {
     if (error) return next(error)
-    article.update({$set: req.body.article}, 
-    (error, count, raw) => {
+    article.set(req.body.article)
+    article.save((error, savedDoc) => {
       if (error) return next(error)
-      res.send({affectedCount: count})
+      res.send(savedDoc)
+    })
   })
-})
+}
 ```
 
 Just to show you a more elegant one-step approach which uses one method `findByIdAndUpdate()`(the latter from the new `exports.edit` implementation list above):
@@ -923,14 +925,14 @@ req.models.Article.findByIdAndUpdate(
 )
 ```
 
-Similarly, with the `exports.del` request handler:
+Lastly, in the `exports.del` request handler, we will find the document by its ID and then invoke `remove()`:
 
 ```js
 exports.del = (req, res, next) => {
   if (!req.params.id) return next(new Error('No article ID.'))
   req.models.Article.findById(req.params.id, (error, article) => {
     if (error) return next(error)
-    if (!article) return next(new Error('article not found'))
+    if (!article) return next(new Error('Article not found'))
     article.remove((error, doc) => {
       if (error) return next(error)
       res.send(doc)
@@ -980,11 +982,13 @@ exports.add = (req, res, next) => {
 
 exports.edit = (req, res, next) => {
   if (!req.params.id) return next(new Error('No article ID.'))
+  if (!req.body.article) return next(new Error('No article payload.'))
   req.models.Article.findById(req.params.id, (error, article) => {
     if (error) return next(error)
-    article.update({$set: req.body.article}, (error, count, raw) => {
+    article.set(req.body.article)
+    article.save((error, savedDoc) => {
       if (error) return next(error)
-      res.send({affectedCount: count})
+      res.send(savedDoc)
     })
   })
 }
@@ -993,7 +997,7 @@ exports.del = (req, res, next) => {
   if (!req.params.id) return next(new Error('No article ID.'))
   req.models.Article.findById(req.params.id, (error, article) => {
     if (error) return next(error)
-    if (!article) return next(new Error('article not found'))
+    if (!article) return next(new Error('Article not found.'))
     article.remove((error, doc) => {
       if (error) return next(error)
       res.send(doc)
@@ -1048,14 +1052,16 @@ exports.index = (req, res, next) => {
 }
 ```
 
-Lastly, `routes/user.js` has a single line to change in `authenticate`
+Lastly, `routes/user.js` has a single line (JUST ONE LINE) to change in `authenticate`. Do this! Invoke `findOne()` from `req.models.User` model to fetch the user with username and password (plain. This will check the user validity. 
 
-Now, we have `findOne()` from model `User`:
+
 
 ```js
-exports.authenticate = function (req, res, next) {
-  if (!req.body.email || !req.body.password) { return res.render('login', {error: 'Please enter your email and password.'}) }
-  req.models.User.findOne({ // Change to model User
+exports.authenticate = (req, res, next) => {
+  if (!req.body.email || !req.body.password) { 
+    return res.render('login', {error: 'Please enter your email and password.'}) 
+  }
+  req.models.User.findOne({
     email: req.body.email,
     password: req.body.password
   }, function (error, user) {
@@ -1068,7 +1074,9 @@ exports.authenticate = function (req, res, next) {
 }
 ```
 
-To check if everything went well, simply run Blog as usual with `$ node app` and navigate the pages on <http://localhost:3000/>. In addition, we can run Mocha tests with `$ mocha test`.
+Of course, in real life you would not store plain passwords but use encrypted hash and salt. In other words, store salt and hash but never the plain password to prevent attackers stealing the plain password which can be used on other websites (most people can't remember more than 2-3 passwords so they keep using the same everywhere, gosh, they should download [enpass](https://www.enpass.io) or something).
+
+To check if everything went well, simply run Blog as usual with `$ node app` and navigate the pages on <http://localhost:3000/>. In addition, we can run Mocha tests with `$ npm test` (which triggers a make command which triggers the mocha command).
 
 # Summary
 
