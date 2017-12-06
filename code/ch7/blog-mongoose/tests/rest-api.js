@@ -12,7 +12,7 @@ const baseUrl = `http://localhost:${port}/api/articles/`
 
 describe('server', function () {
   before(function () {
-    boot()
+    // boot()
   })
 
   describe('express rest api server', function(){

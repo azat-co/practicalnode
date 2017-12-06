@@ -65,6 +65,6 @@ describe('server', function () {
     })
   })
   after(function () {
-    shutdown()
+    // shutdown()
   })
 })

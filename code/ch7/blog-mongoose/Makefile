@@ -11,6 +11,7 @@ test:
 	./node_modules/mocha/bin/mocha \
 	--reporter $(REPORTER) \
 	$(MOCHA_OPTS) \
+	 --recursive \
 	tests/*.js
 	echo Ending test
 start:
