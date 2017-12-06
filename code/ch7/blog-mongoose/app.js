@@ -10,7 +10,7 @@ const models = require('./models')
 const dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/blog'
 
 const db = mongoose.connect(dbUrl, {useMongoClient: true})
-
+mongoose.Promise = global.Promise
 const everyauth = require('everyauth')
 
 // Express.js Middleware
