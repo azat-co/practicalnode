@@ -365,7 +365,7 @@ console.log(bufFromHex.toString()) // ¿Cómo está?
 Node object notation is the same as JavaScript which means it is super readable and compact:
 
 ```js
-var car = {
+const car = {
   color: "green",
   type: "suv",
   owner: {
@@ -422,7 +422,7 @@ function f() {
 An anonymous function expression assigned to a variable looks as follows (note that it must precede the invocation, because the function is not hoisted, unlike the previous example):
 
 ```js
-var f = function() {
+const f = function() {
   console.log('Hi')
   return true
 }
@@ -432,7 +432,7 @@ The new analog of the definition above is fat arrow function with an added benef
 
 ```js
 // outer "this"
-var f = () => {
+const f = () => {
   // still outer "this"
   console.log('Hi')
   return true
@@ -442,7 +442,7 @@ var f = () => {
 The following is an example of both approaches:
 
 ```js
-var f = function f() {
+const f = function f() {
   console.log('Hi')
   return true
 }
@@ -451,7 +451,7 @@ var f = function f() {
 A function with a property (remember, functions are just objects that can be invoked/initialized) is as follows:
 
 ```js
-var f = function() {console.log('Boo')}
+const f = function() {console.log('Boo')}
 f.boo = 1
 f() *//outputs Boo*
 console.log(f.boo) *//outputs 1*
@@ -464,10 +464,10 @@ Note: The return keyword is optional. When it is omitted, the function returns `
 JavaScript treats functions like any other objects, so we can pass them to other functions as parameters (usually, callbacks in Node.js):
 
 ```js
-var convertNum = function(num) {
+const convertNum = function(num) {
   return num + 10
 }
-var processNum = function(num, fn) {
+const processNum = function(num, fn) {
   return fn(num)
 }
 processNum(10, convertNum)
@@ -517,10 +517,10 @@ const fWithImplicitReturn = (a,b) => a+b
 Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0 based) keys.
 
 ```js
-var arr = []
-var arr2 = [1, "Hi", {a:2}, () => {console.log('boo')}]
-var arr3 = new Array()
-var arr4 = new Array(1,"Hi", {a:2}, () => {console.log('boo')})
+let arr = []
+let arr2 = [1, "Hi", {a:2}, () => {console.log('boo')}]
+let arr3 = new Array()
+let arr4 = new Array(1,"Hi", {a:2}, () => {console.log('boo')})
 arr4[3]() // boo
 ```
 
@@ -535,7 +535,7 @@ There are *no classes* in JavaScript because objects inherit directly from other
 This is an example of the functional inheritance pattern:
 
 ```js
-var user = function (ops) {
+let user = function (ops) {
   return { firstName: ops.firstName || 'John', 
     lastName: ops.lastName || 'Doe', 
     email: ops.email || 'test@test.com', 
@@ -543,7 +543,7 @@ var user = function (ops) {
   }
 }
 
-var agency = function(ops) {
+let agency = function(ops) {
   ops = ops || {}
   var agency = user(ops)
   agency.customers = ops.customers || 0
@@ -629,8 +629,8 @@ Semicolon-less code works perfectly fine except two cases shown above and when y
 camelCase is the main naming pattern in JavaScript, except for class names, which are CapitalCamelCase. An example follows:
 
 ```js
-var MainView = Backbone.View.extend({...})
-var mainView = new MainView()
+let MainView = Backbone.View.extend({...})
+let mainView = new MainView()
 ```
 
 ### Naming
@@ -642,7 +642,7 @@ var mainView = new MainView()
 One in a while you might see comma-first style. An example of a comma-first style is as follows:
 
 ```js
-var obj = { firstName: "John"
+const obj = { firstName: "John"
   , lastName: "Smith"
   , email: "johnsmith@gmail.com"
 }
@@ -653,7 +653,7 @@ I recommend to avoid comma-first style. The *erroneous* (in my view) reason for 
 Moreover, with ES2017/ES8 developers can use trailing commas in function calls (for arguments) in addition to object literals and arrays. I recommend using traditional style (with or without trailing comma):
 
 ```js
-var obj = { firstName: "John", 
+const obj = { firstName: "John", 
   lastName: "Smith", 
   email: "johnsmith@gmail.com",  // trailing comma - okay
 }

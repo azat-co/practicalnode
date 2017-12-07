@@ -177,7 +177,7 @@ Express is used with `require()` and it's a local project dependency. Let's buil
 For the local Express.js 4.15.5 module installation, let&#39;s create a new folder `hello-simple` somewhere on your computer: `$ mkdir hello-simple`. This will be our project folder for the chapter. Now we can open it with `$ cd hello-simple`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command.
 
 
-The following is an example of the `package.json` file with vanilla `$ npm init` options (the licence and author is configured by defaults in `nmp config`):
+The following is an example of the `package.json` file with vanilla `$ npm init` options (the licence and author is configured by defaults in `npm config`):
 
 ```js
 {
@@ -320,18 +320,18 @@ If you don&#39;t have computer in front of your right now, here&#39;s the full c
 
 
 ```js
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var stylus = require('stylus');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const stylus = require('stylus');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+const index = require('./routes/index');
+const users = require('./routes/users');
 
-var app = express();
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -377,8 +377,8 @@ The Express app is exported with `module.exports` and is launched with `listen()
 When you open `express-styl/app.js`, you see two routes in the middle:
 
 ```js
-var index = require('./routes/index');
-var users = require('./routes/users');
+const index = require('./routes/index');
+const users = require('./routes/users');
 ...
 app.use('/', routes);
 app.use('/users', users);
@@ -496,13 +496,13 @@ module.exports = router;
 Each line/statement above the routes in `express-styl/app.js` is middleware:
 
 ```js
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var stylus = require('stylus');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const stylus = require('stylus');
 //...
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -595,7 +595,7 @@ The first approach is traditional and is considered more search engine optimizat
 
 ***Figure 2-7.** Traditional server-side approach*
 
-Sending and receiving data via REST API/HTTP requests and rendering HTML on the client side is used with front-end frameworks such as Backbone.js, Angular, Ember, and [many others](http://todomvc.com) (<http://todomvc.com>) (Figure 2-8). The use of these frameworks is becoming more and more common nowadays because it allows for more efficiency (HTML is rendered on the client side and only the data are transmitted) and better code organization.
+Sending and receiving data via REST API/HTTP requests and rendering HTML on the client side is used with front-end frameworks such as React, Backbone.js, Angular, Ember, and [many others](http://todomvc.com) (<http://todomvc.com>) (Figure 2-8). The use of these frameworks is becoming more and more common nowadays because it allows for more efficiency (HTML is rendered on the client side and only the data are transmitted) and better code organization.
 
 ![alt](media/image8.png)
 
@@ -663,7 +663,7 @@ After the wizard has finished and the `package.json` file is there (don&#39;t wo
 $ npm install express --save
 ```
 
-The previous command uses the latest stable version (4.15.4 as of Sep 2017). We recommend being more specific—which is more robust in the land of the rapidly growing Node.js community—and ask for a specific version:
+The previous command uses the latest stable version (4.16.2 as of Dec 2017). We recommend being more specific—which is more robust in the land of the rapidly growing Node.js community—and ask for a specific version:
 
 ```
 $ npm install express@4.15.4 --save
@@ -779,6 +779,7 @@ The next section is where we define routes themselves (the order in `app.js` mat
 - `get`: catch GET requests
 - `post`: catch POST requests
 - `put`: catch PUT requests
+- `patch`: catch patch requests
 - `del`: catch DELETE requests
 
 **Note**: `del` and `delete` methods are aliases, just remember that `delete` is a valid operator in JavaScript/ECMAScript, and therefore in Node.js. The operator removes a property from an object, e.g., `delete books.nodeInAction`.
