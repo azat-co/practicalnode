@@ -25,7 +25,7 @@ server.route([
     path: '/collections/{collectionName}',
     handler: (req, reply) => {
       loadCollection(req.params.collectionName, (collection) => {
-        collection.find({}, {limit: 10, sort: [['_id', -1]]}).toArray(function (e, results) {
+        collection.find({}, {limit: 10, sort: [['_id', -1]]}).toArray((e, results) => {
           if (e) return reply(e)
           reply(results)
         })
@@ -37,7 +37,7 @@ server.route([
     path: '/collections/{collectionName}',
     handler: (req, reply) => {
       loadCollection(req.params.collectionName, (collection) => {
-        collection.insert(req.payload, {}, function (e, results) {
+        collection.insert(req.payload, {}, (e, results) => {
           if (e) return reply(e)
           reply(results.ops)
         })
@@ -92,7 +92,7 @@ const options = {
 
 server.register(require('good', options, (err) => {
   if (!err) {
-      // Plugin loaded successfully
+    // Plugin loaded successfully
   }
 }))
 
