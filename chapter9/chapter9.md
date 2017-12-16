@@ -2,9 +2,13 @@ Chapter 9
 ---------
 # Real-Time Apps with WebSocket, Socket.IO, and DerbyJS
 
-Real-time apps are becoming more and more widespread in gaming, social media, various tools, services, and news. The main factor contributing to this trend is that technologies have become much better. They allow for a greater bandwidth to transmit data, and for more calculations to process and retrieve the data.
+Real-time apps are becoming more and more widespread in financial trading, gaming, social media, various DevOps tools, cloud services, and of course news. The main factor contributing to this trend is that technologies have become much better. They allow for a greater bandwidth to transmit data, and for more calculations to process and retrieve the data.
 
-HTML5 pioneered the new standard of real-time connections called *WebSocket*. At the same time, on the server side, Node.js has a highly efficient, nonblocking input/output platform that is very well suited for the task of being a back-end pair to the browser JavaScript and WebSocket.
+HTML5 pioneered the new standard of real-time connections called *WebSocket*. The way it works, in browser JavaScript you get a global object called `WebSocket`. This object is a class and has all kinds of methods for developers to implement the WebSocket protocol client. 
+
+The WebSocket protocol (or `ws://` in the URL format) is very different from HTTP or HTTPS. Hence, developers need a special ws server. Just having an HTTP server won't cut it. And as you know, Node.js is a highly efficient, non-blocking input/output platform. 
+
+Implementing WebSocket servers with Node is pure joy because Node is fast and because Node is also JavaScript just like the WebSocket clients (i.e., browser JavaScript). Thus, Node is very well suited for the task of being a back-end pair to the browser with it's WebSocket API.
 
 To get you started with WebSocket and Node.js, we&#39;ll keep things simple stupid (KISS) (<http://en.wikipedia.org/wiki/KISS_principle>) and cover the following:
 
@@ -18,7 +22,9 @@ To get you started with WebSocket and Node.js, we&#39;ll keep things simple stup
 
 # What Is WebSocket?
 
-WebSocket is a special communication “channel” between browsers (clients) and servers. It&#39;s an HTML5 protocol. WebSocket&#39;s connection is constant, in contrast to traditional HTTP requests, with the latter usually initiated by the client. Therefore, there&#39;s no way for a server to notify the client if there are updates. By maintaining a duplex open connection between the client and the server, updates can be pushed in a timely fashion without clients needing to poll at certain intervals. This main factor makes WebSocket ideal for real-time apps for which data need to be available on the client immediately. For more information on WebSocket, take a look at the extensive resource [About HTML5 WebSocket](http://www.websocket.org/aboutwebsocket.html) (<http://www.websocket.org/aboutwebsocket.html>).
+WebSocket is a special communication “channel” between browsers (clients) and servers. It&#39;s an HTML5 protocol. WebSocket&#39;s connection is constant, in contrast to traditional HTTP requests, with the latter usually initiated by the client. Therefore, there&#39;s no way for a server to notify the client if there are updates. 
+
+By maintaining a duplex open connection between the client and the server, updates can be pushed in a timely fashion without clients needing to poll at certain intervals. This main factor makes WebSocket ideal for real-time apps for which data need to be available on the client immediately. For more information on WebSocket, take a look at the extensive resource [About HTML5 WebSocket](http://www.websocket.org/aboutwebsocket.html) (<http://www.websocket.org/aboutwebsocket.html>).
 
 There&#39;s no need to use any special libraries to use WebSocket in modern browsers. The following StackOverflow has a list of such browsers: [What browsers support HTML5 WebSockets API?](http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api) (<http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api>)For older browser support, the workaround includes falling back on polling.
 
@@ -44,7 +50,7 @@ This is our front-end code (file `ch9/basic/index.html`) for Chrome version 32.0
   <body>
 ```
 
-The main code lives in the `script` tag, where we instantiate an object from global `WebSocket`:
+The main code lives in the `script` tag, where we instantiate an object from global `WebSocket`. When we do so, we provide the server URL. Notice the `ws://` instead of a familiar `http://`. The letters `ws://` stand for the WebSocket protocol.
 
 ```html
     <script type="text/javascript">
@@ -66,7 +72,7 @@ Usually, messages are sent in response to user actions, such as mouse clicks. Wh
         console.log('server message: ', event.data);
       };
 ```
-A good practice is to have an `onerror` event handler:
+A good practice is to have an `onerror` event handler. We logging the error message:
 
 ```js
       ws.onerror = function(event) {
@@ -82,7 +88,7 @@ We then close the tags and save the file:
 </html>
 ```
 
-To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch9/basic/index.html`:
+To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch9/basic/index.html` which is very straightforward and rather small:
 
 ```html
 <html>
@@ -104,21 +110,21 @@ To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch
 
 ## Node.js Server with ws Module Implementation
 
-WebSocket.org provides an echo service for testing the browser WebSocket, but we can build our own small Node.js server with the help of the [ws](http://npmjs.org/ws) (<http://npmjs.org/ws>) ([GitHub](https://github.com/einaros/ws)) (<https://github.com/einaros/ws>) library:
+WebSocket.org provides an echo service for testing the browser WebSocket, but we can build our own small Node.js server with the help of the [ws](http://npmjs.org/ws) (<http://npmjs.org/ws>) ([GitHub](https://github.com/einaros/ws)) (<https://github.com/einaros/ws>) library. You can create `package.json` and install `ws`:
 
 ```
-$ mkdir node_modules
-$ npm install ws@0.4.31
+$ npm init -y
+$ npm install ws@3.3.0 -SE
 ```
 
-In the `ch9/basic/server.js` file, we import `ws` and initialize the server:
+In the `ch9/basic/server.js` file, we import `ws` and initialize the server into the `wss` variable:
 
 ```js
 const WebSocketServer = require('ws').Server
 const wss = new WebSocketServer({port: 3000})
 ```
 
-Akin to the front-end code, we use an event pattern to wait for a connection. When the connection is ready, in the callback we send the string `XYZ` and attach an event listener on(`'message'`) to listen to incoming messages from the page:
+Akin to the front-end code, we use an event pattern to wait for a connection. When the connection is ready, in the callback we send the string `XYZ` and attach an event listener `on('message')` to listen to incoming messages from the page:
 
 ```js
 wss.on('connection', (ws) => {
@@ -145,7 +151,6 @@ wss.on('connection', (ws) => {
 
 
 The full code of the server code is in `code/ch9/basic/server.js`.
-
 
 Start the Node.js server with `$ node server`. Then, open `index.html` in the browser and you should see this message in the JavaScript console (option + command + j on Macs): `server message: XYZ` (Figure 9-1).
 
@@ -237,7 +242,7 @@ io.sockets.on('connection', (socket) => {
 })
 ```
 
-We finish by starting the server without standard methods:
+We finish by starting the server with `listen()` as we always do:
 
 ```js
 app.set('port', process.env.PORT || 3000)
