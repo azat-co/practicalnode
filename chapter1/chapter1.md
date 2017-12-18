@@ -1074,7 +1074,7 @@ The `req` and `res` arguments have all the information about a given HTTP reques
 To make the server accept requests, use the following:
 
 ```js
-}).listen(3000, ()=>{
+}).listen(port, ()=>{
   console.log(`Server running at http://localhost:${port}`)
 })
 ```
