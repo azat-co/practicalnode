@@ -1,10 +1,7 @@
-<span id="deploying-node.js-apps" class="anchor"></span>
-
 Chapter 11
 ----------
 # Deploying Node.js Apps
 
-<span id="in-this-chapter" class="anchor"></span>
 
 As we approach the end of the book, there’s a vital step we have to explore: the deployment itself. To help you navigate between PaaS and IaaS options, and have some scripts you can use on your servers, we cover the following topics:
 
@@ -26,7 +23,7 @@ Deploying to Heroku
 3.  It’s easy to secure and maintain, e.g., no need to set up startup
     scripts manually.
 
-Heroku works similarly to [Windows Azure](http://azure.microsoft.com/en-us/) (http://azure.microsoft.com/en-us), [Nodejitsu](https://www.nodejitsu.com/) (https://www.nodejitsu.com), and many others in the sense that you can use Git to deploy applications. In other words, Heroku uses ubiquitous Git as its deployment mechanism. This means that after becoming familiar with Heroku and comfortable with Git, and after creating accounts with Windows Azure, Nodejitsu, and other PaaSs, it’s fairly easy to deploy Node.js apps to them as well.
+Heroku works similarly to AWS Beanstalk, [Windows Azure](http://azure.microsoft.com/en-us/) (http://azure.microsoft.com/en-us), or many others in the sense that you can use Git to deploy applications. In other words, Heroku uses ubiquitous Git as its deployment mechanism. This means that after becoming familiar with Heroku and comfortable with Git, and after creating accounts with cloud PaaS providers, it’s fairly easy to deploy Node.js apps to them as well.
 
 To get started with the process, we need to follow these steps:
 
@@ -281,13 +278,14 @@ Relax and enjoy the build. The next step is to configure AWS ports / firewall se
 ```js
 const http = require('http')
 http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/plain'})
-    console.log ('responding')
-    res.end('Hello readers!'
-    + 'If you see this, then your Node.js server '
-    + 'is running on AWS EC2!')
-}).listen(80)
-console.log ('server is up')
+  res.writeHead(200, {'Content-Type': 'text/plain'})
+  console.log ('responding')
+  res.end(`Hello readers!
+    If you see this, then your Node.js server 
+    is running on AWS EC2!`)
+  }).listen(80, () => {
+    console.log ('server is up')
+})
 ```
 
 On the EC2 instance, either configure the firewall to redirect connections (e.g., port to Node.js 3000, but this is too advanced for our example) or disable the firewall (okay for our quick demonstration and development purposes):
