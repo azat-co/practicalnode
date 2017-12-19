@@ -42,7 +42,7 @@ Typically, the environment variable setting is a part of the deployment or opera
 Express.js in Production
 ========================
 
-In Express.js, use `if/else` statements to check for `NODE_ENV` values:
+In Express.js, use `if/else` statements to check for `NODE_ENV` values to use different level of server logs. For development we want more information but in production stack and exceptions might reveal a vulnerability so we hide them:
 
 ```js
 const errorHandler = require('errorhandler')
@@ -56,14 +56,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 ```
 
-
-To run the server in a specific mode, just set an environment variable. For example,
+You might be wondering, where this mystical and mysterious `process.env.NODE_ENV` comes from. Very easy. It is an environment variable and as with all other environment variables, developers can set them outside, in the shell (bash or zsh or other) environment. The environment variables are set with `KEY=VALUE` syntax or prefixed with `export KEY=VALUE` when set for the duration of the entire shell session. For example, to run the server in a production mode, just set an environment variable to production:
 
 ```
 $ NODE_ENV=production node app.js
 ```
 
-or:
+Notice that the env var and the command where on the same command or same line? You must have them in one command. If you want to set the environment variable once for multiple commands, then `export` is your friend:
 
 ```
 $ export NODE_ENV=production
@@ -71,9 +70,9 @@ $ node app.js
 ```
 
 **Note** By default, Express.js falls back to development mode as we see in the [source code](<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) 
-(<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) (<http://bit.ly/1l7UEi6>).
+(<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) (<http://bit.ly/1l7UEi6>). Thus, set the production environment variable when in production environment.
 
-When using in-memory session store (the default choice), the data can’t be shared across different processes/servers (which we want in production mode). Conveniently, Express.js and Connect notify us about this as we see in this [source code](http://bit.ly/1nnvvhf) (<http://bit.ly/1nnvvhf>) with this message:
+Let's talk about sessions now. When using in-memory session store (the default choice), the data can’t be shared across different processes/servers (which we want in production mode). Conveniently, Express.js and Connect notify us about this as we see in this [source code](http://bit.ly/1nnvvhf) (<http://bit.ly/1nnvvhf>) with this message:
 
 ```
 Warning: connect.session() MemoryStore is not
@@ -81,7 +80,7 @@ designed for a production environment, as it will leak
 memory, and will not scale past a single process.
 ```
 
-This problem is solved easily by using a shared Redis instance as a session store. For example, for Express.js, execute the following:
+What we need here is a single source of truth. One location where all the session data is store and can be accessed by multiple Node servers. This problem is solved easily by using a shared Redis instance as a session store. For example, for Express.js, execute the following:
 
 ```js
 const session = require('express-session')
@@ -89,28 +88,36 @@ const RedisStore = require('connect-redis')(session)
 
 app.use(session({
   store: new RedisStore(options),
-  secret: 'keyboard cat'
+  secret: '33D203B7-443B'
 }))
 ```
 
+The secret is just some random string to make hacking of the session harder. Ideally you would take it from environment variable to make it not be in the source code.
 
-The more advanced example with session options is as follows:
+```js
+app.use(session({
+  store: new RedisStore(options),
+  secret: process.env.SESSION_SECRET
+}))
+```
+
+The more advanced example with session options which includes a special key (TK) and cookie domain is as follows:
 
 ```js
 const SessionStore = require('connect-redis')
 const session = require('express-session')
 
 app.use(session({
-  key: '92A7-9AC',
-  secret: '33D203B7-443B',
+  key: process.env.SESSION_KEY',
+  secret: process.env.SESSION_SECRET,
   store: new SessionStore({
-    cookie: { domain: '.webapplog.com' },
+    cookie: {domain: '.webapplog.com'},
     db: 1, // Redis DB
     host: 'webapplog.com' 
 }))
 ```
 
-Options for `connect-redis` are `client`, `host`, `port`, `ttl`, `db`, `pass`, `prefix`, and `url`. For more information, please refer to the official `connect-redis` documentation(<https://github.com/visionmedia/connect-redis>) (<https://github.com/visionmedia/connect-redis>).
+Options for `connect-redis` are `client`, `host`, `port`, `ttl`, `db`, `pass`, `prefix`, and `url`. For more information, please refer to the official `connect-redis` documentation (<https://github.com/visionmedia/connect-redis>) (<https://github.com/visionmedia/connect-redis>).
 
 Socket.IO in Production
 ========================================================================================================================
@@ -138,7 +145,7 @@ io.configure('development', function(){
 })
 ```
 
-Often, WebSockets data are stored in a high-performance database such as Redis. In this example, you can use environment variables for values of `port` and `hostname`:
+Often, WebSockets data are stored in a high-performance database such as Redis. In this example, you can use environment variables for values of `port` and `hostname`. There's `io.set` to define the store as the Redis connection (pretend Redis is at http://webapplog.com):
 
 ```js
 const sio = require('socket.io')
@@ -146,9 +153,13 @@ const RedisStore = sio.RedisStore
 const io = sio.listen()
 
 io.configure(() => {
-  io.set('store', new RedisStore({ host: 'http://webapplog.com' }))
+  io.set('store', new RedisStore({host: 'http://webapplog.com'}))
 })
+```
 
+Alternative way is to go low level and implement the store using two Redis clients. One for publish and one for subscribe. TK here and nodeId
+
+```js
 const redis = require('redis')
 const redisClient = redis.createClient(port, hostname)
 const redisSub = redis.createClient(port, hostname)
@@ -163,7 +174,7 @@ redisSub.on('error', (err) => {
 
 io.configure(() => {
   io.set('store', new RedisStore({
-    nodeId: () => { return nodeId; },
+    nodeId: () => nodeId, // TK
     redisPub: redisPub,
     redisSub: redisSub,
     redisClient: redisClient
@@ -175,7 +186,7 @@ io.configure(() => {
 Error Handling
 ==============
 
-As a rule of thumb, listen to all error events from `http.Server` and `https.Server` (i.e., always have `onerror` event listeners doing something):
+As a rule of thumb, when readying your code for production make sure to listen to *all* error events from `http.Server` and `https.Server`, i.e., always have `error` event listeners doing something like this:
 
 ```js
 server.on('error', (err) => {
@@ -184,13 +195,13 @@ server.on('error', (err) => {
 })
 ```
 
-Then, have a catchall event listener (`uncaughtException`) for unforeseen cases. These cases won’t make it to the `onerror` handlers:
+Then, have a catchall event listener (`uncaughtException`) for unforeseen cases. This even is the *last* step before the app will crash, terminate the process and burn your computer to ashes. Do not try to resume a normal operation when you have this event. Log,save work (if you have anything left) and exit like this:
 
 ```js
 process.on('uncaughtException', (err) => {
   console.error('uncaughtException: ', err.message)
   console.error(err.stack)
-  process.exit(1)
+  process.exit(1) // 1 is for errors, 0 is okay
 })
 ```
 
@@ -204,16 +215,16 @@ process.addListener('uncaughtException', (err) => {
 })
 ```
 
-The following snippet is devised to catch uncaught exceptions, log them, notify development and operations (DevOps) via e-mail/text messages, and then exit:
+Just to give you another example, the following snippet is devised to catch uncaught exceptions, log them, notify development and operations (DevOps) via e-mail/text messages (`server.notify`), and then exit:
 
 ```js
-process.addListener('uncaughtException', (e) => {
+process.addListener('uncaughtException', (err) => {
   server.statsd.increment('errors.uncaughtexception')
-  log.sub('uncaughtException').error(e.stack || e.message)
-  if(server.sendgrid && server.set('env') === 'production') {
-    server.notify.error(e)
+  log.sub('uncaughtException').error(err.stack || err.message)
+  if(server.notify && server.set('env') === 'production') {
+    server.notify.error(err)
   }
-  exit()
+  process.exit(1)
 })
 ```
 
@@ -451,18 +462,15 @@ if (cluster.isMaster) {
 }
 ```
 
-The worker code is just an Express.js app with a twist. Let’s get the process ID:
+The worker code is just an Express.js app with a twist. We would like to see that a request was handled by a different process. Each process has a unique ID. Let’s get the process ID:
 
 ```js
 } else if (cluster.isWorker) {
   const port = 3000
-  console.log('worker (%s) is now listening to http://localhost:%s',
-    cluster.worker.process.pid, port)
+  console.log(`worker (${cluster.worker.process.pid}) is now listening to http://localhost:${port}`)
   const app = express()
   app.get('*', (req, res) => {
-    res.send(200, 'cluser '
-      + cluster.worker.process.pid
-      + ' responded \n')
+    res.send(200, `cluser ${cluster.worker.process.pid} responded \n`)
   })
   app.listen(port)
 }
@@ -485,12 +493,48 @@ When we CURL with `$ curl http://localhost:3000`, there are different processes 
 Multithreading with pm2
 ============================
 
-TK
+Achieving multithreading with pm2 is even simpler than with cluster because there's no need to modify the source code. pm2 will pick up your server.js file and fork it into multiple processes. Each process will be listening on the same port so your system will have load balanced between the processes. pm2 goes into the background because it works as a service. You can name each set of processes, view, restart, or stop them.
+
+To get started with pm2, first you need to install it. You can do it globally on your production VM:
+
+```
+npm i -g pm2
+```
+
+Once you have pm2, use start command with the option `-i 0` which means automatically determine the number of CPUs and launch that many processes. Here's an example of launching multithreaded server from `app.js`:
+
+```
+pm2 start -i 0 app.js
+```
+
+Once the processes are running, get the list of them by using 
+
+```
+pm2 ls
+```
+
+You can terminate all processes with 
+
+```
+pm2 stop all
+```
+
+Alternatively, you can name your application which you want to scale up with `--name`:
+
+```
+pm2 start ./hello-world.js -i 0 --name "node-app"
+```
+
+and then restart or stop only that app by its name.
+
+What's good about pm2 is that you can you it for development too, because when you install pm2 with npm, you get `pm2-dev` command. The way it works is very similar to `nodemon` or `node-dev`. It will monitor for any file changes in the project folder and restart the Node code when needed. 
+
+For Docker containers, use `pm2-docker`. It has some special features which make running Node inside of a container better. To get the `pm2-docker` command, simply install `pm2` with npm globally as was shown before. 
 
 Event Logging and Monitoring
 ============================
 
-When things go south (e.g., overloads, crashes), there are two things software engineers can do:
+When things go south (e.g., memory leaks, overloads, crashes), there are two things software engineers can do:
 
 1.  Monitor via dashboard and health statuses (monitoring and REPL).
 2.  Analyze postmortems after the events have happened (Winston
@@ -630,7 +674,9 @@ $ telnet hostname 3000
 Winston
 -------
 
-Winston provides a way to have one interface for logging events while defining multiple transports, e.g., e-mail, database, file, console, Software as a Service (SaaS), and so on. The list of transports supported by Winston include the following:
+Winston provides a way to have one interface for logging events while defining multiple transports, e.g., e-mail, database, file, console, Software as a Service (SaaS), and so on. In other words, Winston is an abstraction layer for the server logs.
+
+The list of transports supported by Winston include the following: TK
 
 -   Console
 -   File
@@ -644,13 +690,13 @@ Winston provides a way to have one interface for logging events while defining m
 -   Papertrail
 -   Cassandra
 
-It’s easy to get started with Winston:
+It’s easy to get started with Winston. Install it into your project:
 
 ```
-$ npm install winston
+$ npm i -SE winston
 ```
 
-In the code, execute the following:
+In the code, implement the import and then you can log:
 
 ```js
 var winston = require('winston')
@@ -658,11 +704,15 @@ winston.log('info', 'Hello distributed log files!')
 winston.info('Hello again distributed logs')
 ```
 
-To add and remove transporters, use the `winston.add()` and `winston.remove()` functions. To add, use:
+The power of Winston comes when you add transporters. To add and remove transporters, use the `winston.add()` and `winston.remove()` functions. 
 
-`winston.add(winston.transports.File, {filename: 'webapp.log'});`
+To add a file transporter, provide a file name:
 
-To remove, use:
+```js
+winston.add(winston.transports.File, {filename: 'webapp.log'})
+```
+
+To remove a transporter, use:
 
 ```js
 winston.remove(winston.transports.Console)
