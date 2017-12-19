@@ -1,6 +1,9 @@
 Chapter 6
 ---------
 
+TK JWT
+ Crypto and Bcrypt,
+ 
 # Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps
 
 Security is an important aspect of any real-world web application. This is especially true nowadays, because our apps don’t function in silos anymore. We, as developers, can and should leverage numerous third-party services (e.g., Google, Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
