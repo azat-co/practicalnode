@@ -1,11 +1,8 @@
-<span id="getting-node.js-apps-production-ready"
-class="anchor"></span>
-
 Chapter 10
 ----------
 # Getting Node.js Apps Production Ready
 
-<span id="in-this-chapter" class="anchor"></span>Getting Node.js apps to a production-ready state is probably the most undercovered and skipped topic in the Node.js literature, but it’s one of the most important in my humble opinion.
+Getting Node.js apps to a production-ready state is probably the most unexplored and skipped topic in the Node.js literature. The reason could be the lack of expertise in production deployments or the vast number of options and edge cases. However, getting apps to the production level is one of the most important topics in this entire book in my humble opinion.
 
 Yes, the apps differ in structures, frameworks they use, and goals they try to achieve; however, there are a few commonalities worth knowing about, for example, environmental variables, multithreading, logging and error handling. So, in this chapter we cover the following topics:
 
