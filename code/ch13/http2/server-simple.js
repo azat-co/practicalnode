@@ -9,5 +9,4 @@ const server = http2.createSecureServer({
 })
 server.on('error', (err) => console.error(err))
 
-
 server.listen(3000)

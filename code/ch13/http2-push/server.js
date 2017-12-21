@@ -15,9 +15,9 @@ server.on('stream', (stream, headers) => {
     ':status': 200
   })
   stream.pushStream({ ':path': '/myfakefile.js' }, (pushStream) => {
-    pushStream.respond({ 
+    pushStream.respond({
       'content-type': 'text/javascript',
-      ':status': 200 
+      ':status': 200
     })
     pushStream.end(`alert('you win')`)
   })
@@ -25,4 +25,3 @@ server.on('stream', (stream, headers) => {
 })
 
 server.listen(3000)
-
