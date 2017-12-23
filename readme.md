@@ -43,9 +43,8 @@ If you'd like to contribute financially towards the effort (or any of my other o
 12. [Publishing Node.js Modules and Contributing to Open Source](https://github.com/azat-co/practicalnode/blob/master/chapter12/chapter12.md) [1s Edition]
 13. [Node HTTP/2 Servers](https://github.com/azat-co/practicalnode/blob/master/chapter13/chapter13.md) [2nd Edition] <-- NEEDS REVIEW! 👀
 14. [Asynchronous Code in Node](https://github.com/azat-co/practicalnode/blob/master/chapter14/chapter14.md) [WIP]
-15. NAPI [WIP]
-16. Node Microservices with Docker and AWS ECS [WIP]
-17. Serverless with AWS Lambda [WIP]
+15. Node Microservices with Docker and AWS ECS [WIP]
+16. Serverless with AWS Lambda [WIP]
 
 Note: It's work in progress (1st -> 2nd Edition) and the draft will be completed in the end of 2017. See for [2nd Edition] for newer updated content.
 
