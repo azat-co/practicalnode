@@ -1,0 +1,20 @@
+{
+  "name": "banking-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "sh ./test.sh",
+    "start": "if [[ ${NODE_ENV} = production ]]; then ./node_modules/.bin/pm2-docker start -i 0 server.js; else ./node_modules/.bin/pm2-dev server.js; fi"
+  },
+  "keywords": [],
+  "author": "Azat Mardan",
+  "license": "MIT",
+  "dependencies": {
+    "errorhandler": "1.5.0",
+    "express": "4.15.2",
+    "globalog": "1.0.0",
+    "monk": "4.0.0",
+    "pm2": "2.4.6"
+  }
+}

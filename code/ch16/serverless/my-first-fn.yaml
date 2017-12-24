@@ -1,0 +1,24 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  A simple backend (read/write to DynamoDB) with a RESTful API endpoint using
+  Amazon API Gateway.
+Resources:
+  myfirstfn:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: .
+      Description: >-
+        A simple backend (read/write to DynamoDB) with a RESTful API endpoint
+        using Amazon API Gateway.
+      MemorySize: 512
+      Timeout: 10
+      Role: 'arn:aws:iam::161599702702:role/service-role/my-role-for-fn'
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /my-first-fn
+            Method: ANY

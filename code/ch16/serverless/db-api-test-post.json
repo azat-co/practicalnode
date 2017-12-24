@@ -1,0 +1,14 @@
+{
+  "httpMethod": "POST",
+  "queryStringParameters": {
+    "TableName": "messages"
+  },
+  "body": {
+    "TableName": "messages",
+    "Item":{
+       "id":"1",
+       "author": "Neil Armstrong",
+       "text": "That is one small step for (a) man, one giant leap for mankind"
+    }
+  }
+}

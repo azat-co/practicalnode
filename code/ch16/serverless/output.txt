@@ -1,0 +1,1 @@
+{"statusCode":"200","body":"{\"Items\":[{\"id\":\"1\",\"text\":\"That is one small step for (a) man, one giant leap for mankind\",\"author\":\"Neil Armstrong\"}],\"Count\":1,\"ScannedCount\":1}","headers":{"Content-Type":"application/json"}}
