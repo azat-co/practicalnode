@@ -32,7 +32,7 @@ aws dynamodb create-table --table-name messages \
   --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
 ```
 
-You'll get back the Arn identifier:
+You'll get back the Arn identifier `TableArn` along with other information:
 
 ```js
 {
@@ -258,7 +258,6 @@ aws lambda create-function --function-name db-api \
   --timeout 10
 ```
 
-
 Results will look similar to this but with different IDs of course:
 
 ```js
@@ -293,10 +292,10 @@ Run from a CLI (recommended) to execute function in the cloud:
 
 ```
 aws lambda invoke \
---invocation-type RequestResponse \
---function-name db-api \
---payload file://db-api-test.json \
-output.txt
+  --invocation-type RequestResponse \
+  --function-name db-api \
+  --payload file://db-api-test.json \
+  output.txt
 ```
 
 Or testing can be done from the web console in Lambda dashboard (blue test button once you navigate to function detailed view):
@@ -500,7 +499,7 @@ Finally, delete the database too by its name:
 aws dynamodb delete-table --table-name messages
 ```
 
-# Troubleshooting
+I taught this project over 20 times so I know the common problems. Thus, let's do troubleshooting of the common issues:
 
 * Internal server error: Check your JSON input. DynamoDB requires special format for Table Name and Key.
 * Permissions: Check the permission for API resource and method to invoke Lambda. Use test in API Gateway to debug
@@ -511,3 +510,5 @@ aws dynamodb delete-table --table-name messages
 
 Summary
 =======
+
+Amazon Web Services offers myriads of cloud services and most of them benefit or use Node. Serverless architecture is one of them. In AWS serverless service is AWS Lambda. It uses managed and configured Node environment to run code (among other environment such as Python, Java, and other dinosaurs). The code can be HTTP request-response services (microservices) when you add API Gateway to Lambda. That's what we did but that's not all. Lambdas can be just code for sending notifications, data crunching and any other tasks. 
