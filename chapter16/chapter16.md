@@ -14,14 +14,14 @@ Let's learn how to get started with Lambda by building a REST API for any databa
 
 This chapter's project is to learn serverless. It involves creation a lambda CRUD microservice to save data in DB (AWS DynamoDB). This project is broken down into digestible easy subtasks:
 
-1. Create DynamoDB table
-1. Create IAM role to access DynamoDB
-1. Create AWS Lambda
-1. Create API Gateway
-1. Test
-1. Clean up
+1. Creating a DynamoDB table
+1. Creating an IAM role to access DynamoDB
+1. Creating a AWS Lambda resource
+1. Creating a API Gateway resource
+1. Testing the RESTful API Microservice
+1. Cleaning up
 
-## 1. Create DynamoDB table
+## 1. Creating a DynamoDB Table
 
 The name of the table in these examples is `messages`. Feel free to modify it in the command options as you wish. The key name is `id` and the type is string (`S`)
 
@@ -76,7 +76,7 @@ You can get the list of all tables in your selected region (aws configure):
 aws dynamodb list-tables
 ```
 
-## 2. Create IAM role to access DynamoDB
+## 2. Creating an IAM role to Access DynamoDB
 
 The next step is to create an identity access management role which will allow the Lambda function to access the DynamoDB database. We shall start with this JSON file which describes a thing called *trust policy*. This policy is needed for the role. Copy this code and save into `lambda-trust-policy.json`:
 
@@ -166,7 +166,7 @@ Other optional managed policy which you can use in addition to `AmazonDynamoDBFu
 The commands to attach more managed policies are the same — `attach-role-policy`.
 
 
-## 3. Create AWS Lambda
+## 3. Creating a AWS Lambda resource
 
 On the high level view, our function (file `code/ch16/serverless/index.js`) looks like this:
 
@@ -327,7 +327,7 @@ The function is working and fetching from the database.  You can test other HTTP
 }
 ```
 
-## 4. Create API Gateway
+## 4. Creating a API Gateway resource
 
 You will need to do the following:
 
@@ -400,7 +400,7 @@ Testing...
 
 You are all done!
 
-## 5. Test
+## 5. Testing the RESTful API Microservice
 
 You can then manually run tests by getting resource URL and using cURL, Postman or any other HTTP client. For example, my GET looks like this (replace the URL with yours):
 
@@ -479,7 +479,7 @@ Congratulations! You've built an event-driven REST API for an entire database no
 
 Note: For auth, you can set up token-based auth on a resource and method in API Gateway. You can set up response and request rules in the API Gateway as well. Also, everything (API Gateway, Lambda and DynamoDB) can be set up in CloudFormation instead of a CLI or web console ([example of Lambda with CloudFormation](https://github.com/awslabs/lambda-refarch-webapp/)).
 
-## 6. Clean up
+## 6. Cleaning up
 
 Remove API Gateway API with `delete-rest-api`. For example here's my command (for yours replace REST API ID accordingly):
 
