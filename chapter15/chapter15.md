@@ -16,11 +16,20 @@ There's a fancy term in computer science which will make you look smart (if you 
 
 As with many tech concepts, microservices technology goes through the cycle of over hype. There are advantages and disadvantages. Uber for example has over 2500 microservices and its engineers hate it cause of complexity and other issue of managing so many separate apps. Hate it or love it, the best thing is to know how to use it and use microservices when you see a fit. Again, Node is brilliant at that cause it's light weight, fast and because most developers are lazy to learn or code in a normal server-side language like Go or Java.
 
-Before doing the exercise in this chapter, make sure you have the following: 
+The project of creating microservice in container and deploying it to cloud is divided into three parts:
+
+1. Creating a local Node project which is a microservice RESTful API that connects to MongoDB
+1. Dockerizing Node project, i.e., turning a local project into a Docker image
+1. Use Docker networks for multi-container setup
+1. Deploying Docker microservice image to cloud namely Amazon Web Services Elastic Container Service
+
+# Installing Installations
+
+But before doing the exercise in this chapter, make sure you have the following: 
 
 1. Docker engine
-1. AWS account
-1. AWS CLI
+1. Amazon Web Services (AWS) account
+1. AWS CLI (`aws-cli`)
 
 
 ## Installing Docker Engine
@@ -125,14 +134,12 @@ sudo -H pip install awscli --upgrade --ignore-installed six
 Python at least 2.6.5 or 3.x (recommended), see here: <http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html>. At <https://www.python.org/downloads/> you can download Python for your OS.
 
 
-### Other AWS CLI Installations
+There are a few other AWS CLI Installation options:
 
 * [Install the AWS CLI with Homebrew](http://docs.aws.amazon.com/cli/latest/userguide/cli-install-macos.html#awscli-install-osx-homebrew) - for macOS
 * [Install the AWS CLI Using the Bundled Installer (Linux, macOS, or Unix)](http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-bundle.html) - just download, unzip and execute
 
-### Verify AWS CLI
-
-Run the following command to verify AWS CLI installation and its version (1+ is ok):
+You might be wondering how to verify AWS CLI installation. Run the following command to verify AWS CLI installation and its version (1+ is ok):
 
 ```bash
 aws --version
@@ -142,13 +149,8 @@ aws --version
 
 Before deploying anything in the cloud let's build Node app Docker images locally. Then run container in development and production modes locally as well. When you finish this project, you will get 🍍.
 
-The project is divided into three parts:
 
-1. Create Node project
-1. Dockerize Node project
-1. Use Docker networks for multi-container setup
-
-## 1. Create/Copy Node project
+## 1. Creating/Copying the Node Project
 
 Firstly, you need to have the application code itself before you can containerize anything. Of course, you can copy the existing code from code/banking-api but it's better for learning to create the project from scratch.
 
@@ -308,9 +310,7 @@ CMD ["npm", "start"]
 
 Next we will learn what these statements mandate Docker to do.
 
-## Create app directory
-
-The next "commands" in your Dockerfile will tell Docker to create a folder and the to set up a default folder for subsequent commands:
+Firstly, create app directory in the docker container. So the next "commands" in your Dockerfile will tell Docker to create a folder and the to set up a default folder for subsequent commands:
 
 ```
 # Create api directory
@@ -344,7 +344,7 @@ CMD [ "npm", "start" ]
 
 By now the Dockerfile, which is a blueprint for your Node microservice, is ready. The code for the microservice is ready too. It's REST API with Express.
 
-## Build and Verify Container
+Next, building, running and verifying the container.
 
 Build the image from the banking-api folder where you should have Dockerfile and the `api` folder:
 
@@ -401,6 +401,7 @@ Put the IP in the environment variable in the run command for the Docker build o
 docker run --rm -t --name banking-api -e NODE_ENV=development -e DB_URI="mongodb://{host-ip}:27017/db-prod" -v $(pwd)/api:/usr/src/api -p 80:3000 {app-image-id}
 ```
 
+This command has IP and my image ID in the command instead of `{}` values. Don't copy my command as-is but put your IP and image ID though.
 
 ```
 docker run --rm -t --name banking-api -e NODE_ENV=development -e DB_URI="mongodb://10.0.1.7:27017/db-prod" -v $(pwd)/api:/usr/src/api -p 80:3000 330df9053088
@@ -420,14 +421,14 @@ app.get('/accounts', (req, res, next)=>{
 })
 ```
 
-Hit save in your editor on your host and boom. You'll see the changes in the response from the app container:
+Hit save in your editor on your host and boom! You'll see the change in the response from the app container. The change is the `a:1` response instead of the empty response `[]` as before. This means that the code *in the container* is changing because of the volume and the changes *in the host*. See what I have here as the CURL request and microservice's response:
 
 ```
 curl localhost/accounts
 [{"a":1}]%
 ```
 
-To stop the container, run
+To stop the container, simply run the `stop` command with the container name which you specified when you run the `docker run` command. Here's the stop command for the `banking-api` name:
 
 ```
 docker stop banking-api
@@ -544,8 +545,7 @@ Using the similar approach, you can launch other apps and services into the same
 
 Note: The older `--link` flag/option is deprecated. Don't use it. See <https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks>
 
-
-## Troubleshooting
+Let me share some of the common issues and their solutions for easy and effortless troubleshooting. Here's the top list:
 
 * No response: Check that the port is mapped in the `docker run` command with `-p`. It's not enough to just have `EXPOSE` in Dockerfile. Developers need to have both.
 * The server hasn't updated after my code change: Make sure you mount a volume with `-v`. You don't want to do it for production though.
@@ -554,9 +554,9 @@ Note: The older `--link` flag/option is deprecated. Don't use it. See <https://d
 
 # Node Containers in AWS with EC2 ECS
 
-For the next topics, we will learn how to deploy Node microservices into cloud. ☁️
+For the next topics, we will learn how to deploy Node microservices into cloud. ☁️ When you are done, write me a post card and send it with a pigeon.
 
-Deploy two containers (API and DB) which connect using ECR and EC2 ECS is achieved with the following steps:
+The goal is to deploy two containers (API and DB) which connect using ECR and EC2 ECS is achieved with the following steps:
 
 1. Create registry (ECR)
 1. Upload the app image to ECR
@@ -690,7 +690,7 @@ Go to the Task Definitions in EC2 ECS and as you might guess, press on the butto
 
 ![](media/aws-ecs-6.png)
 
-## Main Task settings for the example
+### Main Task settings for the example
 
 Use the following settings for the task to make sure your project is running (because some other values might make the project nonfunctional):
 
@@ -701,7 +701,7 @@ Use the following settings for the task to make sure your project is running (be
 
 Let's define the first container — app.
 
-## First container—App
+### First container—App
 
 Enter the name: banking-api-container.
 
@@ -734,7 +734,7 @@ See the screengrab below:
 ![](media/aws-ecs-8.png)
 
 
-## Second container—Database
+### Second container—Database
 
 Analogous to the previous container, define name and URL with these values:
 
@@ -781,7 +781,7 @@ ECS creates a lot of EC2 resources for you such as Internet Gateway, VPC, securi
 ![](media/aws-ecs-14.png)
 
 
-## 4. Create Service and Verify
+## 4. Creating Cloud Container Service and Verifying
 
 The last step is to create a service which will take the task and the cluster and make the containers in the task run in the specified cluster. It's oversimplified explanation because service will do more such as monitor health and restart containers.
 
@@ -790,7 +790,7 @@ Go to Create Services which is under Task Definition -> banking-api-task -> Acti
 ![](media/aws-ecs-15.png)
 
 
-## Everything is ready
+### Everything is ready
 
 Phew. Everything should be ready by now. To verify, we need to grab a public IP or public DNS. To do so, click Clusters -> banking-api-cluster (cluster name) -> ESC Instances (tab) and Container instance:
 
@@ -798,18 +798,22 @@ Phew. Everything should be ready by now. To verify, we need to grab a public IP 
 
 Copy public IP or DNS 📝. We will need it for testing.
 
-## Dynamic Test
+### Dynamic Test
 
 To test the dynamic content (content generated by the app with the help of a database), open in browser with `{PUBLIC_DNS}/accounts`. Most likely the response will be `[]` because the database is empty but that's a good response. The server is working and can connect to the database from a different container.
 
 
-## Static Test
+### Static Test
 
 To test the static content such as an image which was downloaded from the Internet by Docker (ADD in Dockerfile) and baked into the image, navigate to http://{PUBLIC_DNS}/node-university-logo.png to see the images with Docker downloaded via `ADD`. Using ADD, you can fetch any data such as HTTPS certificates (from a private S3 for example).
 
-## Terminate Service and Cluster/Instances
+## 5. Terminate Service and Cluster/Instances
 
-Don't forget to terminate your service and instances.  You can do it from the web console.
+Don't forget to terminate your service and instances. Otherwise you will be stil paying dinero for running those could resources. (I am sure you can find a better way to spend the money. For example, buy some DOGECOIN.) You can terminate resources from the AWS web console. Do so for ECS first. Make sure you remove tasks. 
 
 Summary
 =======
+
+Microservices is an old concepts when you think about it as decoupling and loose coupling. The less functionality you pack into an application, the more flexible and easier it will be to scale different parts of the app(s) or to maintain them (make changes). There are certain downsides of microservices as well. Uber engineers are crying because they have 2,500+ microservices with all the overhead involved in managing their environments, provisioning, patches and deployments. Luckily, containers and cloud services such as Docker and AWS ECS are here to help in reducing this complexity and management of microservices. 
+
+In this chapter you've built your own microservices which connect to another service (MongoDB) both locally and in the cloud. You used Docker by the way of making an image. What's great about this dockerization is that your project is extremely portable. It's mostly independent of OS or any other discrepancies which often can bite a developer in a tail.

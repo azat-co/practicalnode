@@ -937,7 +937,7 @@ To install Git for your OS, download a package from [the official website](http:
 
 **Figure 10-4.** Configuring and testing the Git installation
 
-<span id="generating-ssh-keys" class="anchor"><span id="sshkey" class="anchor"></span></span>Generating SSH Keys
+Generating SSH Keys
 ----------------------------------------------------------------------------------------------------------------
 
 SSH keys provide a secure connection without the need to enter username and password every time. For GitHub repositories, the latter approach is used with HTTPS URLs (e.g., `https://github.com/azat-co/rpjs.git`) and the former with SSH URLs (e.g., `git@github.com:azat-co/rpjs.git`).
