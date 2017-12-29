@@ -768,7 +768,7 @@ Cluster is the place where AWS runs containers. They use configurations similar 
 
 ![](media/aws-ecs-11.png)
 
-Launch the cluster. It might take a few minutes. Lalala
+Launch the cluster. It might take a few minutes.
 
 ![](media/aws-ecs-12.png)
 
