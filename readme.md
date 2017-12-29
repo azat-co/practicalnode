@@ -34,17 +34,17 @@ If you'd like to contribute financially towards the effort (or any of my other o
 3. [TDD and BDD for Node.js with Mocha](https://github.com/azat-co/practicalnode/blob/master/chapter3/chapter3.md) [2nd Edition] <-- NEEDS REVIEW! 👀
 4. [Template Engines: Pug and Handlebars](https://github.com/azat-co/practicalnode/blob/master/chapter4/chapter4.md) [2nd Edition] <-- NEEDS REVIEW! 👀
 5. [Persistence with MongoDB and Mongoskin](https://github.com/azat-co/practicalnode/blob/master/chapter5/chapter5.md) [2nd Edition] <-- NEEDS REVIEW! 👀
-6. [Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter6/chapter6.md) [2nd Edition] <-- NEEDS REVIEW! 👀 TK: Replace Everyauth with Passport
+6. [Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter6/chapter6.md) [2nd Edition] <-- NEEDS REVIEW! 👀
 7. [Boosting Your Node.js Data with the Mongoose ODM Library](https://github.com/azat-co/practicalnode/blob/master/chapter7/chapter7.md) [2nd Edition] <-- NEEDS REVIEW! 👀
 8. [Building Node.js REST API Servers with Express.js and Hapi](https://github.com/azat-co/practicalnode/blob/master/chapter8/chapter8.md) [2nd Edition] <-- NEEDS REVIEW! 👀
-9. [Real-Time Apps with WebSocket, Socket.IO, and DerbyJS](https://github.com/azat-co/practicalnode/blob/master/chapter9/chapter9.md) [1s Edition] WIP TK: Replace DerbyJS with Meteor
+9. [Real-Time Apps with WebSocket, Socket.IO, and DerbyJS](https://github.com/azat-co/practicalnode/blob/master/chapter9/chapter9.md) [2nd Edition]  <-- NEEDS REVIEW! 👀
 10. [Getting Node.js Apps Production Ready](https://github.com/azat-co/practicalnode/blob/master/chapter10/chapter10.md) [1s Edition] WIP
 11. [Deploying Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter11/chapter11.md) [2nd Edition]  <-- NEEDS REVIEW! 👀
 12. [Publishing Node.js Modules and Contributing to Open Source](https://github.com/azat-co/practicalnode/blob/master/chapter12/chapter12.md) [1s Edition]
 13. [Node HTTP/2 Servers](https://github.com/azat-co/practicalnode/blob/master/chapter13/chapter13.md) [2nd Edition] <-- NEEDS REVIEW! 👀
 14. [Asynchronous Code in Node](https://github.com/azat-co/practicalnode/blob/master/chapter14/chapter14.md) [WIP]
-15. [Node Microservices with Docker and AWS ECS](https://github.com/azat-co/practicalnode/blob/master/chapter15/chapter15.md) [WIP]
-16. [Serverless Node with AWS Lambda](https://github.com/azat-co/practicalnode/blob/master/chapter16/chapter16.md)  <-- NEEDS REVIEW! 👀
+15. [Node Microservices with Docker and AWS ECS](https://github.com/azat-co/practicalnode/blob/master/chapter15/chapter15.md)  BRAND NEW <-- NEEDS REVIEW! 👀
+16. [Serverless Node with AWS Lambda](https://github.com/azat-co/practicalnode/blob/master/chapter16/chapter16.md)  BRAND NEW <-- NEEDS REVIEW! 👀
 
 Note: It's work in progress (1st -> 2nd Edition) and the draft will be completed in the end of 2017. See for [2nd Edition] for newer updated content.
 
