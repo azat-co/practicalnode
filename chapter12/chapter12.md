@@ -2,13 +2,17 @@ Chapter 12
 ----------
 # Publishing Node.js Modules and Contributing to Open Source
 
-One of the key factors that attributed to the rapid growth of the Node.js module ecosystem is its open-source nature and robust packaging systems (with registry). As of April 2013, JavaScript and Node.js had already surpassed any other language/platform in number of packages contributed per year ([source](http://caines.ca/blog/programming/the-node-js-community-is-quietly-changing-the-face-of-open-source/)): TK
+One of the key factors that attributed to the rapid growth of the Node.js module ecosystem is its open-source nature and robust packaging systems (with registry). As of April 2013, JavaScript and Node.js had already surpassed any other language/platform in number of packages contributed per year ([source](http://caines.ca/blog/2013/04/13/the-node-dot-js-community-is-quietly-changing-the-face-of-open-source/)): 
 
 -   Python: 1351 packages per year (29,720 packages in 22 years)
 -   Ruby: 3022 packages per year (54,385 packages in 18 years)
 -   Node.js: *6742 packages per year* (26,966 packages in 4 years)
 
-This year’s (2014) numbers are even higher, and expectations are that, by mid 2014, Node.js will surpass other platforms, in absolute numbers, with Maven and Rubygems being the top dogs ([source](http://modulecounts.com/)).
+This year’s (2018) numbers are even higher with npm having over 620,000 packages. That's more than half a million! As you can see from the chart take from <http://modulecounts.com>, Node's npm surpassed other platforms' package repositories in absolute numbers. Maven Central (Java) and Packagist (PHP) try to catch up but fail miserably. npm and Node are the top dogs.
+
+![Node's npm is dominating by the number of modules since mid 2014](media/modulecounts.png)
+***Figure 12-1.** Node's npm is dominating by the number of modules since mid 2014*
+
 
 Other factors that attribute to the Node.js popularity include:
 
@@ -27,7 +31,7 @@ With this in mind, many Node.js enthusiasts find it rewarding to contribute to t
 Recommended Folder Structure
 ============================
 
-Here is an example of a good, structured npm module:
+Here is an example of a good, structured npm module in which you have documentation, project manifest, starting file and a folder for dependencies:
 
 ```
 webapp
