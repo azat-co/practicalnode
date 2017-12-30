@@ -289,7 +289,7 @@ The output is just what we wanted:
 
 To summarize our basic promise implementation, we are not using the callback argument on the main function to pass the value, but we are using the callback argument on the `then` method. The callback argument value is a function which is executed later just like with the regular callback pattern. 
 
-Of course standard (ES6 or ES2015) promises have more features. This was just a basic (naive) implementation to show you that promises are simple and mostly about syntax.
+Of course [standard (ES6 or ES2015) promises have more features](https://promisesaplus.com). This was just a basic (naive) implementation to show you that promises are simple and mostly about syntax. [This list](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#See_also) has good resources on learning promises in depth.
 
 I hope this example demystified promises and make them less scary... if not then just use async/await function and you'll be good. The next section is on them.
 
