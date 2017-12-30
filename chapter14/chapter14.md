@@ -199,13 +199,13 @@ All know the `setTimeout()` method. It works similarly to any other async method
 
 ```js
 function myAsyncTimeoutFn(data, callback) {
-	setTimeout(() => {
-		callback()
-	}, 1000)
+  setTimeout(() => {
+    callback()
+  }, 1000)
 }
 
 myAsyncTimeoutFn('just a silly string argument', () => {
-	console.log('Final callback is here')
+  console.log('Final callback is here')
 })
 ```
 
@@ -214,21 +214,21 @@ What we can do is to re-write the custom timeout function `myAsyncTimeoutFn` to 
 ```js
 function myAsyncTimeoutFn(data) {
 
-	let _callback = null
-	setTimeout( () => {
-		if ( _callback ) callback()
+  let _callback = null
+  setTimeout( () => {
+    if ( _callback ) callback()
   }, 1000)
   
-	return {
-		then(cb){
-			_callback = cb
-		}
-	}
+  return {
+    then(cb){
+      _callback = cb
+    }
+  }
 
 }
 
 myAsyncTimeoutFn('just a silly string argument').then(() => {
-	console.log('Final callback is here')
+  console.log('Final callback is here')
 })
 ```
 
@@ -239,20 +239,20 @@ What about errors? Error handling is important in Node, right? We cannot just ig
 ```js
 const fs = require('fs')
 function readFilePromise( filename ) {
-	let _callback = () => {}
-	let _errorCallback = () => {}
+  let _callback = () => {}
+  let _errorCallback = () => {}
 
-	fs.readFile(filename, (error, buffer) => {
-		if (error) _errorCallback(error)
-		else _callback(buffer)
-	})
+  fs.readFile(filename, (error, buffer) => {
+    if (error) _errorCallback(error)
+    else _callback(buffer)
+  })
 
-	return {
-		then( cb, errCb ){
-			_callback = cb
-			_errorCallback = errCb
-		}
-	}
+  return {
+    then( cb, errCb ){
+      _callback = cb
+      _errorCallback = errCb
+    }
+  }
 
 }
 
