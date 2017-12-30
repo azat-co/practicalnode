@@ -1024,7 +1024,7 @@ fs.readdir(source, (err, files) => {
 })
 ```
 
-There’s nothing to be afraid of here as long as two-space indentation is used. ;-) However, callback code can be rewritten with the use of event emitters or promises, or by using the [`async`](https://www.npmjs.com/package/async) library.
+There’s nothing to be afraid of here as long as two-space indentation is used. ;-) However, callback code can be rewritten with the use of event emitters or promises, or by using the [`async`](https://www.npmjs.com/package/async) library (see chapter 14).
 
 ## Hello World Server with HTTP Node.js Module
 
