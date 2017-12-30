@@ -390,6 +390,31 @@ getAzatsWebsite().then(console.log)
 ```
 
 The code above will produce `oooops` because my website azat.co is hosted on http, not hosted on https.
+ And you know what else is cool when you use async/await functions? You can throw errors. Take a look at this example:
+
+```js
+ const makeRequest = async () => {
+  const data = await fetchData()
+  const data2 = await processData(data)
+  const data3 = await processData(data2)
+  const data4 = await processData(data3)
+  const data5 = await processData(data4)
+  throw new Error("oops")
+}
+
+makeRequest()
+  .catch(err => {
+    console.log(err) // outputs Error: oops at makeRequest 
+  })
+```
+
+Technically you can `throw` in the promise too since async/await function use promises inside. However, the same error in promises will have a less useful message:
+
+```
+Error: oops at callAPromise.then.then.then.then.then (index.js:8:13)
+```
+
+For more async/await vs promise, see this post <https://hackernoon.com/6-reasons-why-javascripts-async-await-blows-promises-away-tutorial-c7ec10518dd9>.
 
 Summary
 =======
