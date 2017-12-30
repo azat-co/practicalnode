@@ -133,6 +133,8 @@ mongodb.MongoClient.connect(url, (error, dbServer) => {
 })
 ```
 
+There are more methods in `async` than just `parallel()`. There are methods to execute tasks sequentially, with racing, with queue, with limits, with retries and tons of other ways. Almost all of them support multiple error and result object in the final callback which is a huge plus. For up-to-date `async` API, see the docs at <https://caolan.github.io/async>.
+
 # Promises
 
 Promises use `then`. They use `catch` sometimes too. That's how you can spot them. That's how you can use them. As a Node developer, you will be using other people's promises a lot. They'll be coming from libraries such as axios or mocha. 
@@ -284,8 +286,6 @@ The output is just what we wanted:
   syscall: 'open',
   path: 'package.jsan' }
 ```
-
-
 
 To summarize our basic promise implementation, we are not using the callback argument on the main function to pass the value, but we are using the callback argument on the `then` method. The callback argument value is a function which is executed later just like with the regular callback pattern. 
 
