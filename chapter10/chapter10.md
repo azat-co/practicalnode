@@ -901,7 +901,58 @@ The results of running `$ grunt `are shown in Figure 10-3.
 
 ![alt](media/image3.png)
 
+
+
 ***Figure 10-3.** The results of the Grunt default task*
+
+A Brief on Webpack
+=========================
+
+Someone might argue that a better alternative to Grunt might be Webpack. Maybe. Let's see how to get started with Webpack. You need to have `webpack.config.js` file in your project root. Luckily this file is not of some weird format such as YML or JSON but a good old Node module, that's we start `webpack.config.js` with `module.exports`. As the bare minimum, you would have a starting point from which Webpack fill unfold all the source code and its dependencies. This is `entry`. And you would have `output` which is the bundled and compiled file. Everything else is just extra and adds extra transpilers, source maps, and other features. 
+
+For example, here's a Webpack configuration file from my new book on React.js called React Quickly. In this config file, I point to the source file `app.jsx` which is in the `jsx` folder. I write the resulting bundle file into the folder `js`. This bundle file named `bundle.js`. It comes with source maps `bundle.map.js` because I included the `devtool` setting. `module` ensures that my JSX (a special language designed just for React) is converted into regular JavaScript. I use Babel for that via the library called `babel-loader`.
+
+```js
+module.exports = {
+  entry: "./jsx/app.jsx",
+  output: {
+    path: __dirname + '/js',
+    filename: "bundle.js"
+  },
+  devtool: '#sourcemap',
+  stats: {
+   colors: true,
+   reasons: true
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader' 
+      }
+    ]
+  }
+}
+```
+
+The command to install webpack locally is `npm i webpack -ES` (or without `S` if you are using npm v5). Then execute the bundling/compilation with `node_modules/.bin/webpack`. As with other tools, I do not recommend installing Webpack globally because that might lead to conflicts between versions.
+
+So Webpack by default will look for the `webpack.config.js` file. Of course you can name your filer other than `webpack.config.js` but in this case you would have to tell Webpack what file to use. You can do so with the option `--config` such as in `node_modules/.bin/webpack --config my-weird-config-filename-example.config.js`. 
+
+There's also a `watch` option which will rebuild the bundle file on any file change in the source. Just add `--watch` to the `webpack` command.
+
+
+The way webpack works is that it uses loaders and plugins. What's the difference? Plugins are more powerful and loaders are very simplistic. For example, `babel-loader` is a loader which converts JSX into regular JavaScript. Hot Module Replacement (HMR) plugin is a plugin which enables partial updates on the Webpack server by sending chunks of data on WebSockets. 
+
+Speaking of HMR. It's very cool and awesome. It can save you a lot of time. The idea is that you can modify your front-end app partially without losing app state. For example, after logging in, performing search and clicking a few times you are deep down in your front-end application looking at a detailed view of some item. Without HMR you have to perform this entire process each time you want to see a change in your code appear. Log in, enter search, find item, click, click, click. You got the idea. With HMR, you just edit code, save the file and boom. Your app has the change (or not) at the exact same view. In other words, your app retains state. Hot Module Replacement is a wonderful feature. 
+
+You might want to use webpack dev server for HMR. This dev server is built on Express by the way. For a HMR guide, see [this documentation](https://webpack.js.org/concepts/hot-module-replacement) because by the time you read this my example might be out-of-date anyway. 
+
+Loaders are awesome too. Example of loaders include libraries to work with CSS, images and of course JavaScript. For example `css-loader` will allow to use `import` and `require` in the Node code to import CSS code while `style-loader` will inject a CSS style into the DOM with a `<script>` tag. Crazy huh?
+
+The bottom line is that Webpack is powerful. Use it. 
+
 
 Git for Version Control and Deployments
 =======================================
@@ -1075,27 +1126,35 @@ TravisCI is an SaaS continuous integration system that allows you to automate te
 
 TravisCI is more common among open-source projects and has a similar configuration to other systems, i.e., a `YAML` file. In case of Node.js programs, it can look like this:
 
-    language: node_js
-    node_js:
-      - "0.11"
-      - "0.10"
+```yml
+language: node_js
+node_js:
+  - "0.11"
+  - "0.10"
+```
 
 In this configuration, 0.11 and 0.10 are versions of Node.js to use for testing. These multiple Node.js versions are tested on a separate set of virtual machines (VMs). The following configuration file can be copied and used (it’s recommended by TravisCI):
 
-    language: node_js
-    node_js:
-      - "0.11"
-      - "0.10"
-      - "0.8"
-      - "0.6"
+```
+language: node_js
+node_js:
+  - "0.11"
+  - "0.10"
+  - "0.8"
+  - "0.6"
+```
 
 npm’s `package.json` has a property `scripts.test` that is a string to execute scripts, so we can put the `mocha` command in it:
 
-    echo '{"scripts": {"test": "mocha test-expect.js"}}' > package.json
+```
+echo '{"scripts": {"test": "mocha test-expect.js"}}' > package.json
+```
 
 The previous line yields the following `package.json` file:
 
-    {"scripts": {"test": "mocha test-expect.js"}}
+```
+{"scripts": {"test": "mocha test-expect.js"}}
+```
 
 Then, we can run `$ npm test` successfully.
 
