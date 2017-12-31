@@ -540,7 +540,7 @@ You might wonder: Why spend time on TDD in the chapter about REST APIs? The answ
 
 However, this is not the whole story. TDD is great when it comes to refactoring. The next section is spent changing from Express.js to Hapi. And after we&#39;re done, we can rest assured, by running the same tests, that the functionality isn&#39;t broken or changed.
 
-# Refactoring: Hapi RESP API Server
+# Refactoring: Hapi REST API Server
 
 [Hapi](http://spumko.github.io) (<http://spumko.github.io>) (npm (<https://www.npmjs.org/package/hapi>) and GitHub (<https://github.com/hapijs/hapi>)) is an enterprise-grade framework. It&#39;s more complex and feature rich than Express.js, and it&#39;s easier to develop in large teams (<http://hueniverse.com/2012/12/hapi-a-prologue>). Hapi was started by (and used at) Walmart which is a huge e-commerce website. So Hapi has been battle-tested at a YUGE scale.
 

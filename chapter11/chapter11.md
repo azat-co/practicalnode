@@ -651,11 +651,9 @@ In this way, we have the following trafficking:
 Caching with Varnish
 ====================
 
-The last piece of the production deployment puzzle is setting up caching using [Varnish Cache](https://www.varnish-cache.org/) (https://www.varnish-cache.org). This step is optional for Node.js deploys, but, like an Nginx setup, it’s also recommended, especially for systems that expect to handle large loads with the minimum resources consumed.
+The last piece of the production deployment puzzle is setting up caching using [Varnish Cache](https://www.varnish-cache.org) (https://www.varnish-cache.org). This step is optional for Node.js deploys, but, like an Nginx setup, it’s also recommended, especially for systems that expect to handle large loads with the minimum resources consumed.
 
 The idea is that Varnish allows us to cache requests and serve them later from the cache without hitting Nginx and/or Node.js servers. This avoids the overhead of processing the same requests over and over again. In other words, the more identical requests the server has coming, the better Varnish’s optimization.
-
-Here's a nice [Varnish Cache video](http://youtu.be/x7t2Sp174eI) (http://youtu.be/x7t2Sp174eI) that does a good job at summarizing the tool in just less than three minutes.
 
 Let’s use `yum` again, this time to install Varnish dependencies on CentOS:
 

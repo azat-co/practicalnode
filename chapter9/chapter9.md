@@ -100,6 +100,9 @@ To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch
       ws.onopen = function(event) {
         ws.send('front-end message: ABC');
       };
+      ws.onerror = function(event) {
+        console.log('server error message: ', event.data);
+      };
       ws.onmessage = function(event) {
         console.log('server message: ', event.data);
       };
