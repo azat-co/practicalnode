@@ -902,6 +902,3 @@ Nothing fancy so far, but it&#39;s worth pointing out that it took us just a few
 # Summary
 
 In this chapter we learned what Express.js is and how it works. We also explored different ways to install it and use its scaffolding (command-line tool) to generate apps. We went through the Blog example with a high-level overview (traditional vs. REST API approaches), and proceeded with creating the project file, folders, and the simple Hello World example, which serves as a foundation for the book&#39;s main project: the Blog app. And then lastly, we touched on a few topics such as settings, a typical request process, routes, AJAX versus server side, Pug, templates, and middleware.
-
-
-TK: TODO: think about blog - remove? update images, read summary and all text again.

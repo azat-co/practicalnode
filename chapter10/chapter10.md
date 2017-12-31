@@ -2,8 +2,6 @@ Chapter 10
 ----------
 # Getting Node.js Apps Production Ready
 
-TK:  yarn, pnpm Webpack, 
-
 Getting Node.js apps to a production-ready state is probably the most unexplored and skipped topic in the Node.js literature. The reason could be the lack of expertise in production deployments or the vast number of options and edge cases. However, getting apps to the production level is one of the most important topics in this entire book in my humble opinion.
 
 Yes, the apps differ in structures, frameworks they use, and goals they try to achieve; however, there are a few commonalities worth knowing about, for example, environmental variables, multithreading, logging and error handling. So, in this chapter we cover the following topics:
@@ -104,7 +102,7 @@ app.use(session({
 }))
 ```
 
-The more advanced example with session options which includes a special key (TK) and cookie domain is as follows:
+The more advanced example with session options which includes a special key and cookie domain is as follows:
 
 ```js
 const SessionStore = require('connect-redis')
@@ -122,68 +120,7 @@ app.use(session({
 
 Options for `connect-redis` are `client`, `host`, `port`, `ttl`, `db`, `pass`, `prefix`, and `url`. For more information, please refer to the official `connect-redis` documentation (<https://github.com/visionmedia/connect-redis>) (<https://github.com/visionmedia/connect-redis>).
 
-Socket.IO in Production
-========================================================================================================================
 
-The Socket.IO library has `configure()` method
-that can be used to define different rules for different environments:
-
-```js
-const io = require('socket.io').listen(80)
-
-io.configure('production', function(){
-  io.enable('browser client etag')
-  io.set('log level', 1)
-  io.set('transports', [ 
-    'websocket', 
-    'flashsocket', 
-    'tmlfile', 
-    'xhr-polling', 
-    'jsonp-polling' 
-  ])
-})
-
-io.configure('development', function(){
-  io.set('transports', ['websocket'])
-})
-```
-
-Often, WebSockets data are stored in a high-performance database such as Redis. In this example, you can use environment variables for values of `port` and `hostname`. There's `io.set` to define the store as the Redis connection (pretend Redis is at http://webapplog.com):
-
-```js
-const sio = require('socket.io')
-const RedisStore = sio.RedisStore
-const io = sio.listen()
-
-io.configure(() => {
-  io.set('store', new RedisStore({host: 'http://webapplog.com'}))
-})
-```
-
-Alternative way is to go low level and implement the store using two Redis clients. One for publish and one for subscribe. TK here and nodeId
-
-```js
-const redis = require('redis')
-const redisClient = redis.createClient(port, hostname)
-const redisSub = redis.createClient(port, hostname)
-
-redisClient.on('error', (err) => {
-  console.error(err)
-})
-
-redisSub.on('error', (err) => {
-  console.error(err)
-})
-
-io.configure(() => {
-  io.set('store', new RedisStore({
-    nodeId: () => nodeId, // TK
-    redisPub: redisPub,
-    redisSub: redisSub,
-    redisClient: redisClient
-  }))
-})
-```
 
 
 Error Handling
@@ -275,164 +212,6 @@ At a maximum, you can implement text message alerts effortlessly using the Twili
   }
 ```
 
-Node.js Domains for Error Handling
-==================================
-
-TK: Probably remove this.
-
-Because Node.js allows developers to write asynchronous code, and that’s what we usually do, and because state changes during different async parts of code, sometimes it’s harder to trace errors and have a meaningful state and context in which the application was during that exception. To mitigate this, we have domains in Node.js.
-
-Contrary to its more popular homonym (domain as in Webapplog.com or Node.University), domain is a core Node.js [module](http://nodejs.org/api/domain.html) (<http://nodejs.org/api/domain.html>). It aids developers in tracking and isolating errors that could be a juggernaut task. Think of domains as a smarter version of `try/catch` [statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch>).
-
-When it comes to Express.js (and other frameworks), we can apply domains in error-prone routes. A route can become error prone if it has pretty much any nontrivial code (i.e., any route can be prone to error), but usually developers can just analyze logs and determine which URL and path are causing the crashes. Typically, these routes rely on third-party modules, some communication, or file system/database input/output.
-
-Before defining the routes, we need to define custom handlers to catch errors from domains. In Express.js we do the following:
-
-```js
-const express = require('express')
-const domain = require('domain')
-const defaultHandler = require('errorhandler')
-```
-
-Then, we add middleware:
-
-```js
-app.use((error, req, res, next) => {
-  if (domain.active) {
-    console.info('caught with domain')
-    domain.active.emit("error", error);
-  } else {
-    console.info('no domain')
-    defaultHandler(error, req, res, next)
-  }
-})
-```
-
-Here is a “crashy route” in which the error-prone code goes inside the `d.run` callback:
-
-```js
-app.get('/e', (req, res, next) => {
-  const d = domain.create()
-  d.on('error', (error) => {
-    console.error(error.stack)
-    res.send(500, {'error': error.message})
-  })
-  d.run(() => {
-    // Error-prone code goes here*
-    throw new Error('Database is down.') // Like a real crash
-  })
-})
-```
-
-On the other hand, we can call `next` with an error object (e.g., when an error variable comes from other nested calls):
-
-```js
-app.get('/e', (req, res, next) => {
-  var d = domain.create()
-  d.on('error', (error) => {
-    console.error(error.stack)
-    res.send(500, {'error': error.message})
-  })
-  d.run(() => {
-    // Error-prone code goes here*
-    next(new Error('Database is down.'))
-  })
-})
-```
-
-After you launch this example with `$ node app`, go to the `/e` URL. You should see the following information in your logs:
-
-```
-caught with domain { domain: null,
-  _events: { error: [Function] },
-  _maxListeners: 10,
-    members: [] }
-Error: Database is down.
-    at /Users/azat/Documents/Code/practicalnode/ch10/domains/app.js:29:10
-    at b (domain.js:183:18)
-    at Domain.run (domain.js:123:23)
-```        
-
-The stack trace information (lines after `Error: Database is down.`) might be very handy in debugging async code. And the browser should output a nice JSON error message:
-
-```
-{"error":"Database is down."}
-```
-
-The working (or should we write *crashing)* example of Express.js 4.1.2 and domains in routes is in the `ch10/domains` folder on [GitHub](https://github.com/azat-co/practicalnode/tree/master/ch10/domains)
-(<https://github.com/azat-co/practicalnode/tree/master/ch10/domains>).
-
-The `package.json` for this example looks like this:
-
-```js
-{
-  "name": "express-domains",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app.js"
-  },
-  "dependencies": {
-    "express": "4.1.2",
-    "pug": "",
-    "errorhandler": "1.0.1"
-  }
-}
-```
-
-For your convenience, here’s the full content of `practicalnode/ch10/domains/app.js`:
-
-```js
-var express = require('express');
-var routes = require('./routes');
-var http = require('http');
-var path = require('path');
-var errorHandler = require('errorhandler');
-
-var app = express();
-
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.use(express.static(path.join(__dirname, 'public')));
-
-var domain = require('domain');
-var defaultHandler = errorHandler();
-app.get('/', routes.index);
-
-app.get('/e', function (req, res, next) {
-  var d = domain.create();
-  d.on('error', function (error) {
-    console.error(error.stack);
-    res.send(500, {'error': error.message});
-  });
-  d.run(function () {
-    // Error-prone code goes here
-    throw new Error('Database is down.');
-    // next(new Error('Database is down.'));
-  });
-});
-
-app.use(function (error, req, res, next) {
-  if (domain.active) {
-    console.info('caught with domain', domain.active);
-    domain.active.emit('error', error);
-  } else {
-    console.info('no domain');
-    defaultHandler(error, req, res, next);
-  }
-});
-
-http.createServer(app).listen(app.get('port'), function () {
-  console.log('Express server listening on port ' 
-    + app.get('port'));
-});
-```
-
-For more ways to apply domains with Express.js, take a look at the *Node.js domains your friends and neighbors* by Forrest L Norvell (<https://twitter.com/othiym23>) & Domenic Denicola
-(<http://domenicdenicola.com>) presentation from NodeConf 2013 slide 4-1 (<http://othiym23.github.io/nodeconf2013-domains/#/4/1>).
-
-**Warning** The domain module is in the *experimental* stage, which means that it’s likely that methods and behavior will change. Therefore, stay updated and use exact versions in the `package.json` file.
 
 Multithreading with Cluster
 ===========================
@@ -679,19 +458,7 @@ Winston
 
 Winston provides a way to have one interface for logging events while defining multiple transports, e.g., e-mail, database, file, console, Software as a Service (SaaS), and so on. In other words, Winston is an abstraction layer for the server logs.
 
-The list of transports supported by Winston include the following: TK
-
--   Console
--   File
--   [Loggly](https://www.loggly.com/) (<https://www.loggly.com>)
--   Riak
--   MongoDB
--   SimpleDB
--   Mail
--   Amazon SNS
--   Graylog2
--   Papertrail
--   Cassandra
+The list of transports supported by Winston includes lots of good services: [Loggly](https://www.loggly.com) (<https://www.loggly.com>), Riak, MongoDB, SimpleDB, Mail, Amazon SNS, Graylog2, Papertrail (we used it at Storify.com for much success so that we got aquired by a bigger company and it's now a part of Adobe), Cassandra and you can write to console and file too!
 
 It’s easy to get started with Winston. Install it into your project:
 
