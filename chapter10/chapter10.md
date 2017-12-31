@@ -17,6 +17,7 @@ Yes, the apps differ in structures, frameworks they use, and goals they try to a
 -   Multithreading with Cluster2
 -   Event logging and monitoring
 -   Building tasks with Grunt
+-   Locking Dependencies
 -   Git for version control and deployments
 -   Running tests in Cloud with TravisCI
 
@@ -953,6 +954,67 @@ Loaders are awesome too. Example of loaders include libraries to work with CSS, 
 
 The bottom line is that Webpack is powerful. Use it. 
 
+Locking Dependencies
+========
+
+Using `^` or `*` or leaving the version field in package.json blank will lead to higher versions of dependencies down the road when after some time you or someone else (or automated CI/CD server) will execute `npm install`.
+
+Not-locking versions is a common convention for npm modules (as discussed in chapter 12), i.e., they don’t lock the versions of *their* dependencies. So, as you might guess, this may lead to trouble because when dependency (or a dependency of a dependency) gets a breaking change it's us developers who got caught skinny dipping.
+
+Consider this scenario: We use Express.js that depends on, say, Pug of the latest version (*). Everything works until, unknown to us, Pug is updated with breaking changes. Express.js now uses Pug that breaks our code. No bueno.
+
+One solution is to commit `node_modules`! And don't send me hate mail (I autodelete it anyway). We committed `node_modules` to Git at DocuSign and it worked fine. Look how good the new DocuSign web app is. 
+
+Why do this? Because, even if we lock dependency A in our `package.json`, most likely this module A has a wild card `*` or version range in its `package.json`. Therefore, our app might be exposed to unpleasant surprises when an update to the A module dependency breaks our system.
+
+Comitting module to your version control system (Git, SVN) is still a good choice because 5, 10 or 15 years down the road, when your production application is still in use, npm may not be around. It's just a startup and still not profitable. Or npm registry may become corrupted, it's just CoughDB after all. Or the library maintainers can decide to remove the library that you rely on from their repository. [left pad unpublish broke half the web](https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos). Or the version you use might be removed. Or someone may put some malicious code into a dependency your are using or the Internet in your area might be down. Or the npm v 16 will be incompatible with your code (very likely since last few npm releases were making drastic changes and breaking a lot of good projects such as Create React Native App which is still incompatible with npm v5 after many months since the npm 5 release). Or the aliens might cut down the wire and your `npm i` won't reach npmjs.org. Having your own repository and not depending on npm is a better choice (consider Nexus or Artifactory as well).
+
+There's a significant drawback in committing modules. It is that binaries often need to be rebuilt on different targets (e.g., macOS vs. Linux). So, by skipping `$ npm install` and not checking binaries, development operations engineers have to use `$ npm rebuild` on targets. Of course the size of module can blow up your Git repo drastically. 
+
+The same problem might be (somewhat better) mitigated by using `$ npm shrinkwrap` ([official docs](https://www.npmjs.org/doc/cli/npm-shrinkwrap.html)). This command creates `npm-shrinkwrap.json`, which has *every* subdependency listed/locked at the current version. Now, magically, `$ npm install` skips `package.json` and uses `npm-shrinkwrap.json` instead!
+
+When running Shrinkwrap, be careful to have all the project dependencies installed and to have only them installed (run `$ npm install` and `$ npm prune` to be sure). For more information about Shrinkwrap and locking versions with `node_modules`, see the article by core Node.js contributors: “[Managing Node.js Dependencies with Shrinkwrap](http://blog.nodejs.org/2012/02/27/managing-node-js-dependencies-with-shrinkwrap/).”
+
+In version of npm 5, a new file created automatically. It's called `package-lock.json`. It has all the dependencies with their exact versions saved. No chance for a screw up. The `package-lock.json` file could look like this:
+
+```json
+{
+  "name": "blog-mongoose",
+  "version": "1.0.1",
+  "lockfileVersion": 1,
+  "requires": true,
+  "dependencies": {
+    "accepts": {
+      "version": "1.3.4",
+      "resolved": "https://registry.npmjs.org/accepts/-/accepts-1.3.4.tgz",
+      "integrity": "sha1-hiRnWMfdbSGmR0/whKR0DsBesh8=",
+      "requires": {
+        "mime-types": "2.1.17",
+        "negotiator": "0.6.1"
+      }
+    },
+    "acorn": {
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/acorn/-/acorn-3.3.0.tgz",
+      "integrity": "sha1-ReN/s56No/JbruP/U2niu18iAXo="
+    },
+    "acorn-globals": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/acorn-globals/-/acorn-globals-3.1.0.tgz",
+      "integrity": "sha1-/YJw9x+7SZawBPqIDuXUZXOnMb8=",
+      "requires": {
+        "acorn": "4.0.13"
+      },
+```      
+
+When there's `package-lock.json`, npm will use that file to reproduce `node_modules`. `npm-shrinkwrap.json` is backwards compatible with npm v2-4 and it takes precedence over `package-lock.json` which is actually shouldn't be published to npm if you are publishing an npm module (see chapter 12 on publishing npm modules). Another difference is that `package-lock.json` is opt-out since it's the default in version 5 while `npm-shrinkwrap.json` is opt-in since you have to execute an extra command to generate it (`npm shrinkwrap`). For official explanation, see <https://docs.npmjs.com/files/package-locks>.
+
+Are you confused? Here's my rule of thumb: for your own apps, use `package-lock.json` because it's automatic (only in npm v5) or `npm-shrinkwrap.json` to be on a safer side. Commit them to Git or just commit the entire `node_modules`. For the npm modules which you publish don't lock the versions at all. 
+
+If npm is slow or not locking your dependencies enough (it was the case with version 4 but version 5 is fast enough), then take a look at two other package managers: yarn and pnpm:
+
+* [yarn](https://yarnpkg.com/en/): uses npm registry but often faster and more predictable due to lock files
+* [pnpm](https://pnpm.js.org): fully command-compatible-with-npm tool which uses symlinks and thus is blazingly fast and space efficient.
 
 Git for Version Control and Deployments
 =======================================

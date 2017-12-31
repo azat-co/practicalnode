@@ -1,6 +1,6 @@
 Chapter 12
 ----------
-# Publishing Node.js Modules and Contributing to Open Source
+# Modularizing Your Code and Publishing Node.js Modules to npm
 
 One of the key factors that attributed to the rapid growth of the Node.js module ecosystem is its open-source nature and robust packaging systems (with registry). As of April 2013, JavaScript and Node.js had already surpassed any other language/platform in number of packages contributed per year ([source](http://caines.ca/blog/2013/04/13/the-node-dot-js-community-is-quietly-changing-the-face-of-open-source/)): 
 
@@ -35,11 +35,11 @@ Here is an example of a good, structured npm module in which you have documentat
 
 ```
 webapp
-    /lib
-    webapp.js
-    index.js
-    package.json
-    README.md
+  /lib
+  webapp.js
+  index.js
+  package.json
+  README.md
 ```
 
 The `index.js` file does the initialization whereas `lib/webapp.js` has all the principal logic.
@@ -48,13 +48,13 @@ If you’re building a command-line tool, add the `bin` folder:
 
 ```
 webapp
-    /bin
-    webapp-cli.js
-    /lib
-    webapp.js
-    index.js
-    package.json
-    README.md
+  /bin
+  webapp-cli.js
+  /lib
+  webapp.js
+  index.js
+  package.json
+  README.md
 ```
 
 Also, for the CLI module, add the following to `package.json`:
@@ -74,8 +74,10 @@ documentation.
 
 TravisCI, which we covered in previous chapters, allows free testing for open-source projects. Its badges, which turn from red to green, depending on the status of tests (failing or passing, became the de facto standard of quality and are often seen on the README pages of the most popular Node.js projects.
 
-Required Patterns
+Modularizing Patterns
 =================
+
+Modularizing is the best practice because you can keep your application flexible and update different part independently of each other. It's totally fine to have bunch of module with only a single function in each one of them. In fact, a lot of module on npm are just that.
 
 There are a few common patterns for writing external (meant for use by other users, not just within your app) modules:
 
@@ -89,21 +91,23 @@ Here is an example of the the `module.exports` as a function pattern:
 ```js
 let _privateAttribute = 'A'
 let _privateMethod = () => {...}
-module.exports = function (options) { // Arrow function can also be used depending on what needs to be the value of "this"
-    // Initialize module/object
-    object.method = () => {...}
-    return object
+module.exports = function (options) { 
+  // Arrow function can also be used depending on 
+  // what needs to be the value of "this"
+  // Initialize module/object
+  object.method = () => {...}
+  return object
 }
 ```
 
-And here is an example of an equivalent with a function declaration:
+And here is an example of an equivalent with a function declaration but this time we used named function which we exported via the global `module.exports`:
 
 ```js
 module.exports = webapp
 function webapp (options) {
-    // Initialize module/object
-    object.method = () => {...}
-    return object
+  // Initialize module/object
+  object.method = () => {...}
+  return object
 }
 ```
 
@@ -128,11 +132,11 @@ The `module.exports` as a class pattern uses the so-called [*pseudoclassical ins
 
 ```js
 module.exports = function(options) {
-    this._attribute = 'A'
-    // ...
+  this._attribute = 'A'
+  // ...
 }
 module.exports.prototype._method = function() {
-    // ...
+  // ...
 }
 ```
 
@@ -150,13 +154,13 @@ The `module.exports` as an object pattern similar to the first pattern (function
 
 ```js
 module.exports = {
-    sockets: 10,
-    limit: 200,
-    whitelist: [
-    'azat.co',
-    'webapplog.com',
-    'apress.com'
-    ]
+  sockets: 10,
+  limit: 200,
+  whitelist: [
+  'azat.co',
+  'webapplog.com',
+  'apress.com'
+  ]
 }
 ```
 
@@ -174,10 +178,10 @@ The `exports.NAME` pattern is just a shortcut for `module.exports.NAME` when the
 
 ```js
 exports.home = function(req, res, next) {
-    res.render('index')
+  res.render('index')
 }
 exports.profile = function(req, res, next) {
-    res.render('profile', req.userInfo)
+  res.render('profile', req.userInfo)
 }
 // ...
 ```
@@ -192,7 +196,7 @@ app.get('/profile', routes.profile)
 // ...
 ```
 
-package.json
+Composing `package.json`
 ============
 
 Another mandatory part of an npm module is its `package.json` file. The easiest way to create a new `package.json` file, if you don’t have one already (most likely you do), is to use `$ npm init`. The following is an example produced by this command:
@@ -222,18 +226,53 @@ The most important fields are `name` and `version`. The others are optional and 
 
 **Warning** `package.json` must have double quotes around values and property names, unlike native JavaScript object literals.
 
+Important feature which will benefit all projects (and more so large projects) is npm scripts. See that `scripts` property in the `package.json` file? Inside of it developers can define any commands which act as aliases. The left part is the alias and the right part (after the `:` colon) is the actual command:
+
+```json
+"scripts": {
+  "test": "mocha test",
+  "build": "node_modules/.bin/webpack --config webpack-dev.config.js",
+  "deploy": "aws deploy push --application-name WordPress_App  --s3-location s3://CodeDeployDemoBucket/WordPressApp.zip --source /tmp/MyLocalDeploymentFolder/",
+  "start": "node app.js",
+  "dev": "node_modules/.bin/nodemon app.js"
+}
+```
+
+To run the command, you use `npm run NAME`, e.g., `npm run build` or `npm run deploy`. The two names are special. The don't need `run`. They are `test` and `start`. That is to execute test or start, simply use `npm test` and `npm start`. 
+
+It's possible to call other npm scripts from the right side (the values):
+
+```json
+"scripts": {
+  "test": "mocha test",
+  "build": "node_modules/.bin/webpack --config webpack-dev.config.js",
+  "prepare": "npm run build && npm test"
+}
+```
+
+Lastly, there are post and pre hook for each npm script. They are defined as pre and post prefixes to the names. For example, if I always want to build after the installation, I can set up `postinstall`:
+
+```json
+"scripts": {
+  "postinstall": "npm run build",
+  "build": "node_modules/.bin/webpack --config webpack-dev.config.js"
+}
+```
+
+npm scripts are very powerful. Some Node developers are even abandoning their build tools such as Grunt or Gulp or Webpack and implement their build pipelines with npm scripts and some low-level Node code. I sort of agree with them. Having to learn and depend on myriads of Grunt, Gulp or Webpack plugins is no fun. For more use cases of npm scripts, start at this page: <https://docs.npmjs.com/misc/scripts>.
+
 It’s worth noting that `package.json` and npm do not limit their use. In other words, you are encouraged to add custom fields and devise new conventions for their cases.
 
 Publishing to npm
 =================
 
-To publish to npm, we must have an account there. We do this by executing the following:
+To publish to npm, we must have an account there. So first you need to proceed to the website npmjs.org and register there. Once you do that, you will have an account which mean you will have a username and password. The next step is to sign in on the command line. We do this by executing the following:
 
 ```
 $ npm adduser
 ```
 
-Then, simply execute from the project folder:
+You just need to sign in with the npm CLI once. After you do it you are read to publish as many time as you wish. To publish a new module or an update to an already published module, simply execute from the project folder:
 
 ```
 $ npm publish
@@ -247,25 +286,19 @@ Some useful npm commands are as follows:
 -   `$ npm version minor`: increment a middle version number (e.g., 0.0.1 to 0.1.0 or 0.0.1 to 1.0.0) and update `package.json`
 -   `$ npm unpublish PACKAGE_NAME`: unpublish package from npm (take optional version with `@`)
 -   `$ npm owner ls PACKAGE_NAME`: list owners of this package
--   `npm owner add USER PACKAGE_NAME`: add an owner
+-   `$ npm owner add USER PACKAGE_NAME`: add an owner
 -   `$ npm owner rm USER PACKAGE_NAME`: remove an owner
 
-Locking Versions
+Not-Locking Versions
 ================
 
-The rule of thumb is that when we publish external modules, we don’t lock dependencies’ versions. However, when we deploy apps, we lock versions in `package.json`. This is a common convention that many projects on npm follow (i.e., they don’t lock the versions). So, as you might guess, this may lead to trouble.
+The rule of thumb is that when we publish external modules, we don’t lock dependencies’ versions. However, when we deploy apps, we lock versions in `package.json`. You can ready more on why and how lock version in projects which are applications (i.e., not npm modules) in chapter 10. Then why not lock versions in the modules?
 
-Consider this scenario: We use Express.js that depends on, say, Pug of the latest version (*). Everything works until, unknown to us, Pug is updated with breaking changes. Express.js now uses Pug that breaks our code. No bueno.
+The answer is that open source is often a part-time gig and an after thought for most people. It's not like you'll make millions and can spend 40 hours per week on your FOSS npm module. Let's say there's a security vulnerability or a something is outdated in a dependency of your npm module. Most likely, you'll be patching your app which is your main full-time daily job and not patching this poor little npm module. That's why it's a good idea no NOT lock the version but let it use a caret symbol `^` which means the patches will be updated in dependencies. 
 
-The solution: Commit `node_modules`! The following article describes nicely why committing your application’s `node_modules` folder (not the one for the external module!) to Git repo is a good idea: [node_modules in git](http://www.futurealoof.com/posts/nodemodules-in-git.html).
+Yes. If someone depends on your npm module, they might get a bug when it pulls a newer dependency but the trade off worth it. Your module will have latest dependencies automatically without requiring your attention (the next time someone installs your module). 
 
-Why do this? Because, even if we lock dependency A in our `package.json`, most likely this module A has a wild card `*` or version range in its `package.json`. Therefore, our app might be exposed to unpleasant surprises when an update to the A module dependency breaks our system.
-
-One significant drawback is that binaries often need to be rebuilt on different targets (e.g., macOS vs. Linux). So, by skipping `$ npm install` and not checking binaries, development operations engineers have to use `$ npm rebuild` on targets.
-
-On the other hand, the same problem might be mitigated by using `$ npm shrinkwrap` ([official docs](https://www.npmjs.org/doc/cli/npm-shrinkwrap.html)). This command creates `npm-shrinkwrap.json`, which has *every* subdependency listed/locked at the current version. Now, magically, `$ npm install` skips `package.json` and uses `npm-shrinkwrap.json` instead!
-
-When running Shrinkwrap, be careful to have all the project dependencies installed and to have only them installed (run `$ npm install` and `$ npm prune` to be sure). For more information about Shrinkwrap and locking versions with `node_modules`, see the article by core Node.js contributors: “[Managing Node.js Dependencies with Shrinkwrap](http://blog.nodejs.org/2012/02/27/managing-node-js-dependencies-with-shrinkwrap/).”
+That's the main reason why almost all popular npm modules such as Express, Webpack, and React do have `^` in package.json ([source](https://github.com/expressjs/express/blob/master/package.json), [source](https://github.com/webpack/webpack/blob/master/package.json) and [source](https://github.com/facebook/react/blob/master/package.json)).
 
 Summary
 =======
