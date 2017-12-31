@@ -1,10 +1,6 @@
 Chapter 6
 ---------
-
-TK JWT
- Crypto and Bcrypt,
- 
-# Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps
+ # Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps
 
 Security is an important aspect of any real-world web application. This is especially true nowadays, because our apps don’t function in silos anymore. We, as developers, can and should leverage numerous third-party services (e.g., Google, Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
 
@@ -92,6 +88,115 @@ In a more realistic example, we use API keys and secrets to generate HMAC-SHA1 (
 We just covered token-based authentication, which is often used in REST APIs. However, the user-facing web apps (i.e., browser-enabled users & consumers) come with cookies. We can use cookies to store and send session IDs with each request. 
 
 Cookies are similar to tokens, but require less work for us, the developers! This approach is the cornerstone of session-based authentication. The session-based method is the recommended way for basic web apps, because browsers already know what to do with session headers. In addition, in most platforms and frameworks, the session mechanism is built into the core. So, let’s jump straight into session-based authentication with Node.js.
+
+# JSON Web Token (JWT) Authentication
+
+JSON Web Tokens (JWT) allow to send and receive data which is encrypted and has all the necessary information, not just a token such as an API key. Thus, there's no need to store user information on the server. In my opinion, JWT less secure than have the data on the server and only storing the token (API key or session ID) on the client, because while JWT is encrypted anyone can break any encryption given enough time and CPU (albeit it might take 1000s of years).
+
+Nevertheless, JWT is a very common technique to use for implementing web apps. They eliminate the need for the server-side database or store. All info is in this token. It has three parts: header, payload and signature. The encryption method (algorithm) vary depending on what you choose. It can be HS256, RS512, ES384, etc. I'm always paranoid about security so typically the higher the number the better. 
+
+To implement a simple JWT login, let's use `jsonwebtoken` library for signing tokens and `bcrypt` for hashing passwords. When client wants to create an account, the system will take the password and hash it asynchronously so not to block the server from processing other requests (the slower the hashing the worse for attackers and the better for you). For example, this is how to get the password from the incoming request body and store the hash into the `users` array:
+
+```js
+app.post('/auth/register', (req, res) => {
+    bcrypt.hash(req.body.password, 10, (error, hash)=>{
+      if (error) return res.status(500).send()
+      users.push({
+        username: req.body.username,
+        passwordHash: hash
+      })
+      res.status(201).send('registered')
+    })
+  })
+``` 
+
+
+Once the user record is created (which has the hash), we can login users to exchange the username and password for the JWT. They'll use this JWT for all other requests like a special key to authenticate and maybe unlock protected and restricted resources (that's authorization because not all users will have access to all the restricted resources).
+
+The GET is not a protected route but POST is a protected route because there's an extra `auth` middleware there which will check for the JWT:
+
+```js
+app.get('/courses', (req, res) => {
+    res.send(courses)
+  })
+app.post('/courses', auth, (req, res) => {
+    courses.push({title: req.body.title})
+    res.send(courses)
+  })
+```  
+
+The login route checks for the presence of this username in the `users` array but this can be a database call or a call to another API not a simple `find()` method. Next, `bcrypt` has a `compare()` method which asynchronously checks for the hash. If they match (`matched == true`), then `jwt.sign` will issue a signed (encrypted) token which has username in it but can have many other fields not just one field. The `SECRET` string will be populated from the environment variable or from a public key later when the app goes to production. It's a `const` string for now. 
+
+```js
+app.post('/auth/login', (req, res) => {
+    const foundUser = users.find((value, index, list) => {
+      if (value.username === req.body.username) return true
+      else return false
+    })
+    if (foundUser) {
+      bcrypt.compare(req.body.password, foundUser.passwordHash, (error, matched) => {
+        if (!error && matched) {
+          res.status(201).json({token: jwt.sign({ username: foundUser.username}, SECRET)})
+        } else res.status(401).send()
+      })
+    } else res.status(401).send()
+  })
+```
+
+When you get this JWT you can make requests to POST /courses. The `auth` which check for JWT uses the `jwt` module and the data from the headers. The name of the header doesn't matter that much because I set the name myself in the `auth` middleware. Some developers like to use `Authorization` but it's confusing to me since we are not authorizing, but authenticating. The authorization, which is who can do what, is happening in the Node middleware. Here we are performing authentication which is who is this. It's me. Azat Mardan. 
+
+```js
+const auth = (req, res, next) => {
+  if (req.headers && req.headers.auth && req.headers.auth.split(' ')[0] === 'JWT') {
+    jwt.verify(req.headers.auth.split(' ')[1], SECRET, (error, decoded) => {
+      if (error) return res.status(401).send()
+      req.user = decoded
+      console.log('authenticated as ', decoded.username)
+      next()
+    })
+  }
+  else return res.status(401).send()
+}
+```
+
+You can play with the full working and tested code in `code/ch6/jwt-example`. I like to use CURL but most of my Node workshop attendees like Postman so in Figure 6-2 I show how to use Postman to extract the JWT (on login). And on Figure 6-3 put it to action (on POST /courses) by pasting the token into the header `auth` after `JTW ` (JWT with a space).
+
+This is how to test the JWT example step by step in Postman (or any other HTTP client):
+
+1. GET /courses will return a list of two courses which are in `server.js`
+2. POST /courses with JSON data of `{"title": "blah blah blah"}` will return 401 Not Authorized. Now we know that this is a protected route and we need to create a new user to proceed
+3. POST /auth/register with username and password will create a new user as shown in Figure 6-1. Next we can login (sign in) to the server to get the token
+4. POST /auth/login with username and password which are matching existing records will return JWT as shown in Figure 6-2
+5. POST /courses with title and JWT in the header will allow and create a new course recored (status 201) as shown in Figure 6-3 and Figure 6-4
+6. GET /courses will show your new title. Verify it. No need for JWT for this request but it won't hurt either. Figure 6-5.
+6. Celebrate and get a cup of tea with a (paleo) cookie.
+
+
+![Registering a new user by sending JSON payload](media/jwt-1.png)
+***Figure 6-1.** Registering a new user by sending JSON payload*
+
+![Logging in to get JWT](media/jwt-2.png)
+***Figure 6-2.** Logging in to get JWT *
+
+![Using JWT in the header auth](media/jwt-3.png)
+***Figure 6-3.** Using JWT in the header auth*
+
+![200 status for the new course request with JWT in the header and the JSON payload](media/jwt-4.png)
+***Figure 6-4.** 200 status for the new course request with JWT in the header and the JSON payload*
+
+![Verifying new course](media/jwt-5.png)
+***Figure 6-5.** Verifying new course*
+
+Finally, you can uncheck the `auth` header which has the JWT value and try to make another POST /courses request as shown in Figure 6-6. The request will fail miserably (401) as it should because there's no JWT this time (see `auth` middleware in `server.js`).
+
+![Unchecking auth header with JWT leads to 401 as expected](media/jwt-6.png)
+***Figure 6-6.** Unchecking auth header with JWT leads to 401 as expected*
+
+Don't forget to select `raw` and `application/json` when registering (POST /auth/register) and when making other POST requests. And now that you saw and know my password, please don't steal it. (It's not my actual password, but someone used dolphins as a password according to [this pull request "Remove my password from lists so hackers won't be able to hack me"](https://github.com/danielmiessler/SecLists/pull/155)).
+
+JWT is easy to implement. Once on the client after the login request, you can store JWT in local storage or cookies (in the browser) so that your React, Vue, or Angular front-end app can send this token with each request. Protect your secret and pick a strong encryption algorithms to make it harder for attachers to hack your JWT data. 
+
+For me sessions are somewhat more secure because I store my data on the server, on encrypted on the client.
 
 # Session-Based Authentication
 
@@ -499,47 +604,9 @@ Now we can store the bearer for future use and make requests to protected end po
 
 The Everyauth module allows for multiple OAuth strategies to be implemented and added to any Express.js app in just a few lines of code. Everyauth comes with strategies for most of the service providers, so there’s no need to search and implement service provider-specific end points, parameters names, and so forth. Also, Everyauth stores user objects in a session, and database storage can be enabled in a `findOrCreate` callback using a promise pattern.
 
-**Tip** Everyauth has an e-mail and password strategy that can be used instead of the custom-built auth. More information about it can be found in Everyauth documentation at the [GitHub repository](https://github.com/bnoguchi/everyauth#password-authentication) (<https://github.com/bnoguchi/everyauth#password-authentication>)..
+**Tip** Everyauth has an e-mail and password strategy that can be used instead of the custom-built auth. More information about it can be found in Everyauth documentation at the [GitHub repository](https://github.com/bnoguchi/everyauth#password-authentication) (<https://github.com/bnoguchi/everyauth#password-authentication>).
 
-Everyauth submodules that enable service provider-specific authorization strategies (as of this writing, take from its [GitHub repo](https://github.com/bnoguchi/everyauth/blob/master/README.md)) (<https://github.com/bnoguchi/everyauth/blob/master/README.md>) are as follows:
-
-- Password
-- Facebook
-- Twitter
-- Google
-- Google Hybrid
-- LinkedIn
-- Dropbox
-- Tumblr
-- Evernote
-- GitHub
-- Instagram
-- Foursquare
-- Yahoo!
-- Justin.tv
-- Vimeo
-- 37signals (Basecamp, Highrise, Backpack, Campfire)
-- Readability
-- AngelList
-- Dwolla
-- OpenStreetMap
-- VKontakte (Russian Social Network)
-- Mail.ru (Russian Social Network)
-- Skyrock
-- Gowalla
-- TripIt
-- 500px
-- SoundCloud
-- mixi
-- Mailchimp
-- Mendeley
-- Stripe
-- Datahero
-- Salesforce
-- Box.net
-- OpenId
-- LDAP (experimental; not production tested)
-- Windows Azure Access Control Service
+Everyauth has lots fo submodules which describe how a service might use OAuth exactly. Each one of them might be different. If you just use one of this submodule then you don't need to worry about the details. Instead you just plug in your app secret and client ID and boom! You are rolling.  In other words, submodules enable service provider-specific authorization strategies and there are tons of these submodules (strategies): password (simple email and password), Facebook, Twitter, Google, Google Hybrid, LinkedIn, Dropbox, Tumblr, Evernote, GitHub, Instagram, Foursquare, Yahoo!, Justin.tv, Vimeo, 37signals (Basecamp, Highrise, Backpack, Campfire), Readability, AngelList, Dwolla, OpenStreetMap, VKontakte (Russian social network famous for its pirated media), Mail.ru (Russian social network), Skyrock, Gowalla, TripIt, 500px, SoundCloud, mixi, Mailchimp, Mendeley, Stripe, Datahero, Salesforce, Box.net, OpenId, and event LDAP and Windows Azure Access Control Service! and more at <https://github.com/bnoguchi/everyauth/blob/master/README.md>.
 
 # Project: Adding Twitter OAuth 1.0 Sign-in to Blog with Everyauth
 

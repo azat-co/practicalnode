@@ -668,9 +668,6 @@ To run the task, simply execute `$ grunt` or `$ grunt default`.
 The results of running `$ grunt `are shown in Figure 10-3.
 
 ![alt](media/image3.png)
-
-
-
 ***Figure 10-3.** The results of the Grunt default task*
 
 A Brief on Webpack
