@@ -225,7 +225,7 @@ The successful CURL output should contain lines like these ones:
 * Cipher selection: 
 ```
 
-Then there's stuff of shit you don't need to bother with followed by:
+Then there's stuff you don't need to bother with followed by:
 
 ```
 * SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
