@@ -21,6 +21,8 @@ This chapter's project is to learn serverless. It involves creation a lambda CRU
 1. Testing the RESTful API Microservice
 1. Cleaning up
 
+Let's get started with the database. 
+
 ## 1. Creating a DynamoDB Table
 
 The name of the table in these examples is `messages`. Feel free to modify it in the command options as you wish. The key name is `id` and the type is string (`S`)
@@ -70,11 +72,13 @@ You can also get this info by
 aws dynamodb describe-table --table-name messages
 ```
 
-You can get the list of all tables in your selected region (aws configure):
+You can get the list of all tables in your selected region (which you set in `aws configure`):
 
 ```sh
 aws dynamodb list-tables
 ```
+
+Next on our agenda is the access role to this table. 
 
 ## 2. Creating an IAM role to Access DynamoDB
 
@@ -258,7 +262,7 @@ aws lambda create-function --function-name db-api \
   --timeout 10
 ```
 
-Results will look similar to this but with different IDs of course:
+Results will look similar to this but with different IDs of course. The function name must be `db-api` or other scripts in this chapter won't work. Also, make sure Node is at least version 6.
 
 ```js
 {
@@ -277,7 +281,7 @@ Results will look similar to this but with different IDs of course:
 }
 ```
 
-Test function with this data which mocks an HTTP request (`db-api-test.json` file):
+Test function with this data mocks an HTTP request. I saved it in the `db-api-test.json` file. It just has an object with the HTTP method set to GET and the query string with the table name parameter. 
 
 ```json
 {
@@ -288,7 +292,7 @@ Test function with this data which mocks an HTTP request (`db-api-test.json` fil
 }
 ```
 
-Run from a CLI (recommended) to execute function in the cloud:
+You can copy this object into the web console as shown in Figure 16-1 or use CLI. I recommend CLI. Run from your terminal or command prompt the AWS CLI command `aws lambda invoke` with parameters to execute function in the cloud. The parameters will point to the data file with the mock HTTP request using `--payload file://db-api-test.json`.
 
 ```
 aws lambda invoke \
@@ -298,9 +302,10 @@ aws lambda invoke \
   output.txt
 ```
 
-Or testing can be done from the web console in Lambda dashboard (blue test button once you navigate to function detailed view):
+Or testing can be done from the web console in Lambda dashboard as I mentioned before. Simply select the blue test button once you navigate to function detailed view and paste the data (Figure 16-1). Disregard the template which says mobile backend. This event that we tested is a GET HTTP request with a query string.  
 
 ![](media/serverless-1.png)
+***Figure 16-1.** Mocking HTTP request to our AWS Lambda in AWS web console*
 
 The results should be 200 (ok status) and output in the `output.txt` file. For example, I do NOT have any record yet so my response is this:
 
@@ -308,7 +313,7 @@ The results should be 200 (ok status) and output in the `output.txt` file. For e
 {"statusCode":"200","body":"{\"Items\":[],\"Count\":0,\"ScannedCount\":0}","headers":{"Content-Type":"application/json"}}
 ```
 
-The function is working and fetching from the database.  You can test other HTTP methods by modifying the input.  For example, to test creation of an item:
+The function is working and fetching from the database.  You can test other HTTP methods by modifying the input. For example, to test creation of an item use POST method and provide the proper body with must have `TableName` and `Item` fields just like in our Node code of our function (*what we coded in the function, exactly that must be used in the body*):
 
 ```json
 {
@@ -327,9 +332,11 @@ The function is working and fetching from the database.  You can test other HTTP
 }
 ```
 
+Enough with the testing by the way of mocking the HTTP requests. THe function is working. It was invoked from the AWS CLI and from the AWS web console. Now we must create a special URL which will trigger/invoke/execute our function every time there's a request.
+
 ## 4. Creating a API Gateway resource
 
-You will need to do the following:
+API Gateway will allow to create a REST API resource (like a route, a URL or an endpoint). Every time someone sends a request, this resource will invoke our lambda. You will need to do the following to create the REST resource/endpoint:
 
 1. Create REST API in API Gateway
 1. Create a resource (i.e, `/db-api`, e.g.,`/users`, `/accounts`)
@@ -338,7 +345,7 @@ You will need to do the following:
 1. Create deployment
 1. Give permissions for API Gateway resource and method to invoke Lambda
 
-The process is not straightforward. Thus, you can use a shell script which will perform all the steps (recommended) or web console.
+The process is not straightforward. In fact it's prone to mistake and errors. I spend many hours tweaking and mastering all the steps above to automate, that is to create a magical shell script. Thus, you can use a shell script which will perform all the steps (recommended) or... the web console because web console will simplify and automate things for you too.
 
 The shell script is in the `create-api.sh` file. It has inline comments to help you understand what is happening. Feel free to inspect `create-api.sh`. For brevity and to avoid clutter, the file is not copied into this document.
 
@@ -398,7 +405,7 @@ Testing...
 {"Items":[],"Count":0,"ScannedCount":0}%
 ```
 
-You are all done!
+You are all done! The resource URL is there in your terminal output. The script even tested the function for you if you look at the very last line (must be `"Items": []` unless you inserted a few records in the DB already).
 
 ## 5. Testing the RESTful API Microservice
 
@@ -454,16 +461,17 @@ curl ${API_URL} \
   }'
 ```
 
-The new items can be observed via HTTP interface by making another GET request... or in web console in DynamoDB dashboard as shown below:
+The new items can be observed via an HTTP interface by making another GET request... or in web console in DynamoDB dashboard as shown below in Figure 16-2:
 
 ![](media/serverless-db.png)
+***Figure 16-2.** Verifying newly created in the messages table DB records by looking at the AWS web console's DynamoDB dashboard*
 
-
-Yet another option to play with your new REST API resource. A GUI Postman. Here's how the POST request looks like in Postman. Remember to select POST, Raw and JSON (application/json):
+Yet another option to play with your new REST API resource. A very popular GUI app for making HTTP requests called Postman. Here's how the POST request looks like in Postman. Remember to select POST, Raw and JSON (application/json):
 
 ![](media/serverless-postman.png)
+***Figure 16-3.** Using Postman to validate the REST API endpoint to AWS Lambda which creates a DB record*
 
-To delete an item with DELETE HTTP request method, the payload must have a `Key`:
+To delete an item with DELETE HTTP request method, the payload must have a `Key` field of that record which we want to delete. For example:
 
 ```json
 {
@@ -487,7 +495,7 @@ Remove API Gateway API with `delete-rest-api`. For example here's my command (fo
 aws apigateway delete-rest-api --rest-api-id sdzbvm11w6
 ```
 
-Delete function by its name:
+Delete function by its name using `delete-function`:
 
 ```sh
 aws lambda delete-function --function-name db-api
