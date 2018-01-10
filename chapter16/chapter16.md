@@ -38,31 +38,31 @@ You'll get back the Arn identifier `TableArn` along with other information:
 
 ```js
 {
-    "TableDescription": {
-        "TableArn": "arn:aws:dynamodb:us-west-1:161599702702:table/messages",
-        "AttributeDefinitions": [
-            {
-                "AttributeName": "id",
-                "AttributeType": "N"
-            }
-        ],
-        "ProvisionedThroughput": {
-            "NumberOfDecreasesToday": 0,
-            "WriteCapacityUnits": 5,
-            "ReadCapacityUnits": 5
-        },
-        "TableSizeBytes": 0,
-        "TableName": "messages",
-        "TableStatus": "CREATING",
-        "KeySchema": [
-            {
-                "KeyType": "HASH",
-                "AttributeName": "id"
-            }
-        ],
-        "ItemCount": 0,
-        "CreationDateTime": 1493219395.933
-    }
+  "TableDescription": {
+    "TableArn": "arn:aws:dynamodb:us-west-1:161599702702:table/messages",
+    "AttributeDefinitions": [
+      {
+        "AttributeName": "id",
+        "AttributeType": "N"
+      }
+    ],
+    "ProvisionedThroughput": {
+      "NumberOfDecreasesToday": 0,
+      "WriteCapacityUnits": 5,
+      "ReadCapacityUnits": 5
+    },
+    "TableSizeBytes": 0,
+    "TableName": "messages",
+    "TableStatus": "CREATING",
+    "KeySchema": [
+      {
+        "KeyType": "HASH",
+        "AttributeName": "id"
+      }
+    ],
+    "ItemCount": 0,
+    "CreationDateTime": 1493219395.933
+  }
 }
 ```
 
@@ -113,28 +113,28 @@ If everything went file, then the role will be created. Compare your results wit
 
 ```js
 {
-    "Role": {
-        "AssumeRolePolicyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Action": "sts:AssumeRole",
-                    "Principal": {
-                        "Service": [
-                            "lambda.amazonaws.com"
-                        ]
-                    },
-                    "Effect": "Allow",
-                    "Sid": ""
-                }
+  "Role": {
+    "AssumeRolePolicyDocument": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Action": "sts:AssumeRole",
+          "Principal": {
+            "Service": [
+              "lambda.amazonaws.com"
             ]
-        },
-        "RoleId": "AROAJLHUFSSSWHS5XKZOQ",
-        "CreateDate": "2017-04-26T15:22:41.432Z",
-        "RoleName": "LambdaServiceRole",
-        "Path": "/",
-        "Arn": "arn:aws:iam::161599702702:role/LambdaServiceRole"
-    }
+          },
+          "Effect": "Allow",
+          "Sid": ""
+        }
+      ]
+    },
+    "RoleId": "AROAJLHUFSSSWHS5XKZOQ",
+    "CreateDate": "2017-04-26T15:22:41.432Z",
+    "RoleName": "LambdaServiceRole",
+    "Path": "/",
+    "Arn": "arn:aws:iam::161599702702:role/LambdaServiceRole"
+  }
 }
 ```
 
@@ -152,18 +152,18 @@ Other optional managed policy which you can use in addition to `AmazonDynamoDBFu
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
 }
 ```
 
@@ -266,18 +266,18 @@ Results will look similar to this but with different IDs of course. The function
 
 ```js
 {
-    "CodeSha256": "bEsDGu7ZUb9td3SA/eYOPCw3GsliT3q+bZsqzcrW7Xg=",
-    "FunctionName": "db-api",
-    "CodeSize": 778,
-    "MemorySize": 512,
-    "FunctionArn": "arn:aws:lambda:us-west-1:161599702702:function:db-api",
-    "Version": "$LATEST",
-    "Role": "arn:aws:iam::161599702702:role/LambdaServiceRole",
-    "Timeout": 10,
-    "LastModified": "2017-04-26T21:20:11.408+0000",
-    "Handler": "index.handler",
-    "Runtime": "nodejs6.10",
-    "Description": ""
+  "CodeSha256": "bEsDGu7ZUb9td3SA/eYOPCw3GsliT3q+bZsqzcrW7Xg=",
+  "FunctionName": "db-api",
+  "CodeSize": 778,
+  "MemorySize": 512,
+  "FunctionArn": "arn:aws:lambda:us-west-1:161599702702:function:db-api",
+  "Version": "$LATEST",
+  "Role": "arn:aws:iam::161599702702:role/LambdaServiceRole",
+  "Timeout": 10,
+  "LastModified": "2017-04-26T21:20:11.408+0000",
+  "Handler": "index.handler",
+  "Runtime": "nodejs6.10",
+  "Description": ""
 }
 ```
 
@@ -285,10 +285,10 @@ Test function with this data mocks an HTTP request. I saved it in the `db-api-te
 
 ```json
 {
-    "httpMethod": "GET",
-    "queryStringParameters": {
-        "TableName": "messages"
-     }
+  "httpMethod": "GET",
+  "queryStringParameters": {
+    "TableName": "messages"
+  }
 }
 ```
 
@@ -324,9 +324,9 @@ The function is working and fetching from the database.  You can test other HTTP
   "body": {
     "TableName": "messages",
     "Item":{
-       "id":"1",       
-       "author": "Neil Armstrong",
-       "text": "That is one small step for (a) man, one giant leap for mankind"
+      "id":"1",       
+      "author": "Neil Armstrong",
+      "text": "That is one small step for (a) man, one giant leap for mankind"
     }
   }
 }
