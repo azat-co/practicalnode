@@ -12,7 +12,7 @@ In 2016 alone, Azat spoke at over a dozen of tech conferences including JSConf, 
 
 Azat is an ex-Technology Fellow at Capital One which is one of the top 10 US banks. At various times, Azat worked as a software engineers, and a technology leader in different organizations including the US federal government agencies, Fortune 200 companies, small startups and medium-sized corporations. During his career, Azat worked in the same teams with prominent tech people such as Raquel Vélez (first engineer at npm), Jim Jagielski (founder of Apache Foundation), Bobby Calderwood (contributor to ClojureScript) and Mitch Pirtle (co-founder of Joomla!).
 
-Azat taught in-person and face-to-face over a thousand of software engineers of prominent US and world-wide corporations including Cisco, Walmart, Starbucks, Michael Kors, Salesforce, 20th Century Fox / Fox Studios, VMWare, Capital One, OnDeck, Northwestern Mutual, Capital One, OnDeck, HubSpot, UC Davis, The University of Arizona, Intuit, DocuSign, Intuit, Macy's, Twillio, The Orchard and Apple.
+Azat taught in-person and face-to-face over a thousand of software engineers of prominent US and world-wide corporations including Cisco, Walmart, Starbucks, Michael Kors, Salesforce, 20th Century Fox / Fox Studios, VMWare, Capital One, OnDeck, Northwestern Mutual, Capital One, OnDeck, HubSpot, UC Davis, The University of Arizona, Intuit, DocuSign, Intuit, Macy's, Twilio, The Orchard and Apple.
 
 Currently in his spare time from work time, Azat enjoys a cup of Americano with ghee while recording videos for Node University, where thousands of developers sharpen and master their Node skills.
 
@@ -23,7 +23,7 @@ Thank you to the supporters of my Kickstarter campaign. Without you I probably w
 
 In particular, very great many thanks to individual Kickstarter supporters (who will soon get the signed print books and other rewards or maybe already have them): Matthew Amacker, Jordan Horiuchi, Tim Chen, Alexey Bushnev, Aleksey Maksimov, Maurice van Cooten, Ryan, Ng Yao Min, Kommana Karteek, Elias Yousef, Arhuman, Javier Armendariz, Dave Anderson, Edithson Abelard. You guys are brilliant!
 
-I cannot not mention the biggest supporter Develop Intelligence which is one of the best is not the best tech training companies. So if you need to train your software engineers in... anything! Then email them. Seriously, Develop Intelligence has been around for years and they have great teachers with great technical classes. I was one of their instructors so I know. :)
+I cannot not mention the biggest supporter DevelopIntelligence which is one of the best is not the best tech training companies (<http://www.developintelligence.com>). So if you need to train your software engineers in... anything! Then email them. Seriously, Develop Intelligence has been around for 20+ years, and they have great teachers with great technical classes. I was one of their instructors so I know. :)
 
 I convey my gratitude to all the wonderful people I have encountered during my software engineering career.  These people supported, mentored, and trusted me with new challenges, helped me to  find mistakes, and pushed my limits.
 
