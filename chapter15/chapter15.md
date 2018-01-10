@@ -78,14 +78,12 @@ If you see a message like this, most likely you didn’t start Docker:
 Cannot connect to the Docker daemon. Is the docker daemon running on this host?
 ```
 
-Start Docker. If you used macOS, you can utilize the GUI app. Otherwise, CLI.
-
-This is how running Docker daemon looks on my macOS:
+Start Docker. If you used macOS, you can utilize the GUI app. Otherwise, use CLI. How running Docker daemon looks on my macOS menu bar is shown on Figure 15-1.
 
 ![](media/docker-running.png)
+***Figure 15-1.** Docker macOS client in the menu bar needs to show "running"*
 
-
-On the contrary, if you see a message like the one below, then deamon is running and you are ready to work with Docker!
+On the contrary, if you see a message like the one below, then daemon is running and you are ready to work with Docker!
 
 ```
 Unable to find image 'hello-world:latest' locally
@@ -109,13 +107,16 @@ To generate this message, Docker took the following steps:
 You can easily get a free (trial) AWS account. You'll need a valid email and a credit card. Read about the free tier at <https://aws.amazon.com/free/> and when you are ready, sign up by clicking on "CREATE A FREE ACCOUNT".
 
 
-Once you are in, make sure you can access EC2 dashboard. Sometimes AWS requires a phone call or a waiting period. Most people can get an account within 10 minutes.
+Once you are in, make sure you can access EC2 dashboard. Sometimes AWS requires a phone call or a waiting period. Most people can get an account within 10 minutes. It's not always easy to navigate your way around the AWS web console especially if you are a first time user. EC2 is just one of many, many, many AWS services. EC2 belongs to the Compute family or category while there are database, security, tools, networking and various other categories. 
+
+Take a look at Figure 15-2 where I point to the location of the EC2 services in "Recently visited services". Right below that is the "Compute" category which also give you the access to the EC2 dashboard.
 
 ![](media/aws-ec2.png)
+***Figure 15-2.** AWS web console has Compute and EC2, which we need for microservices and containers, in the top left column*
 
+Using the web console is easy but it is limited when it comes to deployment of Docker containers and their images to the AWS container registry. (AWS web console is also limited in the fact that it's hard or even impossible to automate the web interface while it's very easy to automate the command-line interface by writing a few shell scripts.) AWS CLI will allow us to upload images to the cloud. We can later deploy those images from this cloud registry. Thus, we proceed to install the AWS CLI.
 
 ## Installing AWS CLI
-
 
 Check for Python. Make sure you have 2.6+ or 3.6+. You can use pip (Python package manager) to install AWS CLI.
 
@@ -261,7 +262,7 @@ cd ..
 touch Dockerfile
 ```
 
-Then, write in banking-api/Dockerfile the base image which is Node v6 based on Alpine (lightweight Linux):
+Then, write in banking-api/Dockerfile the base image which is Node v6 based on Alpine which is basically a lightweight Ubuntu (which is Linux):
 
 ```sh
 FROM node:6-alpine
@@ -568,25 +569,28 @@ The goal is to deploy two containers (API and DB) which connect using ECR and EC
 
 Each image needs to be uploaded to a registry before we can use it to run a container. There is registry from docker: hub.docker.com. AWS provides its own registry service called EC2 Elastic Container Registry (ECR). Let's use it.
 
-Log in to your AWS web console at aws.amazon.com. Navigate to us-west-2 (or some other region, but we are using us-west-2 in this lab) and click on CE2 Container Service under Compute:
+Log in to your AWS web console at aws.amazon.com. Navigate to us-west-2 (or some other region, but we are using us-west-2 in this lab) and click on CE2 Container Service under Compute as shown in the Figure 15-3.
 
 ![](media/aws-ecs-1.png)
+***Figure 15-3.** Selecting EC2 Container Service under Compute from the AWS web console*
 
-Then click on Repositories from a lift menu and on a blue button *Create repository*. Then new repository wizard will look like this:
+Then click on Repositories from a lift menu and on a blue button *Create repository*. Then new repository wizard will look like my screenshot on Figure 15-4.
 
 ![](media/aws-ecs-2.png)
+***Figure 15-4.** Configure repository (step 1 of creating ECR) which prompts for the container repository name*
 
-Enter the name of your repository for container images. I picked azat-main-repo because my name is Azat:
+Enter the name of your repository for container images. I picked azat-main-repo because my name is Azat as depicted on Figure 15-5. Do the same. Not in the sense of picking the same name but in the sense of naming your repository with some name which you can remember to use later.
 
 ![](media/aws-ecs-3.png)
+***Figure 15-5.** Entering the name of the ECR as "azat-main-repo" (for example)*
 
-Click next and on Step 2, you will see bunch of commands.
+Click next and on Step 2, you will see bunch of commands (Figure 15-6). Write them down and put somewhere safe... away from a dog so it can't eat it.
 
 
 ![](media/aws-ecs-4.png)
+***Figure 15-6.** Building and pushing instructions (step 2 of creating ECR) which explains how to upload Docker images*
 
-
-Successfully created repository, e.g., my URL is
+Successfully created repository, e.g., my URL is:
 
 ```
 161599702702.dkr.ecr.us-west-2.amazonaws.com/azat-main-repo
@@ -670,11 +674,14 @@ e0380bb6c0bb: Pushed
 latest: digest: sha256:6d1cd529ced84a6cff1eb5f6cffaed375717022b998e70b0d33c86db26a04c74 size: 2201
 ```
 
-Remember digest (last hash) 📝 Compare digest with one in the repository when you look up your image in the web console in EC2 -> ECS -> Repositories -> azat-main-repo:
+Remember digest (last hash) 📝 Compare digest with one in the repository when you look up your image in the web console in EC2 -> ECS -> Repositories -> azat-main-repo as demonstrated in Figure 15-7.
 
 
 ![](media/aws-ecs-5.png)
+***Figure 15-7.** The image uploaded to the newly created container repository is listed with the correct digest and timestamp*
 
+
+The image's in the cloud and now is the time to set up a certain mechanism to run this image.
 
 ## 2. Create a New Task Definition
 
@@ -686,9 +693,10 @@ Tasks are like run commands in docker CLI (`docker run`) but for multiple contai
 * Environment variables
 * Port mappings
 
-Go to the Task Definitions in EC2 ECS and as you might guess, press on the button which says *Create new Task Definition*:
+Go to the Task Definitions in EC2 ECS and as you might guess, press on the button which says *Create new Task Definition* as it does in Figure 15-8.
 
 ![](media/aws-ecs-6.png)
+***Figure 15-8.** Creating a new task definition is easily done from the Task Definitions screen*
 
 ### Defining the Main Task Settings for the Example
 
@@ -711,9 +719,10 @@ Define the image URL (your URL will be different), e.g.,
 161599702702.dkr.ecr.us-west-2.amazonaws.com/azat-main-repo:latest
 ```
 
-Define host 80 and container 3000 ports in port mappings. Name, image and ports are shown below:
+Define host 80 and container 3000 ports in port mappings. Name, image and ports are shown below in Figure 15-9. The values are `banking-api-container`, `161599702702.dkr.ecr.us-west-2.amazonaws.com/azat-main-repo:latest` and `80:3000` respectively.
 
 ![](media/aws-ecs-7.png)
+***Figure 15-9.** The correct API container configurations have name, image ID and port values.*
 
 Scroll down in the same modal view and add Env Variables:
 
@@ -724,40 +733,44 @@ NODE_ENV=production
 
 Add to Links the name of the MongoDB container (not defined yet) to give access to the database container to the app container such as one is the name of the container in the task definition and the other is the host name in the DB_URI:
 
-
-
 ```
 mongod-banking-api-prod-container:mongod-banking-api-prod-container
 ```
-See the screengrab below:
+
+A picture's worth a thousand words. Ergo, see the screengrab below on Figure 15-10 which shows the correct values for the environment variables and the Network settings to link the database to the API.
 
 ![](media/aws-ecs-8.png)
+***Figure 15-10.** Environment variables and network settings for the API container*
 
+
+That's it for the API container. Next we will deal with the database container settings which we must define *in the same task definition* as the API container.
 
 ### Defining the Second Container: Database
 
-Analogous to the previous container, define name and URL with these values:
+Analogous to the previous container (API), define name and URL with these values for the DB container (Figure 15-11):
 
 * Name: mongod-banking-api-prod-container
 * Image URL: registry.hub.docker.com/library/mongo:latest
 
 ![](media/aws-ecs-9.png)
+***Figure 15-11.** Database container settings have name and image URL*
 
-Scroll down to the hostname in Network settings and enter Hostname as `mongod-banking-api-prod-container` as shown below:
+Next piece is very important because it allows API to connect to this database container so pay attention closely. Scroll down to the hostname in the Network settings and enter Hostname as `mongod-banking-api-prod-container` as shown below in Figure 15-12.
 
 ![](media/aws-ecs-10.png)
+***Figure 15-12.** Defining hostname as mongo-banking-api-prod-container for the database container*
 
-
-After you added two container to the task, create the task and you'll see a screen similar to the one shown below:
+After this hostname, We are done with the database container settings. Since you've added two container to the task, everything is ready to create the task. Do it and you'll see a screen similar to the one shown below in Figure 15-13.
 
 ![](media/aws-ecs-10-2.png)
+***Figure 15-13.** The newly created task shows two containers and their respective image IDs correctly*
 
+Alternatively, you could specify volumes for database or/and the app at the stage of the task creation. But I will leave it for the next book. Send me a note if you're interested in this topic.
 
-Alternatively, you could specify volumes for database or/and the app at the stage of the task creation.
 
 ## 3. Creating Cluster
 
-Cluster is the place where AWS runs containers. They use configurations similar to EC2 instances. Define the following:
+Cluster is the place where AWS runs containers. They use configurations similar to EC2 instances (Figure 15-14). Define the following:
 
 * Cluster name: `banking-api-cluster`
 * EC2 instance type: m4.large (for more info on EC2 type, see [AWS Intro course on Node University](https://node.university/p/aws-intro))
@@ -767,38 +780,45 @@ Cluster is the place where AWS runs containers. They use configurations similar 
 * VPC: New
 
 ![](media/aws-ecs-11.png)
+***Figure 15-14.** Creating cluster page which has settings not unlike settings of an EC2 instance*
 
-Launch the cluster. It might take a few minutes.
+Launch the cluster. It might take a few minutes (Figure 15-15 and Figure 15-16).
 
 ![](media/aws-ecs-12.png)
+***Figure 15-15.** Creating cluster has three steps: cluster, IAM policy and CF stack resources*
 
-You'll see the progress:
+You'll see the progress as shown in Figure 15-5. Under the hood, AWS uses AWS CloudFormation which is a declarative way to create not just single resources such as Virtual Private Clouds or EC2 instances but whole stacks of dozens or more of such resources. CF is like an aircraft career. Later, you'll start seeing these resources as I captured in Figure 15-16. All of them will enable the smooth running and functioning of your containers. If you want to learn more about AWS and Node, read [my free blog tutorials](https://node.university/blog) on Node University and take [some of my AWS courses there](https://node.university/courses/category/Cloud). 
 
 ![](media/aws-ecs-13.png)
+***Figure 15-16.** Creating cluster involves creating multiple AWS resources: VPC, security group, routes, subnets, autoscaling groups, etc.*
 
-ECS creates a lot of EC2 resources for you such as Internet Gateway, VPC, security group, Auto Scaling group, etc. which is great because you don't have to create them manually.
+Finally, you'll see that the cluster is ready (Figure 15-17) after ECS created a lot of EC2 resources for you such as Internet Gateway, VPC, security group, Auto Scaling group, etc. which is great because you don't have to create them manually. The cluster is ready in its own VPC with a subnet 1 and 2. In my example on Figure 15-17, you can see Availability Zones (AZs) us-west-2c, us-west-2a and us-west-2b. That's good because in case something happens in one AZ (it's like a data center), we will have the ability to launch or use another AZ.
 
 ![](media/aws-ecs-14.png)
+***Figure 15-17.** Creating cluster involves creating multiple AWS resources: VPC, security group, routes, subnets, autoscaling groups, etc.*
 
+We uploaded images, created task definition and launched the cluster. However, if you are thinking we are done you are mistaken. The next step is to create a service.
 
 ## 4. Creating Cloud Container Service and Verifying it
 
 The last step is to create a service which will take the task and the cluster and make the containers in the task run in the specified cluster. It's oversimplified explanation because service will do more such as monitor health and restart containers.
 
-Go to Create Services which is under Task Definition -> banking-api-task -> Actions -> Create Service. You will see this:
+Go to Create Services which is under Task Definition -> banking-api-task -> Actions -> Create Service. You will see this that our Elastic Container Service service (ESC service has a double "service"?) is ready because it's been created as shown in my screenshot on Figure 15-18.
 
 ![](media/aws-ecs-15.png)
+***Figure 15-18.** ECS service banking-api-service is ready*
 
-Phew. Everything should be ready by now. To verify, we need to grab a public IP or public DNS. To do so, click Clusters -> banking-api-cluster (cluster name) -> ESC Instances (tab) and Container instance:
+Phew. 😅 Everything should be ready by now. The containers should be RUNNING. To verify it, we need to grab a public IP or public DNS. To do so, click Clusters -> banking-api-cluster (cluster name) -> ESC Instances (tab) and Container instance as illustrated in Figure 15-19 which shows the running container instance with the corresponding Public DNS and Public IP. We need those. Either one of them. 
 
 ![](media/aws-ecs-16.png)
+***Figure 15-19.** Container instance under cluster shows public IP and DNS name*
 
-Copy public IP or DNS 📝. We will need it for testing.
+Copy public IP or DNS 📝 for that cluster (which is like an EC2 instance). We will need it for testing.
 
-We need a dynamic content test. To test the dynamic content (content generated by the app with the help of a database), open in browser with `{PUBLIC_DNS}/accounts`. Most likely the response will be `[]` because the database is empty but that's a good response. The server is working and can connect to the database from a different container.
+First, we need a dynamic content test. That's the Node API and MongoDB. To test the dynamic content (content generated by the app with the help of a database), open in browser with `{PUBLIC_DNS}/accounts`. Most likely the response will be `[]` because the database is empty but that's a good response. The server is working and can connect to the database from a different container.
 
 
-Next, we need a static content test.
+Next, we need a static content test which is our static asset, i.e., image, inside of the container.
 
 To test the static content such as an image which was downloaded from the Internet by Docker (ADD in Dockerfile) and baked into the image, navigate to http://{PUBLIC_DNS}/node-university-logo.png to see the images with Docker downloaded via `ADD`. Using ADD, you can fetch any data such as HTTPS certificates (from a private S3 for example).
 
