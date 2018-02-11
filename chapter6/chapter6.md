@@ -207,6 +207,8 @@ In the Express.js file, we'll need to import (`require()`) two modules to enable
 1. `express.cookieParser()`: allows for parsing of the client/request cookies
 2. `express.session()`: exposes the `res.session` object in each request handler, and stores data in the app memory or some other persistent store like MongoDB or Redis
 
+Note: in `express-session` version 1.5.0 and higher, there's no need to add the `cookie-parser` middleware. In fact, it might lead to some bad behavior. So it's recommended to use `express-sesison` by itself because it will parse and read cookie by itself.
+
 Needless to say, `cookie-parser` and `express-session` must be installed via npm into the project's `node_modules` folder, i.e., you need to install them with `npm i cookie-parser express-session -SE`.
 
 
@@ -225,14 +227,11 @@ The rest is straightforward. We can store any data in `req.session` and it appea
 
 ```js
 app.post('/login', (req, res, next) => {
-  if (checkForCredentials(req)) {  
-  // This function checks for credentials passed in the request's payload
-if (checkForCredentials(req)) {  
-    req.session.auth = true;
-    res.redirect('/dashboard');  
-  // Private resource
+  if (checkForCredentials(req)) {  // This function checks for credentials passed in the request's payload
+    req.session.auth = true
+    res.redirect('/dashboard') // Private resource
   } else {
-    res.send(401) // Not authorized
+    res.status(401).send() // Not authorized
   }
 })
 ```
