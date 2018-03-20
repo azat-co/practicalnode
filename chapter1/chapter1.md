@@ -25,7 +25,7 @@ Although your operating system (OS) might have Node.js installed on it already, 
 - *Multiversion setup with Nave*: a must-have for developers contributing to projects that use different Node.js versions
 - *Multiversion setup with Node Version Manager* (*NVM*): alternative to Nave (see previous entry)
 
-A note about Long-Term Support (LTS) and non-LTS versions: LTS versions have longer maintenance window. This means that LTS versions will have patches and updates longer than non-LTS versions. Thus LTS versions are recommended for most users and production deployment (not because non-LTS is no proven but simply because LTS has a longer support time). 
+A note about Long-Term Support (LTS) and non-LTS versions: LTS versions have longer maintenance window. This means that LTS versions will have patches and updates longer than non-LTS versions. Thus LTS versions are recommended for most users and production deployment (not because non-LTS is not proven but simply because LTS has a longer support time). 
 
 LTS versions are even number, such as 4, 6, 8, 10, etc. and non-LTS versions are odd numbers. Non-LTS versions have the latest features before they are rolled out to the next LTS version. We would be using LTS version 8.x. For more information and the current release schedule, please see <https://github.com/nodejs/LTS>.
 
