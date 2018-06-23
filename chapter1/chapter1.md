@@ -39,7 +39,7 @@ The installers come with npm, Node package manager, which is an important tool f
 
 ***Figure 1-1.** One-click installers for Node.js*
 
-If there’s no installer for your OS (page <https://nodejs.org/en/download>), you can get the source code and compile it yourself (Figure 1-2).
+If there’s no installer for your OS on the download page (page <https://nodejs.org/en/download>), you can get the source code and compile it yourself (Figure 1-2).
 
 ![alt](media/image2.png)
 
@@ -113,7 +113,7 @@ $ sudo mkdir -p /usr/local/{share/man,bin,lib/node,include/node}
 $ sudo chown -R $USER /usr/local/{share/man,bin,lib/node,include/node}
 ```
 
-**Note**  Please be sure you are comfortable with the functionality of the `chown` command before you run it.
+**Note:**  Please be sure you are comfortable with the functionality of the `chown` command before you run it.
 
 Then, proceed with a normal installation:
 
@@ -207,9 +207,9 @@ To download nvm for Windows, simply go to <https://github.com/coreybutler/nvm-wi
 
 The most popular and used alternatives to NVM include the following tools:
 
-- [n](https://github.com/visionmedia/n]) (<https://github.com/visionmedia/n>): the original and *simple* Node version manager without subshells (I still use it today on my personal computer)
-- [nave](https://github.com/isaacs/nave) (<https://github.com/isaacs/nave>): version manager from the creator of npm; and it supports subshells
-- [ndevn](https://github.com/riywo/ndenv) (<https://github.com/riywo/ndenv>): Node.js version manager based on rbenv
+- *[n](https://github.com/visionmedia/n) (<https://github.com/visionmedia/n>)*: The original and *simple* Node version manager without subshells (I still use it today on my personal computer)
+- *[nave](https://github.com/isaacs/nave) (<https://github.com/isaacs/nave>)*: The version manager from the creator of npm Isaac Schelueter which supports subshells
+- *[ndevn](https://github.com/riywo/ndenv) (<https://github.com/riywo/ndenv>)*: Node.js version manager based on rbenv
 
 ## Updating npm
 
@@ -261,7 +261,7 @@ The result of the previous snippet is shown in Figure 1-4.
 
 ***Figure 1-4.** Executing JavaScript in Node.js REPL*
 
-There are slight deviations in ECMAScript implementations in Node.js and browsers such as the Chrome Developer Tools console. For example, `require()` is a valid method in Node.js REPL, whereas the same code is `ReferenceError` in the Chrome console because of browsers don't support Node.js modules feature. However, for the most part, Node.js REPL and the Chrome/Firefox consoles are similar.
+There are slight deviations in ECMAScript implementations in Node.js and browsers such as the Chrome Developer Tools console. For example, `require()` is a valid method in Node.js REPL, whereas the same code produces `ReferenceError` in the Chrome DevTools console because browsers don't support Node.js modules feature. However, for the most part, Node.js REPL and the Chrome/Firefox consoles are similar.
 
 # Launching Node.js Scripts
 
@@ -320,9 +320,11 @@ By the way, `==` performs automatic typecasting whereas `===` does not.
 
 ## Buffer—Node.js Super Data Type
 
-Buffer is a Node.js addition to four primitives (boolean, string, number, and RegExp) and all-encompassing objects (array and functions are also objects) in front-end JavaScript. Think of buffers as extremely efficient data stores. In fact, Node.js tries to use buffers any time it can, such as when reading from a file system and when receiving packets over the network. Buffer is functionally similar to JavaScript's [ArrayBuffer](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer).
+`Buffer` is the data type. It is a Node.js addition to four primitives (boolean, string, number, and RegExp) and all-encompassing objects (arrays and functions are also objects) in front-end JavaScript. Think of buffers as extremely efficient data stores. In fact, Node.js tries to use buffers any time it can, such as when reading from a file system and when receiving packets over the network. 
 
-To create a Buffer, use `from`. Buffer can be created from an array, another Buffer, ArrayBuffer or a string:
+Buffer is functionally similar to JavaScript's [ArrayBuffer](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer). We use the class name `Buffer` to work with buffer objects.
+
+To create a buffer object, use `from`. Buffer can be created from an array, another buffer, `ArrayBuffer` or a string:
 
 ```js
 const bufFromArray = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72])
@@ -377,7 +379,7 @@ const car = {
 }
 ```
 
-In Node version 8, all the ES2015 (ES6) features available which allows developers to write advanced object literals which are so enhanced that they are more like classes rather than simple ES5 object. For example, you can extend another object, define fields dynamically, invoke super and use shorter syntax for functions: 
+In Node version 8, all the ES2015 (ES6) features available which allows developers to write advanced object literals which are so enhanced that they are more like classes rather than simple ES5 object. For example, you can extend another object, define fields dynamically, invoke `super()` and use shorter syntax for functions: 
 
 ```js
 const serviceBase = {
@@ -406,7 +408,7 @@ console.log(accountService) // ready to be used
 
 ## Functions
 
-In Node.js (as well as in JavaScript), functions are *first-class citizens*, and we treat them as variables, because they are objects! Yes, functions can even have properties/attributes. First, let’s learn how to define a function.:
+In Node.js (as well as in JavaScript), functions are *first-class citizens*, and we treat them as variables, because they are objects! Yes, functions can even have properties/attributes. First, let’s learn how to define a function.
 
 ### Define/Create a Function
 
@@ -428,7 +430,7 @@ const f = function() {
 }
 ```
 
-The new analog of the definition above is fat arrow function with an added benefit of using `this` safely due to its value always remaining an outer `this`:
+The new analog of the definition above is the fat arrow function with an added benefit of using `this` safely due to its value always remaining an outer `this`:
 
 ```js
 // outer "this"
@@ -457,7 +459,7 @@ f() *//outputs Boo*
 console.log(f.boo) *//outputs 1*
 ```
 
-Note: The return keyword is optional. When it is omitted, the function returns `undefined` on invocation. I like to call functions with return, expressions (see Functions Invocation vs. Expression).
+Note: The `return` keyword is optional. When it is omitted, the function returns `undefined` on invocation. I like to call functions with `return`, expressions (see Function Invocation vs. Expression below).
 
 ### Pass Functions as Parameters
 
@@ -506,7 +508,7 @@ function f(a) {
 }
 ```
 
-There's also an implicit return when you are using fat arrow function. It works when there's just one statement in a function.
+There's also an implicit `return` when you are using fat arrow function. It works when there's just one statement in a function.
 
 ```js
 const fWithImplicitReturn = (a,b) => a+b
@@ -514,7 +516,7 @@ const fWithImplicitReturn = (a,b) => a+b
 
 ## Arrays
 
-Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0 based) keys.
+Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0-based) keys.
 
 ```js
 let arr = []
@@ -532,7 +534,7 @@ There are *no classes* in JavaScript because objects inherit directly from other
 - Pseudoclassical
 - Functional
 
-This is an example of the functional inheritance pattern:
+This is an example of the functional inheritance pattern in which two function factories create objects `user` and `agent`:
 
 ```js
 let user = function (ops) {
@@ -608,7 +610,7 @@ It’s important to follow the most common language conventions. Some of them ar
 - Indentations
 - Whitespace
 
-These JavaScript/Node.js conventions (with semicolons being an exception) are stylistic and highly preferential. They don’t impact the execution; however, it’s strongly suggested that you follow one style consistently, especially if you are a developer working in teams and/or on open-source projects. Some open-source projects might not accept pull requests if they contain semicolons (e.g., npm) or if they don’t use comma-first style (e.g., request).
+These JavaScript/Node.js conventions (with semicolons being an exception) are stylistic and highly preferential. They don’t impact the execution; however, it’s strongly suggested that you follow one style consistently, especially if you are a developer working in teams and/or on open-source projects. Some open-source projects might not accept pull requests if they contain semicolons (e.g., npm) or if they don’t use comma-first style (e.g., `request`).
 
 ### Semicolons
 
@@ -620,9 +622,9 @@ Hence, the use of semicolons is optional, except for these cases:
 2. When a new line starts with parentheses or square brace or regular expression, such as when using an immediately invoked function expression (IIFE): `;(function(){...}())`
 3. When doing something weird like empty statements (see [Automatic semicolon insertion in JavaScript](http://2ality.com/2011/05/semicolon-insertion.html))
 
-In this, as well as in my other books, I don't use semicolons. There are a few reasons why. If you use semicolons and forget or omit one, then you code will still work but you'll end up with inconsistency which will create a necessity for a linter or a similar tool to check for your syntax. Let's say you spotted the missing semicolon or saw a warning from a linter, then you need to go to your code and fix it. Why to go through all this trouble? 
+In this, as well as in my other books, I don't use semicolons. There are a few reasons why. If you use semicolons and forget or omit one, then you code will still work but you'll end up with inconsistency which will create a necessity for a linter or a similar tool to check for your syntax. Let's say you spotted a missing semicolon or saw a warning from a linter, then you need to go to your code and fix it. Why go through all this trouble? 
 
-Semicolon-less code works perfectly fine except two cases shown above and when you try to multiple statements are in one line. But developers should NOT write multiple statements in one line. That's a job of a bundler/minimizer. The bottom line, I recommend developers focus on their work and not looking for missing semicolons. Let the language use its own feature (Automatic Semicolon Insertion). 
+Semicolon-less code works perfectly fine except for two cases shown above and when you try to write multiple statements on one line. But developers should NOT write multiple statements in one line. That's a job of a bundler/minimizer. The bottom line, I recommend developers focus on their work and not looking for missing semicolons when the language has a feature (Automatic Semicolon Insertion) to make semicolons optional.
 
 ### camelCase
 
@@ -635,7 +637,7 @@ let mainView = new MainView()
 
 ### Naming
 
-`_` and `$` are perfectly legitimate characters for literals (jQuery and Underscore libraries use them a lot). Private methods and attributes start with `_` (and it does nothing by itself!).
+`_` and `$` are perfectly legitimate characters for literals (jQuery and Underscore libraries use them a lot). Private methods and attributes start with `_` (it does nothing by itself!).
 
 ### Commas
 
@@ -648,7 +650,7 @@ const obj = { firstName: "John"
 }
 ```
 
-I recommend to avoid comma-first style. The *erroneous* (in my view) reason for using comma-first style was that it can make a developer work easier. However while it simplifies the removal of the last line easier, it complicates the removal of the first line. 
+I recommend to avoid comma-first style. The *erroneous* (in my view) reason for using comma-first style was that it can make a developer work easier. However while it simplifies the removal of the last line, it complicates the removal of the first line. 
 
 Moreover, with ES2017/ES8 developers can use trailing commas in function calls (for arguments) in addition to object literals and arrays. I recommend using traditional style (with or without trailing comma):
 
@@ -661,7 +663,7 @@ const obj = { firstName: "John",
 
 ### Indentation
 
-Indentation is usually done using either a tab, or four- or two-space indentation, with supporting camps split almost religiously between the two options. I recommend using two spaces because this will allow you to have more code on the screen and believe me, you'll need all the width of your code editor due to nested promises and callbacks.
+Indentation is usually done using either a tab, four- or two-space indentation, with supporting camps split almost religiously between the two options. I recommend using two spaces because this will allow you to have more code on the screen and believe me, you'll need all the width of your code editor due to nested promises and callbacks.
 
 I recommend having the closing curly brackets on the same indentation level as the opening statement. It'll be easier to find the matching brackets. For example, like this:
 
@@ -676,12 +678,13 @@ if (error) {
 
 Usually, there is a space before and after the `=`, `+`, `{`, and `}` symbols. There is no space on invocation (e.g., `arr.push(1);`). And there’s no space when we define an anonymous function: `function() {}`.
 
-For example, 
+For example, these function definition and invocation do not have space after word `function` but there's space before and after `=` and `+`. This example puts the closing curly brace at the same level as the beginning of the logical block `const`.
 
 ```js
 const f = function(a, b) {
   return a + b
 }
+
 f(1, 2)
 ```
 
@@ -755,7 +758,7 @@ While in the file where we import the aforementioned script (assuming the path a
 const messages = require('./routes/messages.js')
 ```
 
-However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals*)(*<http://webapplog.com/express-js-fundamentals>*) *[2013]*). In this case, `module.exports` is needed:
+However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in a blog post [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals*) (*<http://webapplog.com/express-js-fundamentals>*) *[2013]*). In this case, `module.exports` is needed:
 
 ```js
 module.exports = (app) => {
@@ -794,7 +797,7 @@ const keys = require('./keys.js'),
 ```
 
 
-In addition, for including files it’s advisable to use statements with `__dirname` and `path.join()` to insure the paths work across-platforms. For example, to include a file `messages.js` in a `routes` folder which itself is inside a folder where the currently running script is, use:
+In addition, for including files it’s advisable to use statements with `__dirname` and `path.join()` to insure the paths work across platforms. For example, to include a file `messages.js` in a `routes` folder which itself is inside a folder where the currently running script is, use:
 
 ```js
 const messages = require(path.join(__dirname, 'routes', 'messages.js'))
@@ -808,13 +811,13 @@ Oh yeah, if `require()` points to a folder, Node.js attempts to read the `index.
 const messages = require(path.join(__dirname, 'routes', 'messages'))
 ```
 
-There's another variable related to paths.
+That's not it. There's another special Node variable related to paths.
 
 ## __dirname vs. process.cwd
 
 `__dirname` is an absolute path to the folder with the source code script (a file in which the global variable is called), whereas `process.cwd` is an absolute path to the folder from which the process that runs the script was launched. They are the same in the example of `node program.js`. 
 
-The `cwd` will be different from `__dirname`, if we started the program from a different folder. For example, for the process `$ node ./code/program.js`, `__dirname` will have `code` but `cwd` not since it'll be one folder above in the directory tree.
+The `cwd` value will be different from `__dirname`, if we started the program from a different folder. For example, for the process `$ node ./code/program.js`, `__dirname` will have `code` but `cwd` not since it'll be one folder above in the directory tree.
 
 On POSIX systems (macOS, Linux and its distributions), Node developers can also use `process.evn.PWD` which works similarly to `process.cwd`.
 
@@ -824,18 +827,18 @@ There are myriad helper functions in Node.js from the browser JavaScript applica
 
 - **Array**
 
-	- `some()` and `every()`:assertions for array items
-	- `join()` and `concat()`: convertion to a string
-	- `pop()`, `push()`, `shift()`, and `unshift()`: working with stacks and queues
-	- `map()`: model mapping for array items
-	- `filter()`: querying array items
-	- `sort()`: ordering items
-	- `reduce()`, `reduceRight()`: computing
-	- `slice()`: copying
-	- `splice()`: removing
-	- `indexOf()`: lookups of finding the value in the array
-	- `reverse()`: reversing the order
-	- The `in` operator: iteration over array items
+	- `some()` and `every()`: Assertions for array items
+	- `join()` and `concat()`: Conversion to a string
+	- `pop()`, `push()`, `shift()`, and `unshift()`: Working with stacks and queues
+	- `map()`: Model mapping for array items
+	- `filter()`: Querying array items
+	- `sort()`: Ordering items
+	- `reduce()`, `reduceRight()`: Computing
+	- `slice()`: Copying
+	- `splice()`: Removing
+	- `indexOf()`: Lookups of finding the value in the array
+	- `reverse()`: Reversing the order
+	- *The `in` operator*: Iteration over array items
 
 - **Math**
 
@@ -848,7 +851,7 @@ There are myriad helper functions in Node.js from the browser JavaScript applica
 	- `indexOf()`: index of finding the value in the string
 	- `split()`: converting the string to an array
 
-In addition, we have `setInterval()`, `setTimeout()`, `forEach()`, and `console` methods in Node.js. For the complete list of methods and examples of the String, Array and Math Node.js objects, visit the following Mozilla Developer Network documentation pages:
+In addition, we have `setInterval()`, `setTimeout()`, `forEach()`, and `console` methods in Node.js. For the complete list of methods and examples of the `String`, `Array` and `Math` Node.js classes (really objects), visit the following Mozilla Developer Network documentation pages:
 
 - *String*: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String>
 - *Array*: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array>
@@ -872,46 +875,46 @@ Let's dive deeper into each of these core modules.
 
 `http` is the main module responsible for the Node.js HTTP server. The main methods are as follows:
 
-- `http.createServer()`: returns a new web server object
-- `http.listen()`: begins accepting connections on the specified port and hostname
-- `http.createClient()`: is a client and makes requests to other servers
-- `http.ServerRequest()`: passes incoming requests to request handlers
-	- **data** : emitted when a part of the message body is received
-	- **end** : emitted exactly once for each request
-	- `request.method()`: the request method as a string
-	- `request.url()`: request URL string
+- `http.createServer()`: Returns a new web server object
+- `http.listen()`: Begins accepting connections on the specified port and hostname
+- `http.createClient()`: Creates a client and makes requests to other servers
+- `http.ServerRequest()`: Passes incoming requests to request handlers
+	- **data** : Emitted when a part of the message body is received
+	- **end** : Emitted exactly once for each request
+	- `request.method()`: Returns the request method as a string
+	- `request.url()`: Returns the request URL string
 
-- `http.ServerResponse()`: creates this object internally by an HTTP server — not by the user— and is used as an output of request handlers
+- `http.ServerResponse()`: Creates this object internally by an HTTP server — not by the user— and is used as an output of request handlers
 
-	- `response.writeHead()`: sends a response header to the request
-	- `response.write()`: sends a response body
-	- `response.end()`: sends and ends a response body
+	- `response.writeHead()`: Sends a response header to the request
+	- `response.write()`: Sends a response body
+	- `response.end()`: Sends and ends a response body
 
 ### [**util**](**http://nodejs.org/api/util.html**) (**<http://nodejs.org/api/util.html>**)
 
-The util module provides utilities for debugging. One method is as follows:
+The `util` module provides utilities for debugging. One method is as follows:
 
-- `util.inspect()`: returns a string representation of an object, which is useful for debugging
+- `util.inspect()`: Returns a string representation of an object, which is useful for debugging
 
 ### [**querystring**](**http://nodejs.org/api/querystring.html**) (**<http://nodejs.org/api/querystring.html>**)
 
 The `querystring` module provides utilities for dealing with query strings. Some of the methods include the following:
 
-- `querystring.stringify()`: serializes an object to a query string
-- `querystring.parse()`: deserializes a query string to an object
+- `querystring.stringify()`: Serializes an object to a query string
+- `querystring.parse()`: Deserializes a query string to an object
 
 ### [**url**](**http://nodejs.org/api/url.html**) (**<http://nodejs.org/api/url.html>**)
 
 The `url` module has utilities for URL resolution and parsing. One method is as follows:
 
-- `parse()`: takes a URL string and returns an object
+- `parse()`: Takes a URL string and returns an object
 
 ### [**fs**](**http://nodejs.org/api/fs.html**) (**<http://nodejs.org/api/fs.html>**)
 
 `fs` handles file system operations such as reading to and writing from files. There are synchronous and asynchronous methods in the library. Some of the methods include the following:
 
-- `fs.readFile()`: reads files asynchronously
-- `fs.writeFile()`: writes data to files asynchronously
+- `fs.readFile()`: Reads files asynchronously
+- `fs.writeFile()`: Writes data to files asynchronously
 
 There is no need to install or download core modules. To include them in your application, all you need is to use the following syntax:
 
@@ -921,10 +924,9 @@ const http = require('http')
 
 Node comes with core modules but most developers rely on the vast ecosystem of community-created  FOSS (free and open-source) modules. These modules often allow developers to not write code because  a module has all the functionality needed. With large number of modules, it's important to find just the right one for the job. The best place to start your search for a module is your favorite search engine such as Google, Bing or DuckDuckGo. A list of noncore modules is found at the following locations:
 
-- [npm search](https://www.npmjs.com/browse/keyword/search): <https://www.npmjs.com/browse/keyword/search>: the main npm search by npm itself
-- [node-modules.com](http://node-modules.com) (<http://node-modules.com>): search for npm
-- [Nipster](http://nipstr.com) (<http://nipstr.com>): npm search combined with GitHub stats
-- [npms.io](https://npms.io) (<https://npms.io>): another search for npm
+- [npm search](https://www.npmjs.com/browse/keyword/search): <https://www.npmjs.com/browse/keyword/search>: The main npm search by npm itself
+- [node-modules.com](http://node-modules.com) (<http://node-modules.com>): Search for npm
+- [npms.io](https://npms.io) (<https://npms.io>): Another search for npm
 
 ## Handy Node.js Utilities
 
