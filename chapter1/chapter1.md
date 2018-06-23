@@ -932,9 +932,9 @@ Node comes with core modules but most developers rely on the vast ecosystem of c
 
 Although the core of the Node.js platform was, intentionally, kept small, it has some essential utilities, including the following:
 
-- [*Crypto*](*http://nodejs.org/api/crypto.html*) (*<http://nodejs.org/api/crypto.html>*): has randomizer, MD5, HMAC-SHA1, and other algorithms
-- [*Path*](*http://nodejs.org/api/path.html*) (*<http://nodejs.org/api/path.html>*): handles system paths
-- [*String decoder*](*http://nodejs.org/api/string_decoder.html*) (*<http://nodejs.org/api/string_decoder.html>*): decodes to and from buffer and string types
+- [*Crypto*](*http://nodejs.org/api/crypto.html*) (*<http://nodejs.org/api/crypto.html>*): Has randomizer, MD5, HMAC-SHA1, and other algorithms
+- [*Path*](*http://nodejs.org/api/path.html*) (*<http://nodejs.org/api/path.html>*): Handles system paths
+- [*String decoder*](*http://nodejs.org/api/string_decoder.html*) (*<http://nodejs.org/api/string_decoder.html>*): Decodes to and from `Buffer` and `String` types
 
 The method we use throughout is `path.join` and it concatenates the path using an appropriate folder separator (`/` or `\\`).
 
@@ -987,7 +987,7 @@ By default, Node.js uses buffers for streams. For more immersive instruction, ta
 
 ## Installing Node.js Modules with npm
 
-npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html) (<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, `$ npm install superagent` in the program.js write: `const superagent = require('superagent')`.
+npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html) (<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, to import `superagent` first install it with `$ npm install superagent` and then in the `program.js` write: `const superagent = require('superagent')` to import the `superagent` library.
 
 The best thing about npm is that it keeps all the dependencies local, so if module A uses module B v1.3, and module C uses module B v2.0 (with breaking changes compared with v1.3), both A and C will have their own localized copies of different versions of B. This proves to be a more superior strategy than that of Ruby and other platforms that use global installations by default.
 
@@ -997,7 +997,7 @@ The best practice is *not to include* a `node_modules` folder in the Git reposit
 
 ## Taming Callbacks in Node.js
 
-[Callbacks](https://github.com/maxogden/art-of-node#callbacks) (<https://github.com/maxogden/art-of-node%23callbacks>) are able to make Node.js code asynchronous, yet programmers unfamiliar with JavaScript, who work with Java or PHP, might be surprised when they see Node.js code described on [Callback Hell](http://callbackhell.com) (<http://callbackhell.com>):
+[Callbacks](https://github.com/maxogden/art-of-node#callbacks) (<https://github.com/maxogden/art-of-node#callbacks>) are able to make Node.js code asynchronous, yet programmers unfamiliar with JavaScript, who work with Java or PHP, might be surprised when they see Node.js code described on [Callback Hell](http://callbackhell.com) (<http://callbackhell.com>):
 
 ```js
 fs.readdir(source, (err, files) => {
@@ -1030,7 +1030,7 @@ There’s nothing to be afraid of here as long as two-space indentation is used.
 
 ## Hello World Server with HTTP Node.js Module
 
-Although, Node.js can be used for a wide variety of tasks, it’s used primarily for building web applications. Node.js thrives in the network as a result of its asynchronous nature and built-in modules such as `net` and `http`.
+Although Node.js can be used for a wide variety of tasks, it’s used primarily for building networking applications including web apps. Node.js thrives in networking as a result of its asynchronous nature and built-in modules such as `net` and `http`.
 
 Here’s a quintessential Hello World example in which we create a server object, define the request handler (function with `req` and `res` arguments), pass some data back to the recipient, and start up the whole thing (`hello.js`):
 
@@ -1087,7 +1087,7 @@ From the folder in which you have `server.js`, launch in your terminal the follo
 $ node server.js
 ```
 
-Open [localhost:3000](http://localhost:3000) (<http://localhost:3000>) or [127.0.0.1:3000](http://127.0.0.1:3000) (<http://127.0.0.1:3000>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control + c (on macOS X).
+Open [localhost:3000](http://localhost:3000) (<http://localhost:3000>) or [127.0.0.1:3000](http://127.0.0.1:3000) (<http://127.0.0.1:3000>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control+C (on macOS X).
 
 **Note**  The name of the main file could be different from `server.js` (e.g., `index.js` or `app.js`). In case you need to launch the `app.js` file, just use `$ node app.js`.
 
@@ -1097,9 +1097,9 @@ Modern-day software developers, especially those who use compiled languages such
 
 Now, there are amazing environments such as Chrome Developer Tools and Firefox Firebug, and because Node.js has a lot of things in common with the browser JavaScript environment, we have plenty of options for debugging in Node.js, including the following:
 
-- *Core Node.js Debugger*: a non-graphic user interface (non-GUI) minimalistic tool that works everywhere
-- *Node Inspector*: port of Google Chrome Developer Tools
-- WebStorm and other IDEs (covered in the next section)
+- *Core Node.js Debugger*: A non-graphic user interface (non-GUI) minimalistic tool that works everywhere
+- *Node Inspector*: Port of Google Chrome Developer Tools
+- *IDEs*: WebStorm, VS Code and other IDEs (covered in the next section)
 
 ## Core Node.js Debugger
 
@@ -1131,11 +1131,11 @@ The main node debug commands are as follows:
 
 The full list of commands is available through the `help` command or on [the official web site](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
 
-So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at (<http://localhost:3000>) or execute `$ curl "http://localhost:3000/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
+So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at <http://localhost:3000> or execute `$ curl "http://localhost:3000/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
 
 ## Debugging with Node Inspector
 
-The built-in Node.js debugger client is extensive, but it’s not intuitive because of the lack of a GUI. Therefore, for a more developer-friendly interface than the core Node.js debugger provides, [node-inspector](https://github.com/node-inspector/node-inspector) (<https://github.com/node-inspector/node-inspector>) comes to the rescue!
+The built-in Node.js debugger client is extensive, but it’s not intuitive because of the lack of a GUI. Therefore, for a more developer-friendly interface than the core Node.js debugger provides, Node Inspector comes to the rescue! Node Inspector is the [node-inspector](https://github.com/node-inspector/node-inspector) npm module (<https://github.com/node-inspector/node-inspector>).
 
 To download and install Node Inspector, we use our beloved npm in the global mode (`-g` or `--global`):
 
@@ -1198,14 +1198,14 @@ One of the best things about Node.js is that you don’t need to compile the cod
 The following is a list of the most popular text editors and IDEs used in web development:
 
 
-- [Visual Studio Code](https://code.visualstudio.com/nodejs) (<https://code.visualstudio.com/nodejs>): a free, cross-platform, feature-rich editor by Microsoft powered by Node.js. It includes a built-in terminal, Node.js debugging, and lots of handy extensions (Figure 1-12). *I highly recommend using this editor! (At least until something new comes out in the next few years.)*
-- [Atom](https://atom.io) (<https://atom.io>): a free, cross-platform editor by GitHub (also powered by Node.js) comparable to Visual Studio Code.
-- [TextMate](http://macromates.com) (<http://macromates.com>): macOS version only, free 30-day trial for v1.5, dubbed *The Missing Editor for macOS*
-- [Sublime Text](http://www.sublimetext.com) (<http://www.sublimetext.com>): macOS and Windows versions are available, an even better alternative to TextMate, with an unlimited evaluation period
-- [Coda](http://panic.com/coda) (<http://panic.com/coda>): an all-in-one editor with an FTP browser and preview, has support for development with an iPad
-- [Aptana Studio](http://aptana.com)(<http://aptana.com>): a full-size IDE with a built-in terminal and many other tools
-- [Notepad++](http://notepad-plus-plus.org) (<http://notepad-plus-plus.org>): a free, Windows-only lightweight text editor with the support of many languages
-- [WebStorm IDE](http://www.jetbrains.com/webstorm) (<http://www.jetbrains.com/webstorm>): a feature-rich IDE that allows for Node.js debugging, developed by JetBrains and marketed as “the smartest JavaScript IDE” (Figure 1-13)
+- *[Visual Studio Code](https://code.visualstudio.com/nodejs) (<https://code.visualstudio.com/nodejs>)*: A free, cross-platform, feature-rich editor by Microsoft powered by Node.js. It includes a built-in terminal, Node.js debugging, and lots of handy extensions (Figure 1-12). *I highly recommend using this editor! (At least until something new comes out in the next few years.)*
+- *[Atom](https://atom.io) (<https://atom.io>)*: A free, cross-platform editor by GitHub (also powered by Node.js) comparable to Visual Studio Code.
+- *[TextMate](http://macromates.com) (<http://macromates.com>)*: Editor for macOS, free 30-day trial for v1.5, dubbed *The Missing Editor for macOS*.
+- *[Sublime Text](http://www.sublimetext.com) (<http://www.sublimetext.com>)*: Editor for macOS and Windows, an even better alternative to TextMate, with an unlimited evaluation period
+- *[Coda](http://panic.com/coda) (<http://panic.com/coda>)*: An all-in-one editor with an FTP browser and preview, has support for development with an iPad
+- *[Aptana Studio](http://aptana.com)(<http://aptana.com>)*: A full-size IDE with a built-in terminal and many other tools
+- *[Notepad++](http://notepad-plus-plus.org) (<http://notepad-plus-plus.org>)*: A free, Windows-only lightweight text editor with the support of many languages
+- *[WebStorm IDE](http://www.jetbrains.com/webstorm) (<http://www.jetbrains.com/webstorm>)*: A feature-rich IDE that allows for Node.js debugging, developed by JetBrains and marketed as “the smartest JavaScript IDE” (Figure 1-13)
 
 ![alt](media/image12.png)
 
@@ -1219,23 +1219,23 @@ For most developers, a simple code editor such as Sublime Text 2, TextMate, or E
 
 # Watching for File Changes
 
-If you are familiar with tool that are watching for file changes and restarting apps, or it’s not an issue for you, feel free to skip this section. All other developers must pay attention. 
+If you are familiar with tools that are watching for file changes and restarting Node apps, or it’s not an issue for you, feel free to skip this section. All other developers must pay attention. 
 
-Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control + c on Macs and Ctrl + c on Windows). 
+Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control+C on macOS and Ctrl+C on Windows). 
 
 However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch`(<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) method from the core Node.js `fs` module and restart servers when we save changes from an editor:
 
-- [forever](http://npmjs.org/forever) (<http://npmjs.org/forever>) ([GitHub](http://github.com/nodejitsu/forever)) (<http://github.com/nodejitsu/forever>), usually used in production (we examine this topic in Chapter 11)
-- [node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>) ([GitHub](https://github.com/fgnass/node-dev)) (<https://github.com/fgnass/node-dev>)
-- [nodemon](https://npmjs.org/package/nodemon) (<https://npmjs.org/package/nodemon>) ([GitHub](https://github.com/remy/nodemon)) (<https://github.com/remy/nodemon>)
-- [supervisor](https://npmjs.org/package/supervisor) (<https://npmjs.org/package/supervisor>) ([GitHub](https://github.com/isaacs/node-supervisor)) (<https://github.com/isaacs/node-supervisor>)
-- [up](https://npmjs.org/package/up) (<https://npmjs.org/package/up>) ([GitHub](https://github.com/LearnBoost/up)) (<https://github.com/LearnBoost/up>), now a deprecated module
+- *[node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>)*: A tool to restart your Node servers
+- *[nodemon](https://npmjs.org/package/nodemon) (<https://npmjs.org/package/nodemon>)*: Another tool to restart your Node servers
+- *[supervisor](https://npmjs.org/package/supervisor) (<https://npmjs.org/package/supervisor>)*: A tool which was used in production to restart your Node servers but which can be used in development as well
+- *[pm2-dev](http://npmjs.org/pm2) (<http://npmjs.org/pm2>)*: A development version of the pm2 tool
+- *[forever](http://npmjs.org/forever) (<http://npmjs.org/forever>)*: usually used in production (we examine this topic in Chapter 11)
 
 Any one of these tools is as easy to use as installing globally with `$ npm install -g node-dev`, then running the Node.js script with `$ node-dev program.js`. Just replace `node-dev` with another module name. &#x263A;
 
 For a comparison between these tools, refer to [Comparison: Tools to Automate Restarting Node.js Server After Code Changes](http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev) (<http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev>)
 
-**Tip**  It’s good to know that Express.js reloads a template file for every new request by default. So, no server restart is necessary. However, we can cache templates by enabling the `view cache` setting. For more Express.js setting, take a look at Pro Express.js 4 [2014, Apress].
+**Tip**  It’s good to know that Express.js reloads a template file for every new request by default. So, no server restart is necessary. However, we can cache templates by enabling the `view cache` setting. For more Express.js setting, take a look at Pro Express.js 4 (Apress, 2014).
 
 # Summary
 
