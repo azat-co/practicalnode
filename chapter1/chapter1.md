@@ -18,7 +18,7 @@ As with many technologies, it’s vital to have the proper foundation set up fir
 Although your operating system (OS) might have Node.js installed on it already, you should update to at least 8.x which is the latest recommended long-term support (LTS) version as of this writing (July 2018). Version 8 is used in the examples and projects of this book. Version 8 is LTS and the recommended choice because it will be supported until October 2019 according to [the Node official release schedule](https://github.com/nodejs/Release#release-schedule). If you are reading the book after October 2019, please use the next LTS version for your real-life projects. You can still use Node.js version 8 for this book's projects to ensure smooth execution and lack of conflicts. In the following subsection, we examine a few different approaches to installing Node.js:
 
 - *One-click installers*: Probably the easiest and fastest way to get started with the platform
-- *Installing with HomeBrew or MacPorts*: Straightforward installation for Max OS X users
+- *Installing with HomeBrew or MacPorts*: Straightforward installation for macOS users
 - *Installing from a tar file*: An alternative installation from an archive file
 - *Installing without `sudo`*: The best way to avoid needing `sudo` (admin rights) when using the `node` and `npm` commands
 - *Installing from a Git repo*: An option for advanced developers who need the latest version and/or contribute to the project

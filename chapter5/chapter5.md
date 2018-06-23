@@ -24,7 +24,7 @@ To get you started with MongoDB and Node.js, we examine the following in this ch
 
 Next, we look at MongoDB installation from the official package, as well as using HomeBrew for macOS users (recommended).
 
-The following steps are better suited for macOS/Linux–based systems, but with some modifications they can be used for Windows systems as well (i.e., `$PATH` variable, or the slashes). For non-Mac users, there are [many other ways to install](http://docs.mongodb.org/manual/installation) (<http://docs.mongodb.org/manual/installation>).
+The following steps are better suited for macOS/Linux–based systems, but with some modifications they can be used for Windows systems as well (i.e., `$PATH` variable, or the slashes). For non-macOS users, there are [many other ways to install](http://docs.mongodb.org/manual/installation) (<http://docs.mongodb.org/manual/installation>).
 
 The HomeBrew installation is recommended and is the easiest path (assuming macOS users have `brew` installed already, which was covered in Chapter 1): 
 
@@ -167,7 +167,7 @@ Figure 5-3 shows this. If you see that your record is being saved, then everythi
 ***Figure 5-3.** Running MongoDB client and storing sample data*
 
 
-**Note**  On Max OS X (and most Unix systems), to close the process, use `control + c`. If you use `control + z`, it puts the process to sleep (or detaches the terminal window). In this case, you might end up with a lock on data files and then have to use the &quot;kill&quot; command (e.g., `$ killall node`) or Activity Monitor and delete the locked files in the data folder manually. For a vanilla Mac terminal, `command +` . is an alternative to `control + c`.
+**Note**  On macOS (and most Unix systems), to close the process, use `control + c`. If you use `control + z`, it puts the process to sleep (or detaches the terminal window). In this case, you might end up with a lock on data files and then have to use the &quot;kill&quot; command (e.g., `$ killall node`) or Activity Monitor and delete the locked files in the data folder manually. For a vanilla macOS terminal, `command +` . is an alternative to `control + c`.
 
 What are some other MongoDB console command which developers like you and me can use? We will study the most important of them next.
 

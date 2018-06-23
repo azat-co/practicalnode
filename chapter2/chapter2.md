@@ -88,29 +88,30 @@ As you can see, developers have to do *a lot* of manual work themselves, such as
 
 Express.js solves these and many other problems as abstraction and code organization. The framework provides a model-view-controller-like (MVC-like) structure for your web apps with a clear separation of concerns (views, routes, models).
 
-For the models (the M in MVC), we can use [Mongoose](http://mongoosejs.com) (<http://mongoosejs.com>) or [Sequelize](http://sequelizejs.com) (<http://sequelizejs.com>) libraries in *addition* to Express.js—more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser) (<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io) (<http://socket.io>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
+For the models (the M in MVC), we can use [Mongoose](http://mongoosejs.com) (<http://mongoosejs.com>) or [Sequelize](http://sequelizejs.com) (<http://sequelizejs.com>) libraries in *addition* to Express.js—more on this later in the book in Chapter 7. In this chapter we&#39;ll cover just the basics of Express.js. This will be enough for you to start building your own small Express apps.
 
-Although Express.js is one of the most popular library on npm (15M downloads for Aug 2017), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com) (<http://meteor.com>) and [Hapi](https://www.npmjs.com/package/hapi) (<https://www.npmjs.com/package/hapi>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com) (<http://nodeframework.com>) resource.
+Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser) (<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io) (<http://socket.io>)) real-time web apps. To give some analogies to developers who are familiar with Ruby and Ruby on Rails, Ruby on Rails is convention over configuration. Other frameworks like Sails and Loopback are more like Ruby's Ruby on Rails framework. Express.js on the other hand is often seen as another Ruby framework Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote configurability, whereas Ruby on Rails promotes *convention over configuration*.
+
+Although Express.js is one of the most popular libraries on npm (16 million downloads only for June 2018), and is the most mature and most used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com) (<http://meteor.com>) and [Hapi](https://www.npmjs.com/package/hapi) (<https://www.npmjs.com/package/hapi>), show an interesting trend in attempts to merge front-end and back-end code bases. For a hand-picked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com) (<http://nodeframework.com>) resource.
 
 When evaluating a Node.js framework for your project, use these easy steps to guide you:
 
 - Build a sample app, which is usually provided by the creators of frameworks on GitHub or official web sites. See how the app feels in terms of styles and patterns.
 - Consider the type of application you&#39;re building: prototype, production app, minimum viable product (MVP), small scale, large scale, and so on.
-- Consider the libraries already familiar to you and determine whether you can or plan to reuse them, and whether your framework plays nicely with them. Provide out-of-the-box solutions: template engines, database object-relational mapping(<http://en.wikipedia.org/wiki/Object-relational_mapping>) libraries (ORMs) / drivers, cascading style sheets(<http://en.wikipedia.org/wiki/Cascading_Style_Sheets>) (CSS) frameworks.
-
-- Consider the nature of your application: REST API (with a separate front-end client), a traditional web app, or a traditional web app with REST API end points (such as Blog).
-- Consider whether you need the support of reactive templates with WebSocket from the get-go (the Meteor, anyone?).
-- Evaluate the number of stars and follows on npm and GitHub to judge the popularity of the framework. More popular typically means more blog posts, books, screencasts, tutorials, and programmers exist; less popular means this is a newer framework, a niche/custom choice, or a poor choice. With newer frameworks, there is a greater chance that contributing back to them will be valued, so pick your comfortable spot.
+- Consider the libraries already familiar to you and determine whether you can or plan to reuse them, and whether your framework plays nicely with them. Provide out-of-the-box solutions: template engines, database object-relational mapping (<http://en.wikipedia.org/wiki/Object-relational_mapping>) libraries (ORMs)/drivers, Cascading Style Sheets (<http://en.wikipedia.org/wiki/Cascading_Style_Sheets>) (CSS) frameworks.
+- Consider the nature of your application: REST API (with a separate front-end client), a traditional web app, or a traditional web app with REST API endpoints (such as Blog).
+- Consider whether you need the support of reactive templates with WebSocket from the get-go (or use the Meteor framework).
+- Evaluate the number of stars and follows on npm and GitHub to judge the popularity of the framework. More popular typically means more blog posts, books, screencasts, tutorials, and programmers exist; less popular means it's a newer framework, a niche/custom choice, or a poor choice. With newer frameworks, there is a greater chance that contributing back to them will be valued, so pick your comfortable spot.
 - Evaluate npm, GitHub pages, and a framework&#39;s website for the presence of good API documentation with examples or open issues/bugs. If there are more than a few hundred, depending on popularity, this may not be a good sign. Also, determine the date of the last commit on the GitHub repository. Anything older than six months is not a good sign.
 
 # How Express.js Works
 
-Express.js usually has an entry point—aka, a main file. Most of the time, this is the file that we start with the node command; or export as a module, in some cases. And in this file, we do the following:
+Express.js usually has an entry point, a.k.a., the main file. The names of this file typically are `server.js`, `app.js` or `index.js`. Most of the time, this is the file that we start with the `node` command, or export it as a module, in some cases. And in this file, we do the following:
 
 1. Include third-party dependencies as well as our own modules, such as controllers, utilities, helpers, and models
-2. Configure Express.js app settings such as template engine and its file extensions
+2. Configure Express.js app settings, such as template engine and its file extensions
 3. Connect to databases such as MongoDB, Redis, or MySQL (optional)
-4. Define middleware such as error handlers, static files folder, cookies, and other parsers
+4. Define middleware such as error handlers, static file folder, cookies, and other parsers
 5. Define routes
 6. Start the app
 7. Export the app as a module (optional)
@@ -119,40 +120,42 @@ When the Express.js app is running, it&#39;s listening to requests. Each incomin
 
 Because we can have multiple middleware functions processing each HTTP request, some of the functions are in the middle (hence the name *middleware*). Here are some examples of middleware purposes:
 
-1. Parse cookie information and put it in `req` object for following middleware/routes
-2. Parse parameters from the URL and put it in `req` object for following middleware/routes
-3. Get the information from the database based on the value of the parameter if the user is authorized (cookie/session) and put it in `req` object for following middleware/routes
-4. Authorize users/requests (,or not)
-5. Display the data and end the response
+1. Parse cookie information and put it in `request` object for following middleware/routes.
+2. Parse parameters from the URL and put it in `request` object for following middleware/routes.
+3. Get the information from the database based on the value of the parameter, if the user is authorized (cookie/session), and put it in `request` object for following middleware/routes.
+4. Authorize users/requests (or not).
+5. Display the data and end the response.
 
 # Express.js Installation
 
 The Express.js app can be created using two methods:
 
-1. `express-generator`: a global npm package that provides the command-line tool for rapid app creation (scaffolding) - recommended for quick prototyping and server-side rendering (thick server) apps
-2. `express`: a local package module in your Node.js app&#39;s `node_modules` folder - recommended for any project
+1. `express-generator`: A global npm package that provides the command-line tool for rapid app creation (scaffolding)—recommended for quick prototyping and server-side rendering (thick server) apps.
+2. `express`: A local package module in your Node.js app&#39;s `node_modules` folder—recommended for any project which needs to import `express` with `require()` or `import`.
 
 ## Express.js Generator Version
 
 Before we proceed with installations, let&#39;s check the Express.js versions. We&#39;ll use an exact version 4.15.4 to avoid confusion resulting from potential future changes to the Express.js skeleton-generating mechanism and the module API.
 
-For the Express.js Generator, which is a separate module, we&#39;ll use version 4.15.5, which is compatible with Express.js 4.15.5 and most likely with any other Express version which starts with number 4. Luckily, generator will write the version of express it needs in package.json so we, developers, don't have to preoccupy ourselves too much with the having an incombatible version. 
+For the Express.js Generator, which is a separate module, we&#39;ll use version 4.15.5, which is compatible with Express.js 4.15.5 and most likely with any other Express version which starts with number 4. Luckily, Express Generator will write the version of `express` it needs in `package.json` so we, developers, don't have to preoccupy ourselves too much with keeping versions compatible. 
 
-If you already have the generator, then check the version with `$ express -V` to check. Yes, the actuall command for the generator is confusingly enough is not `express-generator` but `express`. Go figure. You can uninstall generator using `$ sudo npm uninstall -g express-generator`. Or `$ sudo npm uninstall -g express` for Express.js 2.x and 3.x because before, version 4.x, Express.js Generator was a part of the Express.js module itself. After you&#39;ve uninstalled the older versions, install the proper version with the next section&#39;s commands.
+If you already have Express Generator, then check the version with `$ express -V`. Yes, the actual command for Express Generator is confusingly enough is not `express-generator` like its npm name but just `express`. WHAT?! Go figure... Subsequently, any Express Generator commands are invoked with `express NAME`. 
 
-Alternatively, you can just install a new version and it should overwrite any prior installations. Here's the command to install the latest version:
+You can uninstall generator using `$ sudo npm uninstall -g express-generator`. Or `$ sudo npm uninstall -g express` for Express.js 2.x and 3.x because before, version 4.x, Express.js Generator was a part of the Express.js module itself. After you&#39;ve uninstalled the older versions, install the proper version with the next section&#39;s commands.
+
+Alternatively, you can just install a new version, and it should overwrite any prior installations. Here's the command to install the latest version:
 
 ```
 npm i -g express-generator@latest
 ```
 
-Let's see some other ways to install the generator
+Let's see some other ways to install Express Generator.
 
 ## Express.js Generator Installation
 
 To install the Express.js Generator as global package, run `$ npm install -g express-generator@4.15.5` from anywhere on your computer. This downloads and links the `$ express` terminal command to the proper path, so that later we can access its command-line interface (CLI) for the creation of new apps.
 
-**Note**: For Max OS X and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.15.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
+**Note**: For macOS and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.15.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
 
 Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm i –g express-generator@4.15.5`. But in this case your results might be inconsistent with the book&#39;s examples.
 
@@ -164,7 +167,7 @@ The results of running the aforementioned command:
 updated 1 package in 1.793s
 ```
 
- Please notice the path: `/usr/local/lib/node_modules/express-generator`. This is where, on Max OS X / Linux systems, npm puts global modules by default. We verify the availability of Express.js CLI by running: 
+ Please notice the path: `/usr/local/lib/node_modules/express-generator`. This is where, on macOS / Linux systems, npm puts global modules by default. We verify the availability of Express.js CLI by running: 
  
  ```
  $ express --version
