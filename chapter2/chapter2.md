@@ -159,7 +159,7 @@ To install the Express.js Generator as global package, run `$ npm install -g exp
 
 Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm i –g express-generator@4.15.5`. But in this case your results might be inconsistent with the book&#39;s examples.
 
-The results of running the aforementioned command:
+Here are the results of running the aforementioned command:
 
 ```
 /usr/local/bin/express -> /usr/local/lib/node_modules/express-generator/bin/express-cli.js
@@ -167,20 +167,20 @@ The results of running the aforementioned command:
 updated 1 package in 1.793s
 ```
 
- Please notice the path: `/usr/local/lib/node_modules/express-generator`. This is where, on macOS / Linux systems, npm puts global modules by default. We verify the availability of Express.js CLI by running: 
+ Please notice the path: `/usr/local/lib/node_modules/express-generator`. This is where, on macOS/Linux systems, npm puts global modules by default. We verify the availability of Express.js CLI by running this: 
  
  ```
  $ express --version
  ```
 
-Express is used with `require()` and it's a local project dependency. Let's built a quick Hello World with Express.
+Express is used with `require()`, and it's a local project dependency. Let's built a quick Hello World with Express.
 
 ## Local Express.js
 
 For the local Express.js 4.15.5 module installation, let&#39;s create a new folder `hello-simple` somewhere on your computer: `$ mkdir hello-simple`. This will be our project folder for the chapter. Now we can open it with `$ cd hello-simple`. When we are inside the project folder, we can create `package.json` manually in a text editor or with the `$ npm init` terminal command.
 
 
-The following is an example of the `package.json` file with vanilla `$ npm init` options (the licence and author is configured by defaults in `npm config`):
+The following is an example of the `package.json` file with vanilla `$ npm init` options (the license and author are configured by defaults in `npm config`):
 
 ```js
 {
@@ -209,11 +209,11 @@ Or, if we want to be less specific, which is not recommended for this example, u
 $ npm i express -E
 ```
 
-**Note**: Depending on your npm version if you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html) (<https://npmjs.org/doc/folders.html>).
+**Note**: Depending on your npm version, if you attempt to run the aforementioned `$ npm install express` command without the `package.json` file or the `node_modules` folder, the *smart* npm will traverse up the directory tree to the folder that has either of these two things. This behavior mimics Git&#39;s logic somewhat. For more information on the npm installation algorithm, please refer to [the official documentation](https://npmjs.org/doc/folders.html) (<https://npmjs.org/doc/folders.html>).
 
 Alternatively, we can update the `package.json` file by specifying the dependency `("express": "4.15.4"` or `"express": "4.x")` and run `$ npm install`.
 
-The following is the `package.json` file with an added Express.js v4.15.4 dependency (the latest as of Sep 2017):
+The following is the `package.json` file with an added Express.js v4.15.4 dependency:
 
 ```js
 {
@@ -233,14 +233,14 @@ The following is the `package.json` file with an added Express.js v4.15.4 depend
 }
 ```
 
-Now when someone downloads this project, they can install all dependencies from `package.json` with either of the two commands:
+Now when someone downloads this project, they can install all dependencies from `package.json` with either of the following two commands:
 
 ```   
 $ npm install
 $ npm i
 ```
 
-Here are the result of install Express.js v4.15.4 locally, into the `node_modules` folder. Please notice the `package-lock.json` file as well. It helps to avoid conflicts of versions.
+Here are the result of installing Express.js v4.15.4 locally into the `node_modules` folder. Please notice the `package-lock.json` file created in the project root. It helps to lock versions to avoid breaking your code with new versions of dependencies.
 
 ```
 $ npm i express -E
@@ -252,7 +252,7 @@ npm WARN hello-simple@1.0.0 No repository field.
 added 43 packages in 4.686s
 ```
 
-If you want to install Express.js to an existing project and save the dependency (smart thing to do!) into the `package.json` file, which is already present in that project&#39;s folder, run `$ npm install express@4.15.5 --save`.
+If you want to install Express.js to an existing project and save the dependency (a smart thing to do!) into the `package.json` file, which is already present in that project&#39;s folder, run `$ npm install express@4.15.5 --save`.
 
 Create a `server.js` file in the  `hello-simple` folder:
 
@@ -261,7 +261,7 @@ const express = require('express')
 let app = express()
 
 app.all('*', (req, res) => {
-  res.send('Welcome to the Practical Node.js!')
+  res.send('Welcome to Practical Node.js!')
 })
 
 app.listen(3000, 
@@ -269,13 +269,13 @@ app.listen(3000,
 )
 ```
 
-Then launch it with `node server.js` to see "Welcome to the Practical Node.js!" in a browser at <http://localhost:3000/>. You first Express app is working! 
+Then launch it with `node server.js` to see "Welcome to Practical Node.js!" in a browser at <http://localhost:3000>. You first Express app is working! 
 
-Now let's actually see how to use the generator cause let's admit it: who doesn't like to have software to write our software?
+Now let's actually see how to use the generator cause let's admit it because who doesn't like to have software to write our software?
 
 # Express.js Scaffolding
 
-So far, we&#39;ve covered Express.js installation and a simple Express server. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app creation mechanism—Express.js Generator!
+So far, we&#39;ve covered Express.js installation and a simple Express server. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app-creation mechanism, Express.js Generator! 🚀
 
 Comparable with Ruby on Rails and many other web frameworks, Express.js comes with a CLI for jump-starting your development process. The CLI generates a basic foundation for the most common cases.
 
@@ -805,7 +805,7 @@ Inside the request handler, a template is rendered (`res.render()` function) wit
 
 ```js
 app.all('*', function(req, res) {
-  res.render('index', {msg: 'Welcome to the Practical Node.js!'})
+  res.render('index', {msg: 'Welcome to Practical Node.js!'})
 })
 ```
 
@@ -843,7 +843,7 @@ app.set('view engine', 'pug')
 app.all('*', (req, res) => {
   res.render(
     'index',
-    {msg: 'Welcome to the Practical Node.js!'}
+    {msg: 'Welcome to Practical Node.js!'}
   )
 })
 
