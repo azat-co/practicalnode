@@ -707,7 +707,7 @@ Use the following settings for the task to make sure your project is running (be
 * Map 80 (host) to 3000 (container) for banking-api
 * Set env vars for `NODE_ENV` and `DB_URI`
 
-Let's define the first container — app.
+Let's define the first container—app.
 
 ### Defining the First Container: App
 

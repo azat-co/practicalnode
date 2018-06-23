@@ -443,7 +443,7 @@ Now we can implement authentication (different from authorization).
 
 The last step in session-based authorization is to allow users and clients to turn the `req.session.admin` switch on and off. We do this by having a login form and processing the POST request from that form. 
 
-For authenticating users as admins we set the appropriate flag (`admin=true`), in the `routes.user.authenticate` in the `user.js` file. This is done in the POST `/login` route which we defined in the `app.js` — a line that has this statement: 
+For authenticating users as admins we set the appropriate flag (`admin=true`), in the `routes.user.authenticate` in the `user.js` file. This is done in the POST `/login` route which we defined in the `app.js`—a line that has this statement: 
 
 ```
 app.post('/login', routes.user.authenticate)

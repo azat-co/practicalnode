@@ -106,7 +106,7 @@ $ curl https://npmjs.org/install.sh | sh
 
 ## Installing Without sudo
 
-Sometimes, depending on your configuration, npm asks users for `sudo`— root user permissions. To avoid using `sudo`, advanced developers can use the following::
+Sometimes, depending on your configuration, npm asks users for `sudo`—root user permissions. To avoid using `sudo`, advanced developers can use the following::
 
 ```sh
 $ sudo mkdir -p /usr/local/{share/man,bin,lib/node,include/node}
@@ -884,7 +884,7 @@ Let's dive deeper into each of these core modules.
 	- `request.method()`: Returns the request method as a string
 	- `request.url()`: Returns the request URL string
 
-- `http.ServerResponse()`: Creates this object internally by an HTTP server — not by the user— and is used as an output of request handlers
+- `http.ServerResponse()`: Creates this object internally by an HTTP server—not by the user—and is used as an output of request handlers
 
 	- `response.writeHead()`: Sends a response header to the request
 	- `response.write()`: Sends a response body

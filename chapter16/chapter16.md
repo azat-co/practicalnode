@@ -167,7 +167,7 @@ Other optional managed policy which you can use in addition to `AmazonDynamoDBFu
 }
 ```
 
-The commands to attach more managed policies are the same — `attach-role-policy`.
+The commands to attach more managed policies are the same—`attach-role-policy`.
 
 
 ## 3. Creating a AWS Lambda resource

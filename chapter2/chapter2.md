@@ -19,7 +19,7 @@ In this chapter we cover the following topics, which serve as an introduction to
 
 # What Is Express.js?
 
-Express.js is a web framework based on the core Node.js `http` module and [Connect](http://www.senchalabs.org/connect) (<http://www.senchalabs.org/connect>) components. The components are called *middleware* and they are the cornerstones of the framework philosophy which is *configuration over convention*. In other words, Express.js systems are highly configurable, which allows developers to pick freely whatever libraries they need for a particular project. For these reasons, the Express.js framework leads to flexibility and high customization in the development of web applications.
+Express.js is a web framework based on the core Node.js `http` module and [Connect](http://www.senchalabs.org/connect) (<http://www.senchalabs.org/connect>) components. The components are called *middleware* and they are the cornerstones of the framework philosophy, which is *configuration over convention*. In other words, Express.js systems are highly configurable, which allows developers to freely pick whatever libraries they need for a particular project. For these reasons, the Express.js framework leads to flexibility and high customization in the development of web applications.
 
 If you write serious Node web apps using only core Node.js modules (refer to the following snippet for an example), you most likely find yourself reinventing the wheel by writing the same code continually over and over for similar boring mundane tasks, such as the following:
 
@@ -31,7 +31,7 @@ If you write serious Node web apps using only core Node.js modules (refer to the
 - Organizing routes with a chain of `if` conditions based on URL paths and HTTP methods of the requests
 - Determining proper response headers based on data types
 
-The list could go on and on but a good example is worth 100s of words. To illustrate my point, here is an example of a two-route [representational state transfer](http://en.wikipedia.org/wiki/Representational_state_transfer) (REST) API server, i.e., we have only two endpoints and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external module native MongoDB driver is used for persistence. This example is taken from my another best selling book on Node, a beginner-friendly [Full Stack JavaScript](https://github.com/azat-co/fullstack-javascript) (<https://github.com/azat-co/fullstack-javascript>)[Apress, 2018]. Pay attention to how I had to use if/else and parse the incoming data. 
+The list could go on and on, but a good example is worth hundreds of words. To illustrate my point, here is an example of a two-route [representational state transfer](http://en.wikipedia.org/wiki/Representational_state_transfer) (REST) API server, i.e., we have only two endpoints and they are also called *routes*. In this application, we use only core Node.js modules for server functions. A single &quot;userland&quot;/external module native MongoDB driver is used for persistence. This example is taken from my another best selling book on Node, beginner-friendly [Full Stack JavaScript, 2nd Edition](https://github.com/azat-co/fullstack-javascript) (<https://github.com/azat-co/fullstack-javascript>) (Apress, 2018). Pay attention to how I had to use `if/else` and parse the incoming data. 
 
 ```js
 const http = require('http')
@@ -84,11 +84,11 @@ mongo.Db.connect(host, (error, client) => {
 })
 ```
 
-As you can see, developers have to do *a lot* of manual work themselves, such as interpreting HTTP methods and URLs into routes, and parsing input and output data. And I didn't even use URL parameters such as /message/ID. Not nice!
+As you can see, developers have to do *a lot* of manual work themselves, such as interpreting HTTP methods and URLs into routes, and parsing input and output data. And I didn't even use URL parameters such as `/message/ID`. Not nice!
 
 Express.js solves these and many other problems as abstraction and code organization. The framework provides a model-view-controller-like (MVC-like) structure for your web apps with a clear separation of concerns (views, routes, models).
 
-For the models (M in MVC), we can use [Mongoose](http://mongoosejs.com) (<http://mongoosejs.com>) or [Sequelize](http://sequelizejs.com) (<http://sequelizejs.com>) libraries in *addition* to Express.js— more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser) (<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io) (<http://socket.io>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
+For the models (the M in MVC), we can use [Mongoose](http://mongoosejs.com) (<http://mongoosejs.com>) or [Sequelize](http://sequelizejs.com) (<http://sequelizejs.com>) libraries in *addition* to Express.js—more on this later in the book in Chapter 7. In this chapter we&#39;ll cover the basics of Express.js. Built on top this framework, Express.js applications can vary from bare-bones, back-end-only REST APIs to full-blown, highly scalable, full-stack (with [jade-browser](https://npmjs.org/package/jade-browser) (<https://npmjs.org/package/jade-browser>) and [Socket.IO](http://socket.io) (<http://socket.io>)) real-time web apps. To give some analogies to developers who are familiar with Ruby—Express.js is often seen as Sinatra, which has a very different approach to the Ruby on Rails framework. Express.js and Sinatra promote the configurability while Ruby on Rails *convention over configuration*.
 
 Although Express.js is one of the most popular library on npm (15M downloads for Aug 2017), and the most mature and used Node.js framework, the playing field is still relatively level with many different frameworks, and new ones are released every month. Some of them, such as [Meteor](http://meteor.com) (<http://meteor.com>) and [Hapi](https://www.npmjs.com/package/hapi) (<https://www.npmjs.com/package/hapi>), show an interesting trend in attempts to merge front-end and back-end code bases. For a handpicked list of Node.js frameworks, refer to the [Node Framework](http://nodeframework.com) (<http://nodeframework.com>) resource.
 
@@ -272,13 +272,13 @@ Now let's actually see how to use the generator cause let's admit it: who doesn'
 
 # Express.js Scaffolding
 
-So far, we&#39;ve covered Express.js installation and a simple Express server. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app creation mechanism— Express.js Generator!
+So far, we&#39;ve covered Express.js installation and a simple Express server. When it comes to prototyping, it&#39;s vital to be able to get started quickly with the solid app skeleton, which is why many modern frameworks provide some type of scaffolding. Now is the time to explore its rapid app creation mechanism—Express.js Generator!
 
 Comparable with Ruby on Rails and many other web frameworks, Express.js comes with a CLI for jump-starting your development process. The CLI generates a basic foundation for the most common cases.
 
 If you followed the global installation instructions in the installation section, you should be able to see the version number 4.15.0 if you run `$ express -V` from anywhere on your machine. If we type `$ express -h` or `$ express --help`, we should get the list of available options and their usage. The list of options is broken down below to serve readers as a reference.
 
-To generate a skeleton Express.js app, we need to run a terminal command— `express [options] [dir|appname]`—the options for which are the following:
+To generate a skeleton Express.js app, we need to run a terminal command—`express [options] [dir|appname]`—the options for which are the following:
 
 - `-v`, `--view <engine>`:  add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to pug)
 - `-c <engine>`, `--css <engine>`: add stylesheet `<engine>` support, such as [LESS](http://lesscss.org) (<http://lesscss.org>), [Stylus](http://learnboost.github.io/stylus) (<http://learnboost.github.io/stylus>) or Compass(<http://compass-style.org>) (by default, plain CSS is used)

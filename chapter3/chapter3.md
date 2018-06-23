@@ -378,7 +378,7 @@ describe('String#split', () => {
 })
 ```
 
-We will cover more of the expect syntax and methods later. Now, I'll show you another library — standalone Expect.js. For the standalone expect.js (not 100% compatible with chai expect) approach, import another module called `expect.js` with the following command:
+We will cover more of the expect syntax and methods later. Now, I'll show you another library—standalone Expect.js. For the standalone expect.js (not 100% compatible with chai expect) approach, import another module called `expect.js` with the following command:
 
 ```
 $ npm install expect.js
