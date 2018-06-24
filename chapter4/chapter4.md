@@ -2,7 +2,7 @@ Chapter 4
 ---------
 # Template Engines: Pug and Handlebars
 
-A template engine is a library or a framework that uses some rules/languages to interpret data and render views. In the case of web applications, views are HTML pages (or parts of them), but they can be JSON or XML files, or GUIs in the case of desktop programs. For those of you familiar with the model–view–controller concept, templates belong to the view.
+A *template engine* is a library or a framework that uses some rules/languages to interpret data and render views. In the case of web applications, *views* are HTML pages (or parts of them), but they can be JSON or XML files, or GUIs in the case of desktop programs. For those of you familiar with the model–view–controller concept, templates belong to the view.
 
 In web apps, it&#39;s beneficial to use templates because we can generate an infinite number of pages dynamically with a single template! Another side benefit is when we need to change something; we can do it in one place only.
 
@@ -21,13 +21,13 @@ In this chapter we cover the following:
 
 Pug is a Node.js brother of Haml, in the sense that it uses whitespace and indentation as part of its language. As with a real pugs, this Pug can either be cute and friendly or can chew your butt off if you don't know how to use it. Therefore, we need to be careful to follow the proper syntax.
 
-You can follow the Pug syntax examples in this section online, at the official web site&#39;s demo page(<https://pugjs.org/api/reference.html>) or by writing standalone Node.js scripts (examples are presented in “Pug Standalone Usage,” which appears later in this chapter).
+You can follow the Pug syntax examples in this section online, at the official web site&#39;s demo page (<https://pugjs.org/api/reference.html>) or by writing standalone Node.js scripts (examples are presented in the section “Pug Standalone Usage,” which appears later in this chapter).
 
 ## Tags
 
-Any text at the beginning of a line—by default—is interpreted as an HTML tag. The main advantage of Pug is that this text renders both closing and opening tags for the HTML element, as well as the `<></>` symbols. Therefore, we save many keystrokes as developers writing in Pug! It's very important to type as less as possible. It will allow you not only to avoid silly typos but also to avoid having a repetitive stress injury on your hands.
+Any text at the beginning of a line—by default—is interpreted as an HTML tag. The main advantage of Pug is that this text renders both closing and opening tags for the HTML element, as well as the `<></>` symbols. Therefore, we save many keystrokes as developers writing in Pug! It's very important to type as little as possible. It will allow you not only to avoid silly typos but also to avoid having a repetitive stress injury done to your hands.
 
-The text following a tag and a space (e.g., `tag <text>`) is parsed as the inner HTML (i.e., content inside the element). For example, if we have the following Pug code with h1 and p tags (elements). After the tag/element name, there's a space then text:
+The text following a tag and a space (e.g., `tag <text>`) is parsed as the inner HTML (i.e., content inside the element). For example, if we have the following Pug code with `h1` and `p` tags (elements). After the tag/element name, there's a space, then text:
 
 ```pug
 body
@@ -38,7 +38,7 @@ body
     footer &copy; Apress
 ```
 
-The text after the first space becomes the content of those elements.The output of the template above will be `<h1>`, `<p>` and other elements with the corresponding text inside of them:
+The text after the first space becomes the content of those elements.The output of the template above will be `<h1>`, `<p>`, and other elements with the corresponding text inside of them:
 
 ```pug
 <body>
@@ -52,7 +52,7 @@ The text after the first space becomes the content of those elements.The output 
 </body>
 ```
 
-The code above is an HTML `<body>` element. How about some more interesting HTML elements to generate the entire web page with the `<head>` and other tags? Sure. You can do that too (eat that React!). Here's an example of how to define `DOCTYPE`, and element attributes such as `lang` (for `html`), `type` (for `script`), and `id` and `class` for `div`:
+The preceding code above is an HTML `<body>` element. How about some more interesting HTML elements to generate the entire web page with the `<head>` and other tags? Sure. You can do that too (eat that, React!). Here's an example of how to define `DOCTYPE`, and element attributes such as `lang` (for `html`), `type` (for `script`), and `id` and `class` for `div`:
 
 ```pug
 doctype html
@@ -72,7 +72,9 @@ html(lang="en")
         can be written in JavaScript. It is huge.
 ```
 
-THe output will contain attributes defined with parenthesis `(key=value)`, JavaScript code which will be executed when the page is viewed in the browsers and of course text which can start on a new line if you use a dot `.` after the element or parenthesis. The `#` means it's an id attribute while the dot in the element means a class attribute. And omitting the element name like we did with the `#container.col` will produce `<div>` with id `container` and class `col`.
+The output will contain attributes defined with parenthesis `(key=value)`, such as `id`, `class`, `type` and `lang`. The output will also have JavaScript code that will be executed when the page is viewed in the browsers. The output will also have text in `<p>`. A dot `.` after the element name or parenthesis allows to define text on a new line and to use multiple lines as show in the last `p` element. 
+
+The `#` means it's an `id` attribute, whereas the dot in the element means a `class` attribute. Thus, omitting the element name like we did with the `#container.col` will produce `<div>` with the id `container` and class `col`. See for yourself:
 
 ```html
 <!DOCTYPE html>
@@ -98,7 +100,7 @@ THe output will contain attributes defined with parenthesis `(key=value)`, JavaS
 </html>
 ```
 
-Check out the code bellow with the tag name... nothing? Huh. When you omit the tag name like in the `#contaner.col`, Pug will use `div` so the code below:
+Check out the code bellow *without* the tag/element name... nothing?! Huh. You see, when you omit the tag name like in the `#contaner.col`, Pug will use `div`, so the code below:
 
 ```pug
 #container.col
@@ -106,7 +108,7 @@ Check out the code bellow with the tag name... nothing? Huh. When you omit the t
   p Get on it!
 ```
 
-Becomes a `<div` with the id container and the class col:
+becomes a `<div` with the id `container` and the class `col`:
 
 ```html
 <div class="col" id="container">
@@ -115,7 +117,7 @@ Becomes a `<div` with the id container and the class col:
 </div>
 ```
 
-You can play with these example using the code which is in the `code/ch4/pug-example/pug-method-example.js`. The code uses the `pug` npm modules and its `render()` method. For example,
+You can play with these example using the code, which is in the `code/ch4/pug-example/pug-method-example.js`. The code uses the `pug` npm modules and its `render()` method. For example, this is a Node file and it generates HTML:
 
 ```js
 const pug = require('pug')
@@ -130,20 +132,20 @@ const htmlString = pug.render(pugTemplate, {pretty: true})
 console.log(htmlString)
 ```
 
-So far we just outputted some pre-programmed code which is not modifiable by the application. This is static and not much fun. Most of the times we want to have some dynamism in the form of the variables which will allow the application itself to modify the output, i.e., HTML.
+So far, we've just outputted some pre-programmed code that is not modifiable by the application. This is static and not much fun. Most of the time we want to have some dynamism in the form of variables that will allow the application itself to modify the output, that is HTML.
 
 ## Variables/Locals
 
-Data that are passed to the Pug template are called *locals*. To output the value of a variable, use `=`. See the following examples.
+Pug, Express and Node developers call the data that is passed to the Pug template *local*. This data is available within the template as a regular Node variable. To output the value of a local/variable, use `=`. Let's look at some examples to make the lesson stick.
 
-This Pug code print values of variables `title` and `body` using the equal `=` symbol:
+This Pug code prints values of variables `title` and `body` using the equal `=` symbol:
 
 ```pug
 h1= title
 p= body
 ```
 
-The variables `title` and `body` are called locals. They are the data to supply to the Pug template to generate HTML. The data comes in a form of an object which properties *must* be the names of the variables, i.e., `title` and `body`:
+The variables `title` and `body` are called locals. They are the data to supply to the Pug template to generate HTML. The data comes in the form of an object. It must have properties and the properties *must* be the same as the names of the locals that you want to use, i.e., `title` and `body`:
 
 ```js
 {
@@ -159,11 +161,11 @@ The HTML output generated from the Pug template and locals shows the values of t
 <p>The Comprehensive Book on Express.js</p>
 ```
 
-What about HTML element attributes such as `href` or `class`? You saw some of the already but let's dive deeper. 
+What about HTML element attributes such as `href` or `class`? You saw some of these, already but, let's dive deeper. 
 
 ## Attributes
 
-Attributes are added by putting them into parentheses right after the tag name. They follow `tagName(name=value)` format. In addition, multiple attributes *need* to be separated by a comma. For example, this Pug code has various attributes on `div`, `a` and other elements:
+*Attributes* are added by putting them into parentheses right after the tag name. They follow the `tagName(name=value)` format. In addition, multiple attributes *need* to be separated by a comma. For example, this Pug code has various attributes on `div`, `a`, and other elements:
 
 ```pug
 div(id="content", class="main")
@@ -173,7 +175,7 @@ div(id="content", class="main")
   div(class="hero-unit") Lean Node.js!
 ```
 
-The Pug template code above turns int this HTML with attributes rendered inside of the HTML elements. Yes, the `<a>` element is right on the same line as `<div>`. It's a mystery to me too.
+The preceding Pug template code above turns into the following HTML with attributes rendered inside of the HTML elements:
 
 ```html
 <div class="main" id="content"><a href="http://expressjsguide.com" title="Express.js Guide" target="_blank">Express.js Guide</a>
@@ -182,7 +184,13 @@ The Pug template code above turns int this HTML with attributes rendered inside 
 </div>
 ```
 
-Sometimes, the value of an attribute needs to be dynamic. It's more fun this way! In this case, just use the variable name. The pipe, or `|`, allows us to write the content of the HTML node on the new line—in other words, the line with the pipe becomes inner text. An example is defining input content text `yes/no` on a new line:
+Yes, the `<a>` element is right on the same line as `<div>`. It's a mystery to me too.
+
+Sometimes, the value of an attribute needs to be dynamic. It's more fun this way! In this case, just use the variable name without double quotes as the value of the attribute. 
+
+Another trick is to use the pipe, or `|`. It allows us to define text DOM node. In other words, the line with the pipe becomes raw text. This is useful when defining multiple lines of text.
+
+An example uses attribute values from locals/variables and defines the `<input>` content text `yes/no` on a new line:
 
 ```pug
 a(href=url, data-active=isActive)
@@ -191,7 +199,7 @@ label
   |  yes / no
 ```
 
-If The template above is provided with these locals:
+If the template above is provided with these locals, some of which are boolean and `url` is a string:
 
 ```js
 {
@@ -201,7 +209,7 @@ If The template above is provided with these locals:
 }
 ```
 
-Then they both, meaning template and locals data, produce this HTML output which doesn't necessarily have `yes/no` on a new line. 
+then they both—meaning template and locals data—produce the following HTML output, which doesn't have `checked` (false) and has `yes/no` as text. 
 
 ```html
 <a href="/logout" data-active="data-active"></a>
@@ -210,7 +218,7 @@ Then they both, meaning template and locals data, produce this HTML output which
 </label>
 ```
 
-Note that the attribute with the value `false` is omitted from the HTML output. However, when no value is passed, `true` is assumed—for example. This is a Pug template with boolean attributes `checked`:
+Note that the attribute with the value `false` is omitted from the HTML output. However, when no value is passed, `true` is assumed. For example, this is a Pug template with boolean attributes `checked`:
 
 ```pug
 input(type='radio', checked)
@@ -230,7 +238,7 @@ Next we will study literals.
 
 ## Literals
 
-For convenience, we can write classes and IDs right after tag names. For example, we can then apply `lead` and `center` classes to a paragraph, and create a `div` element with the `side-bar` ID and `pull-right` class (again, the pipe signifies an inner text):
+For convenience, we can write classes and ids right after tag names. For example, we can then apply `lead` and `center` classes to a paragraph, and create a `div` element with the `side-bar` id and `pull-right` class (again, the pipe signifies an inner text):
 
 ```pug
 div#content
@@ -241,7 +249,7 @@ div#content
       a(href="/contact") contact us
 ```
 
-Note that if the tag name is omitted, `div` is used instead. See that `<div id="side-bar" class="pull-right"></div>` in the generated HTML below. This `<div>` was created by Pug when no element name was provided and only a an id of `side-bar`. 
+Note that if the tag name is omitted, `div` is used instead. See the `<div id="side-bar" class="pull-right"></div>` in the generated HTML below. This `<div>` was created by Pug when no element name was provided, and only a an id of `side-bar`: 
 
 ```html
 <div id="content">
@@ -255,13 +263,13 @@ Note that if the tag name is omitted, `div` is used instead. See that `<div id="
 </div>
 ```
 
-Pug is all about eloquence, compactness and convenience. `<div>` elements are very popular for layouts. Therefore, Pug defaults to rendering `<div>` when there's no element name and there is a class or an id. Nice!
+Pug is all about eloquence, compactness, and convenience. `<div>` elements are very popular for layouts. Therefore, Pug defaults to rendering `<div>` when there's no element name and there is a class or an id. Nice!
 
-Next feature is rendering text.
+Our next feature is rendering text.
 
 ## Text
 
-Outputting raw text is done via `|`—for example,
+Outputting raw text is done via `|`. For example, this template produces one `<div>` with inner text:
 
 ```pug
 div
@@ -269,7 +277,9 @@ div
   | It can be used in Node.js and in the browser JavaScript.
 ```
 
-If you want to render all nested (indented) lines as inner text, then use dot `.`:
+If you move the `|` to the left, then the result will be one empty `<div>` with sibling text nodes.
+
+To avoid using pipes on multiple lines, there's a dot `.` syntax. Thus, if you want to render all nested (indented) lines as inner text, then use dot `.` right after the element name. For example, this template is analogous to the preceding code in that it produces one `<div>` with inner text of two lines:
 
 ```pug
 div.
@@ -283,7 +293,7 @@ The result in both cases is HTML with `<div>` and text inside:
 <div>Pug is a template engine. It can be used in Node.js and in the browser JavaScript.</div>
 ```
 
-The dot comes in handy for writing JavaScript.
+The dot comes in handy for writing JavaScript that executes at run time, which is the topic of the next section.
 
 ## Script and Style Blocks
 
