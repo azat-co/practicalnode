@@ -326,7 +326,7 @@ Did you like this little trick with the dot and JavaScript? Of course! But this 
 
 ## JavaScript Code
 
-Contrary to the previous example, if we want to use *any* JavaScript at template compilation time—in other words, to write executable JavaScript code that manipulates the output of the Pug (i.e., HTML)—we can use the `-`, `=`, or `!=` symbols. This might come in handy when we output HTML elements and inject JavaScript. 
+Contrary to the previous example, if we want to use *any* JavaScript at template compilation time—in other words, to write executable JavaScript code that manipulates the output of the Pug (i.e., HTML)—we can use the `-`, `=`, or `!=` symbols. This may come in handy when we output HTML elements and inject JavaScript. 
 
 Obviously, these types of things should be done carefully to avoid cross-site scripting (XSS) attacks. For example, if we want to define an array and output `<>` symbols, we can use `!=`.
 
@@ -340,7 +340,7 @@ ul
       span= "escaped: " + arr[i]
 ```
 
-The Pug above produces this HTML which does *NOT include* JavaScript, but the result of the JavaScript code because this JS is a compile-time JS for Pug not for a browser later. Resulting HTML has only `<ul>` and `<li>` elements:
+The Pug above produces the following HTML which *does NOT include* JavaScript but the result of the JavaScript code, because this JS is a compile-time JS for Pug. This is not run-time JS for a browser as was defined with `script.` earlier. The resulting HTML has `<ul>` and three `<li>` elements:
 
 ```html
 <ul>
@@ -350,12 +350,11 @@ The Pug above produces this HTML which does *NOT include* JavaScript, but the re
 </ul>
 ```
 
-**Tip**  One of the main differences between Pug and Handlebars is that the former allows pretty much any JavaScript in its code whereas the latter restricts programmers to only a handful of built-in and custom-registered helpers.
-
+**Tip**  One of the main differences between Pug and Handlebars is that the former allows pretty much any JavaScript in its code, whereas the latter restricts programmers to only a handful of built-in and custom-registered helpers.
 
 ## Comments
 
-When it comes to comments, we have a choice to output them or not. For the former, use JavaScript style `//`; for the latter, use `//-`. For example,
+When it comes to comments, we have a choice to render/output them into HTML or not. To render/output them into HTML, use JavaScript style `//`; to not render them, use `//-`. For example, here are two comments:
 
 ```gut
 // content goes here
@@ -364,7 +363,7 @@ p Node.js is a non-blocking I/O for scalable apps.
 p(id="footer") Copyright 2014 Azat
 ```
 
-The Pug above with comments outputs the HTML style comments with `//` but hide them with `//-` so result is only `content goes here` without `@todo change this to a class`:
+The Pug above with comments outputs the HTML style comments with `//` but hides them with `//-`. Thus, the resulting HTML has only `content goes here` without `@todo change this to a class`:
 
 ```html
 <!-- content goes here-->
@@ -372,11 +371,11 @@ The Pug above with comments outputs the HTML style comments with `//` but hide t
 <p id="footer">Copyright 2014 Azat</p>
 ```
 
-Of course, views (i.e., templates) benefit greatly from if/else condition. Let's cover them next.
+Of course, views (i.e., templates) benefit greatly from an if/else condition. Let's cover them next.
 
 ## Conditions (if)
 
-Interestingly enough, in addition to the standard JavaScript code where the `if` statement can be used by prefixing it with `-`, we can use a minimalistic Pug alternative with no prefix and no parentheses—for example,
+Interestingly enough, in addition to the standard JavaScript code, where the `if` statement can be used by prefixing it with `-`, we can use an even shorter Pug alternative with no prefix and no parentheses. For example, this if/else works fine:
 
 ```pug
 - var user = {}
@@ -391,7 +390,7 @@ There&#39;s also `unless`, which is equivalent to `not` or `!`.
 
 ## Iterations (each loops)
 
-Similar to conditions, iterators in Pug can be written simply with `each`—for example, this is code to iterate over an array of programming languages and create paragraphs for each of them:
+Similar to conditions, *iterators* in Pug can be written simply with `each`. For example, this is code to iterate over an array of programming languages and create paragraphs for each of them:
 
 ```pug
 - var languages = ['php', 'node', 'ruby']
@@ -410,7 +409,7 @@ The HTML output with three `<p>` elements is as follows:
 </div>
 ```
 
-The same iterative `each` construction works with objects as well. Developers even can access a `key` value. Take a look at this object with launguages as keys and their importance as values:
+The same iterative `each` construction works with objects as well. Developers even can access a `key` value. Take a look at this object with languages as keys and their importance as values:
 
 ```pug
 - var languages = {'php': -1, 'node': 2, 'ruby':1}
@@ -419,7 +418,7 @@ div
     p= key + ": " + value
 ```
 
-The Pug above is compiled into the HTML output in which each iteration over the array values produced a paragraph `<p>` element for each language:
+The Pug above is compiled into the HTML output in which each iteration over the array values produces a paragraph `<p>` element for each language:
 
 ```html
 <div>
@@ -442,22 +441,24 @@ p
 ```
    
 
-**Note**  The Markdown modules still need to be installed. The `marked` and markdown npm packages are often used for this. There&#39;s no need for an additional configuration, just install them in the project&#39;s local `node_modules` folder.
+**Note**  The Markdown modules still need to be installed. The `marked` and markdown npm packages are often used for this. There&#39;s no need for an additional configuration; just install them in the project&#39;s local `node_modules` folder.
 
 ## Interpolation
 
-Interpolation is mixing of strings and dynamic values from variables. That's another word which will make you look 5 IQ points smarter. You are welcome. In Pug interpolation is achieved via the syntax with curly braces and a hashtag: `#{name}` where `name` is the name of a variable. For example, to output `title` in a paragraph, simply use `#{title}` *in the text* as in the following code:
+*Interpolation* is mixing of strings and dynamic values from variables. That's another term that will make you look at least five (5) IQ points smarter. You are welcome. 
+
+In Pug, interpolation is achieved via the syntax with curly braces and a hashtag: `#{name}`, where `name` is the name of a variable. For example, to output `title` in a paragraph, simply use `#{title}` *in the text*, as in the following code:
 
 ```pug
 - var title = "React Quickly: Painless web apps with React, JSX, Redux, and GraphQL"
 p Read the #{title} in PDF, MOBI and EPUB
 ```
 
-The interpolation is processed at the template compilation. Therefore, don't use interpolation in executable JavaScript, i.e., JS with `-`. For the `-` JS, use standard ES6 string interpolation with `${name}`.
+The interpolation is processed at the template compilation. Therefore, don't use interpolation in executable JavaScript, that is, JS with `-`. For the `-` JS, use standard ES6 string interpolation with `${name}`.
 
 ## Case
 
-Case allows to avoid a chain of if/else condition. Here&#39;s an example of the `case` statement in Pug:
+*Case* allows Node developers to avoid a chain of if/else conditions. You probably used something similar. In other languages, case implemented with `switch`. Here&#39;s an example of the `case` statement in Pug:
 
 ```pug
 - var coins = Math.round(Math.random()*10)
@@ -473,7 +474,7 @@ case coins
 
 ## Mixins
 
-Mixins are functions that take parameters and produce some HTML. They are super cool because they allow you reuse boatloads of code if used correctly. The declaration syntax is `mixin name(param, param2,...)`, and the usage is `+name(data)`. For example, here I define a `row` and `table` mixins which I use later with real data from arrays:
+*Mixins* are functions that take parameters and produce some HTML. They are super cool because they allow you reuse boatloads of code if used correctly. The declaration syntax is `mixin name(param, param2,...)`, and the usage is `+name(data)`. For example, here I define `row` and `table` mixins, which I use later with real data from arrays:
 
 ```pug
 mixin row(items)
@@ -492,7 +493,7 @@ mixin table(tableData)
 +table(js)
 ```
 
-The Pug code, above when used in Express or elsewhere, produces the following output by "invoking" the mixins `table` and `row` just as a function would be invoked with arguments (bonus: developers can use `table` and `row` mixins over and over for other data!):
+The preceding Pug code, above when used in Express or elsewhere, produces the following output by "invoking" the mixins `table` and `row` just as a function would be invoked with arguments (bonus: developers can use `table` and `row` mixins over and over for other data!):
 
 ```html
 <table>
@@ -521,9 +522,9 @@ The Pug code, above when used in Express or elsewhere, produces the following ou
 
 ## Include
 
-`include` is a way to split logic into a separate file for the purpose of reusing it across multiple files. Don't confuse this with ES6 `include`. That's JavaScript but we are talking about Pug here. 
+`include` is a way to split logic into a separate file for the purpose of reusing it across multiple files. Don't confuse this with ES6 `include`. That's JavaScript, but we are talking about Pug here. 
 
-This `include` is a *top-to-bottom* approach meaning we dictate what to use in the file that includes another file. The file that includes is processed first (we can define locals there), then the included file is processed (we can use earlier defined locals).
+This `include` is a *top-to-bottom* approach, meaning we dictate what to use in the file that includes another file. The file that includes is processed first (we can define locals there), and then the included file is processed (we can use earlier defined locals).
 
 To include a Pug template, use `include /path/filename`. No need for double quotes `"` or single quotes `'`. I like it! For example, in a layout file you can import a header:
 
@@ -541,9 +542,9 @@ But, there&#39;s no way to use a dynamic value for the file and path (use a vari
 
 ## Extend
 
-`extend` is a *bottom-to-top* approach (as oppose to `include`), in the sense that the included file commands which parts of the main file it wants to replace. The way it works is with `extend filename` and `block blockname` statements:
+`extend` is a *bottom-to-top* approach (as oppose to `include`), in the sense that the included file commands which parts of the main file it wants to replace. The way it works is with `extend filename` and `block blockname` statements.
 
-In `file_a` which is like a layout you define blocks:
+In `file_a`, which is like a layout you define blocks, define `block` elements with some default content:
 
 ```pug
 block header
@@ -554,7 +555,9 @@ block footer
   p copyright
 ```
 
-In `file_b`, which is like a subview you define what layout to use and what blocks to overwrite (and what not- by omission). For example, in this `file_b` the header and content blocks will have new content, but footer will stay as in `file_a`. Here's the `file_b` example:
+In `file_b`, which is like a subview, you define what layout to use and what blocks to overwrite (and what not to, by omission). 
+
+For example, in this `file_b` file, the `header` and `content` blocks will have new content, but `footer` will stay as in `file_a`. Here's the `file_b` example:
 
 ```pug
 extend file_a
@@ -564,10 +567,11 @@ block content
   .main-content
 ```
 
+The bottom line is that `extend` and `block` implement inverted inheritance pattern.
 
 # Standalone Pug Usage
 
-Template engines (Pug) and web frameworks (Express) go like ketchup and hotdogs but not always. Template engines are not not always used with Node.js frameworks like Express.js. Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an e-mail template, precompiling Pug before deployment, and debugging. In this section, we do the following:
+Template engines (Pug) and web frameworks (Express) go together like ketchup and hotdogs—but not always. Template engines are not not always used with Node.js frameworks like Express.js. Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an e-mail template, precompiling Pug before deployment, and debugging. In this section, we do the following:
 
 - Install a Pug module
 - Create our first Pug file
@@ -576,17 +580,17 @@ Template engines (Pug) and web frameworks (Express) go like ketchup and hotdogs 
 
 To add a `pug` dependency to your project, or if you&#39;re starting from scratch from an empty project folder, do the following:
 
-1. Create a `package.json` file manually or with `$ npm init -y`
+1. Create a `package.json` file manually or with `$ npm init -y`.
 1. Install and add `pug` to `package.json` with `$ npm i pug –save`. See the results in Figure 4-1.
-1. Create a Node file
-1. Import `pug` in the Node file
-1. Invoke a method from `pug` module in your Node file
+1. Create a Node file.
+1. Import `pug` in the Node file.
+1. Invoke a method from `pug` module in your Node file.
 
 ![alt](media/image1.png)
 
 ***Figure 4-1.** Installing Pug*
 
-Tip: Add `{pretty: true}` to `pug.render()` as in `pug.render(pugTemplate, {pretty: true})` in order to have properly formatted *pretty* HTML.
+**Tip** Add `{pretty: true}` to `pug.render()`, as in `pug.render(pugTemplate, {pretty: true})`, in order to have properly formatted, *pretty* HTML.
 
 Let&#39;s say we have some Node.js script that sends an e-mail and we need to use a template to generate HTML dynamically for the e-mail. This is how it might look (file `pug-example.pug`):
 
@@ -604,12 +608,12 @@ Let&#39;s say we have some Node.js script that sends an e-mail and we need to us
       li= tag
 ```
 
-In this case, our Node.js script needs to hydrate, or populate, this template with the following data:
+In this case, our Node.js script needs to *hydrate*, or populate, this template with the following data:
 
-- `title`: string
-- `body`: string
-- `author`: string
-- `tags`: array
+- `title`: String
+- `tags`: Array
+- `body`: String
+- `author`: String
 
 We can extract these variables from multiple sources (databases, file systems, user input, tassology, and so on). For example, in the `pug-example.js` file, we use hard-coded values for `title`, `author`, `tags`, but pass through a command-line argument for `body` using `process.argv[2]`:
 
@@ -640,7 +644,7 @@ In this way, when we run `$ node pug-example.js 'email body'`, we get the HTML o
 
 ***Figure 4-2.** The result of `pug-example` output*
 
-The "prettified" HTML output with proper spaces and indentation which I took from the terminal looks as follows:
+The "prettified" HTML output with proper spaces and indentation that I took from the terminal looks as follows:
 
 ```js
 <div class="header">
@@ -670,7 +674,7 @@ fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
 })
 ```
 
-Furthermore, with `pug.renderFile`, the `pug-example.js` file is even more compact because they will do two things as the same time: read a file and render it:
+Furthermore, with `pug.renderFile()`, the `pug-example.js` file is even more compact because it will do two things as the same time: read a file and render it:
 
 ```js
 pug.renderFile('pug-example.pug', data, (error, html) => {

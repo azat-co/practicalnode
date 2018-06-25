@@ -43,7 +43,7 @@ Typically, the environment variable setting is a part of the deployment or opera
 Express.js in Production
 ========================
 
-In Express.js, use `if/else` statements to check for `NODE_ENV` values to use different level of server logs. For development we want more information but in production stack and exceptions might reveal a vulnerability so we hide them:
+In Express.js, use if/else statements to check for `NODE_ENV` values to use different level of server logs. For development we want more information but in production stack and exceptions might reveal a vulnerability so we hide them:
 
 ```js
 const errorHandler = require('errorhandler')

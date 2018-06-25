@@ -432,7 +432,7 @@ app.put('/collections/:collectionName/:id', (req, res, next) => {
 
 Lastly, the DELETE `/collections/:collectionName/:id` route to remove one document. The ID is coming from the `req.params.id` like in the other individual-document routes. The callback will have two arguments with the second having `result` property. Thus we use `result.result`.
 
-In the callback of `remove()`, we create an `if/else` to output a custom JSON message with `msg` equals either a `success` string for one removed document or the `error` message or not 1. The error `e` is a MongoDB error like cannot connect.
+In the callback of `remove()`, we create an if/else to output a custom JSON message with `msg` equals either a `success` string for one removed document or the `error` message or not 1. The error `e` is a MongoDB error like cannot connect.
 
 ```js
 app.delete('/collections/:collectionName/:id', (req, res, next) => {
