@@ -21,7 +21,7 @@ Regarding the material covered in *Practical Node.js*, we explored real-world as
 Further Reading
 ===============
 
-If you enjoyed this reading, you might like the programming blog about software engineering, startups, Agile development, and Node.js: [webapplog.com](http://webapplog.com). You can also follow the author of this book on Twitter at [@azat_co](http://twitter.com/azat_co) for tips and news about Node.js.
+If you enjoyed this reading, you might like the programming blog about software engineering, startups, Agile development, and Node.js: [webapplog.com](http://webapplog.com). You can also follow the author of this book on Twitter at [@azatmardan](http://twitter.com/azat_co) for tips and news about Node.js.
 
 Here's the list of other books by the author Azat Mardan:
 

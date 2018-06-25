@@ -4,7 +4,7 @@ const pug = require('pug'),
 let data = {
   title: 'Practical Node.js',
   author: {
-    twitter: '@azat_co',
+    twitter: '@azatmardan',
     name: 'Azat'
   },
   tags: ['express', 'node', 'javascript']

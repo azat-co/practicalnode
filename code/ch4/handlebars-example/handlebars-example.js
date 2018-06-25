@@ -4,7 +4,7 @@ const path = require('path')
 
 const data = {
   title: 'practical node.js',
-  author: '@azat_co',
+  author: '@azatmardan',
   tags: ['express', 'node', 'javascript']
 }
 data.body = process.argv[2]

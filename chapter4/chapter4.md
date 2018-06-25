@@ -624,7 +624,7 @@ const pug = require('pug'),
 let data = {
   title: 'Practical Node.js',
   author: {
-    twitter: '@azat_co',
+    twitter: '@azatmardan',
     name: 'Azat'
   },
   tags: ['express', 'node', 'javascript']
@@ -655,7 +655,7 @@ The "prettified" HTML output with proper spaces and indentation that I took from
     <p>email body</p>
 </div>
 <div class="footer">
-    <div><a href="http://twitter.com/@azat_co">Azat</a>
+    <div><a href="http://twitter.com/@azatmardan">Azat</a>
     </div>
     <ul>
         <li>express</li>
@@ -674,7 +674,7 @@ fs.readFile('pug-example.pug', 'utf-8', (error, source) => {
 })
 ```
 
-Furthermore, with `pug.renderFile()`, the `pug-example.js` file is even more compact because it will do two things as the same time: read a file and render it:
+Furthermore, with `pug.renderFile()`, the `pug-example.js` file is even more compact because it will do two things at the same time: read a file and render it:
 
 ```js
 pug.renderFile('pug-example.pug', data, (error, html) => {
@@ -684,28 +684,28 @@ pug.renderFile('pug-example.pug', data, (error, html) => {
 
 **Note**  Pug can also be used as a command-line tool after installing it with the `-g` or `--global` option via npm. For more information, run `pug -h` or see the official documentation (<http://pug-lang.com/command-line>).
 
-To use Pug in a browser, you can use browserify (<https://github.com/substack/node-browserify>) and its pugify (<https://www.npmjs.org/package/pug-browser>) middleware.
+To use Pug in a browser, you can use `browserify`(<https://github.com/substack/node-browserify>) and its `pugify` (<https://www.npmjs.org/package/pug-browser>) middleware.
 
-**Note**  To use the same Pug templates on front-end (browser) and server sides, I recommend `jade-browser` (<https://www.npmjs.org/package/jade-browser>) by Storify, for which I was the maintainer for a time during my work there. `jade-browser` acts as an Express.js middleware and it exposes server-side templates to the browser along with a helpful utility functions. 
+**Note**  To use the same Pug templates on front-end (browser) and server sides, I recommend `jade-browser` (<https://www.npmjs.org/package/jade-browser>) by Storify, for which I was the maintainer for a time during my work there. `jade-browser` acts as an Express.js middleware, and exposes server-side templates to the browser along with helpful utility functions. 
 
 # Handlebars Syntax
 
-The Handlebars library is another template engine. It inherits from Mustache and, for the most part, is compatible with Mustache&#39;s syntax. However, Handlebars adds more features i.e., Handlebars is a superset of Mustache.
+The Handlebars library is another template engine. It inherits from Mustache and, for the most part, is compatible with Mustache&#39;s syntax. However, Handlebars adds more features. In other words, Handlebars is a superset of Mustache.
 
-Unlike Pug, by design, Handlebars was made so that developers *can&#39;t write* a lot of JavaScript logic inside the templates. This helps to keep templates lean and related strictly to the representation of the data (no business logic).
+Unlike Pug, Handlebars by design was made so that developers *can&#39;t write* a lot of JavaScript logic inside the templates. This helps to keep templates lean and related strictly to the representation of the data (no business logic).
 
-Another drastic difference between Pug and Handlebars is that the latter requires full HTML code (`<`, `>`, closing `</>` tags, and so on), and for this reason it could care less about whitespace and indentation. It means it's easy to copypasta your existing HTML and make it Handlebars. It also means developers have to type more code when writing templates from scratch instead of copypasting.
+Another drastic difference between Pug and Handlebars is that the latter requires full HTML code (`<`, `>`, closing `</>` tags, and so on). For this reason it could care less about whitespace and indentation, which means that it's easy to copypasta your existing HTML and make it Handlebars, and that developers have to type *more* code when writing templates from scratch.
 
 ## Variables
 
-A Handlebars expression is `{{`, some content, followed by `}}`, hence the name of the library (see the resemblance to handlebars on a bicycle?). For example, the Handlebars code:
+A Handlebars expression is `{{`, some content, followed by `}}`, hence the name of the library (see the resemblance to handlebars on a bicycle?). For example, this Handlebars code:
 
 ```html
 <h1>{{title}}</h1>
 <p>{{body}}</p>
 ```
 
-with data which has `title` and `body` properties:
+with data that has `title` and `body` properties:
 
 ```js
 {
@@ -721,9 +721,9 @@ renders the elements with values from `title` and `body`:
 <p>The Comprehensive Book on Express.js</p>
 ```
 
-## Iteration (each)
+## Iteration (`each`)
 
-In Handlebars, `each` is one of the built-in helpers; it allows you to iterate through objects and arrays. Inside the block, we can use `@key` for the former (objects), and `@index` for the later (arrays). In addition, each item is referred to as `this`. When an item is an object itself, `this` can be omitted and just the property name is used to reference the value of that property.
+In Handlebars, `each` is one of the built-in helpers; it allows you to iterate through objects and arrays. Inside the block, we can use `@key` for the former (objects), and `@index` for the later (arrays). In addition, each item is referred to as `this`. When an item is an object itself, `this` can be omitted, and just the property name is used to reference the value of that property.
 
 The following are examples of the `each` helper block in Handlebars:
 
@@ -735,13 +735,13 @@ The following are examples of the `each` helper block in Handlebars:
 </div>
 ```
 
-The template above is supplied with this data which has array of strings:
+The template above is supplied with this data that has array of strings:
 
 ```js
 {languages: ['php', 'node', 'ruby']}
 ```
 
-And output this HTML upon compilation which has `<p>` for each array element:
+and output this HTML upon compilation, which has `<p>` for each array element:
 
 ```html
 <div>
@@ -767,7 +767,7 @@ As data, let&#39;s use this object that has an array with some HTML tags (angle 
 }
 ```
 
-To apply this Handlebars template to our data above (i.e., hydration) use an iterator `each` with `{{{this}}}` for the unescaped value of an individual array item which is HTML hence *needs* to be unescaped:
+To apply this Handlebars template to our data above (i.e., hydration) use an iterator `each` with `{{{this}}}` for the unescaped value of an individual array item, which is HTML and hence *needs* to be unescaped:
 
 ```html
 <ul>
@@ -781,7 +781,7 @@ To apply this Handlebars template to our data above (i.e., hydration) use an ite
 </ul>
 ```
 
-The hydrated template produces this HTML which printed array indices for `{{@index}}` and escaped HTML (`&name;`) when double curly braces where used:
+The hydrated template produces the following HTML by printing array indices (`{{@index}}`), unescaped HTML (`{{{this}}}`) and escaped HTML (`{{this`):
 
 ```html
 <ul>
@@ -805,7 +805,7 @@ The hydrated template produces this HTML which printed array indices for `{{@ind
 
 ## Conditions (if)
 
-`if` is another built-in helper invoked via `#`. For example, this Handlebars code uses an if/else conditon to check for `user.admin` value (if a user is an administrator):
+`if` is another built-in helper invoked via `#`. For example, this Handlebars code uses an if/else condition to check for a `user.admin` value (if a user is an administrator):
 
 ```html
 {{#if user.admin}}
@@ -815,7 +815,7 @@ The hydrated template produces this HTML which printed array indices for `{{@ind
 {{/if}}
 ```
 
-The template is populated with data which will make if/else condition true:
+The template is populated with data that will make the if/else condition true:
 
 ```js
 {
@@ -825,7 +825,7 @@ The template is populated with data which will make if/else condition true:
 }
 ```
 
-Everything turns into this HTML output which has `launch` element rendered due to the value of `user.admin` being true:
+Everything turns into this HTML output, which has a `launch` element rendered due to the value of `user.admin` being true:
 
 ```html
 <button class="launch">Launch Spacecraft</button>
@@ -835,7 +835,7 @@ Everything turns into this HTML output which has `launch` element rendered due t
 
 To inverse an `if not ... (if ! ...)` statement (convert negative to positive), we can harness the `unless` built-in helper block. For example, the previous code snippet can be rewritten with `unless`.
 
-The Handlebars code that check the truthness of the admin flag (property `user.admin`). If value is true, then else will be applied. Notice the change in Log in and Launch Spacecraft. They are flipped now compared to if/else.
+The Handlebars code that checks the truthiness of the admin flag (property `user.admin`). If the value is true, then else will be applied. Notice the change in Log in and Launch Spacecraft. They are flipped now compared to if/else:
 
 ```html
 {{#unless user.admin}}
@@ -845,7 +845,7 @@ The Handlebars code that check the truthness of the admin flag (property `user.a
 {{/unless}}
 ```
 
-We supply our template with this data that means that the user is an administrator:
+We supply our template with the data that makes the user an administrator:
 
 ```js
 {
@@ -855,7 +855,7 @@ We supply our template with this data that means that the user is an administrat
 }
 ```
 
-The HTML output renders the launch button, which is available only to admins. It was in `else` and the value is true.
+The HTML output renders the launch button, which is available only to admins because this button was in `else`, we used `unless`, and the value is true.
 
 ```html
 <button class="launch">Launch Spacecraft</button>
@@ -878,7 +878,7 @@ We have this Handlebars code that is handling a user&#39;s contact and address i
 {{user.address.state}}</span>
 ```
 
-Then we merge the template with this data. Notice the properties&#39; names are the same as in the Handlebar template, there&#39;s only one reference to the `user` object:
+Then we merge the template with this data. Notice the properties&#39; names are the same as in the Handlebars template, there&#39;s only one reference to the `user` object:
 
 ```js
 {user: {
@@ -894,18 +894,18 @@ Then we merge the template with this data. Notice the properties&#39; names are 
 }}
 ```
 
-The snippets above when compiled, produce HTML which prints values using the object name for every property:
+The snippets above, when compiled, produce HTML that prints values using the object name for every property:
 
 ```html
 <p>Azat</p>
-<span>Twitter: @azat_co</span>
+<span>Twitter: @azatmardan</span>
 <span>Address: San Francisco, California
 </span>
 ```
 
 ## Comments
 
-To output comments, use regular HTML `<!--` and `-->`. To hide comments in the final output, use `{{!` and `}}` or `{{!--` and `--}}`. For example, the code below has two types of comments:
+To output comments, use regular HTML `<!--` and `-->`. To hide comments in the final output, use `{{!` and `}}` or `{{!--` and `--}}`. For example, the following code below has two types of comments:
 
 ```html
 <!-- content goes here -->
@@ -915,7 +915,7 @@ To output comments, use regular HTML `<!--` and `-->`. To hide comments in the f
 <p id="footer">Copyright 2018 Azat</p>
 ```
 
-The code above outputs the comments with `<!-- ... -->` but omits comments with `{{! ... }}` so the result is this:
+The preceding code  outputs the comments with `<!-- ... -->` but omits comments with `{{! ... }}` so the result is this:
 
 ```html
 <!-- content goes here -->
@@ -951,7 +951,7 @@ handlebars.registerHelper('table', (data) => {
 })
 ```
 
-This is our array for the table data. It has an array of object. Each object has name and URL:
+The following is our array for the table data. It has an array of object. Each object has name and URL:
 
 ```js
 [
@@ -989,7 +989,7 @@ Thus, helpers are good for reusing the code. Another way to reuse code is includ
 
 ## Includes (Partials)
 
-Includes or partials templates in Handlebars are interpreted by the `{{> partial_name}}` expression. Partials are akin to helpers and are registered with `Handlebars.registerPartial(name, source)`, where `name` is a string and `source` is a Handlebars template code for the partial (JS/Node code, not template).
+In Handlebars, *includes* or *partials* templates are interpreted by the `{{> partial_name}}` expression. Partials are akin to helpers and are registered with `Handlebars.registerPartial(name, source)`, where `name` is a string and `source` is a Handlebars template code for the partial (JS/Node code, not template):
 
 ```js
 Handlebars.registerPartial('myPartial', '{{name}}')
@@ -1001,19 +1001,19 @@ Calling the partial is done with the following syntax (written in the Handlebars
 {{> myPartial }}
 ```
 
-For more includes and patials, see the documentation at <http://handlebarsjs.com/partials.html>.
+For more on includes and partials, see the documentation at <http://handlebarsjs.com/partials.html>.
 
 # Standalone Handlebars Usage
 
-Developers can install Handlebars via npm with `$ npm install handlebars` or `$ npm install handlebars --save`, assuming there&#39;s either `node_modules` or `package.json` in the current working directory (see the results of a sample installation in Figure 4-3).
+Developers can install Handlebars via npm with `$ npm install handlebars` or `$ npm install handlebars --save`, assuming either `node_modules` or `package.json` is in the current working directory (see the results of a sample installation in Figure 4-3).
 
 ![alt](media/image3.png)
 
 ***Figure 4-3.** Installing Handlebars*
 
-**Note** Handlebars can be installed via npm as a command-line tool with the `-g` or `--global` options. For more information on how to use Handlebars in this mode, refer to the `$ handlebar` command or the official documentation(<https://github.com/wycats/handlebars.js/%23usage-1>).
+**Note** Handlebars can be installed via npm as a command-line tool with the `-g` or `--global` options. For more information on how to use Handlebars in this mode, refer to the `$ handlebar` command or the official documentation (<https://github.com/wycats/handlebars.js/#usage-1>).
 
-Here&#39;s an example of standalone Node.js Handlebars usage from `handlebars-example.js` in which we import modules, then define `data` object (with book info), then register a few helpers and generate HTML.
+Here&#39;s an example of standalone Node.js Handlebars usage from `handlebars-example.js` in which we import modules, then define `data` object (with book info), and then register a few helpers and generate HTML:
 
 ```js
 const handlebars = require('handlebars')
@@ -1022,9 +1022,10 @@ const path = require('path')
 
 const data = {
   title: 'practical node.js',
-  author: '@azat_co',
+  author: '@azatmardan',
   tags: ['express', 'node', 'javascript']
 }
+
 data.body = process.argv[2]
 const filePath = path.join(__dirname,
   'handlebars-example.html')
@@ -1062,6 +1063,7 @@ fs.readFile(filePath, 'utf-8', (error, source) => {
     title = words.join(' ')
     return title
   })
+
   // Compile the template and hydrate it with data to generate HTML
   const template = handlebars.compile(source)
   const html = template(data)
@@ -1069,7 +1071,7 @@ fs.readFile(filePath, 'utf-8', (error, source) => {
 })
 ```
 
-And the `handlebars-example.html` *template* file that uses `custom_title` helper has this content that calls the helper and outputs some other properties:
+And the `handlebars-example.html` *template* file that uses `custom_title` helper has the following content that calls the helper and outputs some other properties:
 
 ```html
 <div class="header">
@@ -1117,8 +1119,7 @@ By default, Express.js uses either a template extension provided to the `respons
 
 When the template engine library doesn&#39;t provide the `__express` method, or a similar one with `(path, options, callback)` parameters, it&#39;s recommended that you use Consolidate.js (https://github.com/visionmedia/consolidate.js/).
 
-Here is a quick example of Consolidate.js for Express.js 4 (version 4.2.0 and Consolidate version is 0.10.0). In this example, a template engine Swig is used. It comes from the `consolidate` module and applied to express with the `app.engine('html', cons.swig)` statement. See the full server implementation which renders Swig templates:
-
+Let's look at a quick example of an abstraction library for templates called Consolidate.js. In this example, I use the template engine Swig. I picked this template engine because most likely you never heard of it and this makes it a good illustration for an abstraction library like Consolidate. So Swig comes from the `consolidate` module. I connected it to express with the `app.engine('html', cons.swig)` statement. See the full server implementation that renders Swig templates:
 
 ```js
 const express = require('express')
@@ -1156,7 +1157,7 @@ app.listen(3000, () => {
 })
 ```
 
-As usually, the source code is in the GitHub repository, and the snippet is in the `ch4/consolidate` folder.
+As usual, the source code is in the GitHub repository, and the snippet is in the `code/ch4/consolidate` folder.
 
 For more information on how to configure Express.js settings and use Consolidate.js, refer to the still-up-to-date book on Express.js version 4—Pro Express.js book (Apress, 2014).
 
@@ -1286,7 +1287,7 @@ The `appTitle` value is printed dynamically, but the `p.lead` element only has t
 ```pug
         h1.page-header= appTitle
         p.lead Welcome to example from Express.js Experience by
-          a(href="http://twitter.com/azat_co") @azat_co
+          a(href="http://twitter.com/azat_co") @azatmardan
           |. Please enjoy.
 ```
 
@@ -1349,7 +1350,7 @@ html
       .container
         h1.page-header= appTitle
         p.lead Welcome to example from Express.js Experience by
-          a(href="http://twitter.com/azat_co") @azat_co
+          a(href="http://twitter.com/azat_co") @azatmardan
           |. Please enjoy.
         block page
         block header
