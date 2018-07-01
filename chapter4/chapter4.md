@@ -1159,11 +1159,11 @@ app.listen(3000, () => {
 
 As usual, the source code is in the GitHub repository, and the snippet is in the `code/ch4/consolidate` folder.
 
-For more information on how to configure Express.js settings and use Consolidate.js, refer to the still-up-to-date book on Express.js version 4—Pro Express.js book (Apress, 2014).
+For more information on how to configure Express.js settings and use Consolidate.js, refer to the still-up-to-date book on Express.js version 4—*Pro Express.js* (Apress, 2014), which is available on all major book stores, and of course at <https://amzn.to/2tlSwNw>.
 
 ## Pug and Express.js
 
-Pug is compatible with Express.js out of the box (in fact, it&#39;s the default choice), so to use Pug with Express.js, you just need to install a template engine module (`pug`) (<https://www.npmjs.org/package/pug>) and provide an extension to Express.js via the `view engine` setting.).
+Pug is compatible with Express.js out of the box (in fact, it&#39;s the default choice), so to use Pug with Express.js, you just need to install a template engine module (`pug`) (<https://www.npmjs.org/package/pug>) and provide an extension to Express.js via the `view engine` setting.
 
 For example, in the main Express server file we set the `view engine` setting as `pug` to let Express know which library to use for templates:
 
@@ -1173,7 +1173,7 @@ app.set('view engine', 'pug')
 
 Of course, developers need to install the `pug` npm module into their project so the pug package is stored locally in `node_modules`. Express will use the name `pug` provided to `view engine` to import the `pug` package and *also* use the `pug` as a template files extension in the `views` folder (`views` is the default name). 
 
-**Note**  If you use `$ express <app_name>` command-line tool, you can add the option for engine support, i.e., `–e` option for EJS and –H for Hogan. This will add EJS or Hogan automatically to your new project. Without either of these options, the `express-generator` (versions 4.0.0-4.2.0) will use Pug.
+**Note** If you use the `$ express <app_name>` command-line tool, you can add the option for engine support, i.e., the `–e` option for EJS and –H for Hogan. This will add EJS or Hogan automatically to your new project. Without either of these options, the `express-generator` (versions 4.0.0-4.2.0) will use Pug.
 
 In the route file, we can call the template—for example, `views/page.pug` (the `views` folder name is another Express.js default, which can be overwritten with the `view` setting):
 
@@ -1196,14 +1196,16 @@ Next, let's cover the Express usage for Handlebars.
 
 Contrary to Pug, the Handlebars library from <http://handlebarsjs.com> doesn&#39;t come with the `__express` method, but there are a few options to make Handlebars work with Express.js:).
 
-- [`consolidate`](https://www.npmjs.com/package/consolidate) (<https://github.com/tj/consolidate.js>): a Swiss-army knife of Express.js template engine libraries (shown above)
-- [`hbs`](https://www.npmjs.com/package/hbs) (<https://github.com/pillarjs/hbs>): wrapper library for Handlebars
-- [`express-handlebarss`](https://www.npmjs.com/package/express-handlebars) (<https://github.com/ericf/express-handlebars>) a module to use Handlebars with Express
+- [`consolidate`](https://www.npmjs.com/package/consolidate) (<https://github.com/tj/consolidate.js>): A Swiss-army knife of Express.js template engine libraries (shown in one of the previous sections)
+- [`hbs`](https://www.npmjs.com/package/hbs) (<https://github.com/pillarjs/hbs>): Wrapper library for Handlebars
+- [`express-handlebarss`](https://www.npmjs.com/package/express-handlebars) (<https://github.com/ericf/express-handlebars>): A module to use Handlebars with Express
 
-Here&#39;s how we can use `hbs` approach (extension `hbs`). Inside of the typical Express.js app code (i.e., configuration section of the main file that we launch with the `$ node` command) write the following statements:
+Here&#39;s how we can use the `hbs` approach (extension `hbs`). Somewhere in the configuration section of the main Express file (file that we launch with the `$ node` command), write the following statements:
 
 ```js
+// Imports
 app.set('view engine', 'hbs')
+// Middleware
 ```
 
 Or, if another extension is preferable, such as `html`, we see the following:
@@ -1225,16 +1227,16 @@ Good. Now we can put our knowledge to practice.
 
 # Project: Adding Pug Templates to Blog
 
-Last, we can continue with Blog. In this section we add main pages using Pug, plus add a layout and some partials:
+Lastly, we can continue with Blog. In this section we add main pages using Pug, plus we add a layout and some partials:
 
-- `layout.pug`: global app-wide template
-- `index.pug`: home page with the list of posts
-- `article.pug`: individual article page
-- `login.pug`: page with a login form
-- `post.pug`: page for adding a new article
-- `admin.pug`: page to administer articles after logging in
+- `layout.pug`: Global app-wide template
+- `index.pug`: Home page with the list of posts
+- `article.pug`: Individual article page
+- `login.pug`: Page with a login form
+- `post.pug`: Page for adding a new article
+- `admin.pug`: Page to administer articles after logging in
 
-Because the templates in this mini-project require data, we&#39;ll skip the demo until the chapter 5 where we&#39;ll plug in the MongoDB database. So the source code for the Pug templates is exactly the same as in the ch5 folder of the GitHub repository practicalnode: <https://github.com/azat-co/practicalnode>. Feel free to copy it from there or follow the instructions below.
+Because the templates in this mini-project require data, we&#39;ll skip the demo until Chapter 5, where we&#39;ll plug in the MongoDB database. So the source code for the Pug templates is exactly the same as in the `code/ch5` folder of the GitHub repository `azat-co/practicalnode`: <https://github.com/azat-co/practicalnode>. Feel free to copy it from there or follow the instructions to implement listed below in this section.
 
 ## layout.pug
 
@@ -1251,7 +1253,7 @@ html
   head
 ```
 
-The title of the each page is provided from the `appTitle` variable (aka, local):
+The title of the each page is provided from the `appTitle` variable (a.k.a., local):
 
 ```pug
     title= appTitle
@@ -1269,13 +1271,13 @@ Then, in the `head` tag, we list all the front-end assets that we need app-wide 
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
 ```
 
-The main content lives in `body` which has the same level indentation as `head`:
+The main content lives in `body`, which has the same level indentation as `head`:
 
 ```pug
   body
 ```
 
-Inside the body, we write an ID and some classes for the styles that we&#39;ll add later:
+Inside the body, we write an id and some classes for the styles that we&#39;ll add later:
 
 ```pug
     #wrap
@@ -1305,21 +1307,21 @@ Menu is a partial (i.e., an include) that is stored in the `views/includes` fold
             include includes/menu
 ```
 
-In this block named `alert`, we can display messages for users so let's use special alerty classes on a `div`:
+In this block named `alert`, we can display messages for users, so let's use special alerty classes on a `div` (the indentation is preserved to show hierarchy):
 
 ```pug
             block alert
               div.alert.alert-warning.hidden
 ```
 
-Main content goes in this block. It is empty now because other template will define it.
+Main content goes in this block. It is empty now because other template will define it:
 
 ```pug
         .content
           block content
 ```
 
-Lastly, the footer block with `contaner` class `div` and `p` with text and a link (link is wrappen in text) looks as follows:
+Lastly, the footer block with `div` with the `container` class and with `p` with text and a link (link is wrapped in text) looks as follows:
 
 ```pug
     block footer
@@ -1331,7 +1333,7 @@ Lastly, the footer block with `contaner` class `div` and `p` with text and a lin
             | .
 ```            
 
-To give you a full picture as well as preserve proper indentation (which is PARAMOUNT in Pug), the full code of `layout.pug` is as follows:
+To give you a full picture as well as preserve proper indentation (which is *PARAMOUNT* in Pug), the full code of `layout.pug` is as follows:
 
 ```pug
 doctype html
@@ -1386,7 +1388,7 @@ block page
   - var menu = 'index'
 ```
 
-Of course, we need to overwrite `content` block. Ergo, the main content with the list of articles that comes from `locals` iterates over the blog posts (articles). Each article link has a title and needless to say a URL which is formed by the `article.slug` value. When there's no posts/articles, then we show a message that nothing has been published yet. The code is as follows:
+Of course, we need to overwrite the `content` block. Ergo, the main content with the list of articles that comes from `locals` iterates over the blog posts (articles). Each article link has a title and, needless to say, a URL that is formed by the `article.slug` value. When there are no posts/articles, then we show a message that nothing has been published yet. The code is as follows:
 
 ```pug
 block content
@@ -1401,7 +1403,7 @@ block content
           a(href="/articles/#{article.slug}")= article.title
 ```
 
-For your reference and the ease of comprehension Pug's style, the full code of `index.pug` is as follows. You can see `extends` and two block overwrites (of `layout`):
+For your reference and to show the ease of comprehension in Pug's style, the full code of `index.pug` is as follows. You can see `extends` and two block overwrites (of `layout`):
 
 ```pug
 extends layout
@@ -1424,13 +1426,13 @@ Figure 4-4 shows how the home page looks after adding style sheets.
 
 ![alt](media/image4.png)
 
-Phew. Next is the actual blog posts (a.k.a. article).
+***Figure 4-4.** The home page of Blog shows menu and the titles of the published articles*
 
-***Figure 4-4.** The home page*
+Phew. Next is the page for the actual blog posts/articles.
 
 ## article.pug
 
-The individual article page (Figure 4-5) is relatively unsophisticated because most of the elements are abstracted into `layout.pug`. We only have `extends` and then overwrite the `content` block without article title (h1 heading) and article's text (p for paragraph).
+The individual article page (Figure 4-5) is relatively unsophisticated because most of the elements are abstracted into `layout.pug`. We only have `extends` and then overwrite the `content` block without the article title (`h1` heading) and article's text (`p` for paragraph).
 
 ```pug
 extends layout
@@ -1441,17 +1443,19 @@ block content
     p= text
 ```
 
-This is the awesomeness which we get thanks to Twitter Bootstrap and h1 and p elements. You can clearly see that even despite defining only h1 and p, the webpage `/articles/node-fundamentals` has a page title menu and the footer. That's due to the inheritance, extends and `layout.pug`.
+This is the awesomeness which we receive for free thanks to Twitter Bootstrap and `h1` and `p` elements. You can clearly see that even despite defining only `h1` and `p`, the webpage `/articles/node-fundamentals` has a page title menu and the footer. That's due to the inheritance, extends, and `layout.pug`.
 
 ![alt](media/image5.png)
 
 ***Figure 4-5.** The article page*
 
-Did you notice that log in link?  Let's implement the log in page next.
+Did you notice that "Log in" link?  Let's implement the login page next.
 
 ## login.pug
 
-Similarly to `article.pug`, the login page uses `login.pug` which contains... not much! *Only* a form and a button with some minimal Twitter Bootstrap classes/markup. So likewise to `article.pug`, we extend layout and overwrite two blocks. One for the actice menu value and the other for the content, that is the main part of the page. This main part has guess what? A LOGIN FORM!
+Similarly to `article.pug`, the login page uses `login.pug`, which contains... not much! *Only* a form and a button with some minimal Twitter Bootstrap classes/markup. 
+
+So as with `article.pug`, we extend layout and overwrite two blocks—one for the active menu value and the other for the content, which is the main part of the page. This main part has guess what? A LOGIN FORM! This is file `login.pug`:
 
 ```pug
 extends layout
@@ -1473,17 +1477,17 @@ block content
           button.btn.btn-lg.btn-primary.btn-block(type="submit") Log in
 ```
 
-Again, thanks to Twitter Bootstrap, our page looks stellar. It has menu because of the `extends` and `layout.pug`. Figure 4-6 shows how the login page looks.
+Again, thanks to Twitter Bootstrap, our page looks stellar. It has a menu because of `extends` and `layout.pug`. Figure 4-6 shows how the login page looks.
 
 ![alt](media/image6.png)
 
 ***Figure 4-6.** The login page*
 
-But how to create a new article? By posting it's title and text.
+But how to create a new article? Easy! By posting its title and text.
 
 ## post.pug
 
-The post page (Figure 4-7) has another form and it also extends `layout.pug`. This time, the form contains a text area element which will become the main text of the article. In addition to the text, there are title and the URL segment (or path) which is called slug 🐌. 
+The post page (Figure 4-7) has another form and it also extends `layout.pug`. This time, the form contains a text area element that will become the main text of the article. In addition to the article text, there are `title`, and the URL segment (or path) to the article which is called `slug` 🐌. 
 
 ```pug
 extends layout
@@ -1509,19 +1513,19 @@ block content
           button.btn.btn-primary(type="submit") Save
 ```
 
-To give you some visual of the Pug of `post.pug`, take a look at the page for posting new articles. The action attribute of `<form>` will allow browsers send the data to the back-end and then Express will take care of it by processing and our Node code will save it to the database.
+To give you some visual of the Pug of `post.pug`, take a look at the page for posting new articles. The action attribute of `<form>` will allow browsers to send the data to the backend and then Express will take care of it by processing, and our Node code will save it to the database.
 
 ![alt](media/image7.png)
 
 ***Figure 4-7.** The post page*
 
-If a valid administrator user is logged in, then we want to show an admin interface. See the Admin link in the menu? Let's implement the admin page to which this link leads.
+If a valid administrator user is logged in, then we want to show an admin interface. See the Admin link in the menu? Let's implement the admin page to which this menu link leads to.
 
 ## admin.pug
 
-The admin page (Figure 4-8) has a loop of articles just like the home page but in addition to just showing articles, we can include a front-end script (`js/admin.js`) specific to this page. This script will do some AJAX-y calls to publish and unpublish articles. These functions will be available only to admins. Of course we will need an server-side validation on the backend later. Don't trust only the front-end validation or authorization!
+The admin page (Figure 4-8) has a loop of articles just like the home page, but in addition to just showing articles, we can include a front-end script (`js/admin.js`) specific to this page. This script will do some AJAX-y calls to publish and unpublish articles. These functions will be available only to admins. Of course we will need an server-side validation on the backend later. Don't trust only the front-end validation or authorization!
 
-So the `admin.pug` file starts with the layout extension and has content overwrite in which there's a table of articles. In each row of the table, we use `glyphicon` to show a fancy icon pause or play. The icons come from Twitter Bootstrap and enabled via classes.
+So the `admin.pug` file starts with the layout extension and has content overwrite, in which there's a table of articles. In each row of the table, we use `glyphicon` to show a fancy icon for pause or play ▶️. The icons come from Twitter Bootstrap and are enabled via classes:
 
 ```pug
 extends layout
@@ -1555,26 +1559,27 @@ block content
       script(type="text/javascript", src="js/admin.js")
 ```
 
-Please notice that, we use ES6 string template (or interpolation) to print article IDs as attributes `data-id` (indentation was removed):
+Please notice that we use ES6 string template (or interpolation) to print article ids as attributes `data-id` (indentation was removed):
 
 ```pug
 tr(data-id=`${article._id}`, class=(!article.published) ? 'unpublished':'')
 ```
 
-And, a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used for classes and title attributes. Remember, it&#39;s JavaScript! (Indentation was removed for better viewing.)
+And a conditional (ternary) operator (<https://github.com/donpark/hbs>) is used for classes and title attributes. Remember, it&#39;s JavaScript! (Indentation has was removed for better viewing.)
 
 ```pug
 span.glyphicon(class=(article.published) ? "glyphicon-pause" : "glyphicon-play", title=(article.published) ? "Unpublish" : "Publish")
 ```
 
-The result is a beautiful admin page (okay, enough with sarcasm and saying Twitter Bootstrap is stellar, pretty or cute. It's not... but compared to standard HTML which puts me to sleep, Twitter Bootstrap style is a HUGE improvement.) It has functionality to publish and unpublish articles.
+The result is a beautiful admin page (Okay, enough with sarcasm and saying Twitter Bootstrap is stellar, pretty or cute. It's not... but compared to standard HTML, which puts me to sleep, Twitter Bootstrap style is a HUGE improvement.) It has functionality to publish and unpublish articles.
 
 ![alt](media/image8.png)
 
-***Figure 4-8.** The admin page*
+***Figure 4-8.** The admin page shows the list of published and draft articles*
 
 # Summary
 
-You learned about Pug and Handlebars templates (variables, iterations, condition, partials, unescaping, and so forth), and how to use them in a standalone Node.js script or within Express.js. In addition, the main pages for Blog were created using Pug.
+In this chapter, you learned about the Pug and Handlebars templates (variables, iterations, condition, partials, unescaping, and so forth), and how to use them in a standalone Node.js script or within Express.js. In addition, the main pages for Blog were created using Pug.
 
-In the next chapter we examine an important aspect of modern web development and software engineering: test-driven development. We look at the Mocha module and write some tests for Blog in true TDD/BDD style. In addition, the next chapter deals with adding a database to Blog routes to populate these templates, and shows you how to turn them into working HTML pages!
+In the next chapter, we'll learn how to extract the data from a database and save new data to it. You'll become familiar with MongoDB. Onwards.
+

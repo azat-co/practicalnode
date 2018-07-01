@@ -1,21 +1,23 @@
 Chapter 6
 ---------
- # Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps
+ # Security and Auth in Node.js
 
-Security is an important aspect of any real-world web application. This is especially true nowadays, because our apps don’t function in silos anymore. We, as developers, can and should leverage numerous third-party services (e.g., Google, Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
+You know that security is an important aspect of any real-world web application. This is especially true nowadays, because our apps don’t function in silos anymore. What if I tell you that you don't have to spend days studying for security certifications or read sketchy dark-web hacker forums to implement a secure Node app? I'll show you a few tricks.
 
-We can makes our apps and communications secure with the usage of various approaches, such as token-based authentication and/or OAuth(<http://oauth.net>). Therefore, in this practical guide, I dedicate the whole chapter to matters of authorization, authentication, OAuth, and best practices. We'll look at the following topics:
+We can makes our apps and communications secure by using various approaches, such as token-based authentication and/or OAuth (<http://oauth.net>). We can leverage numerous third-party services (e.g., Google, Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
+ 
+ In this practical book, I dedicate the whole chapter to matters of authorization, authentication, OAuth, and best practices. We'll look at the following topics:
 
 - Authorization with Express.js middleware
 - Token-based authentication
 - Session-based authentication
-- Project: adding e-mail and password login to Blog
+- Project: Adding e-mail and password login to Blog
 - Node.js OAuth
 - Project: Adding Twitter OAuth 1.0 sign-in to Blog with Everyauth (<https://github.com/bnoguchi/everyauth>)
 
 # Authorization with Express.js Middleware
 
-Authorization in web apps usually means restricting certain functions to privileged clients. These functions can either be methods, pages, or REST API end points.
+Authorization in web apps usually means restricting certain functions to privileged clients. These functions can either be methods, pages, or REST API endpoints.
 
 Express.js middleware allows us to apply certain rules seamlessly to all routes, groups of routes (namespacing), or individual routes.
 
@@ -31,7 +33,7 @@ app.get('/api/users', users.list)
 app.post('/api/users', users.create)
 ```    
 
-Interestingly enough, `app.all()` with a URL pattern and an `*` is functionally the same as utilizing `app.use()` with a URL in a sense that they both will be triggered only on those URLs that are matching the URL pattern.
+Interestingly enough, `app.all()` with a URL pattern and an `*` is functionally the same as utilizing `app.use()` with a URL in a sense that they both will be triggered only on those URLs that are matching the URL pattern:
 
 ```js
 app.use('/api', auth)
@@ -45,7 +47,7 @@ app.get('/api/users', auth, users.list) // Auth needed
 app.post('/api/users', auth, users.create) // Auth needed
 ```
 
-In the previous examples, `auth()` is a function with three parameters: `req`, `res`, and `next`—for example in this middleware, you can call OAuth service or query a database to get the user profile to authorize it (check for permissions) or to check for JWT or web session to authenticate the user (who is it). Or most likely do both!
+In the previous examples, `auth()` is a function with three parameters: `req`, `res`, and `next`. For example in this middleware, you can call the OAuth service or query a database to get the user profile to *authorize* it (check for permissions) or to check for JWT (JSON Web Tokens) or web session to *authenticate* the user (check who it is). Or, most likely, do both!
 
 ```js
 const auth = (req, res, next) => {
@@ -56,17 +58,17 @@ const auth = (req, res, next) => {
 }
 ```
 
-The `next()` part is important, because this is how Express.js proceeds to execute subsequent request handlers and routes (if there’s a match in a URL pattern). If `next()` is invoked without anything, then the normal execution of the server will proceed. That is Express will go to the next middleware and then to the routes which match the URL. 
+The `next()` part is important, because this is how Express.js proceeds to execute subsequent request handlers and routes (if there’s a match in a URL pattern). If `next()` is invoked without anything, then the normal execution of the server will proceed. That is Express will go to the next middleware and then to the routes that match the URL. 
 
-If `next()` is invoked with an error object such as `next(new Error('Not authorized'))`, then Express will jump straight to the first error handler and none of the subsequent middleware or routes will be executed.
+If `next()` is invoked with an error object such as `next(new Error('Not authorized'))`, then Express will jump straight to the first error handler, and none of the subsequent middleware or routes will be executed.
 
 # Token-Based Authentication
 
-For applications to know which privileges a specific client has (e.g., admin), we must add an authentication step. In the previous example, this step goes inside the `auth()` function.
+For applications to know which privileges a specific client has (e.g., admin), we must add an authentication step. In the previous example, this step went inside the `auth()` function.
 
-The most common authentication is a cookie & session–based authentication, and the next section deals with this topic. However, in some cases, more REST-fulness is required, or cookies/sessions are not supported well (e.g., mobile). In this case, it’s beneficial to authenticate each request with a token (probably using the OAuth2.0 (<http://tools.ietf.org/html/rfc6749>)scheme). The token can be passed in a query string or in HTTP request headers. Alternatively, we can send some other authentication combination of information, such as e-mail/username and password, or API key, or API password instead of a token.
+The most common authentication is a cookie&session–based authentication, and the next section deals with this topic. However, in some cases, more REST-fulness is required, or cookies/sessions are not supported well (e.g., mobile). In this case, it’s beneficial to authenticate each request with a token (probably using the OAuth2.0 (<http://tools.ietf.org/html/rfc6749>) scheme). The token can be passed in a query string or in HTTP request headers. Alternatively, we can send some other authentication combination of information, such as e-mail/username and password, or API key, or API password, instead of a token.
 
-So, in our example of token-based authentication, each request can submit a token in a query string (accessed via `req.query.token`). And, if we have the correct value stored somewhere in our app (database, or in this example just a constant `SECRET_TOKEN`), we can check the incoming token against it. If the token matches our records, we call `next()` to proceed with the request executions, if not then we call `next(error)` which triggers Express.js error handlers execution (see the note below):
+In our example of token-based authentication, each request can submit a token in a query string (accessed via `req.query.token`). And if we have the correct value stored somewhere in our app (database, or in this example just a constant `SECRET_TOKEN`), we can check the incoming token against it. If the token matches our records, we call `next()` to proceed with the request executions; if not, then we call `next(error)`, which triggers Express.js error handler execution (see the upcoming note):
 
 ```js
 const auth = (req, res, next) => {
@@ -81,21 +83,23 @@ const auth = (req, res, next) => {
 ```
 
 
-In a more realistic example, we use API keys and secrets to generate HMAC-SHA1 (hash-based message authentication code- secure hash algorithm strings, then compare them with the value in `req.query.token`.
+In a more realistic example, we use API keys and secrets to generate HMAC-SHA1 (hash-based message authentication code—secure hash algorithm strings), and then compare them with the value in `req.query.token`.
 
-**Note** Calling `next()` with an error argument is analogous to throwing in the towel (i.e., to give up). The Express.js app enters the error mode and proceeds to the error handlers.
+**Note** Calling `next()` with an error argument is analogous to throwing in the towel (i.e., giving up). The Express.js app enters the error mode and proceeds to the error handlers.
 
-We just covered token-based authentication, which is often used in REST APIs. However, the user-facing web apps (i.e., browser-enabled users & consumers) come with cookies. We can use cookies to store and send session IDs with each request. 
+We just covered the token-based authentication, which is often used in REST APIs. But user-facing web apps (i.e., browser-enabled users & consumers) often use with cookies. We can use cookies to store and send session IDs with each request. 
 
 Cookies are similar to tokens, but require less work for us, the developers! This approach is the cornerstone of session-based authentication. The session-based method is the recommended way for basic web apps, because browsers already know what to do with session headers. In addition, in most platforms and frameworks, the session mechanism is built into the core. So, let’s jump straight into session-based authentication with Node.js.
 
 # JSON Web Token (JWT) Authentication
 
-JSON Web Tokens (JWT) allow to send and receive data which is encrypted and has all the necessary information, not just a token such as an API key. Thus, there's no need to store user information on the server. In my opinion, JWT less secure than have the data on the server and only storing the token (API key or session ID) on the client, because while JWT is encrypted anyone can break any encryption given enough time and CPU (albeit it might take 1000s of years).
+Developers use JSON Web Tokens (JWT) to encrypted data, which is then stored on the client. JWTs have all the any information unlike regular tokens (API keys or OAuth access tokens), which are more like passwords. Thus, JWTs remove the need for a database to store user information. 
 
-Nevertheless, JWT is a very common technique to use for implementing web apps. They eliminate the need for the server-side database or store. All info is in this token. It has three parts: header, payload and signature. The encryption method (algorithm) vary depending on what you choose. It can be HS256, RS512, ES384, etc. I'm always paranoid about security so typically the higher the number the better. 
+In my opinion, JWT is less secure than web sessions. This is because web sessions store the data on the server (usually in a database) and only store a session ID on the client. Despite JWT using encryption, anyone can break any encryption given enough time and processing power.
 
-To implement a simple JWT login, let's use `jsonwebtoken` library for signing tokens and `bcrypt` for hashing passwords. When client wants to create an account, the system will take the password and hash it asynchronously so not to block the server from processing other requests (the slower the hashing the worse for attackers and the better for you). For example, this is how to get the password from the incoming request body and store the hash into the `users` array:
+Nevertheless, JWT is a very common technique that frontend web apps developers use. JWTs eliminate the need for the server-side database or a store. All info is in this token, which has three parts: header, payload and signature. Whereas the structure of JWT is the same, the encryption method can vary depending on what a developer's choice: HS256, RS512, ES384, and so on. I'm always paranoid about security, so the stronger the algorithm, the better. RS512 will be good for most of the cases circa 2020.
+
+To implement a simple JWT login, let's use the `jsonwebtoken` library for signing tokens and `bcrypt` for hashing passwords. When a client wants to create an account, the system takes the password and hashes it asynchronously so as not to block the server from processing other requests The slower the hashing, the worse for attackers and the better for you. For example, this is how to get the password from the incoming request body and store the hash into the `users` array using 10 rounds of hashing, which is good enough:
 
 ```js
 app.post('/auth/register', (req, res) => {
@@ -111,9 +115,9 @@ app.post('/auth/register', (req, res) => {
 ``` 
 
 
-Once the user record is created (which has the hash), we can login users to exchange the username and password for the JWT. They'll use this JWT for all other requests like a special key to authenticate and maybe unlock protected and restricted resources (that's authorization because not all users will have access to all the restricted resources).
+Once the user record is created (which has the hash), we can log in users to exchange the username and password for the JWT. They'll use this JWT for all other requests like a special key to authenticate and maybe unlock protected and restricted resources (that's *authorization* because not all users will have access to all the restricted resources).
 
-The GET is not a protected route but POST is a protected route because there's an extra `auth` middleware there which will check for the JWT:
+The GET route is not a protected route, but POST is a protected one, because there's an extra `auth` middleware there that will check for the JWT:
 
 ```js
 app.get('/courses', (req, res) => {
@@ -125,7 +129,7 @@ app.post('/courses', auth, (req, res) => {
   })
 ```  
 
-The login route checks for the presence of this username in the `users` array but this can be a database call or a call to another API not a simple `find()` method. Next, `bcrypt` has a `compare()` method which asynchronously checks for the hash. If they match (`matched == true`), then `jwt.sign` will issue a signed (encrypted) token which has username in it but can have many other fields not just one field. The `SECRET` string will be populated from the environment variable or from a public key later when the app goes to production. It's a `const` string for now. 
+The login route checks for the presence of this username in the `users` array but this can be a database call or a call to another API, not a simple `find()` method. Next, `bcrypt` has a `compare()` method that asynchronously compares the hash with the plain password. If they match (`matched == true`), then `jwt.sign()` will issue a signed (encrypted) token that has the username in it. (It can have many other fields, not just one field.) 
 
 ```js
 app.post('/auth/login', (req, res) => {
@@ -143,7 +147,13 @@ app.post('/auth/login', (req, res) => {
   })
 ```
 
-When you get this JWT you can make requests to POST /courses. The `auth` which check for JWT uses the `jwt` module and the data from the headers. The name of the header doesn't matter that much because I set the name myself in the `auth` middleware. Some developers like to use `Authorization` but it's confusing to me since we are not authorizing, but authenticating. The authorization, which is who can do what, is happening in the Node middleware. Here we are performing authentication which is who is this. It's me. Azat Mardan. 
+JWT uses a special value `SECRET` to encrypt the data. Preferably when the app goes to production, an environment variable or a public key will populate the `SECRET` value. However now, `SECRET` is just a hard-coded `const` string. 
+
+When you get this JWT, you can make requests to POST `/courses`. The `auth`, which checks for JWT, uses the `jwt` module and the data from the headers. I use the `auth` header name. The name of the header doesn't matter as long as you use the same name on the server and on the client. For the server, I set the header name in the `auth` middleware. 
+
+Some developers like to use `Authorization`, but it's confusing to me since we're not authorizing, but authenticating. The authorization, which controls who can do what, is happening in the Node middleware. Here, we are performing authentication, which identifies who is this.
+
+My `auth` header will look like this `JWT TOKEN_VALUE`. Ergo, to extract the token value out of the header, I use a string function `split(' ')`:
 
 ```js
 const auth = (req, res, next) => {
@@ -159,24 +169,25 @@ const auth = (req, res, next) => {
 }
 ```
 
-You can play with the full working and tested code in `code/ch6/jwt-example`. I like to use CURL but most of my Node workshop attendees like Postman so in Figure 6-2 I show how to use Postman to extract the JWT (on login). And on Figure 6-3 put it to action (on POST /courses) by pasting the token into the header `auth` after `JTW ` (JWT with a space).
+You can play with the full working and tested code in `code/ch6/jwt-example`. I like to use CURL, but most of my Node workshop attendees like Postman (a cross-platform GUI app), so in Figure 6-2 I show how to use Postman to extract the JWT (on login). And Figure 6-3 uses the token on POST `/courses` by having the token in the header `auth` after JWT with a space (`JTW TOKEN_VALUE`).
 
-This is how to test the JWT example step by step in Postman (or any other HTTP client):
+We finished the implementation. Now test the JWT example with these step-by-step instructions in CURL, Postman or any other HTTP client:
 
-1. GET /courses will return a list of two courses which are in `server.js`
-2. POST /courses with JSON data of `{"title": "blah blah blah"}` will return 401 Not Authorized. Now we know that this is a protected route and we need to create a new user to proceed
-3. POST /auth/register with username and password will create a new user as shown in Figure 6-1. Next we can login (sign in) to the server to get the token
-4. POST /auth/login with username and password which are matching existing records will return JWT as shown in Figure 6-2
-5. POST /courses with title and JWT in the header will allow and create a new course recored (status 201) as shown in Figure 6-3 and Figure 6-4
-6. GET /courses will show your new title. Verify it. No need for JWT for this request but it won't hurt either. Figure 6-5.
-6. Celebrate and get a cup of tea with a (paleo) cookie.
-
+1. GET `/courses` will return a list of two courses that are hard-coded in `server.js`.
+2. POST `/courses` with JSON data `{"title": "blah blah blah"}` will return 401 Not Authorized. Now we know that this is a protected route, and we need to create a new user to proceed.
+3. POST `/auth/register` with username and password will create a new user, as shown in Figure 6-1. Next we can log in to the server to get the token.
+4. POST `/auth/login` with username and password that match the existing records will return JWT, as shown in Figure 6-2.
+5. POST `/courses` with title and JWT from step 4 in the `auth` header will create a new course (response status 201), as shown in Figures 6-3 and 6-4.
+6. GET `/courses` will show your new title. Verify it. No need for JWT for this request, but it won't hurt either. Figure 6-5.
+7. Celebrate and get a cup of tea with a (paleo) cookie 🍪.
 
 ![Registering a new user by sending JSON payload](media/jwt-1.png)
 ***Figure 6-1.** Registering a new user by sending JSON payload*
 
 ![Logging in to get JWT](media/jwt-2.png)
 ***Figure 6-2.** Logging in to get JWT *
+
+Don't forget to select `raw` and `application/json` when registering (POST `/auth/register`) and when making other POST requests. And now that you saw my password, please don't hack my accounts (<https://github.com/danielmiessler/SecLists/pull/155>).
 
 ![Using JWT in the header auth](media/jwt-3.png)
 ***Figure 6-3.** Using JWT in the header auth*
@@ -187,32 +198,36 @@ This is how to test the JWT example step by step in Postman (or any other HTTP c
 ![Verifying new course](media/jwt-5.png)
 ***Figure 6-5.** Verifying new course*
 
-Finally, you can uncheck the `auth` header which has the JWT value and try to make another POST /courses request as shown in Figure 6-6. The request will fail miserably (401) as it should because there's no JWT this time (see `auth` middleware in `server.js`).
+Finally, you can uncheck the `auth` header that has the JWT value and try to make another POST `/courses` request, as shown in Figure 6-6. The request will fail miserably (401), as it should because there's no JWT this time (see `auth` middleware in `server.js`).
 
 ![Unchecking auth header with JWT leads to 401 as expected](media/jwt-6.png)
 ***Figure 6-6.** Unchecking auth header with JWT leads to 401 as expected*
 
-Don't forget to select `raw` and `application/json` when registering (POST /auth/register) and when making other POST requests. And now that you saw and know my password, please don't steal it. (It's not my actual password, but someone used dolphins as a password according to [this pull request "Remove my password from lists so hackers won't be able to hack me"](https://github.com/danielmiessler/SecLists/pull/155)).
 
-JWT is easy to implement. Once on the client after the login request, you can store JWT in local storage or cookies (in the browser) so that your React, Vue, or Angular front-end app can send this token with each request. Protect your secret and pick a strong encryption algorithms to make it harder for attachers to hack your JWT data. 
+JWT is easy to implement. Developers don't need to create and maintain a shared database for the services. That's the main benefit. Clients get JWTs after the login request. 
 
-For me sessions are somewhat more secure because I store my data on the server, on encrypted on the client.
+Once on the client, client code stores JWT in browser or mobile local storage or cookies (also in the browser). React, Vue, Elm, or Angular front-end apps send this token with each request. If you plan to use JWT, it's important to protect your secret and to pick a strong encryption algorithm to make it harder for attackers to hack your JWT data. 
+
+If you ask me, sessions are more secure because with sessions I store my data *on the server* instead of on the client. Let's talk about sessions.
 
 # Session-Based Authentication
 
 Session-based authentication is done via the `session` object in the request object `req`. A web session in general is a secure way to store information about a client so that subsequent requests from that same client can be identified.
 
-In the Express.js file, we'll need to import (`require()`) two modules to enable sessions. We need to include and use `cookie-parser` and `express-session`. 
+In the main Express.js file, we'll need to import (`require()`) two modules to enable sessions. We need to include and use `cookie-parser` and `express-session`: 
 
-1. `express.cookieParser()`: allows for parsing of the client/request cookies
-2. `express.session()`: exposes the `res.session` object in each request handler, and stores data in the app memory or some other persistent store like MongoDB or Redis
+1. `express.cookieParser()`: Allows for parsing of the client/request cookies
+2. `express.session()`: Exposes the `res.session` object in each request handler, and stores data in the app memory or some other persistent store like MongoDB or Redis
 
 Note: in `express-session` version 1.5.0 and higher, there's no need to add the `cookie-parser` middleware. In fact, it might lead to some bad behavior. So it's recommended to use `express-sesison` by itself because it will parse and read cookie by itself.
 
-Needless to say, `cookie-parser` and `express-session` must be installed via npm into the project's `node_modules` folder, i.e., you need to install them with `npm i cookie-parser express-session -SE`.
+Needless to say, `cookie-parser` and `express-session` must be installed via npm into the project's `node_modules` folder. You can install them with: 
 
+```
+npm i cookie-parser express-session -SE
+```
 
-Import with `require()` and apply to the Express app with `app.use()`:
+In the main Express file such as `app.js` or `server.js`, import with `require()` and apply to the Express app with `app.use()`:
 
 ```js
 const cookieParser = require('cookie-parser')
@@ -223,11 +238,12 @@ app.use(session())
 ```
 
 
-The rest is straightforward. We can store any data in `req.session` and it appears automagically on each request from the same client (assuming their browser supports cookies). Hence, the authentication consists of a route that stores some flag (true/false) in the session and of an authorization function in which we check for that flag (if true, then proceed; otherwise, exit). For example,
+The rest is straightforward. We can store any data in `req.session` and it appears automagically on each request from the same client (assuming their browser supports cookies). Hence, the authentication consists of a route that stores some flag (true/false) in the session and of an authorization function in which we check for that flag (if true, then proceed; otherwise, exit). For example to log in, we set the property `auth` on the `session` to `true`. The `req.session.auth` value will persist on future requests from the same client.
 
 ```js
 app.post('/login', (req, res, next) => {
-  if (checkForCredentials(req)) {  // This function checks for credentials passed in the request's payload
+  if (checkForCredentials(req)) {  
+  // checkForCredentials checks for credentials passed in the request's payload
     req.session.auth = true
     res.redirect('/dashboard') // Private resource
   } else {
@@ -236,18 +252,20 @@ app.post('/login', (req, res, next) => {
 })
 ```
 
-**Warning** Avoid storing any sensitive information in cookies. The best practice is not to store any info in cookies manually—except session ID, which Express.js middleware stores for us automatically—because cookies are not secure. Also, cookies have a size limitation (depending on the browser, with Internet Explore being the stringiest) that is very easy to reach.
+**Warning** Avoid storing any sensitive information in cookies. The best practice is not to store any info in cookies manually—except session ID, which Express.js middleware stores for us automatically—because cookies are not secure. Also, cookies have a size limitation that is very easy to reach and which varies by browser with Internet Explore having the smallest limit.
 
-By default, Express.js uses in-memory session storage. This means that every time an app is restarted or crashes, the sessions are wiped out. To make sessions persistent and available across multiple servers, we can use Redis for MongoDB for as session restore.
+By default, Express.js uses in-memory session storage. This means that every time an app is restarted or crashes, the sessions are wiped out. To make sessions persistent and available across multiple servers, we can use a database such as Redis or MongoDB as a session store that will save the data on restarts and crashes of the servers. 
+
+In fact, having Redis for the session store is one of the best practices that my team and I used at Storify and DocuSign. Redis provided one source of truth for the session data among multiple servers. Our Node apps were able to scale up well because they were stateless. We also used Redis for caching due to its efficiency.
 
 # Project: Adding E-mail and Password Login to Blog
 
 To enable session-based authentication in Blog, we need to do the following:
 
 1. Import and add the session middleware to the configuration part of `app.js`.
-2. Implement the authorization middleware `authorize` with a session-based authorization so we can re-use the same code for many routes
-3. Add the middleware from #2 (step above) to protected pages and routes in `app.js` routes, e.g., `app.get('/api/, authorize, api.index)`.
-4. Implement an authentication route POST `/login`, and a logout route, GET `/logout` in `user.js`.
+2. Implement the authorization middleware `authorize` with a session-based authorization so we can reuse the same code for many routes.
+3. Add the middleware from step 2 to protected pages and routes in `app.js` routes, e.g., `app.get('/api/, authorize, api.index)`.
+4. Implement an authentication route POST `/login`, and a logout route, GET `/logout`, in `user.js`.
 
 We will start with the session middleware.
 
@@ -266,9 +284,9 @@ app.use(session({secret: '2C44774A-D649-4D44-9535-46E296EF984F'}))
 
 **Warning** You should replace randomly generated values with your own ones.
 
-`session()` must be preceded by `cookieParser()` because session depend on cookies to work properly. For more information about these and other Express.js/Connect middleware, refer to Pro Express.js 4 [Apress, 2014].
+`session()` must be preceded by `cookieParser()` because session depends on cookies to work properly. For more information about these and other Express.js/Connect middleware, refer to *Pro Express.js 4* (Apress, 2014).
 
-Beware of another cookies middleware. It's name is `cookie-sesison`. It's not as secure as `cookie-parser` and `express-session`. `cookie-session` can be used in some cases but I don't recommend it because it stores all information in the cookie, not on the server. The usage is import and apply:
+Beware of another cookie middleware. It's name is `cookie-sesison` and it's not as secure as `cookie-parser` with `express-session`. This is because `cookie-session` stores all information in the cookie, not on the server. `cookie-session` can be used in some cases but I do not recommend it. The usage is to import the module and to apply it to the Express.js `app`:
 
 ```js
 const cookieSession = require('cookie-session')
@@ -291,7 +309,7 @@ Let's add authorization to the Blog project.
 
 ## Authorization in Blog
 
-Authorization is also done via middleware, but we won’t set it up right away with `app.use()` like we did in the snippet for `res.locals`. Instead, we define a function that checks for `req.session.admin` to be true, and proceeds if it is. Otherwise, the 401 Not Authorized error is thrown and the response is ended.
+Authorization is also done via middleware, but we won’t set it up right away with `app.use()` like we did in the snippet for `res.locals`. Instead, we define a function that checks for `req.session.admin` to be true, and proceeds if it is. Otherwise, the 401 Not Authorized error is thrown, and the response is ended.
 
 ```js
 // Authorization
@@ -303,7 +321,7 @@ const authorize = (req, res, next) => {
 }
 ```    
 
-Now we can add this middleware to certain protected endpoints (another name for routes). Specifically, we will protect the endpoints to see the admin page (GET `/admin`), to create a new article (POST `/post`) and to see the create new article page (GET `/post`):
+Now we can add this middleware to certain protected endpoints (another name for routes). Specifically, we will protect the endpoints to see the admin page (GET `/admin`), to create a new article (POST `/post`), and to see the create new article page (GET `/post`):
 
 ```js
 app.get('/admin', authorize, routes.article.admin)
@@ -311,7 +329,7 @@ app.get('/post', authorize, routes.article.post)
 app.post('/post', authorize, routes.article.postArticle)
 ```
 
-We add the authorize middleware to API routes as well... to *all* of them using `app.all()`:
+We add the authorize middleware to API routes as well... to *all* of them, using `app.all()`:
 
 ```js
 app.all('/api', authorize)
@@ -321,9 +339,9 @@ app.put('/api/articles/:id', routes.article.edit)
 app.delete('/api/articles/:id', routes.article.del)
 ```
 
-The `app.all('/api', authorize)` is a more compact alternative to adding `authorize` to all `/api/...` routes manually. Less copy-paste and more code re-usage please.
+The `app.all('/api', authorize)` statement is a more compact alternative to adding `authorize` to all `/api/...` routes manually. Less copypasta and more code reuse, please.
 
-I know there are a lot of readers who like to see entire source code. Thus, the full source code of the `app.js` file after adding session support and authorization middleware is as follows (under the `ch6/blog-password` folder):
+I know a lot of readers like to see the entire source code. Thus, the full source code of the `app.js` file after adding session support and authorization middleware is as follows (under the `ch6/blog-password` folder):
 
 ```js
 const express = require('express')
@@ -443,7 +461,7 @@ Now we can implement authentication (different from authorization).
 
 The last step in session-based authorization is to allow users and clients to turn the `req.session.admin` switch on and off. We do this by having a login form and processing the POST request from that form. 
 
-For authenticating users as admins we set the appropriate flag (`admin=true`), in the `routes.user.authenticate` in the `user.js` file. This is done in the POST `/login` route which we defined in the `app.js`—a line that has this statement: 
+For authenticating users as admins, we set the appropriate flag (`admin=true`), in the `routes.user.authenticate` in the `user.js` file. This is done in the POST `/login` route, which we defined in the `app.js`—a line that has this statement: 
 
 ```
 app.post('/login', routes.user.authenticate)
@@ -457,7 +475,7 @@ exports.authenticate = (req, res, next) => {
 
 The form on the login page submits data to this route. In general, a sanity check for the input values is always a good idea. If values are falsy (including empty values), we'll render the login page again with the message `error`. 
 
-The `return` keyword ensures the rest of the code in this method isn’t executed. If the values non-empty (or otherwise truthy), then the request handler will not terminate yet and proceed to the next statements:
+The `return` keyword ensures the rest of the code in this method isn’t executed. If the values are non-empty (or otherwise truthy), then the request handler will not terminate yet and will proceed to the next statements:
 
 ```js
 exports.authenticate = (req, res, next) => {
@@ -485,7 +503,7 @@ Thanks to the database middleware in `app.js`, we can access database collection
     if (!user) return res.render('login', {error: 'Incorrect email&password combination.'})
 ```
 
-If the program has made it thus far (avoided a lot of `return` statements previously), we can authenticate the user as administrator thus enabling the authentication and the `auth` (authorization) method:
+If the program has made it thus far (avoiding a lot of `return` statements prior), we can authenticate the user as administrator, thus enabling the authentication and the `auth` (authorization) method:
 
 ```js
     req.session.user = user
@@ -539,33 +557,39 @@ It's better to test the enhancements earlier. Everything should be ready for run
 
 ## Running the App
 
-Now everything should be set up properly to run Blog. Contrary to the example in Chapter 5, we see protected pages only when we’re logged in. These protected pages enable us to create new posts, and to publish and unpublish them. But as soon as we click "Logout" in the menu, we no longer can access the administrator page. 
+Now everything should be set up properly to run Blog. In contrast, to the example in Chapter 5, we see protected pages only when we’re logged in. These protected pages enable us to create new posts, and to publish and unpublish them. But as soon as we click Logout in the menu, we no longer can access the administrator page. 
 
 The executable code is under the `code/ch6/blog-password` folder of the `practicalnode` repository: https://github.com/azat-co/practicalnode.
 
-# Node.js OAuth
+# The `oauth` Module
 
-OAuth ([npm](https://www.npmjs.org/package/oauth) (<https://www.npmjs.org/package/oauth>), [GitHub](https://github.com/ciaranj/node-oauth) (<https://github.com/ciaranj/node-oauth>)) is the powerhouse of OAuth 1.0/2.0 schemes for Node.js. It’s a module that generates signatures, encryptions, and HTTP headers, and makes requests. 
+The `oauth` module is the powerhouse of OAuth 1.0/2.0 schemes and flows for Node.js. It’s a module that generates signatures, encryptions, and HTTP headers, and makes requests. You can find it on npm at <https://www.npmjs.org/package/oauth> and on GitHub at <https://github.com/ciaranj/node-oauth>.
 
-We still need to initiate the OAuth dances (i.e., requests back and forth between consumer, provider and our system), write the callback routes, and store information in sessions or databases. Refer to the service provider’s (e.g., Facebook, Twitter, Google) documentation for end points, methods, and parameter names.
+We still need to initiate the OAuth flows (i.e., requests back and forth between consumer, provider, and our system), write the callback routes, and store information in sessions or databases. Refer to the service provider’s (e.g., Facebook, Twitter, Google) documentation for endpoints, methods, and parameter names.
 
 It is recommended that `node-auth` be used when complex integration is needed or when only certain pieces of OAuth are needed (e.g., header signatures are generated by node-auth, but the request is made by the `superagent` library).
 
-To add OAuth version 0.9.15 (the latest as of this writing) to your project, simply run:
+To add OAuth version 0.9.15 (the latest as of this writing) to your project, simply say the following incantation:
 
 ```
 $ npm install oauth@0.9.15
 ```
 
+Once you install the `oauth` module, you can start implementing OAuth flows such as Twitter OAuth 2.0.
+
 ## Twitter OAuth 2.0 Example with Node.js OAuth
 
-OAuth 2.0 is less complicated and, some might argue, less secure than OAuth 1.0. The reasons for this are numerous and better understood when written by Eran Hammer, the person who participated in OAuth2.0 creation: OAuth 2.0 and the Road to Hell.
+OAuth 2.0 is less complicated and, some might argue, less secure than OAuth 1.0. You can find plenty of blog posts, flame wars and rants on OAuth 1 vs 2 online, if you wish. I'll give you my short version here. 
 
-In essence, OAuth 2.0 is similar to the token-based authorization we examined earlier, for which we have a single token, called a *bearer*, that we pass along with each request. To get that token, all we need to do is exchange our app’s token and secret for the bearer. 
+In essence, OAuth 2.0 doesn't prescribe encryption and instead relies on SSL (https) for encryption. On the other hand, OAuth 1 dictates the encryption. 
 
-Usually, this bearer can be stored for a longer time than OAuth 1.x tokens (depends on the rules set by a specific service-provider), and can be used as a single key/password to open protected resources. This bearer acts as our token in the token-based auth.
+The way OAuth 2.0 works is similar to the token-based authorization we examined earlier, for which we have a single token, called a *bearer*, that we pass along with each request. Think about bearer as a special kind of a password that unlocks all the treasures. To get that token, all we need to do is exchange our app’s token and secret for the bearer. 
 
-Here’s an ordinary example from [Node.js OAuth](https://github.com/ciaranj/node-oauth#oauth20) (<https://github.com/ciaranj/node-oauth#oauth20>). (`node-auth`) docs. First, we create an `oauth2` object that has a Twitter consumer key and secret (replace the values with yours):
+Usually, this bearer can be stored for a longer time than OAuth 1.x tokens (depending on the rules set by a specific service provider) and can be used as a single key/password to open protected resources. This bearer acts as our token in the token-based auth.
+
+The following is an OAuth 2.0 request example, which I wrote for the `oauth` docs:  <https://github.com/ciaranj/node-oauth#oauth20>. It'll illustrate how to make an OAuth 2 request to Twitter API.
+
+First, we create an `oauth2` object that has a Twitter consumer key and secret (replace the values with yours):
 
 ```js
 const OAuth = require('oauth')
@@ -595,27 +619,29 @@ oauth2.getOAuthAccessToken(
 )
 ```
 
-Now we can store the bearer for future use and make requests to protected end points with it.
+Now we can store the bearer for future use and make requests to protected endpoints with it.
 
-**Note** Twitter uses OAuth2.0 for the so called app-only authorizations which are requests to protected resources. Those requests are made on behalf of the applications only (not on behalf of users by the apps). Twitter uses OAuth 1.0 for normal auths, i.e., requests made on behalf of the users by the app). Not all endpoints are available via app-only auth, and quotas/limitations are different. Please refer to the official documentation at <http://dev.twitter.com>.
+**Note** Twitter uses OAuth 2.0 for endpoints (resources) which don't require users permissions. These endpoints use what's called *app-only authorization*, because they are accessible on behalf of apps, not on behalf of users of apps. Not all endpoints are available through app-only auth, and quotas/limitations are different. Conversely, Twitter uses OAuth 1.0 for authorization of requests made on behalf of the users of the apps. To learn what endpoints use OAuth 2 and what OAuth 1, please refer to the official documentation at <http://dev.twitter.com>.
 
 ## Everyauth
 
-The Everyauth module allows for multiple OAuth strategies to be implemented and added to any Express.js app in just a few lines of code. Everyauth comes with strategies for most of the service providers, so there’s no need to search and implement service provider-specific end points, parameters names, and so forth. Also, Everyauth stores user objects in a session, and database storage can be enabled in a `findOrCreate` callback using a promise pattern.
+The Everyauth module allows for multiple OAuth strategies to be implemented and added to any Express.js app in just a few lines of code. Everyauth comes with strategies for most of the service providers, so there’s no need to search and implement service provider-specific endpoints, parameters names, and so forth. Also, Everyauth stores user objects in a session, and database storage can be enabled in a `findOrCreate` callback using a promise pattern.
 
-**Tip** Everyauth has an e-mail and password strategy that can be used instead of the custom-built auth. More information about it can be found in Everyauth documentation at the [GitHub repository](https://github.com/bnoguchi/everyauth#password-authentication) (<https://github.com/bnoguchi/everyauth#password-authentication>).
+**Tip** Everyauth has an e-mail and password strategy that can be used instead of the custom-built auth. More information about it can be found in the Everyauth documentation at the [GitHub repository](https://github.com/bnoguchi/everyauth#password-authentication) (<https://github.com/bnoguchi/everyauth#password-authentication>).
 
-Everyauth has lots fo submodules which describe how a service might use OAuth exactly. Each one of them might be different. If you just use one of this submodule then you don't need to worry about the details. Instead you just plug in your app secret and client ID and boom! You are rolling.  In other words, submodules enable service provider-specific authorization strategies and there are tons of these submodules (strategies): password (simple email and password), Facebook, Twitter, Google, Google Hybrid, LinkedIn, Dropbox, Tumblr, Evernote, GitHub, Instagram, Foursquare, Yahoo!, Justin.tv, Vimeo, 37signals (Basecamp, Highrise, Backpack, Campfire), Readability, AngelList, Dwolla, OpenStreetMap, VKontakte (Russian social network famous for its pirated media), Mail.ru (Russian social network), Skyrock, Gowalla, TripIt, 500px, SoundCloud, mixi, Mailchimp, Mendeley, Stripe, Datahero, Salesforce, Box.net, OpenId, and event LDAP and Windows Azure Access Control Service! and more at <https://github.com/bnoguchi/everyauth/blob/master/README.md>.
+Each one of the third-party services may be different. You can implement them all yourself. But Everyauth has lots of submodules that implement exactly what OAuth flow each third-party service need. You simply provide credentials to submodules, configure them, and avoid any worries in regards to the details of OAuth flow(s). That's right, you just plug in your app secret and client ID and boom! You are rolling, all dandy like a candy.  
+
+Everyauth submodules are specific implementations of authorizations. And boy, open source contributors wrote tons of these submodules (strategies), so developers don't have to reinvent the wheel: password (simple email and password), Facebook, Twitter, Google, LinkedIn, Dropbox, Tumblr, Evernote, GitHub, Instagram, Foursquare, Yahoo!, Justin.tv, Vimeo, Basecamp, AngelList, Dwolla, OpenStreetMap, VKontakte (Russian social network famous for its pirated media), Mail.ru, SoundCloud, MailChimp, Stripe, Salesforce, Box.net, OpenId, LDAP and Windows Azure Access Control Service, and the list goes on and on at <https://github.com/bnoguchi/everyauth/blob/master/README.md>.
 
 # Project: Adding Twitter OAuth 1.0 Sign-in to Blog with Everyauth
 
 A typical OAuth 1.0 flow consists of these three steps (simplified):
 
 1. Users go to a page/route to initiate the OAuth dance. There, our app requests a token via GET/POST requests using the signed app’s consumer key and secret. For example, `/auth/twitter` is added automatically by Everyauth.
-2. The app uses the token extracted in step 1 and redirects users to the service-provider (Twitter) and waits for the callback.
-3. The service provider redirects users back to the app which catches the redirect in the callback route (e.g., `/auth/twitter/callback`). Then, the app extracts the access token, the access token secret, and the user information from the Twitter incoming request body / payload.
+2. The app uses the token extracted in step 1 and redirects users to the service provider (Twitter) and waits for the callback.
+3. The service provider redirects users back to the app, which catches the redirect in the callback route (e.g., `/auth/twitter/callback`). Then, the app extracts the access token, the access token secret, and the user information from the Twitter incoming request body/payload.
 
-However, because we’re using Everyauth, we don’t need to implement requests for the initiate and the callback routes!
+However, because we’re using Everyauth, we don’t need to implement requests for the initiation and the callback routes!
 
 Let’s add a Sign in with Twitter button to our project. We need the button itself (image or a link), app key, and secret (obtainable at dev.twitter.com), and then we must augment our authorization route to allow for specific Twitter handlers to be administrated on Blog.
 
@@ -667,7 +693,7 @@ const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY
 const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET
 ```
 
-To pass these variables we can use Makefile. In the Makefile, add these lines, substituting ABC and XYZ with your values:
+To pass these variables, we can use Makefile. In the Makefile, add these lines, substituting ABC and XYZ with your values:
 
 ```
 start:
@@ -682,7 +708,7 @@ Also, add the `start` command to `.PHONY`:
 .PHONY: test db start
 ```
 
-As another option, we can create a Bash file `start.sh`:
+As another option, we can create a bash file `start.sh`:
 
 ```
 TWITTER_CONSUMER_KEY=ABCABC \
@@ -710,7 +736,7 @@ everyauth.twitter
   .consumerSecret(TWITTER_CONSUMER_SECRET)
 ```
 
-Then, to tell the module what to do when Twitter sends back the authorized user object `twitterUserMetadata`, type
+Then, to tell the module what to do when Twitter sends back the authorized user object `twitterUserMetadata`, type this chained method with four arguments:
 
 ```js
   .findOrCreateUser((session, 
@@ -743,7 +769,7 @@ Store the `user` object in the in-memory session, just like we did in the `/logi
           session.user = twitterUserMetadata
 ```
 
-The most important, set admin flag to `true`:
+Most importantly, set admin flag to `true`:
 
 ```js
           session.admin = true
@@ -766,7 +792,7 @@ After all the steps are done, instruct Everyauth where to redirect the user:
   .redirectPath('/admin')
 ```
 
-Everyauth is so smart that it automatically adds a `/logout` route, this means our route (`app.get('/logout', routes.user.logout);`) won't be used. So we need to add some extra logic to the default Everyauth strategy. Otherwise, the session will always keep admin = true. In the `handleLogout` step, we clear our session by calling the exact same method from `user.js`:
+Everyauth is so smart that it automatically adds a `/logout` route, which means our route (`app.get('/logout', routes.user.logout);`) won't be used. So we need to add some extra logic to the default Everyauth strategy. Otherwise, the session will always keep admin = true. In the `handleLogout` step, we clear our session by calling the exact same method from `user.js`:
 
 ```js
 everyauth.everymodule.handleLogout(routes.user.logout)
@@ -780,29 +806,29 @@ everyauth.everymodule.findUserById( (user, callback) => {
 })
 ```
 
-Last but not least, the line that follows, enable Everyauth routes and it must go after cookie and session middleware but must come before normal routes (e.g., `app.get(), app.post()`):
+Last but not least, the line that follows enables Everyauth routes and it must go after cookie and session middleware, but must come before normal routes (e.g., `app.get(), app.post()`):
 
 ```js
 app.use(everyauth.middleware())
 ```
 
-The full source code of the `code/ch6/blog-everyauth/app.js` file after adding the Everyauth Twitter OAuth1.0 strategy is rather lengthy thus is not listed here but can be found on GitHub.
+The full source code of the `code/ch6/blog-everyauth/app.js` file after adding the Everyauth Twitter OAuth1.0 strategy is rather lengthy, so I won't print it here, but you can find it on GitHub at the book's repository.
 
 
-To run the app, execute `$ make start`, and **don’t forget to replace** the Twitter username, consumer key, and secret with yours. Then when you click on "Sign in with Twitter", you'll be redirected to Twitter to authorize this application. Then you'll be redirected back to the localhost app and should see the admin page menu. We have been authorized by a third-party service provider! 
+To run the app, execute `$ make start`, and **don’t forget to replace** the Twitter username, consumer key, and secret with yours. Then when you click on the "Sign in with Twitter" button, you'll be redirected to Twitter to authorize this application. After that you'll be redirected back to the localhost app and should see the admin page menu. We have been authorized by a third-party service provider! 
 
-Also, the user information is available to your app so it can be stored in the database for future usage. If you already gave permissions, the redirect to and from Twitter might happen very fast. The terminal output is shown in Figure 6-1 shows each step of Everyauth process such as getting tokens and sending responses. Each step can be customized to your app's needs.
+Also, the user information is available to your app so it can be stored in the database for future use. If you already gave permissions, the redirect to and from Twitter might happen very fast. I captured the terminal output in Figure 6-7. The logs show each step of Everyauth process such as getting tokens and sending responses. You can customize each step.
 
 ![alt](media/image1.png)
 
-***Figure 6-1.** Everyauth Twitter strategy with debug mode in action*
+***Figure 6-7.** Everyauth Twitter strategy with debug mode in action*
 
 Auths are important. Good job. 
 
 # Summary
 
-In this chapter, we learned how to implement a standard e-mail and password authentication, and used Express.js middleware to protect sensitive pages and end points in Blog. Then, we covered OAuth 1.0 and OAuth 2.0 with Everyauth and OAuth modules, respectively. 
+In this chapter, we learned how to implement standard e-mail and password authentication, and used Express.js middleware to protect sensitive pages and endpoints in Blog. Then, we covered OAuth 1.0 and OAuth 2.0 with Everyauth and OAuth modules, respectively. 
 
-Now we have a few security options for Blog. In the next chapter we'll explore Mongoose (<http://mongoosejs.com>) object-relational mapping object-document mapping (ODM) Node.js library for MongoDB. 
+Now we have a few security options for Blog. In the next chapter, we'll explore Mongoose (<http://mongoosejs.com>), the object-relational mapping object-document mapping (ODM) Node.js library for MongoDB. 
 
-The Mongoose library is a good choice for complex systems with a lot of interdependent business logic between entities, because it completely abstracts the database and provides developers with tools to operate with data only via Mongoose objects. The chapter will touch on the main Mongoose classes and methods, explain some of the more advanced concepts, and re-factor persistence in Blog.
+The Mongoose library is a good choice for complex systems with a lot of interdependent business logic between entities, because it completely abstracts the database and provides developers with tools to operate with data only via Mongoose objects. The chapter will touch on the main Mongoose classes and methods, explain some of the more advanced concepts, and refactor persistence in Blog.

@@ -325,7 +325,7 @@ When things go south (e.g., memory leaks, overloads, crashes), there are two thi
 Monitoring
 ----------
 
-<span id="monitor" class="anchor"></span>When going to production, software and development operations engineers need a way to get current status quickly. Having a dashboard or just an end point that spits out JSON-formatted properties is a good idea, including properties such as the following:
+<span id="monitor" class="anchor"></span>When going to production, software and development operations engineers need a way to get current status quickly. Having a dashboard or just an endpoint that spits out JSON-formatted properties is a good idea, including properties such as the following:
 
 -   `memoryUsage`: memory usage information
 -   `uptime`: number of seconds the Node.js process is running

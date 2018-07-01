@@ -28,7 +28,7 @@ By maintaining a duplex open connection between the client and the server, updat
 
 There&#39;s no need to use any special libraries to use WebSocket in modern browsers. The following StackOverflow has a list of such browsers: [What browsers support HTML5 WebSockets API?](http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api) (<http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api>)For older browser support, the workaround includes falling back on polling.
 
-As a side note, polling (both short and long), can also be used to emulate the real-time responsiveness of web apps. In fact, some advanced libraries (Socket.IO) fall back to polling when WebSocket becomes unavailable as a result of connection issues or users not having the latest versions of browsers. Polling is relatively easy and we don&#39;t cover it here. It can be implemented with just a `setInterval()` callback and an end point on the server. However, there&#39;s not real-time communication with polling; each request is separate.
+As a side note, polling (both short and long), can also be used to emulate the real-time responsiveness of web apps. In fact, some advanced libraries (Socket.IO) fall back to polling when WebSocket becomes unavailable as a result of connection issues or users not having the latest versions of browsers. Polling is relatively easy and we don&#39;t cover it here. It can be implemented with just a `setInterval()` callback and an endpoint on the server. However, there&#39;s not real-time communication with polling; each request is separate.
 
 # Native WebSocket and Node.js with the ws Module Example
 
