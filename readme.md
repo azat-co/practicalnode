@@ -10,7 +10,7 @@ This is the manuscript (draft) and code for Practical Node.js, 2nd Edition [Apre
 
 You can get final 2nd edition (pre-order now or buy when it's ready) at Apress: <http://www.apress.com/us/book/9781484230381>.
 
-![Practical Node.js, 1st Edition](http://azatzbw4bszzsb.wpengine.netdna-cdn.com/wp-content/uploads/81AIpYkA46L-200.jpeg)
+![Practical Node.js, 1st Edition](9781430265955.jpg)
 1st Edition [2014]
 
 ![Practical Node.js, 2nd Edition](9781484230381.jpg)
@@ -35,7 +35,7 @@ If you'd like to contribute financially towards the effort (or any of my other o
 4. [Template Engines: Pug and Handlebars](https://github.com/azat-co/practicalnode/blob/master/chapter4/chapter4.md) [2nd Edition] 
 5. [Persistence with MongoDB and Mongoskin](https://github.com/azat-co/practicalnode/blob/master/chapter5/chapter5.md) [2nd Edition] 
 6. [Using Sessions and OAuth to Authorize and Authenticate Users in Node.js Apps](https://github.com/azat-co/practicalnode/blob/master/chapter6/chapter6.md) [2nd Edition] 
-7. [Boosting Your Node.js Data with the Mongoose ODM Library](https://github.com/azat-co/practicalnode/blob/master/chapter7/chapter7.md) [2nd Edition] 
+7. [Boosting Node.js and MongoDB with Mongoose](https://github.com/azat-co/practicalnode/blob/master/chapter7/chapter7.md) [2nd Edition] 
 8. [Building Node.js REST API Servers with Express.js and Hapi](https://github.com/azat-co/practicalnode/blob/master/chapter8/chapter8.md) [2nd Edition] 
 9. [Real-Time Apps with WebSocket, Socket.IO, and DerbyJS](https://github.com/azat-co/practicalnode/blob/master/chapter9/chapter9.md) [2nd Edition]  
 10. [Getting Node.js Apps Production Ready](https://github.com/azat-co/practicalnode/blob/master/chapter10/chapter10.md) [2nd Edition]  
