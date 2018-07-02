@@ -160,7 +160,7 @@ To overwrite cloud data with local variables, type
 
 For official information on setting up environment variables in Heroku, see [Configuration and Config Vars (https://devcenter.heroku.com/articles/config-vars) (https://devcenter.heroku.com/articles/config-vars). The article might require Heroku login.
 
-There are a multitude of [add-ons for Heroku](https://addons.heroku.com/) (https://addons.heroku.com). Each add-on is like a mini service associated with a particular Heroku app. For example, [MongoHQ](https://addons.heroku.com/mongohq) (https://addons.heroku.com/mongohq) provides MongoDB database, while the [Postgres add-on](https://addons.heroku.com/heroku-postgresql) (https://addons.heroku.com/heroku-postgresql) does the same for the PostgreSQL database, and [SendGrid](https://addons.heroku.com/sendgrid) (https://addons.heroku.com/sendgrid) allows sending transactional e-mails. In Figure 11-2, you can see the beginning of the long list of Heroku add-ons.
+There are a multitude of [add-ons for Heroku](https://addons.heroku.com/) (https://addons.heroku.com). Each add-on is like a mini service associated with a particular Heroku app. For example, [MongoHQ](https://addons.heroku.com/mongohq) (https://addons.heroku.com/mongohq) provides MongoDB database, while the [Postgres add-on](https://addons.heroku.com/heroku-postgresql) (https://addons.heroku.com/heroku-postgresql) does the same for the PostgreSQL database, and [SendGrid](https://addons.heroku.com/sendgrid) (https://addons.heroku.com/sendgrid) allows sending transactional emails. In Figure 11-2, you can see the beginning of the long list of Heroku add-ons.
 
 ![alt](media/image2.png)
 

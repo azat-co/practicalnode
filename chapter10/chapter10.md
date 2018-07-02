@@ -155,7 +155,7 @@ process.addListener('uncaughtException', (err) => {
 })
 ```
 
-Just to give you another example, the following snippet is devised to catch uncaught exceptions, log them, notify development and operations (DevOps) via e-mail/text messages (`server.notify`), and then exit:
+Just to give you another example, the following snippet is devised to catch uncaught exceptions, log them, notify development and operations (DevOps) via email/text messages (`server.notify`), and then exit:
 
 ```js
 process.addListener('uncaughtException', (err) => {
@@ -170,7 +170,7 @@ process.addListener('uncaughtException', (err) => {
 
 You might wonder what to do in the event of these uncaught exceptions (the `server.notify.error()` method). It depends. Typically, at a minimum, we want them to be recorded, most likely in the logs. For this purpose, later we'll cover a more advanced alternative to `console.log`—the Winston library (<https://github.com/flatiron/winston>). 
 
-At a maximum, you can implement text message alerts effortlessly using the Twilio API (<http://www.twilio.com>). The following is an example in which helpers can send [HipChat](https://www.hipchat.com) (<https://www.hipchat.com>) messages via their REST API and send an e-mail containing an error stack:
+At a maximum, you can implement text message alerts effortlessly using the Twilio API (<http://www.twilio.com>). The following is an example in which helpers can send [HipChat](https://www.hipchat.com) (<https://www.hipchat.com>) messages via their REST API and send an email containing an error stack:
 
 ```js
   const sendHipChatMessage = (message, callback) => {   
@@ -456,7 +456,7 @@ $ telnet hostname 3000
 Winston
 -------
 
-Winston provides a way to have one interface for logging events while defining multiple transports, e.g., e-mail, database, file, console, Software as a Service (SaaS), and so on. In other words, Winston is an abstraction layer for the server logs.
+Winston provides a way to have one interface for logging events while defining multiple transports, e.g., email, database, file, console, Software as a Service (SaaS), and so on. In other words, Winston is an abstraction layer for the server logs.
 
 The list of transports supported by Winston includes lots of good services: [Loggly](https://www.loggly.com) (<https://www.loggly.com>), Riak, MongoDB, SimpleDB, Mail, Amazon SNS, Graylog2, Papertrail (we used it at Storify.com for much success so that we got aquired by a bigger company and it's now a part of Adobe), Cassandra and you can write to console and file too!
 
@@ -795,7 +795,7 @@ Installing Git
 To install Git for your OS, download a package from [the official website](http://git-scm.com/downloads) (<http://git-scm.com/downloads>). Then, follow these steps:
 
 1.  In your terminal, type these commands, *substituting* `"John Doe"` and
-    `johndoe@example.com` with your name and e-mail address:
+    `johndoe@example.com` with your name and email address:
 
         $ git config --global user.name "John Doe"
         $ git config --global user.email johndoe@example.com
@@ -1020,7 +1020,7 @@ That’s it! The test build will be synched on each push to GitHub.
 
 If your tests fail even locally right now, don’t despair, because that’s the whole point of TDD. In the next chapter, we hook up the database and write more tests for fun.
 
-Because of the GitHub hooks to TravisCI, the test build should start automatically. On their completion, contributors can get e-mail / Internet Relay Chat (IRC) notifications.
+Because of the GitHub hooks to TravisCI, the test build should start automatically. On their completion, contributors can get email / Internet Relay Chat (IRC) notifications.
 
 Summary
 =======

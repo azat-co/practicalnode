@@ -11,7 +11,7 @@ We can makes our apps and communications secure by using various approaches, suc
 - Authorization with Express.js middleware
 - Token-based authentication
 - Session-based authentication
-- Project: Adding e-mail and password login to Blog
+- Project: Adding email and password login to Blog
 - Node.js OAuth
 - Project: Adding Twitter OAuth 1.0 sign-in to Blog with Everyauth (<https://github.com/bnoguchi/everyauth>)
 
@@ -66,7 +66,7 @@ If `next()` is invoked with an error object such as `next(new Error('Not authori
 
 For applications to know which privileges a specific client has (e.g., admin), we must add an authentication step. In the previous example, this step went inside the `auth()` function.
 
-The most common authentication is a cookie&session–based authentication, and the next section deals with this topic. However, in some cases, more REST-fulness is required, or cookies/sessions are not supported well (e.g., mobile). In this case, it’s beneficial to authenticate each request with a token (probably using the OAuth2.0 (<http://tools.ietf.org/html/rfc6749>) scheme). The token can be passed in a query string or in HTTP request headers. Alternatively, we can send some other authentication combination of information, such as e-mail/username and password, or API key, or API password, instead of a token.
+The most common authentication is a cookie&session–based authentication, and the next section deals with this topic. However, in some cases, more REST-fulness is required, or cookies/sessions are not supported well (e.g., mobile). In this case, it’s beneficial to authenticate each request with a token (probably using the OAuth2.0 (<http://tools.ietf.org/html/rfc6749>) scheme). The token can be passed in a query string or in HTTP request headers. Alternatively, we can send some other authentication combination of information, such as email/username and password, or API key, or API password, instead of a token.
 
 In our example of token-based authentication, each request can submit a token in a query string (accessed via `req.query.token`). And if we have the correct value stored somewhere in our app (database, or in this example just a constant `SECRET_TOKEN`), we can check the incoming token against it. If the token matches our records, we call `next()` to proceed with the request executions; if not, then we call `next(error)`, which triggers Express.js error handler execution (see the upcoming note):
 
@@ -485,7 +485,7 @@ exports.authenticate = (req, res, next) => {
     })
 ```
 
-Thanks to the database middleware in `app.js`, we can access database collections in `req.collections`. In our app’s architecture, e-mail is a unique identifier (there are no two accounts with the same e-mail), so we use the `findOne()` function to find a match of the e-mail and password combination (logical AND):
+Thanks to the database middleware in `app.js`, we can access database collections in `req.collections`. In our app’s architecture, email is a unique identifier (there are no two accounts with the same email), so we use the `findOne()` function to find a match of the email and password combination (logical AND):
 
 ```js
   req.collections.users.findOne({
@@ -627,7 +627,7 @@ Now we can store the bearer for future use and make requests to protected endpoi
 
 The Everyauth module allows for multiple OAuth strategies to be implemented and added to any Express.js app in just a few lines of code. Everyauth comes with strategies for most of the service providers, so there’s no need to search and implement service provider-specific endpoints, parameters names, and so forth. Also, Everyauth stores user objects in a session, and database storage can be enabled in a `findOrCreate` callback using a promise pattern.
 
-**Tip** Everyauth has an e-mail and password strategy that can be used instead of the custom-built auth. More information about it can be found in the Everyauth documentation at the [GitHub repository](https://github.com/bnoguchi/everyauth#password-authentication) (<https://github.com/bnoguchi/everyauth#password-authentication>).
+**Tip** Everyauth has an email and password strategy that can be used instead of the custom-built auth. More information about it can be found in the Everyauth documentation at the [GitHub repository](https://github.com/bnoguchi/everyauth#password-authentication) (<https://github.com/bnoguchi/everyauth#password-authentication>).
 
 Each one of the third-party services may be different. You can implement them all yourself. But Everyauth has lots of submodules that implement exactly what OAuth flow each third-party service need. You simply provide credentials to submodules, configure them, and avoid any worries in regards to the details of OAuth flow(s). That's right, you just plug in your app secret and client ID and boom! You are rolling, all dandy like a candy.  
 
@@ -827,7 +827,7 @@ Auths are important. Good job.
 
 # Summary
 
-In this chapter, we learned how to implement standard e-mail and password authentication, and used Express.js middleware to protect sensitive pages and endpoints in Blog. Then, we covered OAuth 1.0 and OAuth 2.0 with Everyauth and OAuth modules, respectively. 
+In this chapter, we learned how to implement standard email and password authentication, and used Express.js middleware to protect sensitive pages and endpoints in Blog. Then, we covered OAuth 1.0 and OAuth 2.0 with Everyauth and OAuth modules, respectively. 
 
 Now we have a few security options for Blog. In the next chapter, we'll explore Mongoose (<http://mongoosejs.com>), the object-relational mapping object-document mapping (ODM) Node.js library for MongoDB. 
 

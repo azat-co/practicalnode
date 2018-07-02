@@ -1,14 +1,18 @@
 Chapter 7
 ---------
-# Boosting Your Node.js Data with the Mongoose ODM Library
+# Boosting Node.js and MongoDB with Mongoose
 
-Mongoose is a fully developed object document mapping (ODM) library for Node.js and MongoDB. The advantages of using ODM are many and go far beyond code organization or the ease of development. Typical ODM is a crucial piece of modern software engineering. 
+I first learned about Mongoose when I worked at Storify. Mongoose is a fully developed object document mapping (ODM) library for Node.js and MongoDB. We used it to simplify business logic in our Node API apps. We had a lot of connections between different database documents and Mongoose models allows us to save all the related logic. Mongoose worked fine except for one extra complex query which I wrote using native driver, not Mongoose.
 
-Mongoose abstracts everything from the database, and the application code interacts only with objects and their methods. ODM also allows specifying relationships between different types of objects and putting business logic (related to those objects) in the classes. 
+The disadvantage of Mongoose is that it could make certain queries slower due to a lot of code that Mongoose has to go through. Contrary, the advantages of using ODM are many and go far beyond code organization or the ease of development. Typical ODM is a crucial piece of modern software engineering, especially enterprise engineering. 
+ 
+The main benefit of Mongoose is that it abstracts everything from the database, and the application code interacts only with objects and their methods. ODM also allows specifying relationships between different types of objects and putting business logic (related to those objects) in the classes. 
 
-In addition, Mongoose has built-in validation and type casting that can be extended and customized according to needs. When used together with Express.js, Mongoose makes the stack truly adherent to the MVC concept.
+In addition, Mongoose has built-in validation and type casting that can be extended and customized according to needs. When used together with Express.js, Mongoose makes the stack truly adherent to the MVC concept. 
 
-Mongoose uses a similar interface to those of Mongo shell, native MongoDB driver, and Mongoskin. For this reason, main functions such as `find`, `update`, `insert`, `save`, `remove`, and so on, look and act the same, which helps us to get started with Mongoose faster. In this chapter we look at the following:
+Also, Mongoose uses a similar interface to those of Mongo shell, native MongoDB driver, and Mongoskin. Mongoose provides its own methods while making available methods from the native driver. The main Mongoose functions such as `find`, `update`, `insert`, `save`, `remove`, and so on, do what you they say they do. It'll help us to get started with Mongoose faster. 
+
+Buckle up because in this chapter we learn at the following:
 
 - Mongoose installation
 - Connection establishment in a standalone Mongoose script
@@ -37,13 +41,13 @@ $ npm i mongoose@4.13.0 -SE
 
 Mongoose can be used as a standalone MongoDB library. To illustrate this, here’s a banal script that establishes a connection, creates a Mongoose model definition, instantiates the `practicalNodeBook` object, and then saves it to the database.
 
-Let's create a rather simple `mongoose-example` (that the folder in `code/ch7`. To have access to the library, we need to include the mongoose module in our program:
+Let's create a rather simple `mongoose-example` (that's in the folder in `code/ch7`). To have access to the library, we need to include the mongoose module in our program:
 
 ```js
 const mongoose = require('mongoose')
 ```
 
-Unlike the Node.js native MongoDB driver, which requires us to write a few lines of code, Mongoose can connect to the database server in one line. Mongoose requests are buffered, so we don’t have to wait for the established connection like we do with the native driver which requires developers to put all the code in the callback of `open()`. 
+Unlike the Node.js native MongoDB driver, which requires us to write a few lines of code, Mongoose can connect to the database server in one line. Mongoose requests are buffered, so we don’t have to wait for the established connection like we do with the native driver, which requires developers to put all the code in the callback of `open()`. 
 
 To connect to DB, just call `mongoose.connect()` with at least the `uri` argument (first) or with optional `options` and `callback` (second and third). The uniform resource identifier (URI), a.k.a. a connection string, is the only required parameter. It follows a standard format of:
 
@@ -51,14 +55,14 @@ To connect to DB, just call `mongoose.connect()` with at least the `uri` argumen
 mongodb://username:password@host:port/database_name
 ```
 
-In our example we use the default values. The host is `localhost`, and the port is 27017. The database name is `test` while there's no password or username.
+In our example we use the default values. The host is `localhost`, and the port is 27017. The database name is `test` while there's no password or username:
 
 ```js
 mongoose.connect('mongodb://localhost:27017/test', {useMongoClient: true})
 mongoose.Promise = global.Promise
 ```
 
-The line with `Promise` make Mongoose use native ES6 promise implementation. Developers can supply another promise implementation if they want (for example flow [bluebird](https://www.npmjs.com/package/bluebird)).
+The line with `Promise` makes Mongoose use native ES6 promise implementation. Developers can supply another promise implementation if they want (for example, flow [bluebird](https://www.npmjs.com/package/bluebird)).
 
 For situations that are more advanced, options and callbacks can be passed to `connect`. The `options` object supports [all properties of the native MongoDB driver](http://mongodb.github.io/node-mongodb-native/driver-articles/mongoclient.html#mongoclient-connect-options) (<http://mongodb.github.io/node-mongodb-native/driver-articles/mongoclient.html#mongoclient-connect-options>).
 
@@ -70,7 +74,7 @@ This is easy so far, right? The next step is an important distinction that Mongo
 const Book = mongoose.model('Book', { name: String })
 ```
 
-Now the configuration phase is over and we can create a document that represents a particular instance of the model `Book`:
+Now the configuration phase is over, and we can create a document that represents a particular instance of the model `Book`:
 
 ```js
 const practicalNodeBook = new Book({ name: 'Practical Node.js' })
@@ -78,11 +82,11 @@ const practicalNodeBook = new Book({ name: 'Practical Node.js' })
 
 Mongoose documents come with very convenient built-in methods (<http://mongoosejs.com/docs/api.html#document-js>) such as `validate`, `isNew`, `update`, and so on. Just keep in mind that these methods apply to this particular document, not the entire collection or model. 
 
-The difference between documents and models is that a document is an instance of a model; a model is something abstract. It’s like your real MongoDB collection, but it is supported by a schema and is presented as a Node.js class with extra methods and attributes. Collections in Mongoose closely resemble collections in Mongoskin or native driver. Strictly speaking, models, collections, and documents are different Mongoose classes. 
+The difference between documents and models is that *a document is an instance of a model*; a model is something abstract. It’s like your real MongoDB collection, but it is supported by a schema and is presented as a Node.js class with extra methods and attributes. Collections in Mongoose closely resemble collections in Mongoskin or the native driver. Strictly speaking, models, collections, and documents are different Mongoose classes. 
 
 Usually we don’t use Mongoose collections directly, and we manipulate data via models only. Some of the main model methods look strikingly familiar to the ones from Mongoskin or native MongoDB driver, such as `find`, `insert()`, `save()`, and so forth.
 
-To finish our small script and make it write a document to the database, let’s use one of the document methods—`document.save()`. This methods is a documents methods which will save that document into the database. The method is asynchronous which by now you know will require a callback (or a promise or an async/await function). The callback has an error-first signature:
+To finish our small script and make it write a document to the database, let’s use one of the document methods—`document.save()`. This method is a document methods that will save the document into the database. The method is asynchronous, which by now you know will require a callback (or a promise or an async/await function). The method's callback has an error-first signature:
 
 ```js
 practicalNodeBook.save((err, results) => {
@@ -96,7 +100,7 @@ practicalNodeBook.save((err, results) => {
 })
 ```
 
-Here is the full source code for the `mongoose.js` file from the `code/ch7/mongoose-example` which create a new document with the property name:
+Here is the full source code for the `mongoose.js` file from the `code/ch7/mongoose-example`, which creates a new document with the property name:
 
 ```js
 const mongoose = require('mongoose')
@@ -116,21 +120,23 @@ practicalNodeBook.save((err, results) => {
 })
 ```
 
-To run this snippet, execute the `$ node mongoose.js` command (MongoDB server must be running in parallel). The results of the script should output the newly created object with its Object ID, as seen in Figure 7-1.
+To run this snippet, execute the `$ node mongoose.js` command (MongoDB server must be running in parallel). The results of the script should output the newly created object with its ObjectId, as seen in Figure 7-1.
 
 ![alt](media/image1.png)
 
 ***Figure 7-1.** Running a standalone Mongoose script that creates objects*
 
-So far our schema was very basic. It had only one field `name` with the type String. Next we'll study what other type of fields are supported.
+So far, our schema was very basic. It had only one field `name` with the type String. Next we'll study what other type of fields are supported.
 
 # Mongoose Schemas
 
-Schema is a JSON-ish class that has information about properties/field types of a document. It also can store information about validation and default values, and whether a particular property is required. Schemas can contain business logic and other important information. 
+Schema is a JSON-ish class that has information about properties/field types of a document. It also can store information about validation and default values, and whether a particular property is required. Schemas can contain business logic and other important information. In other words, schemas serve as blueprints for documents. 
 
-In other words, schemas serve as blueprints for documents. They are needed for model creation (i.e., schemas are compiled into models). Schema benefits include validation and more robust adherence to the structure. For example, fields which are not in the schema will not be save to the database. Or as another example, fields which are required by are missing from a model will prevent the document to be saved. 
+Schemas include validation and enables more robust adherence to the data structure. This is a major benefit. For example, upon saving a document, Mongoose will ignore fields that are not in the schema. Or as another example, Mongoose will not save a document when fields required in its schema are missing from the document.
 
-Mongoose and its models require schemas. Thus before we can use models properly, we need to define their schemas, e.g., the book schema with the name property of string type can be defined right in the model as you saw before or by itself with the `Schema` method from `mongoose`. Simply invoke `Schema` with an object and save it in a variable.
+To work with Mongoose, developers use documents (it's ODM after all), but Mongoose documents and models require schemas. That's why first developers create schemas to define models, which they in turn use to create documents. 
+
+Thus, before we can use models properly, we need to define their schemas, e.g., the book schema with the name property of string type can be defined right in the model as you saw before or by itself with the `Schema` method from `mongoose`. Simply invoke `Schema` with an object and save it in a variable:
 
 ```js
 const bookSchema = mongoose.Schema({
@@ -138,30 +144,30 @@ const bookSchema = mongoose.Schema({
 })
 ```
 
-**Warning** Mongoose ignores those properties that aren’t defined in the model's schema but allows the documents to be created, updated or saved. On the other hand, any violation of a type or omission of a required field will lead to an error and the document NOT being saved, updated or created.
+**Warning** Mongoose ignores those properties that aren’t defined in the model's schema but allows the documents to be created, updated, or saved. On the other hand, any violation of a type or omission of a required field will lead to an error and the document NOT being saved, updated, or created.
 
-Mongoose Schema supports various types of data. Some of these types are similar to JavaScript and thus Node types but some are new. These are the Mongoose data types:
+Mongoose `Schema` supports various types of data. Some of these types are similar to JavaScript and thus Node types, but some are new. These are the Mongoose data types:
 
-- `String`: a standard JavaScript/Node.js string (a sequence of characters) type
-- `Number`: a standard JavaScript/Node number type up to 253 (64-bit); larger numbers with [mongoose-long](https://www.npmjs.org/package/mongoose-long) (<https://www.npmjs.org/package/mongoose-long>) ([Git](https://github.com/aheckmann/mongoose-long)) (<https://github.com/aheckmann/mongoose-long>)
-- `Boolean`: a standard JavaScript/Node Boolean type—true or false
-- `Buffer`: a Node.js binary type (images, PDFs, archives, and so on)
-- `Date`: an ISODate formatted date type, such as 2014-12-31T12:56:26.009Z
-- `Array`: a standard JavaScript/Node array type
-- `Schema.Types.ObjectId` a typical, MongoDB 24-character hex string of a 12-byte binary number (e.g., 52dafa354bd71b30fa12c441)
-- `Schema.Types.Mixed`: any type of data (i.e., flexible free type)
+- `String`: A standard JavaScript/Node.js string (a sequence of characters) type
+- `Number`: A standard JavaScript/Node number type up to 253 (64-bit); larger numbers with [mongoose-long](https://www.npmjs.org/package/mongoose-long) <https://www.npmjs.org/package/mongoose-long> and <https://github.com/aheckmann/mongoose-long>
+- `Boolean`: A standard JavaScript/Node Boolean type—true or false
+- `Buffer`: A Node.js binary type (images, PDFs, archives, and so on)
+- `Date`: An ISODate-formatted date type, such as 2014-12-31T12:56:26.009Z
+- `Array`: A standard JavaScript/Node array type
+- `Schema.Types.ObjectId` A typical, MongoDB 24-character hex string of a 12-byte binary number (e.g., 52dafa354bd71b30fa12c441)
+- `Schema.Types.Mixed`: Any type of data (i.e., flexible free type)
 
 **Warning** Mongoose does not listen to mixed-type object changes, so call `markModified()` before saving the object to make sure changes in the mixed-type field are persistent.
 
 `ObjectId` is added automatically as a primary `_id` key if omitted in the `insert()` or `save()` methods; `_id` key can be used to [sort documents chronologically](http://docs.mongodb.org/manual/reference/object-id/) (<http://docs.mongodb.org/manual/reference/object-id>). They are available through `Schema.Types` or `mongoose.Schema.Types`, e.g., `Schema.Types.Mixed`.
 
-We have a great deal of flexibility in defining our document schemas—for example, here's a schema with strings, dates, buffers, objects (mixed type) and object IDs. Moreover, you can set the default values right there in the schema. Default values greatly simplify the development because allow to omit values. That's default values will be use when no values are provided. 
+We have a great deal of flexibility in defining our document schemas—for example, here's a schema with strings, dates, buffers, objects (mixed type), and ObjectIds. Moreover, you can set the default values right there in the schema. Default values simplify development because they allow to omit values. How? Default values will be used when no values are provided. 
 
-But that's not all. We can define a function as a default value too. This is a dynamic way to set the value. Finally, using `[]` means the fields value will be an array with each individual item of that array having the type specified in the square braces `[]`. For example, contributors is an array of Object ID (probably referring to the collection of contributors).
+But that's not all. We can define a function as a default value too. This is a dynamic way to set the value. Finally, using `[]` means the fields, value will be an array with each individual item of that array having the type specified in the square braces `[]`. For example, `contributors` is an array of ObjectIds (referring to the collection of contributors).
 
 ```js
 const ObjectId = mongoose.Schema.Types.ObjectId
-const  Mixed = mongoose.Schema.Types.Mixed
+const Mixed = mongoose.Schema.Types.Mixed
 
 const bookSchema = mongoose.Schema({
   name: String,
@@ -202,14 +208,13 @@ const bookSchema = mongoose.Schema({
 })
 ```
 
+It’s possible to create and use custom types that already have the rules for the ubiquitous email and URL types, e.g., there’s a module [mongoose-types](https://github.com/bnoguchi/mongoose-types) (<https://github.com/bnoguchi/mongoose-types>). 
 
-It’s possible to create and use custom types that already have the rules for the ubiquitous e-mail and URL types, e.g., there’s a module [mongoose-types](https://github.com/bnoguchi/mongoose-types) (<https://github.com/bnoguchi/mongoose-types>). 
+Mongoose schemas are *pluggable*, which means, by creating a plugin, certain functionality can be extended across all schemas of the application.
 
-Mongoose schemas are pluggable, which means, by creating a plugin, certain functionality can be extended across all schemas of the application.
+For better code organization and code reuse, in the schema, we can set up static and instance methods, apply plugins, and define hooks.
 
-For better code organization and code re-use, in the schema, we can set up static and instance methods, apply plugins, and define hooks.
-
-**Tip** For validation in Node.js in addition to Mongoose and before it, consider using the `validatior.js` and `express-validator` modules.
+**Tip** For validation in Node.js in addition to Mongoose and before it, consider using the `validator.js` and `express-validator` modules.
 
 # Hooks for Keeping Code Organized
 
@@ -232,7 +237,7 @@ bookSchema.pre('remove', (next) => {
 })
 ```
 
-Developers can set up pre and post hook on save, remove, and validate as well as on custom methods.
+Developers can set up pre and post hooks on save, remove, and validate as well as on custom methods.
 
 # Custom Static and Instance Methods
 
@@ -255,7 +260,7 @@ bookSchema.method({ // Instance methods
 
 The custom instance methods are better to use instead of re-implementing the same logic over and over again. 
 
-On the other hand, there are static methods. Static methods are useful when we either don’t have a particular document object or we don’t need it. For example, we don't need a particular book ID to run a report to get how much books have 0 inventory in the warehouse or to get how many books of a particular kind we have in store:
+On the other hand, there are static methods. Static methods are useful when we either don’t have a particular document object or we don’t need it. For example, we don't need a particular book ID to run a report to get how much books have 0 inventory in the warehouse or to get how many books of a particular kind we have in the store:
 
 ```js
 bookSchema.static({ // Static methods for generic, not instance/document specific logic
@@ -276,76 +281,80 @@ bookSchema.static({ // Static methods for generic, not instance/document specifi
 
 # Mongoose Models
 
-As in many other ORMs/ODMs, in Mongoose, the cornerstone object is a model. To compile a schema into a model, use `mongoose.model(name, schema)`—for example, to create a book model from `bookSchema` use `mongoose.model`:
+As in many other ORMs/ODMs, in Mongoose, the cornerstone object is a model. To compile a schema into a model, use `mongoose.model(name, schema)`. For example, to create a book model from `bookSchema`, use `mongoose.model`:
 
 ```js
 const Book = mongoose.model('Book', bookSchema)
 ```
 
-The first parameter is just a string, which we can use later to pull an instance of this model. Usually, this string is the same as the object literal for the model. It's usually capitalized, e.g., `Book`. By default, Mongoose will use the model name to tie it to a collection name by pluralizing it. For example, `Book` model will use `books` collection.
+The first parameter is just a string, which we can use later to pull an instance of this model. Usually, this string is the same as the object literal for the model. It's usually capitalized, e.g., `Book`. By default, Mongoose will use the model name to tie it to a collection name by pluralizing it. For example, the `Book` model will use `books` collection.
 
-Models are used to create documents (actual data). To do so, call `new ModelName(data)`—for example,this is how to create two documents for two different books using one `Book` model:
+Models are used to create documents (actual data). To do so, call `new ModelName(data)`—for example, this is how to create two documents for two different books using one `Book` model:
 
 ```js
 const practicalNodeBook = new Book({ name: 'Practical Node.js' })
 const javascriptTheGoodPartsBook = new Book({ name: "JavaScript The Good Parts"})
 ```
 
-It’s better to assign the initial value through the constructor `new Book()` versus using the `document.set()` method later, because Mongoose has to process less function calls and our code remains more compact and better organized. Of course, this is possible only if we know the values when we create the instances. ;-)
+It’s better to assign the initial value through the constructor `new Book()` versus using the `document.set()` method later, because Mongoose has to process fewer function calls and our code remains more compact and better organized. Of course, this is possible only if we know the values when we create the instances. ;-)
 
 **Don’t confuse static with instance model methods.** If we call a method on `practicalNodeBook`, it’s an instance method; if we call it on the `Book` object, it’s a static class method.
 
 Models have static built-in methods that are very similar to Mongoskin and native MongoDB methods, such as `find()`, `create()`, and `update()`.
 
-A list of the static Mongoose model methods (invoked on a capitalized object, e.g., `Book`) along with their meaning follows:
+A list of the static Mongoose model methods (invoked on a capitalized object, e.g., `Book`) along with their meaning, follows:
 
-- `Model.create(data, [callback (error, doc)])`: creates a new Mongoose document and saves it to the database
-- `Model.remove(query, [callback(error)])`: removes documents from the collection that match the query; when finished, calls `callback` with `error`
-- `Model.find(query, [fields], [options], [callback(error, docs)])`: finds documents that match the query (as a JSON object); possible [to select fields](http://mongoosejs.com/docs/api.html#query_Query-select) (<http://mongoosejs.com/docs/api.html#query_Query-select>) and use [options](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find) (<http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find>)
-- `Model.update(query, update, [options], [callback(error, affectedCount, raw)])`: updates documents, similar to native `update`
-- `Model.populate(docs, options, [callback(error, doc)])`: populates documents using references to other collections; an alternative to another approach described in the next section
-- `Model.findOne(query, [fields], [options], [callback(error, doc)])`: finds the first document that matches the query
-- `Model.findById(id, [fields], [options], [callback(error, doc)])`: finds the first element for which `_id` equals the `id` argument (cast based on the schema)
-- `Model.findOneAndUpdate([query], [update], [options], [callback(error, doc)])`: finds the first document that matches the query (if present) and updates it, returning the document; uses [`findAndModify`](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify) (<http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify>)
-- `Model.findOneAndRemove(query, [options], [callback(error, doc)])`: finds the first document that matches the query and removes it when returning the document
-- `Model.findByIdAndUpdate(id, [update], [options], [callback(error, doc)])`: similar to `findOneAndUpdate` using only the ID
-- `Model.findByIdAndRemove(id, [options], [callback(error, doc)])`: similar to `findOneAndRemove` using only the ID
+- `Model.create(data, [callback (error, doc)])`: Creates a new Mongoose document and saves it to the database
+- `Model.remove(query, [callback(error)])`: Removes documents from the collection that match the query; when finished, calls `callback` with `error`
+- `Model.find(query, [fields], [options], [callback(error, docs)])`: Finds documents that match the query (as a JSON object); possible [to select fields](http://mongoosejs.com/docs/api.html#query_Query-select) (<http://mongoosejs.com/docs/api.html#query_Query-select>) and use [options](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find) (<http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#find>)
+- `Model.update(query, update, [options], [callback(error, affectedCount, raw)])`: Updates documents, similar to native `update`
+- `Model.populate(docs, options, [callback(error, doc)])`: Populates documents using references to other collections; an alternative to another approach described in the next section
+- `Model.findOne(query, [fields], [options], [callback(error, doc)])`: Finds the first document that matches the query
+- `Model.findById(id, [fields], [options], [callback(error, doc)])`: Finds the first element for which `_id` equals the `id` argument (cast based on the schema)
+- `Model.findOneAndUpdate([query], [update], [options], [callback(error, doc)])`: Finds the first document that matches the query (if present) and updates it, returning the document; uses [`findAndModify`](http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify) (<http://mongodb.github.io/node-mongodb-native/api-generated/collection.html#findandmodify>)
+- `Model.findOneAndRemove(query, [options], [callback(error, doc)])`: Finds the first document that matches the query and removes it when returning the document
+- `Model.findByIdAndUpdate(id, [update], [options], [callback(error, doc)])`: Similar to `findOneAndUpdate` using only the ID
+- `Model.findByIdAndRemove(id, [options], [callback(error, doc)])`: Similar to `findOneAndRemove` using only the ID
 
 **Warning** Not all the Mongoose model methods trigger hooks. Some of them are executed directly. For example, calling `Model.remove()` does not trigger the `remove` hook, because no Mongoose documents are involved (instances of `Model` that use lowercase literals, e.g., `practicalNodeBook`).
 
 The complete list of the methods is extensive; therefore, refer to [the official Mongoose API documentation](http://mongoosejs.com/docs/api.html#model-js) (<http://mongoosejs.com/docs/api.html#model-js>). The most used instance (document) methods are as follows:
 
-- `doc.model(name)`: returns another Mongoose model
-- `doc.remove([callback(error, doc)])`: removes this document
-- `doc.save([callback(error, doc, affectedCount)])`: saves this document
-- `doc.update(doc, [options], [callback(error, affectedCount, raw)])`: updates the document with `doc` properties, and `options` parameters, and then upon completion fires a callback with `error`, number of `affectedCount` and the database output
-- `doc.toJSON([option])`: converts a Mongoose document to JSON (options are listed  later)
-- `doc.toObject([option])`: converts a Mongoose document to a plain JavaScript object (options are listed later)
-- `isModified([path])`: true/false, respectively, if some parts (or the specific path) of the document are or are not modified
-- `markModified(path)`: marks a path manually as modified which is useful for mixed (`Schema.Types.Mixed`) data types because they don't trigger the modified flag automatically
-- `doc.isNew`: true/false, respectively, whether the document is new or not new
-- `doc.id`: returns the document ID
-- `doc.set(path, value, [type], [options])`: sets `value` at a `path`
-- `doc.validate(callback(error))`: checks validation manually (triggered automatically before `save()`)
+- `doc.model(name)`: Returns another Mongoose model
+- `doc.remove([callback(error, doc)])`: Removes this document
+- `doc.save([callback(error, doc, affectedCount)])`: Saves this document
+- `doc.update(doc, [options], [callback(error, affectedCount, raw)])`: Updates the document with `doc` properties, and `options` parameters, and then upon completion fires a callback with `error`, number of `affectedCount`, and the database output
+- `doc.toJSON([option])`: Converts a Mongoose document to JSON (options are listed  later)
+- `doc.toObject([option])`: Converts a Mongoose document to a plain JavaScript object (options are listed later)
+- `isModified([path])`: True/false, respectively, if some parts (or the specific path) of the document are or are not modified
+- `markModified(path)`: Marks a path manually as modified, which is useful for mixed (`Schema.Types.Mixed`) data types because they don't trigger the modified flag automatically
+- `doc.isNew`: True/false, respectively, whether the document is new or not new
+- `doc.id`: Returns the document ID
+- `doc.set(path, value, [type], [options])`: Sets `value` at a `path`
+- `doc.validate(callback(error))`: Checks validation manually (triggered automatically before `save()`)
 
-Most often, you'll need to get data from your document, e.g., to send back to a client using `res.send()`. But the document object will have some additional Mongoose properties and methods. The two method listed above will help you to get just the data. They are `toObject()` and `toJSON()`. They take options. The options for `toObject()` and `toJSON()` are as follows:
+Most often, you'll need to get data from your document, e.g., to send back to a client using `res.send()`. But the document object will have some additional Mongoose properties and methods. The two methods listed above will help you to get just the data. They are `toObject()` and `toJSON()`. They take options, listed for `toObject()` and `toJSON()` are as follows:
 
-- `getters`: true/false, calls all `getters` including path and virtual types
-- `virtuals`: true/false, includes virtual `getters` and can override the `getters` option
-- `minimize`: true/false, removes empty properties/objects (defaults to true)
-- `transform`: transforms the function called right before returning the object
+- `getters`: True/false, calls all `getters` including path and virtual types
+- `virtuals`: True/false, includes virtual `getters` and can override the `getters` option
+- `minimize`: True/false, removes empty properties/objects (defaults to true)
+- `transform`: Transforms the function called right before returning the object
 
-That's it for Mongoose methods for the most part. Of course, Mongoose has other methods for more edge case scenarios and advanced uses. You can learn about them by opening this link [the Mongoose document API](http://mongoosejs.com/docs/api.html#document-js) (<http://mongoosejs.com/docs/api.html#document-js>).
+That's it for Mongoose methods for the most part. Of course, Mongoose has other methods for more edge case scenarios and advanced uses. You can learn about them by opening this Mongoose document API link: <http://mongoosejs.com/docs/api.html#document-js>.
 
 # Relationships and Joins with Population
 
-Although, there are no relationships stored in a MongoDB database (as in most NoSQL DBs), we can do so in the application layer. We actually have to do so in a large application. 
+Although, Node developers cannot query MongoDB on complex relationships (like they can in MySQL), they can do so in the application layer with the help of Mongoose. This becomes really convenient in larger applications because they tend to have complex relationships between documents. 
 
-And Mongoose makes connecting two entities by their relationship easier. It provides a feature called *population*. No. This population is not about people living in a certain area but it somehow related. Mongoose population is about adding more data to your query using relationships.
+To give you an example, in an e-commerce store, an order refers to its products by IDs. To get more than just product ID, developers need to write two queries: one to fetch order and another to fetch its products. Instead of making two queries developers can one Mongoose query. They can use Mongoose to fetch order with products fields.
 
-It allows us to fill certain parts of the document from a different collection. Let’s say we have `posts` and `users` collections. Users can write posts. Therefore, users collections "has" posts if we were to use one collections. 
+Mongoose makes connecting two entities by their relationship easier. Mongoose provides a feature called *population*. No. This population is not about people living in a certain area but it somehow related. Mongoose population is about adding more data to your query using relationships. It allows us to fill certain parts of the document from a different collection.
 
-Or we can use two collections (and models). In this case, we can reference posts in the user schema by using `ref` and the name of the model such as in the posts field of `userSchema`:
+Let’s say we have `posts` and `users` documents. Users can write posts. There are two approaches to implement this. We can use one collection. The `users` collection can have the `posts` array field. This will require a single query, but this structure is limited in many ways because posts cannot be indexed or accessed separately from users.
+
+Or we can use two collections (and models). In this case, the structure is more flexible but requires at least two queries if we want to fetch a user and his posts. 
+
+Don't fret. Mongoose is here to help. We can reference posts in the user schema and then populate the posts. In order to use `populate()`, we must define `ref` and the name of the model such as in the posts field of `userSchema`:
 
 ```js
 const mongoose = require('mongoose')
@@ -371,7 +380,7 @@ const postSchema = Schema({
 })
 ```
 
-The next few lines is where we create models and then bang! We can pull posts data with a single query, not two like we would have done without referencing and without `populate()`. Here's how to construct the query and then call `exec()` to run it:
+The next few lines are where we create models, and then bang! We can pull posts data with a single query, not two as we would have done without referencing and without `populate()`. Here's how to construct the query and then call `exec()` to run it:
 
 ```js
 const Post  = mongoose.model('Post', postSchema)
@@ -385,11 +394,11 @@ User.findOne({ name: /azat/i })
   })
 ```
 
-**Note** `ObjectId`, `Number`, `String`, and `Buffer` are valid data types to use as references meaning they will work as foreign keys in the relational DB terminology.
+**Note** `ObjectId`, `Number`, `String`, and `Buffer` are valid data types to use as references, meaning they will work as *foreign keys* in the relational DB terminology.
 
-In the previous query, we used a regular expression (RegExp) `/azat/i` which mean find me all name matching string azat case-insensitively. This feature is not exclusive to Mongoose. In fact, the native driver and its other wrappers, along with the `mongo` console all support RegExps. The syntax is the same as in normal JavaScript/Node.js RegExp patterns. Therefore, in a way, we perform a join query on our `Post` and `User` models.
+In the previous query, we used a regular expression (RegExp) `/azat/i`, which means "Find me all the names matching the string `azat` case-insensitively". This feature is not exclusive to Mongoose. In fact, the native driver and its other wrappers, along with the `mongo` console, all support RegExps. The syntax is the same as in normal JavaScript/Node.js RegExp patterns. Therefore, in a way, we perform a join query on our `Post` and `User` models.
 
-Okay. It’s possible to return only a portion of populated results. For example, we can limit the number of posts to the first 10 only:
+Okay. It’s possible to return only a portion of populated results. For example, we can limit the number of posts to the first ten (10) only:
 
 ```js
   .populate({     
@@ -444,11 +453,11 @@ User.find({}, {
 
 # Nested Documents
 
-In the previous section, we saw how to populate query from one collection with the data form another collections. That's a more traditional approach to designing your database in a sense that it mimics relational database design with its normal forms and strics atomization of data. 
+In the previous section, we saw how to populate a query on one collection with the data from another collection. That's a more traditional approach to designing your database in the sense that it mimics relational database design with its normal forms and strict atomization of data. 
 
-The document storage model in NoSQL databases is well-suited to use nested documents. This is better when you know what queries are the most frequently run. You can optimize your database to make it be biased of certain query. For example, if we know that the most typical use case is to read user profiles, then instead of having two collections—`posts` and `users`—we can have a single collection (`users`), with each item of that collection having `posts`.
+The document storage model in NoSQL databases is well suited to use nested documents. This is better when you know what queries are run most frequently. You can optimize your database to make it be biased to a certain query. For example, if we know that the most typical use case is to read user profiles, then instead of having two collections—`posts` and `users`—we can have a single collection (`users`), with each item of that collection having `posts`.
 
-The decision of whether to use separate collections or nested documents is more of an architectural question, and its answer depends on usage. For example, if posts are used only in the context of users (their authors)—say, on the users’ profile pages—then it’s best to use nested documents. However, if the blog features multiple users’ posts that need to be queried independently of their user context, then separate collections fit better.
+The decision whether to use separate collections or nested documents is more of an architectural question, and its answer depends on usage. For example, if posts are used only in the context of users (their authors)—say, on the users’ profile pages—then it’s best to use nested documents. However, if the blog features multiple users’ posts that need to be queried independently of their (posts) user context, then separate collections fit better.
 
 To implement nested documents, we can use the type `Schema.Types.Mixed` in Mongoose schemas (`Schema`, e.g., `bookSchema` or `postSchema`) or we can create a new schema for the nested document. An example of the former approach is as follows:
 
@@ -461,9 +470,9 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema)
 ```
 
-However, the latter approach of using a distinct new subschema is more flexible and powerful. Take a look at this example in which we define two schemas and then one is used in an array field of another schema. This approach is better for code re-use because it'll allow you to use the nested schema else where, maybe in several more schemas. 
+However, the latter approach of using a distinct new subschema is more flexible and powerful. Take a look at the next example in which we define two schemas and then one is used in an array field of another schema. This approach is better for code reuse because it lets you to use the nested schema elsewhere, maybe in several more schemas. 
 
-Here's `postSchema` is nested in an array field of `userSchema` because users can have posts and querying by users is the most typical use case for this app.
+Here I nested `postSchema` in an array field of `userSchema`, because users can have posts, and querying by users is the most typical use case for this app:
 
 ```js
 const postSchema = new mongoose.Schema({
@@ -492,26 +501,28 @@ User.update(
 })
 ```
 
-Sometime you see 'em other time you don't. Let's study a new Mongoose feature—virtual fields.
+Fields can be like ghosts. Sometime you see 'em, other time you don't. Let's study yet another Mongoose feature—virtual fields.
 
 # Virtual Fields
 
-Virtuals are fields that don’t exist in the database, but act just like regular fields in a Mongoose document when accessed in a document. To oversimplify, virtual fields are mock or fake fields that pretend to act and be normal ones. 
+*Virtual fields* (or virtuals) are fields that don’t exist in the database, but act just like regular fields in a Mongoose document when accessed in a document. To oversimplify, virtual fields are mock or fake fields that pretend to act like and be normal ones. 
 
-Virtual fields are awesome for dynamic data or creating aggregate fields. For example, if our system requires to have first name, last name and the full name (which is just a concatenation of the first two names)—there’s no need to store the full name values in addition to the first and last name values! All we need to do is concatenate the first and last name in a full name virtual. 
+Virtual fields are awesome for dynamic data or creating aggregate fields. For example, if our system requires to have first name, last name, and the full name (which is just a concatenation of the first two names)—there’s no need to store the full name values in addition to the first and last name values! All we need to do is concatenate the first and last name in a full-name virtual field. 
 
-Another use case is to make the database backward compatible. That's how I avoided writing and running database migrations at Storify. Every there was a new DB schema, I just added a virtual to support old documents. 
+Another use case is to make the database backward compatible. That's how I avoided writing and running database migrations at Storify. Every time there was a new DB schema, I just added a virtual to support old documents. 
 
-For example, we might have thousands of user items in a MongoDB collection and we want to start collecting their locations. We have two options: run a migration script to add the default location (“none”) to the thousands of old user documents or use a virtual field and apply defaults at runtime!
+For example, we might have thousands of user items in a MongoDB collection, and we want to start collecting their locations. We have two options: run a migration script to add the default location (“none”) to the thousands of old user documents or use a virtual field and apply defaults at runtime!
 
 To define a virtual we need to do two things:
 
-1. Call the `virtual(name)` method to create a virtual type ([Mongoose API](http://mongoosejs.com/docs/api.html#document-js)) (<http://mongoosejs.com/docs/api.html#document-js>)
-2. Apply a getter function with `get(fn)` ([Mongoose API](http://mongoosejs.com/docs/api.html#virtualtype_VirtualType-get)) (<http://mongoosejs.com/docs/api.html#virtualtype_VirtualType-get>)
+1. Call the `virtual(name)` method to create a virtual type ([Mongoose API](http://mongoosejs.com/docs/api.html#document-js)) (<http://mongoosejs.com/docs/api.html#document-js>).
+2. Apply a getter function with `get(fn)` ([Mongoose API](http://mongoosejs.com/docs/api.html#virtualtype_VirtualType-get)) (<http://mongoosejs.com/docs/api.html#virtualtype_VirtualType-get>).
 
-As an example, let's build a gravatar link generator. [Gravatar](http://en.gravatar.com/), (<http://en.gravatar.com>) is a service that hosts profile images. The URL is always an [md5 hash](http://en.gravatar.com/site/implement/hash/) (<http://en.gravatar.com/site/implement/hash>) of the user’s e-mail. 
+As an example, let's build a Gravatar link generator to pull images from [Gravatar](http://en.gravatar.com). (<http://en.gravatar.com> is a service that hosts profile images, a.k.a., avatars, to be used universally by various websites.) 
 
-Therefore, we can get the virtual value (`gravatarUrl`) on the fly by hashing instead of storing the value (less overhead!). In this example, I intentionally made the input email mixed cased and with a trailing space, and then applied core Node module `crypto` for the md5 hashing:
+A Gravatar URL is always an [md5 hash](http://en.gravatar.com/site/implement/hash) of the user’s email: (<http://en.gravatar.com/site/implement/hash>). This allows us to construct a Gravatar link for any user by his/her email. Therefore, we can get the virtual value (`gravatarUrl`) on the fly by hashing instead of storing the value (less overhead!). 
+
+In this example, I intentionally made the input email mixed cased and with a trailing space, and then applied core Node module `crypto` for the md5 hashing:
 
 ```js
 const crypto = require('crypto')
@@ -530,7 +541,7 @@ Identity.virtual('gravatarUrl')
   })
 ```
 
-Or the case mentioned earlier, getting a full name out of first and last, is implemented by concatenating the names into one string as follows:
+Or the case mentioned earlier, getting a full name out of first and last, is implemented by concatenating the names into one string, as follows:
 
 ```js
 userSchema.virtual('fullName')
@@ -540,7 +551,7 @@ userSchema.virtual('fullName')
   })
 ```
 
-Another example is when only a subset of the full document *must* be exposed and not the full details as in the user model which has tokens and passwords. Thus we omit fields which we want to hide by whitelisting only the fields we want to expose such as username and avatar but not token, password or salt:
+Another example is when only a subset of the full document *must* be exposed and not the full details, as in the user model, which has tokens and passwords. Thus we omit fields that we want to hide by whitelisting only the fields we want to expose, such as username and avatar, but not token, password, or salt:
 
 ```js
 userSchema.virtual('info')
@@ -556,15 +567,22 @@ userSchema.virtual('info')
   })
 ```
 
-We used `get` for the virtual. Let's dig deeper into getters as well as it's close kin setter.
+We used `get` for the virtual. Let's dig deeper into the getter, as well as it's close kin setter.
 
 # Schema Type Behavior Amendment
 
-Schemas are not just static boring type definitions. Developers can add function to bring the dynamism to the fields in the schema. Mongoose allows us to define/write getters (`get)`, setters (`set`), and defaults (`default`) right in the Schema! Same goes for validate and some other useful methods. 
+Schemas are not just static boring type definitions. Developers can add functions to bring the dynamism to the fields in the schema. Mongoose allows us to define/write getters (`get)`, setters (`set`), and defaults (`default`) right in the Schema! Same goes for validate and some other useful methods. 
 
-`get` is invoked when a field is read while `set` when the field assigned a value. Developers can modify the actual value being read or assigned from/to the actual database document. For example, the URL field can have a `set()` method which enforces all strings into lowercase. Validate is triggered for the field validation and is typically used for some custom types such as emails.
+`get` is invoked when a field is read, while `set` when the field is assigned a value. Developers can modify the actual value being read or assigned from/to the actual database document. For example, the URL field can have a `set()` method that enforces all strings into lowercase. Validate is triggered for the field validation and is typically used for some custom types such as emails.
 
-Here's an examples of defining `set` (transfer to lower case when the value is assigned), `get` (when the number is extracted the "thousands" commas are added to it), `default` (brand new ObjectID is generated), and `validate` (checks for e-mail patterns and is triggered upon `save()`) all right in a JSON-like structure of the `Schema`:
+Mongoose offers four methods: `set()`, `get()`, `default()` and `validate()`. They do what you think they do. Here are examples of defining methods and their purpose
+
+* `set()`: To transform a string to a lower case when the value is assigned
+* `get()`: To add a "thousands" comma to a number when the number is extracted/accessed
+* `default()`: To generate a new ObjectId, 
+* `validate()`: To check for email patterns; is triggered upon `save()`
+
+We can define the aforementioned four methods all right there, in the fields of the JSON-like Mongoose `Schema` on the same level as `type`:
 
 ```js
 postSchema = new mongoose.Schema({
@@ -605,12 +623,12 @@ postSchema = new mongoose.Schema({
 })
 ```
 
-If defining custom methods in the `Schema` definition is not an option for some reason (maybe our system requires us to do it dynamically), there's another approach to amending `Schema` behavior—to use chained methods:
+If defining custom methods in the `Schema` definition is not an option for some reason (maybe our system requires us to do it dynamically), Mongoose offers another approach to amending `Schema` behavior—chained methods, which require two steps:
 
 1. Use `Schema.path(name)` to get `SchemaType` ([official docs](http://mongoosejs.com/docs/api.html#schema_Schema-path)) (<http://mongoosejs.com/docs/api.html#schema_Schema-path>).
 2. Use `SchemaType.get(fn)` to set the getter method ([official docs](http://mongoosejs.com/docs/api.html#schematype_SchemaType-get)) (<http://mongoosejs.com/docs/api.html#schematype_SchemaType-get>).
 
-For example, we can create a getter method for the `numberOfPosts` field:
+For example, we can create a getter method for the `numberOfPosts` field not in the Schema definition, but after `userSchema` is created:
 
 ```js
 userSchema
@@ -620,11 +638,11 @@ userSchema
   })
 ```
 
-Path is just a fancy name for the nested field name and its parent objects, for example if we have ZIP code (`zip`) as a child of `contact.address` such as `user.contact.address.zip, the` the `contact.address.zip` is a path.
+In Mongoose, *path* is just a fancy name for the nested field name and its parent objects. For example, if we have ZIP code (`zip`) as a child of `contact.address`, such as `user.contact.address.zip`, then the `contact.address.zip` is a path.
 
 # Express.js + Mongoose = True MVC
 
-To avoid rebuilding all other components unrelated to ODM, such as templates, routes, and so forth, we can factor the existing Blog from the previous chapter by making it use Mongoose instead of Mongoskin. This requires minimal effort but produces an abstraction layer between MongoDB and the request handlers. As  always, the fully functional code is available on GitHub, in the `ch7` folder. (<https://github.com/azat-co/practicalnode/tree/master/ch7>)
+To avoid rebuilding all other components unrelated to ODM, such as templates, routes, and so forth, we can factor the existing Blog from the previous chapter by making it use Mongoose instead of Mongoskin. This requires minimal effort but produces an abstraction layer between MongoDB and the request handlers. As  always, the fully functional code is available on GitHub, in the `ch7` folder. (<https://github.com/azat-co/practicalnode/tree/master/ch7>).
 
 The process of refactoring starts with the creation of a new branch: `mongoose`. You can use the final solution in [the GitHub repository](https://github.com/azat-co/blog-express/tree/mongoose). (<https://github.com/azat-co/blog-express/tree/mongoose>). First, we need to remove Mongoskin and install Mongoose:
 
@@ -677,13 +695,13 @@ Now, in the `app.js` file, we can remove the Mongoskin inclusion (`mongoskin = r
 const mongoose = require('mongoose')
 ```
 
-Mongoose uses models but Mongoskin does not. Thus, let’s create a folder `models` in our project folder (use bash: `$ mkdir models`) and include the folder with (it really includes `index.js` which we yet to create):
+Mongoose uses models, but Mongoskin does not. So let’s create a folder `models` in our project folder (use bash: `$ mkdir models`) and include the folder with (it really includes `index.js`, which we have yet to create):
 
 ```js
 const models = require('./models')
 ```
 
-Substitute the Mongoskin connection, and `articles` and `users` collections statements shown below:
+Substitute the Mongoskin `db`, and `articles` and `users` `db.collection()` statements shown next:
 
 ```js
 const db = mongoskin.db(dbUrl, {safe: true})
@@ -693,7 +711,7 @@ const collections = {
 }
 ```
 
-With just the Mongoose connection statement **leaving out** the `collections`:
+with just the Mongoose connection statement, **leaving out** the `collections` object entirely because in Mongoose we'll be working with models not collections directly:
 
 ```js
 const db = mongoose.connect(dbUrl, {useMongoClient: true})
@@ -704,7 +722,7 @@ In the collection middleware, we remove if/else and `req.collections` lines insi
 ```js
 app.use((req, res, next) => {
   if (!collections.articles || ! collections.users) // <--- REMOVE
-    return next(new Error('No collections.')) 
+    return next(new Error('No collections.'))  // <--- UPDATE
   req.collections = collections // <--- REMOVE
 })
 ```
@@ -714,7 +732,7 @@ Then, add the if/else validation for `Article` and `User` models (coming from `m
 ```js
 app.use((req, res, next) => {
   if (!models.Article || !models.User) { // <--- ADD
-    return next(new Error('No models.')) 
+    return next(new Error('No models.')) // <--- UPDATE
   }
   req.models = models // <--- ADD
   return next()
@@ -735,7 +753,7 @@ articleSchema.static({
 })
 ```
 
-The, we compile the schema and methods into a model:
+Then, we compile the schema and methods into a model:
 
 ```js
 module.exports = mongoose.model('Article', articleSchema)
@@ -806,9 +824,9 @@ const userSchema = new mongoose.Schema({
 module.exports = mongoose.model('User', userSchema)
 ```
 
-The e-mail field is validated with RegExp, then is trimmed and forced to lowercase when it’s set.
+The `email` field is validated with RegExp, and is then is trimmed and forced to lowercase when it’s set.
 
-To connect app.js and models, there must be `models/index.js` file which simply acts as a layer of abstraction by importing and exporting all the models:
+To connect `app.js` and models, there must be a `models/index.js` file that simply acts as a layer of abstraction by importing and exporting all the models:
 
 ```js
 exports.Article = require('./article')
@@ -824,14 +842,14 @@ req.collections.articles.findOne({slug: req.params.slug},
   (error, article) => {
 ```
 
-Then, this Mongoose line comes in to use the Article model from `req.models`:
+Then this Mongoose line comes in to use the `Article` model from `req.models`:
 
 ```js
 req.models.Article.findOne({slug: req.params.slug}, 
   (error, article) => {
 ```
 
-The resulting `show` uses Mongoose method `findOne` from `Article` model and has slug presence validation before that:
+The resulting `show` uses the Mongoose method `findOne()` from `Article` model and has `slug` presence validation before that:
 
 ```js
 exports.show = (req, res, next) => {
@@ -844,7 +862,7 @@ exports.show = (req, res, next) => {
 }
 ```
 
-In the `list` method, remove Mongoskin code show below since we are not working with collections directly anymore:
+In the `list` method, remove the Mongoskin code show next, since we are not working with collections directly anymore:
 
 ```js
 req.collections.articles.find({}).toArray((error, articles) => {
@@ -856,7 +874,7 @@ and replace it with Mongoose model code of `Article.list()`:
 req.models.Article.list((error, articles) => {
 ```
 
-To get request handler which resembles this:
+to get the request handler that resembles this:
 
 ```js
 exports.list = (req, res, next) => {
@@ -875,7 +893,7 @@ req.collections.articles.insert(
   (error, articleResponse) => {
 ```
 
-is replaced with this Mongoose code which uses model:
+is replaced with this Mongoose code that uses the `Article` model instead of a collection:
 
 ```js
 req.models.Article.create(article, (error, articleResponse) => {
@@ -883,8 +901,8 @@ req.models.Article.create(article, (error, articleResponse) => {
 
 The `exports.edit` method is trickier, and there are a few possible solutions:
 
-1. Find a Mongoose document (e.g., `findById`) and use document methods (e.g., `update`)
-2. Use the static model method `findByIdAndUpdate`
+1. Find a Mongoose document (e.g., `findById()`) and use document methods (e.g., `update()`).
+2. Use the static model method `findByIdAndUpdate()`.
 
 In both cases, this Mongoskin piece of code goes away:
 
@@ -895,7 +913,7 @@ req.collections.articles.updateById(
   (error, count) => {
 ```
 
-Although there's `update()` in Mongoose as well, we'll use another, better approach with `save()`, because `save()` executes all the schema logic such as pre, post hooks and proper schema validation. It's smarter than the direct `update()`. `save()` is the special sauce that Mongoose brings to the table and it's a pitty not to harness its power. So the above Mongoskin snippet with `updateById()` is replaced by this code with Mongoose's `set()` and `save()`:
+Although there's `update()` in Mongoose as well, we'll use another, better approach with `save()`, because `save()` executes all the schema logic such as pre and post hooks, and proper schema validation. It's smarter than the direct `update()`. `save()` is the special sauce that Mongoose brings to the table, and it's a pity not to harness its power. So the preceding Mongoskin snippet with `updateById()` is replaced by this code with Mongoose's `set()` and `save()`:
 
 ```js
 exports.edit = (req, res, next) => {
@@ -912,7 +930,7 @@ exports.edit = (req, res, next) => {
 }
 ```
 
-Just to show you a more elegant one-step approach which uses one method `findByIdAndUpdate()`(the latter from the new `exports.edit` implementation list above):
+Just to show you a more elegant one-step approach that uses one method `findByIdAndUpdate()`(the latter from the new `exports.edit` implementation shown earlier):
 
 ```js
 req.models.Article.findByIdAndUpdate(
@@ -1052,8 +1070,7 @@ exports.index = (req, res, next) => {
 }
 ```
 
-Lastly, `routes/user.js` has a single line (JUST ONE LINE) to change in `authenticate`. Do this! Invoke `findOne()` from `req.models.User` model to fetch the user with username and password (plain. This will check the user validity. 
-
+Finally, `routes/user.js` has a single line (JUST ONE LINE) to change in `authenticate`. Do this! Invoke `findOne()` from the `req.models.User` model to fetch the user with username and password (plain). This will check the user validity:
 
 
 ```js
@@ -1074,14 +1091,14 @@ exports.authenticate = (req, res, next) => {
 }
 ```
 
-Of course, in real life you would not store plain passwords but use encrypted hash and salt. In other words, store salt and hash but never the plain password to prevent attackers stealing the plain password which can be used on other websites (most people can't remember more than 2-3 passwords so they keep using the same everywhere, gosh, they should download [enpass](https://www.enpass.io) or something).
+Of course, in real life you would not store plain passwords but use encrypted hash and salt. In other words, store salt and hash but never the plain password to prevent attackers stealing the plain passwords, which they can and will use on other websites. Most people can't remember more than 2-3 passwords, so they keep using the same ones everywhere. Gosh, they should download a password manager like Keepass, Padlock, enpass or something similar, to store unique 50-character passwords and randomly generated answers to silly questions like "What was the name of your first pet?".
 
-To check if everything went well, simply run Blog as usual with `$ node app` and navigate the pages on <http://localhost:3000/>. In addition, we can run Mocha tests with `$ npm test` (which triggers a make command which triggers the mocha command).
+To check if everything went well, simply run Blog as usual with `$ node app` and navigate the pages on <http://localhost:3000/>. In addition, we can run Mocha tests with `$ npm test` (which triggers a `make` command, which in turn triggers the `mocha` command).
 
 # Summary
 
-In this chapter, we learned what Mongoose is, how to install it, how to establish a connection to the database, and how to create Mongoose schemas while keeping the code organized with hooks and methods. We also compiled schemas into models and populated references automatically, and used virtual fields and custom schema type properties. Last, we refactored Blog to use Mongoose and made our app gain a true MVC architecture.
+In this chapter, we learned what Mongoose is, how to install it, how to establish a connection to the database, and how to create Mongoose schemas while keeping the code organized with hooks and methods. We also compiled schemas into models and populated references automatically, and used virtual fields and custom schema type properties. And we refactored Blog to use Mongoose and made our app gain a true MVC architecture.
 
-Next, we'll cover how to build REST APIs with the two Node.js frameworks: Express.js and Hapi. This is an important topic, because more and more web developments shift towards heavy front-end logic and thin back-end. Some systems even go as far as building/using free-JSON APIs or back-as-a-service services. This tendency allows teams to focus on what is the most important for end-users: user interface, features, as well as what is vital for businesses: reduced iteration cycles, lower costs of maintenance and development. 
+Next, we'll cover how to build REST APIs with the two Node.js frameworks: Express.js and Hapi. This is an important topic, because more and more web development is shifting toward heavy front-end logic and thin backend. Some systems even go as far as building/using free-JSON APIs or back-as-a-service services. This tendency allows teams to focus on what is the most important for end users—user interface and features—as well as what is vital for businesses: reduced iteration cycles, and lower costs of maintenance and development. 
 
-Another essential piece in this puzzle is test-driven practice. To explore it, we'll cover Mocha, which is a widely used Node.js testing framework. To REST APIs and TDD onward.
+Another essential piece in this puzzle is test-driven practice. To explore it, we'll cover Mocha, a widely used Node.js testing framework. Onward to REST APIs and TDD.

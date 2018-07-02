@@ -571,7 +571,7 @@ The bottom line is that `extend` and `block` implement inverted inheritance patt
 
 # Standalone Pug Usage
 
-Template engines (Pug) and web frameworks (Express) go together like ketchup and hotdogs—but not always. Template engines are not not always used with Node.js frameworks like Express.js. Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an e-mail template, precompiling Pug before deployment, and debugging. In this section, we do the following:
+Template engines (Pug) and web frameworks (Express) go together like ketchup and hotdogs—but not always. Template engines are not not always used with Node.js frameworks like Express.js. Sometimes, we might just want to use Pug in a standalone manner. The use cases include generating an email template, precompiling Pug before deployment, and debugging. In this section, we do the following:
 
 - Install a Pug module
 - Create our first Pug file
@@ -592,7 +592,7 @@ To add a `pug` dependency to your project, or if you&#39;re starting from scratc
 
 **Tip** Add `{pretty: true}` to `pug.render()`, as in `pug.render(pugTemplate, {pretty: true})`, in order to have properly formatted, *pretty* HTML.
 
-Let&#39;s say we have some Node.js script that sends an e-mail and we need to use a template to generate HTML dynamically for the e-mail. This is how it might look (file `pug-example.pug`):
+Let&#39;s say we have some Node.js script that sends an email and we need to use a template to generate HTML dynamically for the email. This is how it might look (file `pug-example.pug`):
 
 ```pug
 .header
