@@ -2,7 +2,7 @@ Chapter 8
 ---------
 # Building Node.js REST API Servers with Express.js and Hapi
 
-Modern-day web development is moving increasingly toward an architecture  for which there&#39;s a *thick* client, usually built with frameworks such as Backbone.js (<http://backbonejs.org>), AngularJS (<https://angularjs.org>), Ember.js (<http://emberjs.com>), and the like, and a *thin* back-end layer typically represented by a representational state transfer (REST) web application programing interface (API) service. This architecture dubbed thick client or single-page application (SPA) has become more and more popular. No surprise here. There are many advantages to this thick client approach:
+Modern-day web developers use an architecture consisting of a *thick* client and a a *thin* back-end layer. They use frameworks such as Backbone.js (<http://backbonejs.org>), AngularJS (<https://angularjs.org>), Ember.js (<http://emberjs.com>), and the like to build the thick client. On the other hand, they use REST APIs for the *thin* back-end layer. ( typically represented by a representational state transfer (REST) web application programing interface (API) service)This architecture dubbed thick client or single-page application (SPA) has become more and more popular. No surprise here. There are many advantages to this thick client approach:
 
 - SPA (single-page applications) are faster because they render elements of the webpage in the browser without the need to always fetch the HTML from the server.
 - The bandwidth is smaller since most of the page layout stays the same once it's loaded, thus the browser only needs the data in JSON format for the changing elements of the webpage.
