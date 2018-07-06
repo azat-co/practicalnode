@@ -2,15 +2,15 @@ Chapter 9
 ---------
 # Real-Time Apps with WebSocket, Socket.IO, and DerbyJS
 
-Real-time apps are becoming more and more widespread in financial trading, gaming, social media, various DevOps tools, cloud services, and of course news. The main factor contributing to this trend is that technologies have become much better. They allow for a greater bandwidth to transmit data, and for more calculations to process and retrieve the data.
+Real-time apps are becoming more and more widespread in financial trading, gaming, social media, various DevOps tools, cloud services, and of course, news. The main factor contributing to this trend is that technologies have become much better. They allow for a greater bandwidth to transmit data and for more calculations to process and retrieve the data.
 
-HTML5 pioneered the new standard of real-time connections called *WebSocket*. The way it works, in browser JavaScript you get a global object called `WebSocket`. This object is a class and has all kinds of methods for developers to implement the WebSocket protocol client. 
+HTML5 pioneered the new standard of real-time connections called *WebSocket*. The way it works: in browser JavaScript you get a global object called `WebSocket`. This object is a class and it has all kinds of methods for developers to implement the WebSocket protocol client. 
 
 The WebSocket protocol (or `ws://` in the URL format) is very different from HTTP or HTTPS. Hence, developers need a special ws server. Just having an HTTP server won't cut it. And as you know, Node.js is a highly efficient, non-blocking input/output platform. 
 
-Implementing WebSocket servers with Node is pure joy because Node is fast and because Node is also JavaScript just like the WebSocket clients (i.e., browser JavaScript). Thus, Node is very well suited for the task of being a back-end pair to the browser with it's WebSocket API.
+Implementing WebSocket servers with Node is pure joy because Node is fast and because Node is also JavaScript, just like the WebSocket clients (i.e., browser JavaScript). Thus, Node is very well suited for the task of being a back-end pair to the browser with its WebSocket API.
 
-To get you started with WebSocket and Node.js, we&#39;ll keep things simple stupid (KISS) (<http://en.wikipedia.org/wiki/KISS_principle>) and cover the following:
+To get you started with WebSocket and Node.js, we&#39;ll keep things simple stupid (KISS) (<http://azat.co/blog/kiss>) and cover the following:
 
 - What is WebSocket?
 
@@ -22,20 +22,20 @@ To get you started with WebSocket and Node.js, we&#39;ll keep things simple stup
 
 # What Is WebSocket?
 
-WebSocket is a special communication “channel” between browsers (clients) and servers. It&#39;s an HTML5 protocol. WebSocket&#39;s connection is constant, in contrast to traditional HTTP requests, with the latter usually initiated by the client. Therefore, there&#39;s no way for a server to notify the client if there are updates. 
+WebSocket is a special communication “channel” between browsers (clients) and servers. It&#39;s an HTML5 protocol. WebSocket&#39;s connection is constant, in contrast to traditional HTTP requests, which are always initiated by the client, which means there&#39;s no way for a server to notify the client if there are updates (except for Server-side Events). 
 
-By maintaining a duplex open connection between the client and the server, updates can be pushed in a timely fashion without clients needing to poll at certain intervals. This main factor makes WebSocket ideal for real-time apps for which data need to be available on the client immediately. For more information on WebSocket, take a look at the extensive resource [About HTML5 WebSocket](http://www.websocket.org/aboutwebsocket.html) (<http://www.websocket.org/aboutwebsocket.html>).
+By maintaining a duplex open connection between the client and the server, updates can be pushed in a timely fashion without clients needing to poll at certain intervals. This main factor makes WebSocket ideal for real-time apps for which data needs to be available on the client immediately. For more information on WebSocket, take a look at the extensive resource [About HTML5 WebSocket](http://www.websocket.org/aboutwebsocket.html) (<http://www.websocket.org/aboutwebsocket.html>).
 
-There&#39;s no need to use any special libraries to use WebSocket in modern browsers. The following StackOverflow has a list of such browsers: [What browsers support HTML5 WebSockets API?](http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api) (<http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api>)For older browser support, the workaround includes falling back on polling.
+There&#39;s no need to use any special libraries to use WebSocket in modern browsers. The following StackOverflow has a list of such browsers: [What browsers support HTML5 WebSockets API?](http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api) (<http://stackoverflow.com/questions/1253683/what-browsers-support-html5-websocket-api>). For older browser support, the workaround includes falling back on polling.
 
-As a side note, polling (both short and long), can also be used to emulate the real-time responsiveness of web apps. In fact, some advanced libraries (Socket.IO) fall back to polling when WebSocket becomes unavailable as a result of connection issues or users not having the latest versions of browsers. Polling is relatively easy and we don&#39;t cover it here. It can be implemented with just a `setInterval()` callback and an endpoint on the server. However, there&#39;s not real-time communication with polling; each request is separate.
+As a side note, *polling* (both short and long), can also be used to emulate the real-time responsiveness of web apps. In fact, some advanced libraries (Socket.IO) fall back to polling when WebSocket becomes unavailable as a result of connection issues or users not having the latest versions of browsers. Polling is relatively easy, and I don&#39;t cover it here. It can be implemented with just a `setInterval()` callback and an endpoint on the server. However, there&#39;s no true real-time communication with polling; each request is separate.
 
-# Native WebSocket and Node.js with the ws Module Example
+# Native WebSocket and Node.js with the `ws` Module Example
 
-Sometimes it&#39;s easier to start from the simplest thing and build things on top of it. With this in mind, our mini project includes building a native WebSocket implementation that talks with the Node.js server with the help of the ws module:
+Sometimes it&#39;s easier to start from the simplest thing and build things on top of it. With this in mind, our mini project includes building a native WebSocket implementation that talks with the Node.js server with the help of the `ws` module:
 
 - Browser WebSocket implementation
-- Node.js server with ws module implementation
+- Node.js server with `ws` module implementation
 
 Let&#39;s examine this with a quick example.
 
@@ -50,7 +50,7 @@ This is our front-end code (file `ch9/basic/index.html`) for Chrome version 32.0
   <body>
 ```
 
-The main code lives in the `script` tag, where we instantiate an object from global `WebSocket`. When we do so, we provide the server URL. Notice the `ws://` instead of a familiar `http://`. The letters `ws://` stand for the WebSocket protocol.
+The main code lives in the `script` tag, where we instantiate an object from global `WebSocket`. When we do so, we provide the server URL. Notice the `ws://` instead of a familiar `http://`. The letters `ws://` stand for the WebSocket protocol:
 
 ```html
     <script type="text/javascript">
@@ -72,7 +72,7 @@ Usually, messages are sent in response to user actions, such as mouse clicks. Wh
         console.log('server message: ', event.data);
       };
 ```
-A good practice is to have an `onerror` event handler. We logging the error message:
+A good practice is to have an `onerror` event handler. We log the error message:
 
 ```js
       ws.onerror = function(event) {
@@ -88,7 +88,7 @@ We then close the tags and save the file:
 </html>
 ```
 
-To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch9/basic/index.html` which is very straightforward and rather small:
+To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch9/basic/index.html`, which is very straightforward and rather small:
 
 ```html
 <html>
@@ -111,9 +111,9 @@ To make sure you don&#39;t miss anything, here&#39;s the full source code of `ch
 </html>
 ```
 
-## Node.js Server with ws Module Implementation
+## Node.js Server with `ws` Module Implementation
 
-WebSocket.org provides an echo service for testing the browser WebSocket, but we can build our own small Node.js server with the help of the [ws](http://npmjs.org/ws) (<http://npmjs.org/ws>) ([GitHub](https://github.com/einaros/ws)) (<https://github.com/einaros/ws>) library. You can create `package.json` and install `ws`:
+WebSocket.org provides an echo service for testing the browser WebSocket, but we can build our own small Node.js server with the help of the [ws](http://npmjs.org/ws) library (<http://npmjs.org/ws> and <https://github.com/einaros/ws>). You can create `package.json` and install `ws`:
 
 ```
 $ npm init -y
@@ -138,7 +138,7 @@ wss.on('connection', (ws) => {
 })
 ```
 
-Moreover, let's add some continuous logic which will provides current time to the browser using `ws.send()` and `new Date`:
+Moreover, let's add some continuous logic that will provide current time to the browser using `ws.send()` and `new Date`:
 
 ```js
 wss.on('connection', (ws) => {
@@ -159,13 +159,13 @@ Start the Node.js server with `$ node server`. Then, open `index.html` in the br
 
 ![alt](media/image1.png)
 
-***Figure 9-1.** Browser outputs a message received via WebSocket*
+***Figure 9-1.** Browser outputs a message received via WebSocket*.
 
-While in the terminal, the Node.js server output is `received: front-end message: ABC`, which is illustrated in Figure 9-2.
+While in the terminal, the Node.js server output is `received: front-end message: ABC`, as is illustrated in Figure 9-2.
 
 ![alt](media/image2.png)
 
-***Figure 9-2.** The server outputs the browser message received via WebSocket*
+***Figure 9-2.** The server outputs the browser message received via WebSocket*.
 
 Native HTML5 WebSocket is an amazing technology. However, WebSocket is a protocol and an evolving standard. This means that each browser implementation might vary. And, of course, if support for older browsers is needed, you should do your research and test.
 
@@ -173,9 +173,9 @@ In addition, often the connection may be lost and may need to be re-established.
 
 # Socket.IO and Express.js Example
 
-Full coverage of the [Socket.IO](http://socket.io) (<http://socket.io>) library absolutely deserves its own book. Nevertheless, because it&#39;s such a popular library, and getting started with it is very easy with Express.js, we include in this chapter an example that covers the basics. This mini project illustrates duplex-channel communication between browser and server.
+Full coverage of the [Socket.IO](http://socket.io) (<http://socket.io>) library absolutely deserves its own book. Nevertheless, because it&#39;s such a popular library, and getting started with it is very easy with Express.js, I include in this chapter an example that covers the basics. This mini project illustrates duplex-channel communication between browser and server.
 
-As in most real-time web apps, the communication between a server and a client happens in response either to some user actions or as a result of updates from the server. So, in our example, the web page renders a form field in which each character echoes (browser to server and back) in reverse in real time. The example harnesses Express.js command-line tool scaffolding, Socket.IO, and Pug (see screenshots of the working app in Figures 9-3 and 9-4). Of course, you can just download the app from [github.com/azat-co/practicalnode](http://github.com/azat-co/practicalnode) (<http://github.com/azat-co/practicalnode>).
+As in most real-time web apps, the communication between a server and a client happens in response either to some user actions or as a result of updates from the server. So, in our example, the web page renders a form field in which each character echoes (browser to server and back) in reverse in real time. The example harnesses Express.js command-line tool scaffolding, Socket.IO, and Pug (see screenshots of the working app in Figures 9-3 and 9-4). Of course, you can just download the app from <http://github.com/azat-co/practicalnode>.
 
 To include Socket.IO, we can use `$ npm install socket.io@0.9.16 --save` and repeat it for every module, or we can use `package.json` and `$ npm install`:
 
@@ -254,11 +254,11 @@ server.listen(app.get('port'), () => {
 })
 ```
 
-Just in case these snippets are confusing, the full content of the Express app with SocketIO is in `code/ch9/socket-express/app.js`.
+Just in case if these snippets are confusing, the full content of the Express app with SocketIO is in `code/ch9/socket-express/app.js`.
 
 A quick remark about port numbers: by default, WebSocket connections can use the standard ports: 80 for HTTP and 443 for HTTPS.
 
-Last, our app needs some front-end love in `index.pug`. Nothing fancy; just a form field and some front-end JavaScript in the Pug template:
+Last, our app needs some front-end love in `index.pug`. Nothing fancy—just a form field and some front-end JavaScript in the Pug template:
 
 ```pug
 extends layout
@@ -297,7 +297,7 @@ For more Socket.IO examples, go to [socket.io/#how-to-use](http://socket.io/#how
 
 # Collaborative Online Code Editor Example with DerbyJS, Express.js, and MongoDB
 
-[Derby](http://derbyjs.com) (<http://derbyjs.com>) is an interesting and sophisticated [MVC](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (<http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller>) framework designed to be used with [Express](http://expressjs.com) (<http://expressjs.com>) as its middleware, whereas [Express.js](http://expressjs.com) (<http://expressjs.com>) is a popular node framework that uses the middleware concept to enhance the functionality of applications. Derby also comes with the support of [Racer](https://github.com/codeparty/racer) (<https://github.com/codeparty/racer>), a data synchronization engine, and [Handlebars](https://github.com/wycats/handlebars.js) (<https://github.com/wycats/handlebars.js>)-like template engine, among [many other features](http://derbyjs.com/#features) (<http://derbyjs.com/#features>).
+[Derby](http://derbyjs.com) (<http://derbyjs.com>) is an interesting and sophisticated MVC framework designed to be used with [Express](http://expressjs.com) (<http://expressjs.com>) as its middleware, whereas Express.js is a popular node framework that uses the middleware concept to enhance the functionality of applications. Derby also comes with the support of [Racer](https://github.com/codeparty/racer) (<https://github.com/codeparty/racer>), a data synchronization engine, and a [Handlebars](https://github.com/wycats/handlebars.js)-like template engine (<https://github.com/wycats/handlebars.js>), among many other features.
 
 [Meteor](http://meteor.com) (<http://meteor.com>) and [Sails.js](http://sailsjs.org) (<http://sailsjs.org>) are other reactive (real-time) full-stack MVC Node.js frameworks comparable with DerbyJS. However, Meteor is more opinionated and often relies on proprietary solutions and packages.
 
@@ -367,11 +367,11 @@ Instantiate the Express.js app:
 
       expressApp = module.exports = express(),
 
-the Redis client:
+And the Redis client:
 
       redis = require('redis').createClient(),
 
-and the local MongoDB connection URI:
+And the local MongoDB connection URI:
 
       mongoUrl = 'mongodb://localhost:27017/editor';
 
@@ -652,4 +652,4 @@ The working project is available on GitHub at <https://github.com/azat-co/editor
 
 In this chapter, we saw that there&#39;s native support for WebSocket in modern HTML5 browsers, and we learned how to get started with Socket.IO and Express.js to harness the power of WebSocket in Node.js. In addition, we explored the mighty full-stack framework of DerbyJS in the editor example.
 
-In the next chapter we&#39;ll move to the essential part of any real-world project which is getting Node.js apps to a production level readiness by adding extra configuration, monitoring, logging and other things.
+In the next chapter we&#39;ll move to the essential part of any real-world project, which is getting Node.js apps to a production-level readiness by adding extra configuration, monitoring, logging, and other things.
