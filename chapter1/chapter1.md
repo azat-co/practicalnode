@@ -4,7 +4,7 @@ Chapter 1
 
 # Setting up Node.js and Other Essentials
 
-As with many technologies, it’s vital to have the proper foundation set up first, before moving on to solving more complex problems. In this chapter, we cover the following:
+Many technologies, it’s vital to have the proper foundation set up first, before moving on to solving more complex problems. With Node.js, proper foundation is even more important because of all the bad syntax and quirks that JavaScript brings to Node. In this chapter, we cover the following:
 
 - Node.js and npm (Node package manager) installation
 - Node.js script launches
@@ -15,7 +15,7 @@ As with many technologies, it’s vital to have the proper foundation set up fir
 
 # Installing Node.js and npm
 
-Although your operating system (OS) might have Node.js installed on it already, you should update to at least 8.x which is the latest recommended long-term support (LTS) version as of this writing (July 2018). Version 8 is used in the examples and projects of this book. Version 8 is LTS and the recommended choice because it will be supported until October 2019 according to [the Node official release schedule](https://github.com/nodejs/Release#release-schedule). If you are reading the book after October 2019, please use the next LTS version for your real-life projects. You can still use Node.js version 8 for this book's projects to ensure smooth execution and lack of conflicts. In the following subsection, we examine a few different approaches to installing Node.js:
+Although your operating system (OS) might have Node.js installed on it already, you should update to at least version 8.x, which is the latest recommended long-term support (LTS) version as of this writing (July 2018). Version 8 is used in the examples and projects of this book. Version 8 is LTS and the recommended choice because it will be supported until October 2019 according to [the Node official release schedule](https://github.com/nodejs/Release#release-schedule). If you are reading the book after October 2019, please use the next LTS version for your real-life projects. You can still use Node.js version 8 for this book's projects to ensure smooth execution and lack of conflicts. In the following subsection, we examine a few different approaches to installing Node.js:
 
 - *One-click installers*: Probably the easiest and fastest way to get started with the platform
 - *Installing with HomeBrew or MacPorts*: Straightforward installation for macOS users
@@ -27,7 +27,7 @@ Although your operating system (OS) might have Node.js installed on it already, 
 
 A note about Long-Term Support (LTS) and non-LTS versions: LTS versions have longer maintenance window. This means that LTS versions will have patches and updates longer than non-LTS versions. Thus LTS versions are recommended for most users and production deployment (not because non-LTS is not proven but simply because LTS has a longer support time). 
 
-LTS versions are even number, such as 4, 6, 8, 10, etc. and non-LTS versions are odd numbers. Non-LTS versions have the latest features before they are rolled out to the next LTS version. We would be using LTS version 8.x. For more information and the current release schedule, please see <https://github.com/nodejs/LTS>.
+LTS versions are even numbers, such as 4, 6, 8, 10, and so on. And non-LTS versions are odd numbers. Non-LTS versions have the latest features before they are rolled out to the next LTS version. We will be using LTS version 8.x. For more information and the current release schedule, please see <https://github.com/nodejs/LTS>.
 
 ## One-Click Installers
 
@@ -68,7 +68,7 @@ If your macOS does not have HomeBrew, go to <http://brew.sh> or install it with 
 $ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 ```
 
-Similarly, for MacPorts, run
+Similarly, for MacPorts, run:
 
 ```sh
 $ sudo port install nodejs
@@ -102,7 +102,7 @@ $ make install
 $ curl https://npmjs.org/install.sh | sh
 ```
 
-**Tip**  If you find yourself getting errors when trying to install the module globally via npm (`$ npm install -g <packagename>`), reinstall Node.js and npm with the  "Installing Without sudo" solution below to eliminate the need to use `sudo` with the installation command. 
+**Tip**  If you find yourself getting errors when trying to install the module globally via npm (`$ npm install -g <packagename>`), reinstall Node.js and npm with the  "Installing Without sudo" solution—discussed in the next section—to eliminate the need to use `sudo` with the installation command. 
 
 ## Installing Without sudo
 
@@ -113,7 +113,7 @@ $ sudo mkdir -p /usr/local/{share/man,bin,lib/node,include/node}
 $ sudo chown -R $USER /usr/local/{share/man,bin,lib/node,include/node}
 ```
 
-**Note:**  Please be sure you are comfortable with the functionality of the `chown` command before you run it.
+**Note:** Please be sure you are comfortable with the functionality of the `chown` command before you run it.
 
 Then, proceed with a normal installation:
 
@@ -128,11 +128,11 @@ $ curl https://npmjs.org/install.sh | sh
 
 ## Installing from Source Code
 
-If you want to use the latest core Node.js code, and maybe even contribute to the Node.js and npm projects, your best choice is to use the installation from the source code which is in GitHub. This will allow you to change the Node code itself, and then compile and run it
+If you want to use the latest core Node.js code, and maybe even contribute to the Node.js and npm projects, your best choice is to use the installation from the source code that is in Node repository on GitHub. This will allow you to change the Node code itself, and then compile and run it.
 
-This step requires Git. To install it, go to <http://git-scm.com> and click Download. For basic Git commands, refer to Chapter 11, where we explore deployment.  
+This step requires Git. To install it, go to <http://git-scm.com> and click Download. For basic Git commands, refer to Chapter 11, which explores deployment.  
 
-For the full detailed instructions, go to <https://github.com/nodejs/node/blob/master/BUILDING.md>. Here is the short version of the instructions.
+For full, detailed instructions, go to <https://github.com/nodejs/node/blob/master/BUILDING.md>. Here is the short version of the instructions:
 
 1. Make the folders and add the path:
 
@@ -167,9 +167,9 @@ For the full detailed instructions, go to <https://github.com/nodejs/node/blob/m
 
 ## Multiversion Setup with NVM
 
-If you plan to work on various Node projects, you might have to have to switch between multiple versions of Node.js. To make things easier, I recommend to use a version manager which will allow to install multiple versions and switch between them quickly and without a hassle.
+If you plan to work on various Node projects, you might have to have to switch between multiple versions of Node.js. To make things easier, I recommend using a version manager that will allow you to install multiple versions and switch between them quickly and without a hassle.
 
-One of the trusted and battle-tested version managers is nvm (Node Version Manager): <https://github.com/creationix/nvm>. Install NVM as follows:
+One of the most trusted and battle-tested version managers is nvm (Node Version Manager): <https://github.com/creationix/nvm>. Install NVM as follows:
 
 ```sh
 $ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
@@ -181,24 +181,24 @@ or
 $ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
 ```
 
-Then, you should be ready to start using NVM and its `install`. For example, to install Node v0.10, use:
+Then you should be ready to start using NVM and its `install`. For example, to install Node v0.10, use this magic formula:
 
 ```sh
 $ nvm install 0.10
 ```
 
-After installing Node v0.10 to switch to the 0.10 version, apply the `use` command. For example:
+After installing Node v0.10, to switch to the 0.10 version, apply the `use` command. For example:
 
 ```sh
 $ nvm use 0.10
 ```
 
-NVM won't move global npm modules from one version to another. If you are switching from y to x, then use `nvm install x --reinstall-packages-from=y` to reinstall all the global packages from "y" in the new "x". For example, to move packages to Node v8 from Node v6, use `nvm install 8.4.0 --reinstall-packages-from=6.11.2`
+NVM won't move global npm modules from one version to another. If you are switching from y to x, then use `nvm install x --reinstall-packages-from=y` to reinstall all the global packages from "y" in the new "x". For example, to move packages to Node v8 from Node v6, use `nvm install 8.4.0 --reinstall-packages-from=6.11.2`.
 
 
 ## Multiversion Setup with NVM for Windows
 
-[Node Version Manager (nvm) for Windows](https://github.com/coreybutler/nvm-windows) is a separate project from original nvm which is for macOS and Linux. nvm for Windows is ironically written in Go. 
+[Node Version Manager (nvm) for Windows](https://github.com/coreybutler/nvm-windows) is a separate project from original nvm which is for macOS and Linux. nvm for Windows is (ironically) written in Go. 
 
 To download nvm for Windows, simply go to <https://github.com/coreybutler/nvm-windows> releases and select the latest version of the installer.
 
@@ -207,13 +207,13 @@ To download nvm for Windows, simply go to <https://github.com/coreybutler/nvm-wi
 
 The most popular and used alternatives to NVM include the following tools:
 
-- *[n](https://github.com/visionmedia/n) (<https://github.com/visionmedia/n>)*: The original and *simple* Node version manager without subshells (I still use it today on my personal computer)
-- *[nave](https://github.com/isaacs/nave) (<https://github.com/isaacs/nave>)*: The version manager from the creator of npm Isaac Schelueter which supports subshells
+- *[n](https://github.com/visionmedia/n) (<https://github.com/visionmedia/n>)*: The original and *simple* Node version manager without subshells (I still use it today on my personal computers)
+- *[nave](https://github.com/isaacs/nave) (<https://github.com/isaacs/nave>)*: The version manager written by the creator of npm Isaac Schelueter and that supports subshells
 - *[ndevn](https://github.com/riywo/ndenv) (<https://github.com/riywo/ndenv>)*: Node.js version manager based on rbenv
 
 ## Updating npm
 
-Some of the readers might have npm already, but due to big changes between npm v3, 4 and 5, it's recommended to update npm to version 5. Luckily, you can use npm to update npm! 
+You might have npm already, but due to big changes between npm versions 3 through 5, it's recommended to update npm to version 5, 6 or 7. Luckily, you can use npm to update npm! 
 
 ```
 npm i -g npm@latest
@@ -221,7 +221,7 @@ npm i -g npm@latest
 
 ## Checking the Installation
 
-To test your installation, run the following commands in your Terminal app (command line `cmd.exe` in Windows):
+To test your installation, run the following commands in your Terminal or iTerm app (or in the command line `cmd.exe` for Windows):
 
 ```sh
 $ node -v
@@ -238,7 +238,7 @@ That’s it! You now have Node.js and npm installed, and you should be ready to 
 
 ## Node.js Console (REPL)
 
-Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment called read–eval–print–loop (REPL). Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling drones nodecopters (<http://nodecopter.com>) and debugging remote servers (more about this in Chapter 10). To start the console, run the following command in your terminal:
+Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment called read–eval–print–loop (REPL). Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling drones nodecopters (<http://nodecopter.com>) and debugging remote servers (more about that in Chapter 10). To start the console, run the following command in your terminal:
 
 ```sh
 $ node
@@ -255,13 +255,13 @@ The prompt should change from `$` to `>` (or something else, depending on your s
 > f(b)
 ```
 
-The result of the previous snippet is shown in Figure 1-4.
+The result of the preceding snippet is shown in Figure 1-4.
 
 ![alt](media/image4.png)
 
 ***Figure 1-4.** Executing JavaScript in Node.js REPL*
 
-There are slight deviations in ECMAScript implementations in Node.js and browsers such as the Chrome Developer Tools console. For example, `require()` is a valid method in Node.js REPL, whereas the same code produces `ReferenceError` in the Chrome DevTools console because browsers don't support Node.js modules feature. However, for the most part, Node.js REPL and the Chrome/Firefox consoles are similar.
+There are slight deviations in ECMAScript implementations between Node.js and browsers, such as the Chrome Developer Tools console. For example, `require()` is a valid method in Node.js REPL, whereas the same code produces `ReferenceError` in the Chrome DevTools console, because browsers don't support Node.js modules feature. However, for the most part, Node.js REPL and the Chrome/Firefox consoles are similar.
 
 # Launching Node.js Scripts
 
@@ -275,7 +275,7 @@ Preparing your code for production is discussed later in Chapter 10.
 
 # Node.js Basics and Syntax
 
-Node.js was built on top of the Google Chrome V8 engine and its ECMAScript, which means most of the Node.js syntax is similar to front-end JavaScript (another implementation of ECMAScript), including objects, functions, and methods. In this section, we look at some of the most important aspects; let’s call them *Node.js/JavaScript fundamentals*:
+Node.js was built on top of the Google Chrome V8 engine and its ECMAScript, which means most of the Node.js syntax is similar to front-end JavaScript (another implementation of ECMAScript), including objects, functions, and methods. In this section, we look at some of the most important aspects—let’s call them *Node.js/JavaScript fundamentals*:
 
 - Loose typing
 - Buffer—Node.js super data type
@@ -296,7 +296,7 @@ Automatic typecasting works well most of the time. It’s a great feature that s
 - Null
 - RegExp
 
-Everything else is an object (i.e., mutable keyed collections, read Stackoverflow on "[What does immutable mean?](http://stackoverflow.com/questions/3200211/what-does-immutable-mean) (<http://stackoverflow.com/questions/3200211/what-does-immutable-mean>)" if in doubt).
+Everything else is an object. Class is an object. Function is an object. Array is an object. Objects are passed by reference whereas primitives are passed by values.
 
 Also, in JavaScript, there are String, Number, and Boolean objects that contain helpers for the primitives, as follows:
 
@@ -316,7 +316,7 @@ or
 'a' == new String('a') *//true*
 ```
 
-By the way, `==` performs automatic typecasting whereas `===` does not.
+By the way, `==` performs automatic typecasting, whereas `===` does not.
 
 ## Buffer—Node.js Super Data Type
 
@@ -347,7 +347,7 @@ arrayBuffer[1] = 7001
 console.log(bufFromArrayBuffer)
 ```
 
-As you saw in the code above, to convert Buffer to a string, you can use `toString()` method. By default, it will convert to UTF-8 encoding, but other encoding options are possible too such as ASCII, HEX or others:
+As you saw in the preceding code, to convert Buffer to a string, you can use `toString()` method. By default, it will convert to UTF-8 encoding, but other encoding options are possible too, such as ASCII, HEX, or others:
 
 ```js
 const bufFromString = Buffer.from('¿Cómo está?')
@@ -364,7 +364,7 @@ console.log(bufFromHex.toString()) // ¿Cómo está?
 
 ## Object Literal Notation
 
-Node object notation is the same as JavaScript which means it is super readable and compact:
+Node object notation is the same as JavaScript, which means it is super readable and compact:
 
 ```js
 const car = {
@@ -379,7 +379,7 @@ const car = {
 }
 ```
 
-In Node version 8, all the ES2015 (ES6) features available which allows developers to write advanced object literals which are so enhanced that they are more like classes rather than simple ES5 object. For example, you can extend another object, define fields dynamically, invoke `super()` and use shorter syntax for functions: 
+Node version 8 supports all the ES2015 (ES6) features, which allows developers to use new object literal syntax. This ES6 syntax makes defining objects *so* advanced that they resemble classes more than ES5 objects. For example, you can extend another object, define fields dynamically, invoke `super()` and use shorter syntax for functions: 
 
 ```js
 const serviceBase = {
@@ -408,7 +408,7 @@ console.log(accountService) // ready to be used
 
 ## Functions
 
-In Node.js (as well as in JavaScript), functions are *first-class citizens*, and we treat them as variables, because they are objects! Yes, functions can even have properties/attributes. First, let’s learn how to define a function.
+In Node.js (as well as in JavaScript), functions are *first-class citizens*, and we treat them as variables, because they are objects! Yes, functions can even have properties/attributes. First, let’s learn how to define/create a function.
 
 ### Define/Create a Function
 
@@ -430,7 +430,7 @@ const f = function() {
 }
 ```
 
-The new analog of the definition above is the fat arrow function with an added benefit of using `this` safely due to its value always remaining an outer `this`:
+The new ES6 alternative of the anonymous function definition we just gave is a fat arrow function syntax. This new syntax has an added benefit of safer `this` due to its value always remaining an outer `this`:
 
 ```js
 // outer "this"
@@ -441,7 +441,7 @@ const f = () => {
 }
 ```
 
-The following is an example of both approaches:
+The following is an example of both approaches, anonymous and named:
 
 ```js
 const f = function f() {
@@ -459,7 +459,7 @@ f() *//outputs Boo*
 console.log(f.boo) *//outputs 1*
 ```
 
-Note: The `return` keyword is optional. When it is omitted, the function returns `undefined` on invocation. I like to call functions with `return`, expressions (see Function Invocation vs. Expression below).
+Note: The `return` keyword is optional. When it is omitted, the function returns `undefined` on invocation. I like to call functions with `return`, expressions (see upcoming section "Function Invocation vs. Expression").
 
 ### Pass Functions as Parameters
 
@@ -485,7 +485,7 @@ function f() {
 }
 ```
 
-On the other hand, the function invocation looks like
+On the other hand, the function invocation looks like the following:
 
 ```js
 f()
@@ -500,7 +500,7 @@ function f() {
 f()
 ```
 
-A statement looks like
+A statement looks like this:
 
 ```js
 function f(a) {
@@ -508,7 +508,7 @@ function f(a) {
 }
 ```
 
-There's also an implicit `return` when you are using fat arrow function. It works when there's just one statement in a function.
+There's also an implicit `return` when you are using the fat arrow function. It works when there's just one statement in a function:
 
 ```js
 const fWithImplicitReturn = (a,b) => a+b
@@ -516,7 +516,7 @@ const fWithImplicitReturn = (a,b) => a+b
 
 ## Arrays
 
-Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0-based) keys.
+Arrays are also objects that have some special methods inherited from the [Array.prototype](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties) (<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Properties>) global object. Nevertheless, JavaScript arrays are *not* real arrays; instead, they are objects with unique integer (usually 0-based) keys:
 
 ```js
 let arr = []
@@ -554,7 +554,7 @@ let agency = function(ops) {
 }
 ```
 
-With `class` introduced in ES2015 (ES6), things are somewhat easier especially for object-oriented programmers. A class can be extended, defined and instantiated with `extends`, `class` and `new`. 
+With `class` introduced in ES2015 (ES6), things are somewhat easier, especially for object-oriented programmers. A class can be extended, defined, and instantiated with `extends`, `class`, and `new`. 
 
 For example, this base class has constructor and a method:
 
@@ -572,7 +572,7 @@ class baseModel {
 }
 ```
 
-Then we can create new class using the base class. The new class will have all the functionality of a base class from which it inherits and then some more:
+Then we can create a new class using the base class. The new class will have all the functionality of a base class from which it inherits and then some more:
 
 ```js
 class AccountModel extends baseModel {
@@ -614,17 +614,17 @@ These JavaScript/Node.js conventions (with semicolons being an exception) are st
 
 ### Semicolons
 
-Almost all statements in JavaScript and thus Node.js must be terminated with a semicolon. However, there's a automatic semicolon insertion feature in JavaScript interpreters which will follow the rules and insert semicolons for developers.
+Almost all statements in JavaScript and thus Node.js must be terminated with a semicolon. However, JavaScript engines have an automatic semicolon insertion feature. It inserts semicolons for developers by following a set of language rules. As with any programming language, developers should learn the syntax rules. Typing extra symbols is counterproductive. Hence, the use of semicolons is optional and counter-productive. 
 
-Hence, the use of semicolons is optional, except for these cases:
+Learn the rules of ASI and you'll be more productive. Here's my very short and probably not complete version of the rules. Do not use semicolons, except for these cases:
 
 1. In loop constructions such as `for (var i=0; i++; i<n)`
 2. When a new line starts with parentheses or square brace or regular expression, such as when using an immediately invoked function expression (IIFE): `;(function(){...}())`
 3. When doing something weird like empty statements (see [Automatic semicolon insertion in JavaScript](http://2ality.com/2011/05/semicolon-insertion.html))
 
-In this, as well as in my other books, I don't use semicolons. There are a few reasons why. If you use semicolons and forget or omit one, then you code will still work but you'll end up with inconsistency which will create a necessity for a linter or a similar tool to check for your syntax. Let's say you spotted a missing semicolon or saw a warning from a linter, then you need to go to your code and fix it. Why go through all this trouble? 
+In this, as well as in my other best-selling books such as React Quickly, or Full Stack JavaScript, I don't use semicolons. There are a few reasons why. If you use semicolons and forget or omit one, then your code will still work, but you'll end up with inconsistency, which will require a linter or a similar tool to check for your syntax. Let's say you spotted a missing semicolon or saw a warning from a linter, then you need to go to your code and fix it. Why go through all this trouble? 
 
-Semicolon-less code works perfectly fine except for two cases shown above and when you try to write multiple statements on one line. But developers should NOT write multiple statements in one line. That's a job of a bundler/minimizer. The bottom line, I recommend developers focus on their work and not looking for missing semicolons when the language has a feature (Automatic Semicolon Insertion) to make semicolons optional.
+Semicolon-less code works perfectly fine except for two cases shown prior and when you try to write multiple statements on one line. But developers should NOT write multiple statements in one line. That's a job for a bundler/minimizer. The bottom line: I recommend that developers focus on their work and not on looking for missing semicolons when the language has a feature (Automatic Semicolon Insertion) to make semicolons redundant.
 
 ### camelCase
 
@@ -637,7 +637,7 @@ let mainView = new MainView()
 
 ### Naming
 
-`_` and `$` are perfectly legitimate characters for literals (jQuery and Underscore libraries use them a lot). Private methods and attributes start with `_` (it does nothing by itself!).
+`_` and `$` are perfectly legitimate characters for literals (jQuery and Underscore libraries use them a lot). Private methods and attributes start with `_` (it does nothing by itself because it's just a code convention and not something enforced by the language).
 
 ### Commas
 
@@ -650,9 +650,9 @@ const obj = { firstName: "John"
 }
 ```
 
-I recommend to avoid comma-first style. The *erroneous* (in my view) reason for using comma-first style was that it can make a developer work easier. However while it simplifies the removal of the last line, it complicates the removal of the first line. 
+I recommend avoiding comma-first style. The *erroneous* (in my view) reason for using comma-first style is that it can make a developer's work easier. But although it simplifies the removal of the last line, it complicates the removal of the first line. 
 
-Moreover, with ES2017/ES8 developers can use trailing commas in function calls (for arguments) in addition to object literals and arrays. I recommend using traditional style (with or without trailing comma):
+Moreover, with ES2017/ES8 developers can use trailing commas in function calls (for arguments) in addition to object literals and arrays. I recommend using traditional style (with or without the trailing comma). This shows a trailing comma:
 
 ```js
 const obj = { firstName: "John", 
@@ -663,7 +663,7 @@ const obj = { firstName: "John",
 
 ### Indentation
 
-Indentation is usually done using either a tab, four- or two-space indentation, with supporting camps split almost religiously between the two options. I recommend using two spaces because this will allow you to have more code on the screen and believe me, you'll need all the width of your code editor due to nested promises and callbacks.
+Indentation is usually done using either a tab, four- or two-space indentation, with supporting camps split almost religiously between the two options. I recommend using two spaces because it leaves more room on the screen and believe me, you'll need all the width of your code editor due to nested promises and callbacks.
 
 I recommend having the closing curly brackets on the same indentation level as the opening statement. It'll be easier to find the matching brackets. For example, like this:
 
@@ -690,7 +690,7 @@ f(1, 2)
 
 ## Node.js Globals and Reserved Keywords
 
-Despite being modeled after one standard, Node.js and browser JavaScript differ when it comes to globals. As you might know, in browser JavaScript we have a `window` object. However, in Node.js, it is absent (obviously we don’t deal with a browser window), but developers are provided with new objects/keywords:
+Despite being modeled after one standard, Node.js and browser JavaScript differ when it comes to globals. As you may know, in browser JavaScript we have a `window` object. However, in Node.js it is absent (obviously we don’t deal with a browser window), but developers are provided with new objects/keywords:
 
 - `process`
 - `global`
@@ -708,32 +708,32 @@ Each Node.js script that runs is, in essence, a system process. For example, a P
 
 ### Accessing Global Scope in Node.js
 
-Node.js is JavaScript which is a good news for front-end developers who already familiar with JavaScript. You'll learn Node quickly. But there are huge differences when it comes to global objects. In a sense, the `window` object from front-end/browser JavaScript metamorphosed into a combination of `global` and `process` objects. Needless to say, the `document` object, which represents the DOM (Document Object Model) of the web page, is nonexistent in Node.js.
+Node.js is JavaScript, which is a good news for front-end developers who are already familiar with JavaScript. You'll learn Node quickly. But there are huge differences when it comes to global objects. In a sense, the `window` object from front-end/browser JavaScript metamorphosed into a combination of `global` and `process` objects. Needless to say, the `document` object, which represents the DOM (Document Object Model) of the web page, is nonexistent in Node.js.
 
-`global` can be accessed from anywhere. It has special methods including familiar to you `console`, `setTimeout()`, as well as Node-specific `global.process`, `global.require()` and `global.module`.
+`global` can be accessed from anywhere. It has special methods, including the familiar to you `console`, `setTimeout()`, as well as new to you Node-specific `global.process`, `global.require()` and `global.module`.
 
-Node.js has a lot of useful information and methods in `global.process` including but not limited: 
+Node.js has a lot of useful information and methods in `global.process`, including but not limited to the following: 
 
-* `process.pid`: Get this process ID
-* `process.argv`: List command-line argument supplied to this process
-* `process.env`: List environment variables
-* `process.platform`: Get platform name, such as `darwin` for macOS
-* `process.release`: Get this Node release URL
-* `process.versions`: List versions of Google Chrome V8, zlib, uv, etc.
-* `process.stdin()`: Access standard input (for reading)
-* `process.stdout()`: Access standard output (for writing)
-* `process.uptime()`: How long this process is running
-* `process.memoryUsage()`: What is a memory usage
-* `process.kill()`: Terminate another process
-* `process.exit()`: Exit/terminate this process
+* `process.pid`: This process's ID
+* `process.argv`: A list of command-line argument supplied to this process
+* `process.env`: A list of environment variables
+* `process.platform`: Platform name, such as `darwin` for macOS
+* `process.release`: This Node's release URL
+* `process.versions`: A list of versions of Google Chrome V8, zlib, uv, etc.
+* `process.stdin()`: The standard input (for reading)
+* `process.stdout()`: The Standard output (for writing)
+* `process.uptime()`: Time of how long this process is running
+* `process.memoryUsage()`: Resident set size, total heap and used heap memory usage
+* `process.exit()`: Terminating this process
+* `process.kill()`: Termination of another process
 
 ### Exporting and Importing Modules
 
-One of the bad parts of browser JavaScript is that there was no easy way to include other JavaScript file (modules). Browser JavaScript files are supposed to be linked together using a different language (HTML), but everything from an included file is just run without name spacing and dependency management is hard because managing a lot of `<script>` tags and files is not fun. 
+One of the bad parts of browser JavaScript is that there is no easy way to include other JavaScript files (modules), at least not until ES Modules become widely supported. Browser JavaScript files are supposed to be linked together using a different language (HTML), but everything from an included file is just run without name spacing and dependency management is hard because managing a lot of `<script>` tags and files is not fun. 
 
-[CommonJS](http://www.commonjs.org) (<http://www.commonjs.org>) and [RequireJS](http://requirejs.org) (<http://requirejs.org>) solve this problem with the AJAX-y approach. ES6 solved the issue on the standard level, but lacks implementations. Node.js offers modules natively. No tools or hacks needed. Node.js borrowed many things from the browser CommonJS concept but took the implementation steps further than CommonJS. 
+[CommonJS](http://www.commonjs.org) (<http://www.commonjs.org>) and [RequireJS](http://requirejs.org) (<http://requirejs.org>) solve this problem with the AJAX-y approach. ES6 solved the issue on the standard level, but lacks implementations. Node.js offers modules natively. No tools or hacks are needed. Node.js borrowed many things from the browser CommonJS concept but took the implementation steps further than CommonJS. 
 
-Node.js modules are simple to learn and use. They allow of import/export only specific targeted functionality making name spacing easier unlike when you include a browser JavaScript file with a `<script>` tag.
+Node.js modules are simple to learn and use. They allow of import/export only specific targeted functionality, making name spacing easier, unlike when you include a browser JavaScript file with a `<script>` tag.
 
 To export an object in Node.js, use `exports.name = object;`. An example follows:
 
@@ -750,7 +750,7 @@ const messages = {
 exports.messages = messages
 ```
 
-You can use `let` or `var` for `messages` in the module above, but `const` makes more sense since we are not updating this object, and can use an extra safety of `const` (respects the logical scope and prevents re-declaration). `const` will still allow you to modify object properties.
+You can use `let` or `var` for `messages` in the module above, but `const` makes more sense since we are not updating this object, and can use an extra safety of `const`, which respects the logical scope and prevents re-declaration. `const` will still allow you to modify object properties.
 
 While in the file where we import the aforementioned script (assuming the path and the file name is `route/messages.js`), write the following:
 
@@ -758,7 +758,7 @@ While in the file where we import the aforementioned script (assuming the path a
 const messages = require('./routes/messages.js')
 ```
 
-However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in a blog post [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals*) (*<http://webapplog.com/express-js-fundamentals>*) *[2013]*). In this case, `module.exports` is needed:
+However, sometimes it’s more fitting to invoke a constructor, such as when we attach properties to the Express.js app (which is explained in detail in a blog post [*Express.js FUNdamentals: An Essential Overview of Express.js*](*http://webapplog.com/express-js-fundamentals*)   (*<http://webapplog.com/express-js-fundamentals>*) *[2013]*). In this case, `module.exports` is needed:
 
 ```js
 module.exports = (app) => {
@@ -769,7 +769,7 @@ module.exports = (app) => {
 }
 ```
 
-In the file that includes the previous sample module, write
+In the file that includes the previous sample module, write:
 
 ```js
 ...
@@ -797,13 +797,13 @@ const keys = require('./keys.js'),
 ```
 
 
-In addition, for including files it’s advisable to use statements with `__dirname` and `path.join()` to insure the paths work across platforms. For example, to include a file `messages.js` in a `routes` folder which itself is inside a folder where the currently running script is, use:
+In addition, for including files it’s advisable to use statements with `__dirname` and `path.join()` to insure the paths work across platforms. For example, to include a file `messages.js` in a `routes` folder, which itself is inside a folder where the currently running script is, use:
 
 ```js
 const messages = require(path.join(__dirname, 'routes', 'messages.js'))
 ```
 
-Using `path.join()` is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS). You'll also use absolute path which will make `require()` behave in a more robust and predictable manner.
+Using `path.join()` is a recommended approach, because `path.join()` will produce a path with valid slashes (forward or backward depending on your OS). You'll also use absolute path, which will make `require()` behave in a more robust and predictable manner.
 
 Oh yeah, if `require()` points to a folder, Node.js attempts to read the `index.js` file in that folder. For example, the following statement will import file `index.js` in the folder `routes/messages` *if* there's no file `messages.js` in `routes`:
 
@@ -817,9 +817,9 @@ That's not it. There's another special Node variable related to paths.
 
 `__dirname` is an absolute path to the folder with the source code script (a file in which the global variable is called), whereas `process.cwd` is an absolute path to the folder from which the process that runs the script was launched. They are the same in the example of `node program.js`. 
 
-The `cwd` value will be different from `__dirname`, if we started the program from a different folder. For example, for the process `$ node ./code/program.js`, `__dirname` will have `code` but `cwd` not since it'll be one folder above in the directory tree.
+The `cwd` value will be different from `__dirname`, if we started the program from a different folder. For example, for the process `$ node ./code/program.js`, `__dirname` will have `code` but `cwd` wont' because it'll be one folder above in the directory tree.
 
-On POSIX systems (macOS, Linux and its distributions), Node developers can also use `process.evn.PWD` which works similarly to `process.cwd`.
+On POSIX systems (macOS, Linux, and its distributions), Node developers can also use `process.evn.PWD`, which works similarly to `process.cwd`.
 
 ## Browser Application Programming Interface Helpers
 
@@ -861,7 +861,7 @@ In addition, we have `setInterval()`, `setTimeout()`, `forEach()`, and `console`
 
 Unlike other programming technologies, Node.js doesn’t come with a heavy standard library. The core modules of Node.js are a bare minimum, and the rest can be cherry-picked via the npm registry. The core is small but it has enough modules to build almost any networking application. Networking is at the core of Node.js! 
 
-The main (not all) core modules, classes, methods, and events include the following:
+The main (though not all) core modules, classes, methods, and events include the following:
 
 - `http`(<http://nodejs.org/api/http.html#http_http>): Allows to create HTTP clients and servers
 - `util`(<http://nodejs.org/api/util.html>): Has a set of utilities
@@ -922,9 +922,9 @@ There is no need to install or download core modules. To include them in your ap
 const http = require('http')
 ```
 
-Node comes with core modules but most developers rely on the vast ecosystem of community-created  FOSS (free and open-source) modules. These modules often allow developers to not write code because  a module has all the functionality needed. With large number of modules, it's important to find just the right one for the job. The best place to start your search for a module is your favorite search engine such as Google, Bing or DuckDuckGo. A list of noncore modules is found at the following locations:
+Node comes with core modules, but most developers rely on the vast ecosystem of community-created  FOSS (free and open-source) modules. These modules often allow developers to not write code because a module has all the functionality needed. With large number of modules, it's important to find just the right one for the job. The best place to start your search for a module is your favorite search engine such as Google, Bing, or DuckDuckGo. A list of noncore modules is found at the following locations:
 
-- [npm search](https://www.npmjs.com/browse/keyword/search): <https://www.npmjs.com/browse/keyword/search>: The main npm search by npm itself
+- [npm search](https://www.npmjs.org/browse/keyword/search): <https://www.npmjs.com/browse/keyword/search>: The main npm search by npm itself
 - [node-modules.com](http://node-modules.com) (<http://node-modules.com>): Search for npm
 - [npms.io](https://npms.io) (<https://npms.io>): Another search for npm
 
@@ -974,7 +974,7 @@ fs.writeFile('message.txt',
 
 ## Streaming Data in Node.js
 
-*Streaming data* means an application processes the data while it’s still receiving it. Node has supports for streams. This feature is useful for extra large datasets such as video or database migrations.
+*Streaming data* means an application processes the data while it’s still receiving it. Node has supports for streams. This feature is useful for extra large datasets, such as video or database migrations.
 
 Here's a basic example of using streams that reads a file as a stream and outputs the binary file content back to the standard output:
 
@@ -993,7 +993,7 @@ The best thing about npm is that it keeps all the dependencies local, so if modu
 
 The best practice is *not to include* a `node_modules` folder in the Git repository when the project is a module that is supposed to be used in other applications. However, it’s recommended *to include* `node_modules` for deployable applications to prevent breakage caused by unfortunate dependency updates.
 
-**Note**  The npm creator likes to call it `npm` ([lowercase](http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm) (<http://npmjs.org/doc/misc/npm-faq.html#Is-it-npm-or-npm-or-Npm>).
+**Note**  The npm creator likes to call it `npm` ([lowercase](http://bit.ly/2MRRakD) (<http://bit.ly/2MRRakD>).
 
 ## Taming Callbacks in Node.js
 
@@ -1026,11 +1026,11 @@ fs.readdir(source, (err, files) => {
 })
 ```
 
-There’s nothing to be afraid of here as long as two-space indentation is used. ;-) However, callback code can be rewritten with the use of event emitters or promises, or by using the [`async`](https://www.npmjs.com/package/async) library (see chapter 14).
+There’s nothing to be afraid of here as long as two-space indentation is used. ;-) However, callback code can be rewritten with using event emitters or promises, or using the [`async`](https://www.npmjs.com/package/async) library (see Chapter 14).
 
 ## Hello World Server with HTTP Node.js Module
 
-Although Node.js can be used for a wide variety of tasks, it’s used primarily for building networking applications including web apps. Node.js thrives in networking as a result of its asynchronous nature and built-in modules such as `net` and `http`.
+Although Node.js can be used for a wide variety of tasks, it’s used primarily for building networking applications including web apps. Node.js thrives in networks as a result of its asynchronous nature and built-in modules such as `net` and `http`.
 
 Here’s a quintessential Hello World example in which we create a server object, define the request handler (function with `req` and `res` arguments), pass some data back to the recipient, and start up the whole thing (`hello.js`):
 
@@ -1052,7 +1052,7 @@ const http = require('http')
 const port = 3000
 ```
 
-This snippet below creates a server with a callback function which contains the response handler code:
+This snippet below creates a server with a callback function that contains the response handler code:
 
 ```js
 const server = http.createServer((req, res) => {
@@ -1071,7 +1071,7 @@ To output Hello World with the line end symbol, use
 })
 ```
 
-The `req` and `res` arguments have all the information about a given HTTP request and response correspondingly. In addition, `req` and `res` can be used as streams (see previous section).
+The `req` and `res` arguments have all the information about a given HTTP request and response correspondingly. In addition, `req` and `res` can be used as streams (see the previous section).
 
 To make the server accept requests, use the following:
 
@@ -1087,13 +1087,13 @@ From the folder in which you have `server.js`, launch in your terminal the follo
 $ node server.js
 ```
 
-Open [localhost:3000](http://localhost:3000) (<http://localhost:3000>) or [127.0.0.1:3000](http://127.0.0.1:3000) (<http://127.0.0.1:3000>) or any other address you see in the terminal as a result of the `console.log()` function and you should see Hello World in a browser. To shut down the server, press Control+C (on macOS X).
+Open [localhost:3000](http://localhost:3000) (<http://localhost:3000>) or [127.0.0.1:3000](http://127.0.0.1:3000) (<http://127.0.0.1:3000>) or any other address you see in the terminal as a result of the `console.log()` function, and you should see Hello World in a browser. To shut down the server, press Control+C (on macOS X).
 
 **Note**  The name of the main file could be different from `server.js` (e.g., `index.js` or `app.js`). In case you need to launch the `app.js` file, just use `$ node app.js`.
 
 # Debugging Node.js Programs
 
-Modern-day software developers, especially those who use compiled languages such as Java, get accustomed to rich tool sets for debugging purposes. Back in the day, before JavaScript and AJAX apps were starting to gain momentum (~2005–2007), the only way to debug was to put a bunch of `alert()` statements everywhere.
+Modern-day software developers, especially those who use compiled languages such as Java, have gotten accustomed to rich tool sets for debugging purposes. Back in the day, before JavaScript and AJAX apps were starting to gain momentum (~2005–2007), the only way to debug was to put a bunch of `alert()` statements everywhere.
 
 Now, there are amazing environments such as Chrome Developer Tools and Firefox Firebug, and because Node.js has a lot of things in common with the browser JavaScript environment, we have plenty of options for debugging in Node.js, including the following:
 
@@ -1119,7 +1119,7 @@ http.createServer((req, res) => {
 })
 ```
 
-Now, if we run the previous snippet (`hello-debug.js`), just like we did earlier (`$ node hello-debug.js`), nothing changes, because we need to use `$ node debug hello-debug.js`. And only then, the execution halts at the first line, and then again on the next `debugger` statement if we use the `cont` command.
+Now, if we run the previous snippet (`hello-debug.js`), just like we did earlier (`$ node hello-debug.js`), nothing changes, because we need to use `$ node debug hello-debug.js`. And only then the execution will halt at the first line, and then again on the next `debugger` statement if we use the `cont` command.
 
 The main node debug commands are as follows:
 
@@ -1131,7 +1131,7 @@ The main node debug commands are as follows:
 
 The full list of commands is available through the `help` command or on [the official web site](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
 
-So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at <http://localhost:3000> or execute `$ curl "http://localhost:3000/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
+So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line, and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at <http://localhost:3000> or execute `$ curl "http://localhost:3000/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
 
 ## Debugging with Node Inspector
 
@@ -1153,7 +1153,7 @@ $ node-inspector
 
 ***Figure 1-6.** Running the Node Inspector tool*
 
-Now start the program in a new terminal window/tab/session with `--debug` or `--debug-brk` flags (not just `debug`; Figure 1-7). For example:
+Now start the program in a new terminal window/tab/session with `--debug` or `--debug-brk` flags (not just `debug`; see Figure 1-7). For example:
 
 ```
 $ node --debug-brk hello-debug.js
@@ -1169,19 +1169,19 @@ $ node --debug hello-debug.js
 
 ***Figure 1-7.** Running node server in `--debug` mode*
 
-Open <http://127.0.0.1:8080/debug?port=5858> (or http://localhost:8080/debug?port=5858) in Chrome (it must be Chrome and not another browser because Node Inspector uses the Web Developer Tools interface). You should be able to see the program halted at a break point. Clicking the blue play button resumes the execution, as shown in Figure 1-8.
+Open <http://127.0.0.1:8080/debug?port=5858> (or http://localhost:8080/debug?port=5858) in Chrome (it must be Chrome and not another browser because Node Inspector uses the Web Developer Tools interface). You should be able to see the program halted at a breakpoint. Clicking the blue play button resumes the execution, as shown in Figure 1-8.
 
 ![alt](media/image8.png)
 
 ***Figure 1-8.** Resuming execution in Node Inspector*
 
-If we let the server run and open <http://localhost:1337/> in a new browser tab, this action pauses the execution on the second break point, which is inside the request handler. From here, we can use Node Inspector’s right GUI and add a `res` watcher (Figure 1-9), which is way better than the terminal window output!
+If we let the server run and open <http://localhost:1337/> in a new browser tab, this action pauses the execution on the second breakpoint, which is inside the request handler. From here, we can use Node Inspector’s right GUI and add a `res` watcher (Figure 1-9), which is way better than the terminal window output!
 
 ![alt](media/image9.png)
 
-***Figure 1-9.** Inspecting `res` object in Node Inspector*
+***Figure 1-9.** Inspecting the `res` object in Node Inspector*
 
-In addition, we can follow the call stack, explore scope variables, and execute any Node.js command in the console tab (Figure 1-10)!
+In addition, we can follow the call stack, explore scope variables, and execute any Node.js command in the console tab (see Figure 1-10)!
 
 ![alt](media/image10.png)
 
@@ -1215,30 +1215,30 @@ For most developers, a simple code editor such as Sublime Text 2, TextMate, or E
 
 ![alt](media/image13.png)
 
-***Figure 1-13.** Webstorm IDE work space*
+***Figure 1-13.** WebStorm IDE work space*
 
 # Watching for File Changes
 
-If you are familiar with tools that are watching for file changes and restarting Node apps, or it’s not an issue for you, feel free to skip this section. All other developers must pay attention. 
+If you are familiar with tools that are watching for file changes and restarting Node apps, or if it’s not an issue for you, feel free to skip this section. All other developers must pay attention. 
 
 Node.js applications are stored in memory, and if we make changes to the source code, we need to restart the process (i.e., node). We do this manually by killing the process and starting a new one (Control+C on macOS and Ctrl+C on Windows). 
 
-However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch`(<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) method from the core Node.js `fs` module and restart servers when we save changes from an editor:
+However, it’s faster for development if this constant sequence of restarts is automated. There are brilliant tools that leverage the `watch` method (<http://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener>) from the core Node.js `fs` module and restart servers when we save changes from an editor:
 
-- *[node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>)*: A tool to restart your Node servers
-- *[nodemon](https://npmjs.org/package/nodemon) (<https://npmjs.org/package/nodemon>)*: Another tool to restart your Node servers
-- *[supervisor](https://npmjs.org/package/supervisor) (<https://npmjs.org/package/supervisor>)*: A tool which was used in production to restart your Node servers but which can be used in development as well
-- *[pm2-dev](http://npmjs.org/pm2) (<http://npmjs.org/pm2>)*: A development version of the pm2 tool
-- *[forever](http://npmjs.org/forever) (<http://npmjs.org/forever>)*: usually used in production (we examine this topic in Chapter 11)
+- *[node-dev](https://npmjs.org/package/node-dev) (<https://npmjs.org/package/node-dev>)*: A development tool to restart your Node servers
+- *[nodemon](https://npmjs.org/package/nodemon) (<https://npmjs.org/package/nodemon>)*: Another development tool to restart your Node servers
+- *[supervisor](https://npmjs.org/package/supervisor) (<https://npmjs.org/package/supervisor>)*: A tool which was used in production to restart your Node servers, but which can be used in development as well
+- *[pm2-dev](http://npmjs.org/package/pm2) (<http://npmjs.org/pm2>)*: A development version of the production-level pm2 tool
+- *[forever](http://npmjs.org/package/forever) (<http://npmjs.org/forever>)*: A production tool similar to pm2 but older (we examine this topic in Chapter 11)
 
 Any one of these tools is as easy to use as installing globally with `$ npm install -g node-dev`, then running the Node.js script with `$ node-dev program.js`. Just replace `node-dev` with another module name. &#x263A;
 
-For a comparison between these tools, refer to [Comparison: Tools to Automate Restarting Node.js Server After Code Changes](http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev) (<http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev>)
+For a comparison between these tools, refer to [Comparison: Tools to Automate Restarting Node.js Server After Code Changes](http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev) (<http://strongloop.com/strongblog/comparison-tools-to-automate-restarting-node-js-server-after-code-changes-forever-nodemon-nodesupervisor-nodedev>).
 
-**Tip**  It’s good to know that Express.js reloads a template file for every new request by default. So, no server restart is necessary. However, we can cache templates by enabling the `view cache` setting. For more Express.js setting, take a look at Pro Express.js 4 (Apress, 2014).
+**Tip** It’s good to know that Express.js reloads a template file for every new request by default. So, no server restart is necessary. However, we can cache templates by enabling the `view cache` setting. For more on Express.js setting, take a look at one of the best books I ever wrote Pro Express.js 4 (Apress, 2014) at <http://amzn.to/1D6qiqk>.
 
 # Summary
 
-In this chapter, we explored Installing Node.js and npm, and launching Node.js scripts from the command line. We also looked at the essential concepts of Node.js syntax and the platform. Last, lists of Node.js IDEs and libraries for development were provided.
+In this chapter, we explored Installing Node.js and npm, and launching Node.js scripts from the command line. We also looked at the essential concepts of Node.js syntax and the platform. Lastly, I provided the lists of Node.js IDEs and libraries for development were provided.
 
 In the next chapter, we dive deep into using the most popular Node.js framework for creating web apps.
