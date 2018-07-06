@@ -4,7 +4,7 @@ Chapter 10
 
 Getting Node.js apps to a production-ready state is probably the most unexplored and skipped topic in the Node.js literature. The reason could be the lack of expertise in production deployments or the vast number of options and edge cases. However, getting apps to the production level is one of the most important topics in this entire book in my humble opinion.
 
-Yes, the apps differ in structures, frameworks they use, and goals they try to achieve; however, there are a few commonalities worth knowing about, for example, environmental variables, multithreading, logging and error handling. So, in this chapter we cover the following topics:
+Yes, the apps differ in structures, the frameworks they use, and the goals they try to achieve; however, there are a few commonalities worth knowing about—for example, environmental variables, multithreading, logging, and error handling. So, in this chapter, we cover the following topics:
 
 -   Environment variables
 -   Express.js in production
@@ -15,14 +15,14 @@ Yes, the apps differ in structures, frameworks they use, and goals they try to a
 -   Multithreading with Cluster2
 -   Event logging and monitoring
 -   Building tasks with Grunt
--   Locking Dependencies
+-   Locking dependencies
 -   Git for version control and deployments
 -   Running tests in Cloud with TravisCI
 
 Environment Variables
 =====================
 
-Before deployment to the production environment, it’s good to prepare our app’s code. Let’s start with information that needs to be private and can’t be shared in a version control system. Sensitive information such as API keys, passwords, and database URIs are best stored in [environment variables](http://en.wikipedia.org/wiki/Environment_variable) (<http://en.wikipedia.org/wiki/Environment_variable>), not in the source code itself. Node.js makes it fairly easy to access these variables:
+Before deployment to the production environment, it’s good to prepare our app’s code. Let’s start with information that needs to be private and can’t be shared in a version control system. Sensitive information such as API keys, passwords, and database URIs are best stored in environment variables, not in the source code itself. Node.js makes it fairly easy to access these variables:
 
 ```js
 console.log (process.env.NODE_ENV,
@@ -43,7 +43,7 @@ Typically, the environment variable setting is a part of the deployment or opera
 Express.js in Production
 ========================
 
-In Express.js, use if/else statements to check for `NODE_ENV` values to use different level of server logs. For development we want more information but in production stack and exceptions might reveal a vulnerability so we hide them:
+In Express.js, use if/else statements to check for `NODE_ENV` values to use different levels of server logs. For development, we want more information, but in production, stack and exceptions might reveal a vulnerability, so we hide them:
 
 ```js
 const errorHandler = require('errorhandler')
@@ -57,21 +57,21 @@ if (process.env.NODE_ENV === 'development') {
 }
 ```
 
-You might be wondering, where this mystical and mysterious `process.env.NODE_ENV` comes from. Very easy. It is an environment variable and as with all other environment variables, developers can set them outside, in the shell (bash or zsh or other) environment. The environment variables are set with `KEY=VALUE` syntax or prefixed with `export KEY=VALUE` when set for the duration of the entire shell session. For example, to run the server in a production mode, just set an environment variable to production:
+You might be wondering, where this mystical and mysterious `process.env.NODE_ENV` comes from. Very easy. It is an environment variable, and as with all other environment variables, developers can set them outside, in the shell (bash or zsh or other) environment. The environment variables are set with `KEY=VALUE` syntax or prefixed with `export KEY=VALUE` when set for the duration of the entire shell session. For example, to run the server in a production mode, just set an environment variable to production:
 
 ```
 $ NODE_ENV=production node app.js
 ```
 
-Notice that the env var and the command where on the same command or same line? You must have them in one command. If you want to set the environment variable once for multiple commands, then `export` is your friend:
+Notice that the env var `NODE_ENV` and the command `node` were on the same command and line (unless you continue the command on a new line with `\`). You must have them in one command. If you want to set the environment variable once for multiple commands, then `export` is your friend:
 
 ```
 $ export NODE_ENV=production
 $ node app.js
 ```
 
-**Note** By default, Express.js falls back to development mode as we see in the [source code](<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) 
-(<https://github.com/visionmedia/express/blob/0719e5f402ff4b8129f19fe3d0704b31733f1190/lib/application.js#L48>) (<http://bit.ly/1l7UEi6>). Thus, set the production environment variable when in production environment.
+**Note** By default, Express.js falls back to development mode as we see in the [source code](<http://bit.ly/1l7UEi6>) 
+(<http://bit.ly/1l7UEi6>). Thus, set the `NODE_ENV` environment variable to `production` when in the production environment.
 
 Let's talk about sessions now. When using in-memory session store (the default choice), the data can’t be shared across different processes/servers (which we want in production mode). Conveniently, Express.js and Connect notify us about this as we see in this [source code](http://bit.ly/1nnvvhf) (<http://bit.ly/1nnvvhf>) with this message:
 
@@ -81,7 +81,7 @@ designed for a production environment, as it will leak
 memory, and will not scale past a single process.
 ```
 
-What we need here is a single source of truth. One location where all the session data is store and can be accessed by multiple Node servers. This problem is solved easily by using a shared Redis instance as a session store. For example, for Express.js, execute the following:
+What we need here is a single source of truth—one location where all the session data is stored and can be accessed by multiple Node servers. This problem is solved easily by using a shared Redis instance as a session store. For example, for Express.js, execute the following:
 
 ```js
 const session = require('express-session')
@@ -93,7 +93,7 @@ app.use(session({
 }))
 ```
 
-The secret is just some random string to make hacking of the session harder. Ideally you would take it from environment variable to make it not be in the source code.
+The secret is just some random string to make hacking of the session harder. Ideally, you would take it from an environment variable to make it not be in the source code:
 
 ```js
 app.use(session({
@@ -102,7 +102,7 @@ app.use(session({
 }))
 ```
 
-The more advanced example with session options which includes a special key and cookie domain is as follows:
+Let me give you a more advanced example with session options that includes a special key and cookie domain:
 
 ```js
 const SessionStore = require('connect-redis')
@@ -120,13 +120,10 @@ app.use(session({
 
 Options for `connect-redis` are `client`, `host`, `port`, `ttl`, `db`, `pass`, `prefix`, and `url`. For more information, please refer to the official `connect-redis` documentation (<https://github.com/visionmedia/connect-redis>) (<https://github.com/visionmedia/connect-redis>).
 
-
-
-
 Error Handling
 ==============
 
-As a rule of thumb, when readying your code for production make sure to listen to *all* error events from `http.Server` and `https.Server`, i.e., always have `error` event listeners doing something like this:
+As a rule of thumb, when readying your code for production, make sure to listen to *all* error events from `http.Server` and `https.Server`, i.e., always have `error` event listeners doing something like this:
 
 ```js
 server.on('error', (err) => {
@@ -135,7 +132,7 @@ server.on('error', (err) => {
 })
 ```
 
-Then, have a catchall event listener (`uncaughtException`) for unforeseen cases. This even is the *last* step before the app will crash, terminate the process and burn your computer to ashes. Do not try to resume a normal operation when you have this event. Log,save work (if you have anything left) and exit like this:
+Then have a catchall event listener (`uncaughtException`) for unforeseen cases. This event is the *last* step before the app will crash, terminate the process, and burn your computer to ashes. Do not try to resume a normal operation when you have this event. Log, save work (if you have anything left), and exit like this:
 
 ```js
 process.on('uncaughtException', (err) => {
@@ -216,7 +213,7 @@ At a maximum, you can implement text message alerts effortlessly using the Twili
 Multithreading with Cluster
 ===========================
 
-There are a lot of opinions out there against Node.js that are rooted in the myth that Node.js-based systems *have* to be single threaded. Although a single Node.js process *is* single threaded, nothing can be further from the truth about the systems. And with the core `cluster` module (<http://nodejs.org/api/cluster.html>), we can spawn many Node.js processes effortlessly to handle the system’s load. These individual processes use the same source code and they can listen to the same port. Typically, each process uses one machine's CPU. There’s a master process that spawns all other processes and, in a way, controls them (can kill, restart, and so on).
+There are a lot of opinions out there against Node.js that are rooted in the myth that Node.js-based systems *have* to be single-threaded. Although a single Node.js process *is* single-threaded, nothing could be further from the truth about the systems. And with the core `cluster` module (<http://nodejs.org/api/cluster.html>), we can spawn many Node.js processes effortlessly to handle the system’s load. These individual processes use the same source code, and they can listen to the same port. Typically, each process uses one machine's CPU. There’s a master process that spawns all other processes and, in a way, controls them (it can kill, restart, and so on).
 
 Here is a working example of an Express.js (version 4.x or 3.x) app that runs on four processes. At the beginning of the file, we import dependencies:
 
@@ -227,7 +224,7 @@ const numCPUs = require('os').cpus().length
 const express = require('express')
 ```
 
-The `cluster` module has a property that tells us whether the process is master or child (master controls children). We use it to spawn four workers (the default workers use the same file, but this can be overwritten with `setupMaster` (<http://nodejs.org/docs/v0.9.0/api/cluster.html#cluster_cluster_setupmaster_settings>)). In addition, we can attach event listeners and receive messages from workers (e.g., `kill`).
+The `cluster` module has a property that tells us whether the process is master or child (master controls children). We use it to spawn four workers (the default workers use the same file, but devs can overwrite that with `setupMaster` (<http://nodejs.org/docs/v0.9.0/api/cluster.html#cluster_cluster_setupmaster_settings>)). In addition, we can attach event listeners and receive messages from workers (e.g., `kill`).
 
 ```js
 if (cluster.isMaster) {
@@ -270,20 +267,20 @@ When we CURL with `$ curl http://localhost:3000`, there are different processes 
 
 ![alt](media/image2.png)
 
-***Figure 10-2.** Server response is rendered by different processes*
+***Figure 10-2.** Server response is rendered by different processes*.
 
-Multithreading with pm2
+Multithreading with `pm2`
 ============================
 
-Achieving multithreading with pm2 is even simpler than with cluster because there's no need to modify the source code. pm2 will pick up your server.js file and fork it into multiple processes. Each process will be listening on the same port so your system will have load balanced between the processes. pm2 goes into the background because it works as a service. You can name each set of processes, view, restart, or stop them.
+Achieving multithreading with `pm2` is even simpler than with cluster because there's no need to modify the source code. `pm2` will pick up your `server.js` file and fork it into multiple processes. Each process will be listening on the same port, so your system will have load balanced between the processes. `pm2` goes into the background because it works as a service. You can name each set of processes, view, restart, or stop them.
 
-To get started with pm2, first you need to install it. You can do it globally on your production VM:
+To get started with `pm2`, first you need to install it. You can do it globally on your production VM:
 
 ```
 npm i -g pm2
 ```
 
-Once you have pm2, use start command with the option `-i 0` which means automatically determine the number of CPUs and launch that many processes. Here's an example of launching multithreaded server from `app.js`:
+Once you have `pm2`, use `start` command with the option `-i 0`, which means automatically determine the number of CPUs and launch that many processes. Here's an example of launching a multithreaded server from `app.js`:
 
 ```
 pm2 start -i 0 app.js
@@ -309,30 +306,30 @@ pm2 start ./hello-world.js -i 0 --name "node-app"
 
 and then restart or stop only that app by its name.
 
-What's good about pm2 is that you can you it for development too, because when you install pm2 with npm, you get `pm2-dev` command. The way it works is very similar to `nodemon` or `node-dev`. It will monitor for any file changes in the project folder and restart the Node code when needed. 
+What's good about pm2 is that you can use it for development too, because when you install pm2 with npm, you get the `pm2-dev` command. The way it works is very similar to `nodemon` or `node-dev`. It will monitor for any file changes in the project folder and restart the Node code when needed. 
 
-For Docker containers, use `pm2-docker`. It has some special features which make running Node inside of a container better. To get the `pm2-docker` command, simply install `pm2` with npm globally as was shown before. 
+For Docker containers, use `pm2-docker`. It has some special features that make running Node inside of a container better. To get the `pm2-docker` command, simply install `pm2` with npm globally, as was shown before. 
 
 Event Logging and Monitoring
 ============================
 
 When things go south (e.g., memory leaks, overloads, crashes), there are two things software engineers can do:
 
-1.  Monitor via dashboard and health statuses (monitoring and REPL).
+1.  Monitor via dashboard and health statuses (monitoring and REPL)
 2.  Analyze postmortems after the events have happened (Winston
-    and Papertrail).
+    and Papertrail)
 
 Monitoring
 ----------
 
 <span id="monitor" class="anchor"></span>When going to production, software and development operations engineers need a way to get current status quickly. Having a dashboard or just an endpoint that spits out JSON-formatted properties is a good idea, including properties such as the following:
 
--   `memoryUsage`: memory usage information
--   `uptime`: number of seconds the Node.js process is running
--   `pid`: process ID
--   `connections`: number of connections
--   `loadavg`: load average
--   `sha`: Secure Hash Algorithm (SHA) of the Git commit deploy and /or
+-   `memoryUsage`: Memory usage information
+-   `uptime`: Number of seconds the Node.js process is running
+-   `pid`: Process ID
+-   `connections`: Number of connections
+-   `loadavg`: Load average
+-   `sha`: Secure Hash Algorithm (SHA) of the Git commit deploy and/or
     version tag of the deploy
 
 Here's an example of the Express.js route `/status`:
@@ -433,9 +430,9 @@ Then, connect to the remote machine by using Secure Shell (SSH). Once on the rem
 $ telnet /tmp/repl-app-azat
 ```
 
-You should be prompted with a standard &gt;, which means you’re in the REPL.
+You should be prompted with a more sign (`>`), which means you’re in the REPL.
 
-Or, if you want to connect to the remote server right away, i.e., by-passing the SSH step, you can modify the code to this:
+Or, if you want to connect to the remote server right away, i.e., bypassing the SSH step, you can modify the code to this:
 
 ```js
 const repl = require('repl')
@@ -458,7 +455,7 @@ Winston
 
 Winston provides a way to have one interface for logging events while defining multiple transports, e.g., email, database, file, console, Software as a Service (SaaS), and so on. In other words, Winston is an abstraction layer for the server logs.
 
-The list of transports supported by Winston includes lots of good services: [Loggly](https://www.loggly.com) (<https://www.loggly.com>), Riak, MongoDB, SimpleDB, Mail, Amazon SNS, Graylog2, Papertrail (we used it at Storify.com for much success so that we got aquired by a bigger company and it's now a part of Adobe), Cassandra and you can write to console and file too!
+The list of transports supported by Winston includes lots of good services: [Loggly](https://www.loggly.com) (<https://www.loggly.com>), Riak, MongoDB, SimpleDB, Mail, Amazon SNS, Graylog2, Papertrail, Cassandra, and you can write to console and file too! (We used Papertrail at Storify.com to debug and it went so well that later we got acquired by a bigger company, and now Storify is a part of Adobe.)
 
 It’s easy to get started with Winston. Install it into your project:
 
@@ -497,12 +494,12 @@ Papertrail App for Logging
 [Papertrail](https://papertrailapp.com) (<https://papertrailapp.com>) is a SaaS that provides centralized storage and a web GUI to search and analyze logs. To use Papertrail with the Node.js app, do the following:
 
 1.  Write logs to a file and [`remote_sync`](https://github.com/papertrail/remote_syslog)
-    (<https://github.com/papertrail/remote_syslog>) them to Papertrail.
+    (<https://github.com/papertrail/remote_syslog>) them to Papertrail
 2.  Send logs with [`winston`](https://github.com/flatiron/winston#working-with-transports)
     (<https://github.com/flatiron/winston#working-with-transports>),
     which is described earlier, and [winston-papertrail](https://github.com/kenperkins/winston-papertrail)
-    (<https://github.com/kenperkins/winston-papertrail>) directly to
-    the service.
+    (<https://github.com/kenperkins/winston-papertrail>), directly to
+    the service
 
 Building Tasks with Grunt
 =========================
@@ -515,7 +512,7 @@ Install Grunt globally with npm:
 $ npm install -g grunt-cli
 ```
 
-Grunt uses `Gruntfile.js` to store its tasks. For example,
+Grunt uses `Gruntfile.js` to store its tasks. For example:
 
 ```js
 module.exports = function(grunt) {
@@ -542,7 +539,7 @@ module.exports = function(grunt) {
 }
 ```
 
-`package.json` should have plugins required by the `grunt.loadNpmTasks()` method. For example,
+`package.json` should have plugins required by the `grunt.loadNpmTasks()` method. For example:
 
 ```js
 {
@@ -577,7 +574,7 @@ And then the `coffee` task:
         files: {
 ```
 
-The first parameter is the destination and the second is `source`:
+The first parameter is the destination, and the second is `source`:
 
 ```js
           'source/<%= pkg.name %>.js': ['source/**/*.coffee']
@@ -654,7 +651,7 @@ grunt.loadNpmTasks('grunt-contrib-concat')
 grunt.loadNpmTasks('grunt-contrib-coffee')
 ```
 
-Last, define the default task as sequence of subtasks:
+Lastly, define the default task as a sequence of subtasks:
 
 ```js
   grunt.registerTask('default', [ 'jshint', 'coffee','concat', 'uglify'])
@@ -673,9 +670,22 @@ The results of running `$ grunt `are shown in Figure 10-3.
 A Brief on Webpack
 =========================
 
-Someone might argue that a better alternative to Grunt might be Webpack. Maybe. Let's see how to get started with Webpack. You need to have `webpack.config.js` file in your project root. Luckily this file is not of some weird format such as YML or JSON but a good old Node module, that's we start `webpack.config.js` with `module.exports`. As the bare minimum, you would have a starting point from which Webpack fill unfold all the source code and its dependencies. This is `entry`. And you would have `output` which is the bundled and compiled file. Everything else is just extra and adds extra transpilers, source maps, and other features. 
+Someone might argue that a better alternative to Grunt might be Webpack. Maybe. Let's see how to get started with Webpack. You need to have the `webpack.config.js` file in your project root. Luckily, this file is not of some weird format such as YML or JSON but of a good old Node module. So we start the `webpack.config.js` implementation with `module.exports`. 
 
-For example, here's a Webpack configuration file from my new book on React.js called React Quickly. In this config file, I point to the source file `app.jsx` which is in the `jsx` folder. I write the resulting bundle file into the folder `js`. This bundle file named `bundle.js`. It comes with source maps `bundle.map.js` because I included the `devtool` setting. `module` ensures that my JSX (a special language designed just for React) is converted into regular JavaScript. I use Babel for that via the library called `babel-loader`.
+At a bare minimum, you would have a starting point from which Webpack will unfold all the source code and its dependencies. This is `entry`. And you would have `output` that is the bundled and compiled file. Everything else is just extra and adds extra transpilers, source maps, and other features. 
+
+```js
+module.exports = {
+  entry: "./jsx/app.jsx",
+  output: {
+    path: __dirname + '/js',
+    filename: "bundle.js"
+  },
+  // ... More configurations
+}
+```
+
+For example, here's a Webpack configuration file from my new book on React.js called React Quickly (Manning, 2017) (<http://bit.ly/1RbD6l6>). In this config file, I point to the source file `app.jsx`, which is in the `jsx` folder. I write the resulting bundle file into the folder `js`. This bundle file is named `bundle.js`. It comes with source maps `bundle.map.js` because I included the `devtool` setting. `module` ensures that my JSX (a special language designed just for React) is converted into regular JavaScript. I use Babel for that via the library called `babel-loader`. Take a look at the entire config file:
 
 ```js
 module.exports = {
@@ -701,20 +711,19 @@ module.exports = {
 }
 ```
 
-The command to install webpack locally is `npm i webpack -ES` (or without `S` if you are using npm v5). Then execute the bundling/compilation with `node_modules/.bin/webpack`. As with other tools, I do not recommend installing Webpack globally because that might lead to conflicts between versions.
+The command to install Webpack locally is `npm i webpack -ES` (or without `S` if you are using npm v5+). Then execute the bundling/compilation with `node_modules/.bin/webpack`. As with other tools, I do not recommend installing Webpack globally because that might lead to conflicts between versions.
 
-So Webpack by default will look for the `webpack.config.js` file. Of course you can name your filer other than `webpack.config.js` but in this case you would have to tell Webpack what file to use. You can do so with the option `--config` such as in `node_modules/.bin/webpack --config my-weird-config-filename-example.config.js`. 
+So Webpack by default will look for the `webpack.config.js` file. Of course, you can name your file something other than `webpack.config.js`, but in this case you would have to tell Webpack what file to use. You can do so with the option `--config`, such as in `node_modules/.bin/webpack --config my-weird-config-filename-example.config.js`. 
 
-There's also a `watch` option which will rebuild the bundle file on any file change in the source. Just add `--watch` to the `webpack` command.
+There's also a `watch` option that will rebuild the bundle file on any file change in the source. Just add `--watch` to the `webpack` command.
 
+The way webpack works is by using loaders and plugins. What's the difference? Plugins are more powerful, while loaders are more simplistic. For example, `babel-loader` is a loader that converts JSX into regular JavaScript. Contrary, the Hot Module Replacement (HMR) plugin is a plugin that enables partial updates on the Webpack server by sending chunks of data on WebSockets. 
 
-The way webpack works is that it uses loaders and plugins. What's the difference? Plugins are more powerful and loaders are very simplistic. For example, `babel-loader` is a loader which converts JSX into regular JavaScript. Hot Module Replacement (HMR) plugin is a plugin which enables partial updates on the Webpack server by sending chunks of data on WebSockets. 
+Speaking of HMR. It's very cool and awesome. It can save you a lot of time. The idea is that you can modify your front-end app partially without losing app state. For example, after logging in, performing a search, and clicking a few times, you are deep down in your front-end application looking at a detailed view of some item. Without HMR, you have to perform this entire process each time you want to see a change in your code appear. Log in, enter search, find item, click, click, click. You get the idea. With HMR, you just edit code, save the file, and boom. 💥 Your app has the change (or not) at the exact same view. In other words, your app retains state. Hot Module Replacement is a wonderful feature. 
 
-Speaking of HMR. It's very cool and awesome. It can save you a lot of time. The idea is that you can modify your front-end app partially without losing app state. For example, after logging in, performing search and clicking a few times you are deep down in your front-end application looking at a detailed view of some item. Without HMR you have to perform this entire process each time you want to see a change in your code appear. Log in, enter search, find item, click, click, click. You got the idea. With HMR, you just edit code, save the file and boom. Your app has the change (or not) at the exact same view. In other words, your app retains state. Hot Module Replacement is a wonderful feature. 
+You want to use webpack dev server for HMR. This dev server is built on Express, by the way. For an HMR guide, see [this documentation](https://webpack.js.org/concepts/hot-module-replacement) because Webpack HMR changes fast and by the time you read this my example may be out-of-date. 
 
-You might want to use webpack dev server for HMR. This dev server is built on Express by the way. For a HMR guide, see [this documentation](https://webpack.js.org/concepts/hot-module-replacement) because by the time you read this my example might be out-of-date anyway. 
-
-Loaders are awesome too. Example of loaders include libraries to work with CSS, images and of course JavaScript. For example `css-loader` will allow to use `import` and `require` in the Node code to import CSS code while `style-loader` will inject a CSS style into the DOM with a `<script>` tag. Crazy huh?
+Loaders are awesome too. Example of loaders include libraries to work with CSS, images, and of course JavaScript. For example, `css-loader` will allow to use `import` and `require` in the Node code to import CSS code, while `style-loader` will inject a CSS style into the DOM with a `<script>` tag. Crazy, huh?
 
 The bottom line is that Webpack is powerful. Use it. 
 
