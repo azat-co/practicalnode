@@ -730,25 +730,25 @@ The bottom line is that Webpack is powerful. Use it.
 Locking Dependencies
 ========
 
-Using `^` or `*` or leaving the version field in package.json blank will lead to higher versions of dependencies down the road when after some time you or someone else (or automated CI/CD server) will execute `npm install`.
+Consider this scenario: we use Express.js that depends on, say, Pug of the latest version (*). Everything works until, unknown to us, Pug is updated with breaking changes. Express.js now uses Pug that breaks our code. No bueno.
 
-Not-locking versions is a common convention for npm modules (as discussed in chapter 12), i.e., they don’t lock the versions of *their* dependencies. So, as you might guess, this may lead to trouble because when dependency (or a dependency of a dependency) gets a breaking change it's us developers who got caught skinny dipping.
+Not-locking versions is a common convention for npm modules (as discussed in Chapter 12), i.e., they don’t lock the versions of *their* dependencies. So, as you might guess, this may lead to a trouble because when a dependency (or a dependency of a dependency) gets a breaking change, our apps won't work.
 
-Consider this scenario: We use Express.js that depends on, say, Pug of the latest version (*). Everything works until, unknown to us, Pug is updated with breaking changes. Express.js now uses Pug that breaks our code. No bueno.
+Using `^` or `*` or leaving the version field in `package.json` blank will lead to higher versions of dependencies down the road when, after some time, you or someone else (or automated CI/CD server) executes `npm install`.
 
-One solution is to commit `node_modules`! And don't send me hate mail (I autodelete it anyway). We committed `node_modules` to Git at DocuSign and it worked fine. Look how good the new DocuSign web app is. 
+One solution is to commit `node_modules`. Why do this? Because, even if we lock dependency A in our `package.json`, most likely this module A has a wild card `*` or version range in its `package.json`. Therefore, our app might be exposed to unpleasant surprises when an update to the A module dependency breaks our system.
 
-Why do this? Because, even if we lock dependency A in our `package.json`, most likely this module A has a wild card `*` or version range in its `package.json`. Therefore, our app might be exposed to unpleasant surprises when an update to the A module dependency breaks our system.
+And don't send me hate mail (I delete it anyway). We committed `node_modules` to Git at DocuSign and it worked fine. We slept well at night knowing that if npm goes down, which happened frequently, we can re-deploy at any moment. (And look how good and beautiful the new DocuSign web app is now: <http://bit.ly/2j2rWEF>.)
 
-Comitting module to your version control system (Git, SVN) is still a good choice because 5, 10 or 15 years down the road, when your production application is still in use, npm may not be around. It's just a startup and still not profitable. Or npm registry may become corrupted, it's just CoughDB after all. Or the library maintainers can decide to remove the library that you rely on from their repository. [left pad unpublish broke half the web](https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos). Or the version you use might be removed. Or someone may put some malicious code into a dependency your are using or the Internet in your area might be down. Or the npm v 16 will be incompatible with your code (very likely since last few npm releases were making drastic changes and breaking a lot of good projects such as Create React Native App which is still incompatible with npm v5 after many months since the npm 5 release). Or the aliens might cut down the wire and your `npm i` won't reach npmjs.org. Having your own repository and not depending on npm is a better choice (consider Nexus or Artifactory as well).
+Committing modules to your version control system (Git, SVN) is still a good choice because 5, 10, or 15 years down the road, when your production application is still in use, npm may not be around. It's just a startup and is still not profitable. Or npm registry may become corrupted—it's just CoughDB after all. Or the library maintainers can decide to remove the library that you rely on from their repository. ([`left-pad` unpublish broke half the web](https://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos)). Or the version you use might be removed. Or someone may put some malicious code into a dependency you're using, or the Internet in your area might be down. Or npm version 16 will be incompatible with your code (very likely, since last few npm releases made drastic changes and broke a lot of good projects, such as Create React Native App which is still incompatible with npm v5 many months after the npm 5 release). Or the aliens might cut the wire, and your `npm i` won't reach npmjs.org. Having your own repository and not depending on npm is a better choice. Consider private repositories with Nexus or Artifactory as well.
 
-There's a significant drawback in committing modules. It is that binaries often need to be rebuilt on different targets (e.g., macOS vs. Linux). So, by skipping `$ npm install` and not checking binaries, development operations engineers have to use `$ npm rebuild` on targets. Of course the size of module can blow up your Git repo drastically. 
+There's a significant drawback in committing modules: binaries often need to be rebuilt on different targets (e.g., macOS vs. Linux). So, by skipping `$ npm install` and not checking binaries, development operations engineers have to use `$ npm rebuild` on targets. Of course, the size of the module can blow up your Git repo drastically. 
 
 The same problem might be (somewhat better) mitigated by using `$ npm shrinkwrap` ([official docs](https://www.npmjs.org/doc/cli/npm-shrinkwrap.html)). This command creates `npm-shrinkwrap.json`, which has *every* subdependency listed/locked at the current version. Now, magically, `$ npm install` skips `package.json` and uses `npm-shrinkwrap.json` instead!
 
 When running Shrinkwrap, be careful to have all the project dependencies installed and to have only them installed (run `$ npm install` and `$ npm prune` to be sure). For more information about Shrinkwrap and locking versions with `node_modules`, see the article by core Node.js contributors: “[Managing Node.js Dependencies with Shrinkwrap](http://blog.nodejs.org/2012/02/27/managing-node-js-dependencies-with-shrinkwrap/).”
 
-In version of npm 5, a new file created automatically. It's called `package-lock.json`. It has all the dependencies with their exact versions saved. No chance for a screw up. The `package-lock.json` file could look like this:
+In version of npm 5, a new file is created automatically. It's called `package-lock.json`. It has all the dependencies with their exact versions saved. No chance for a screwup. The `package-lock.json` file could look like this:
 
 ```json
 {
@@ -780,23 +780,23 @@ In version of npm 5, a new file created automatically. It's called `package-lock
       },
 ```      
 
-When there's `package-lock.json`, npm will use that file to reproduce `node_modules`. `npm-shrinkwrap.json` is backwards compatible with npm v2-4 and it takes precedence over `package-lock.json` which is actually shouldn't be published to npm if you are publishing an npm module (see chapter 12 on publishing npm modules). Another difference is that `package-lock.json` is opt-out since it's the default in version 5 while `npm-shrinkwrap.json` is opt-in since you have to execute an extra command to generate it (`npm shrinkwrap`). For official explanation, see <https://docs.npmjs.com/files/package-locks>.
+When there's `package-lock.json`, npm will use that file to reproduce `node_modules`. `npm-shrinkwrap.json` is backwards-compatible with npm v2-4 and it takes precedence over `package-lock.json`, which developers actually shouldn't publish to npm if they are publishing an npm module (see Chapter 12 on publishing npm modules). Another difference is that `package-lock.json` is opt-out, since it's the default in version 5, while `npm-shrinkwrap.json` is opt-in, since you have to execute an extra command to generate it (`npm shrinkwrap`). For an attempt at explanation, see the official docs at <https://docs.npmjs.com/files/package-locks>.
 
-Are you confused? Here's my rule of thumb: for your own apps, use `package-lock.json` because it's automatic (only in npm v5) or `npm-shrinkwrap.json` to be on a safer side. Commit them to Git or just commit the entire `node_modules`. For the npm modules which you publish don't lock the versions at all. 
+Are you confused when to use lock and when shrinkwrap? Here's my rule of thumb: for your own apps, use `package-lock.json` because it's automatic (only in npm v5) or `npm-shrinkwrap.json` to be on a safer side. Commit them to Git or just commit the entire `node_modules`. For the npm modules that you publish, don't lock the versions at all. 
 
-If npm is slow or not locking your dependencies enough (it was the case with version 4 but version 5 is fast enough), then take a look at two other package managers: yarn and pnpm:
+If npm is slow or not locking your dependencies enough (as was the case with version 4, but version 5 is fast enough), then take a look at two other package managers: yarn and pnpm.
 
-* [yarn](https://yarnpkg.com/en/): uses npm registry but often faster and more predictable due to lock files
-* [pnpm](https://pnpm.js.org): fully command-compatible-with-npm tool which uses symlinks and thus is blazingly fast and space efficient.
+* [yarn](https://yarnpkg.com/en/): Uses npm registry but often faster and more predictable due to lock files
+* [pnpm](https://pnpm.js.org): Fully command-compatible-with-npm tool which uses symlinks and thus is blazingly fast and space efficient.
 
 Git for Version Control and Deployments
 =======================================
 
-Git has become not only a standard version control system, but also—because of its distributed nature—Git has become the default transport mechanism of deployment (i.e., enables you to send source code).
+Git has become not only a standard version control system, but also—because of its distributed nature—Git has become the default transport mechanism of deployment because it enables you to send source code.
 
 Platform as a service (PaaS) solutions often leverage Git for deploys, because it’s already a part of many development flows. Instead of “pushing” your code to GitHub or BitBucket, the destination becomes a PaaS-like Heroku, Azure, or Nodejitsu. Git is also used for continuous deployment and continuous integration (e.g., TravisCI, CircleCI).
 
-Even when IaaS solutions are used, systems such as [Chef](http://docs.opscode.com) (<http://docs.opscode.com>) can be used.
+Even when Infrastructure-as-a-Service (IaaS) solutions are used, developers can leverage automated systems like [Chef](http://docs.opscode.com) (<http://docs.opscode.com>).
 
 Installing Git
 --------------
@@ -814,7 +814,7 @@ To install Git for your OS, download a package from [the official website](http:
 	    $ git version
 
 3.  You should see something like the following in your terminal window,
-    as shown in Figure 10-4 (your version might vary; in our case it’s
+    as shown in Figure 10-4 (your version might vary—in our case, it’s
     1.8.3.2):
 
 	    git version 1.8.3.2
@@ -826,7 +826,7 @@ To install Git for your OS, download a package from [the official website](http:
 Generating SSH Keys
 ----------------------------------------------------------------------------------------------------------------
 
-SSH keys provide a secure connection without the need to enter username and password every time. For GitHub repositories, the latter approach is used with HTTPS URLs (e.g., `https://github.com/azat-co/rpjs.git`) and the former with SSH URLs (e.g., `git@github.com:azat-co/rpjs.git`).
+SSH keys provide a secure connection without the need to enter a username and password every time. For GitHub repositories, the latter approach is used with HTTPS URLs (e.g., `https://github.com/azat-co/rpjs.git`,) and the former with SSH URLs (e.g., `git@github.com:azat-co/rpjs.git`).
 
 To generate SSH keys for GitHub on macOS/Unix machines, do the following:
 
@@ -851,7 +851,7 @@ To generate SSH keys for GitHub on macOS/Unix machines, do the following:
 
 ![alt](media/image5.png)
 
-***Figure 10-5.** Generating an RSA (Ron Rivest (<http://en.wikipedia.org/wiki/Ron_Rivest>), Adi Shamir (<http://en.wikipedia.org/wiki/Adi_Shamir>) and Leonard Adleman (<http://en.wikipedia.org/wiki/Leonard_Adleman>)) key pair for SSH and copying the public RSA key to a clipboard*
+***Figure 10-5.** Generating an RSA key pair for SSH and copying the public RSA key to a clipboard*
 
 Alternatively, you can open the `id_rsa.pub` file in the default editor:
 
@@ -895,7 +895,7 @@ In case you’ve never used Git and/or GitHub, or you’ve forgotten how to comm
 Creating a Local Git Repository
 -------------------------------
 
-To create a GitHub repository, go to [github.com](http://github.com) (<http://github.com>), login, and create a new repository. There will be an SSH address; copy it. In your terminal window, navigate to the project folder to which you would like to push GitHub. Then, do the following:
+To create a GitHub repository, go to [github.com](http://github.com) (<http://github.com>), log in, and create a new repository. There will be an SSH address; copy it. In your terminal window, navigate to the project folder to which you would like to push GitHub. Then, do the following:
 
 1.  Create a local `Git` and `.git` folder in the root of the project folder:
 
@@ -912,7 +912,7 @@ To create a GitHub repository, go to [github.com](http://github.com) (<http://gi
 Pushing the Local Repository to GitHub
 --------------------------------------
 
-You can create a new repository in github.com via a web interface. Then, copy your newly created repo’s to the Git SSH URI, which looks something like `git@github.com:username/reponame`.
+You can create a new repository on github.com via a web interface. Then, copy your newly created repo's address (Git SSH URI), which looks something like `git@github.com:username/reponame`. Follow the steps to add the address to your local Git:
 
 1.  Add the GitHub remote destination:
 
@@ -952,7 +952,7 @@ For more Git commands, go to:
 
         $ git --help
 
-**Note** We advise against committing the `node_modules` folder to the repository for a project intended to be used in other applications, i.e., for a module. On the other hand, it’s a good practice to commit that folder along with all the dependencies for a standalone application, because future updates might break something unintentionally.
+**Note** I advise against committing the `node_modules` folder to the repository for a project intended to be used in other applications, i.e., for a module. On the other hand, it’s a good practice to commit that folder along with all the dependencies for a standalone application, because future updates might break something unintentionally.
 
 Running Tests in Cloud with TravisCI
 ====================================
@@ -1000,8 +1000,7 @@ On the other hand, we can use any other command that invokes the execution of th
 TravisCI uses this npm instruction to run the tests.
 
 After all the preparation is done in the form of the `YAML` file and the `package.json` property, the next step is to sign up for TravisCI (free
-for open-source project/public repositories on GitHub) and select the repository from the web interface on [travis-ci.org](https://travis-ci.org)
-(<https://travis-ci.org>).
+for open-source project/public repositories on GitHub) and select the repository from the web interface on <https://travis-ci.org>.
 
 For more information on the TravisCI configuration, follow the project in this chapter or see [*Building a Node.js* project](http://docs.travis-ci.com/user/languages/javascript-with-nodejs)
 (<http://docs.travis-ci.com/user/languages/javascript-with-nodejs>).
@@ -1025,11 +1024,11 @@ By default, TravisCI starts the MongoDB instance for us on the local host, port 
     services:
       - mongodb
 
-That’s it! The test build will be synched on each push to GitHub.
+That’s it! The test build will be synced on each push to GitHub.
 
-If your tests fail even locally right now, don’t despair, because that’s the whole point of TDD. In the next chapter, we hook up the database and write more tests for fun.
+If your tests fail even locally right now, don’t despair, because that’s the whole point of TDD. In the next chapter, we'll hook up the database and write more tests for fun.
 
-Because of the GitHub hooks to TravisCI, the test build should start automatically. On their completion, contributors can get email / Internet Relay Chat (IRC) notifications.
+Because of the GitHub hooks to TravisCI, the test build should start automatically. On their completion, contributors can get email/Internet Relay Chat (IRC) notifications.
 
 Summary
 =======
