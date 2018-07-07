@@ -36,7 +36,7 @@ I'll continue with the installation for macOS users. The HomeBrew installation i
 $ brew install mongodb
 ```
 
-If this doesn&#39;t work, try the manual installation. It's basically downloading an archive file for MongoDB at <http://www.mongodb.org/downloads> and then configuring it. For the latest Apple laptops, such as MacBook Air, select the OS X 64-bit version. The owners of older Macs should browse the link <http://dl.mongodb.org/dl/osx/i386>. The owners of other laptops and OSs, select the appropriate package for the download. 
+If this doesn&#39;t work, try the manual installation. It's basically downloading an archive file for MongoDB at <http://www.mongodb.org/downloads> and then configuring it. For the latest Apple laptops, such as MacBook Air, select the OS X 64-bit version. The owners of older Macs should browse the link <http://dl.mongodb.org/dl/osx/i386>. The owners of other laptops and OSes, select the appropriate package for the download. 
 
 **Tip**  If you don&#39;t know the architecture type of your processor when choosing a MongoDB package, type `$ uname -p` in the command line to find this information.
 
@@ -76,7 +76,7 @@ This data folder is where your local database instance will store all databases,
 
 If you prefer to store data somewhere else rather than `/data/db`, then you can do it. Just specify your custom path using the `--dbpath` option to `mongod` (the main MongoDB service) when you launch your database instance (server).
 
-If some of these steps weren't enough, then another interpretation of the installation instructions for MongoDB on various OSs is available at MongoDB.org, "[Install MongoDB on OS X](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x)" (<http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x>). Windows users can read a good walk-through article titled "[Installing MongoDB](http://www.tuanleaded.com/blog/2011/10/installing-mongodb)" (<http://www.tuanleaded.com/blog/2011/10/installing-mongodb>).
+If some of these steps weren't enough, then another interpretation of the installation instructions for MongoDB on various OSes is available at MongoDB.org, "[Install MongoDB on OS X](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x)" (<http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x>). Windows users can read a good walk-through article titled "[Installing MongoDB](http://www.tuanleaded.com/blog/2011/10/installing-mongodb)" (<http://www.tuanleaded.com/blog/2011/10/installing-mongodb>).
 
 # How to Run the Mongo Server
 

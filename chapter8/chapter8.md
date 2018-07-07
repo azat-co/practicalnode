@@ -497,7 +497,7 @@ $ mocha test -R nyan
 
 ***Figure 8-1.** Who wouldn&#39;t like a library with Nyan Cat?*
 
-If you really don&#39;t like Mocha, BDD or TDD, manual testing with CURL is always there for you. :-) At least on POSIX (Linux, Unix, macOS), CURL is built-in and comes with those OSs. On Windows, you can [download the CURL tool manually](https://curl.haxx.se/download.html). 
+If you really don&#39;t like Mocha, BDD or TDD, manual testing with CURL is always there for you. :-) At least on POSIX (Linux, Unix, macOS), CURL is built-in and comes with those OSes. On Windows, you can [download the CURL tool manually](https://curl.haxx.se/download.html). 
 
 For GET CURLing, simply provide the URL, and you will get the server response which is the JSON of the object, as shown in Figure 8-2:
 

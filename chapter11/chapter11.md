@@ -2,8 +2,7 @@ Chapter 11
 ----------
 # Deploying Node.js Apps
 
-
-As we approach the end of the book, there’s a vital step we have to explore: the deployment itself. To help you navigate between PaaS and IaaS options, and have some scripts you can use on your servers, we cover the following topics:
+As we approach the end of the book, there’s a vital step we have to explore: the deployment itself. To help you navigate between PaaS and IaaS options, and have some scripts you can use on your servers, we'll learn the following topics:
 
 -   Deploying to Heroku (PaaS)
 -   Deploying to Amazon Web Services (AWS)
@@ -16,14 +15,14 @@ Deploying to Heroku
 
 [Heroku](http://www.heroku.com) (<http://www.heroku.com>) is a polyglot Agile application deployment Platform as a Service (PaaS). The benefits of using PaaS over other cloud solutions include the following:
 
-1.  It’s easy to deploy, i.e., just one Git command to deploy `$ git push
+1.  It’s easy to deploy, i.e., just one Git command to deploy: `$ git push
     heroku master`.
 2.  It’s easy to scale, e.g., log in to Heroku.com and click a
     few options.
 3.  It’s easy to secure and maintain, e.g., no need to set up startup
     scripts manually.
 
-Heroku works similarly to AWS Beanstalk, [Windows Azure](http://azure.microsoft.com/en-us/) (http://azure.microsoft.com/en-us), or many others in the sense that you can use Git to deploy applications. In other words, Heroku uses ubiquitous Git as its deployment mechanism. This means that after becoming familiar with Heroku and comfortable with Git, and after creating accounts with cloud PaaS providers, it’s fairly easy to deploy Node.js apps to them as well.
+Heroku works similarly to AWS Beanstalk, [Windows Azure](http://azure.microsoft.com/en-us/) (http://azure.microsoft.com/en-us), and many others in the sense that you can use Git to deploy applications. In other words, Heroku uses ubiquitous Git as its deployment mechanism. This means that after becoming familiar with Heroku and comfortable with Git, and after creating accounts with cloud PaaS providers, it’s fairly easy to deploy Node.js apps to them as well.
 
 To get started with the process, we need to follow these steps:
 
@@ -34,7 +33,7 @@ To set up Heroku, follow these steps:
 
 1.  Sign up at <http://heroku.com>. Currently, they have a free account. To use it, select all options as minimum (0) and the database as shared.
 2.  Download Heroku Toolbelt at <https://toolbelt.heroku.com>. Toolbelt is a package of tools, i.e., libraries, that consists of Heroku, Git, and [Foreman](https://github.com/ddollar/foreman) (https://github.com/ddollar/foreman). For users of older Macs, get this [client](http://assets.heroku.com/heroku-client/heroku-client.tgz) (http://assets.heroku.com/heroku-client/heroku-client.tgz) directly. If you use another OS, browse [Heroku Client GitHub](https://github.com/heroku/heroku) (https://github.com/heroku/heroku).
-3.  After the installation is done, you should have access to the `heroku` command. To check it and log in to Heroku, type
+3.  After the installation is done, you should have access to the `heroku` command. To check it and log in to Heroku, type:
 
 		$ heroku login
 
@@ -44,7 +43,7 @@ To set up Heroku, follow these steps:
 
 	***Figure 11-1.** The response to a successful `$ heroku login` command*
 
-4.  If everything went well, to create a Heroku application inside your specific project folder, you should be able to run
+4.  If everything went well, to create a Heroku application inside your specific project folder, you should be able to run:
 
 		$ heroku create
 
@@ -86,19 +85,19 @@ Here is a step-by-step breakdown using Git to deploy to Heroku:
 
 		$ git remote show
 
-6.  Deploy the code to Heroku with
+6.  Deploy the code to Heroku with:
 
 		$ git push heroku master
 
 	Terminal logs should tell you whether the deployment went smoothly (i.e., succeeded). If you have a different branch you’d like to use, you can use `$ git push heroku branch_name`, just like you would do with any other Git destination (e.g., GitHub).
 
-7.  To open the app in your default browser, type
+7.  To open the app in your default browser, type:
 
 		$ heroku open
 
 	or just go to the URL of your app and type something like: http://yourappname-NNNN.herokuapp.com.
 
-8.  To look at the Heroku logs for this app, type
+8.  To look at the Heroku logs for this app, type:
 
 		$ heroku logs
 
@@ -112,17 +111,17 @@ To update the app with the new code, type the following *only*:
 
 To propagate environment variables to the Heroku cloud, use the `heroku config` set of commands:
 
--   `$ heroku config`: list of environment variables
+-   `$ heroku config`: List of environment variables
 
--   `$ heroku config:get NAME`: value of `NAME` environment variable
+-   `$ heroku config:get NAME`: Value of `NAME` environment variable
 
--   `$ heroku config:set NAME=VALUE`: setting the value of `NAME` to `VALUE`
+-   `$ heroku config:set NAME=VALUE`: Setting the value of `NAME` to `VALUE`
 
--   `$ heroku config:unset NAME`: removal of the environment variable
+-   `$ heroku config:unset NAME`: Removal of the environment variable
 
-**Note** Configuration variable data are limited to 16KB for each app.
+**Note** Configuration variable data is limited to 16KB for each app.
 
-To use the same environment variables locally, you can store them in the `.env` file in the root of your project. The format is `NAME=VALUE`. For example,
+To use the same environment variables locally, you can store them in the `.env` file in the root of your project. The format is `NAME=VALUE`. For example:
 
     DB_PASSWORD=F2C9C45
     API_KEY=7C311DA3126F
@@ -150,47 +149,44 @@ To sync your local `.env` seamlessly with cloud variables, use [the heroku-confi
 
     $ heroku plugins:install git://github.com/ddollar/heroku-config.git
 
-To get variables from the cloud to the local file, type
+To get variables from the cloud to the local file, type:
 
     $ heroku config:pull
 
-To overwrite cloud data with local variables, type
+To overwrite cloud data with local variables, type:
 
     $ heroku config:push
 
-For official information on setting up environment variables in Heroku, see [Configuration and Config Vars (https://devcenter.heroku.com/articles/config-vars) (https://devcenter.heroku.com/articles/config-vars). The article might require Heroku login.
+For official information on setting up environment variables in Heroku, see [Configuration and Config Vars](https://devcenter.heroku.com/articles/config-vars) (https://devcenter.heroku.com/articles/config-vars). The article might require Heroku login.
 
-There are a multitude of [add-ons for Heroku](https://addons.heroku.com/) (https://addons.heroku.com). Each add-on is like a mini service associated with a particular Heroku app. For example, [MongoHQ](https://addons.heroku.com/mongohq) (https://addons.heroku.com/mongohq) provides MongoDB database, while the [Postgres add-on](https://addons.heroku.com/heroku-postgresql) (https://addons.heroku.com/heroku-postgresql) does the same for the PostgreSQL database, and [SendGrid](https://addons.heroku.com/sendgrid) (https://addons.heroku.com/sendgrid) allows sending transactional emails. In Figure 11-2, you can see the beginning of the long list of Heroku add-ons.
+There are a multitude of [add-ons for Heroku](https://addons.heroku.com/) (<https://addons.heroku.com>). Each add-on is like a mini service associated with a particular Heroku app. For example, [MongoHQ](https://addons.heroku.com/mongohq) (<https://addons.heroku.com/mongohq>) provides the MongoDB database, and the [Postgres add-on](<https://addons.heroku.com/heroku-postgresql>) (https://addons.heroku.com/heroku-postgresql) does the same for the PostgreSQL database. [SendGrid](https://addons.heroku.com/sendgrid) (<https://addons.heroku.com/sendgrid>) allows sending transactional emails. In Figure 11-2, you can see the beginning of the long list of Heroku add-ons.
 
 ![alt](media/image2.png)
 
-***Figure 11-2.** There are a multitude of add-ons for Heroku*
+***Figure 11-2.** Heroku supports a multitude of add-ons*
 
-Most of the add-ons pass information to the Node.js app (and others such as Rails) via environment variables. For example, the MongoHQ URI is provided in
+Most of the add-ons pass information to the Node.js app (and others, such as Rails) via environment variables. For example, the MongoHQ URI is provided in
 
     process.env.MONGOHQ_URL
 
-To make our Node.js apps work locally and remotely, all we need to do is to specify the local URI to which to fall back (when the environment variable is not set):
+To make our Node.js apps work locally and remotely, all we need to do is to specify the local URI to fall back to when the environment variable is not set:
 
-    var databaseUrl = process.env.MONGOHQ_URL || "mongodb://@127.0.0.1:27017/practicalnode";
+    const databaseUrl = process.env.MONGOHQ_URL || "mongodb://@127.0.0.1:27017/practicalnode"
 
 The same thing goes for the server port number:
 
-    var port = process.env.PORT || 5000;
-    app.listen(port);
+    const port = process.env.PORT || 5000
+    app.listen(port)
 
 **Note** It’s possible to copy a database connection string (and other data) from the Heroku web interface. However, it’s not recommended that you do so.
 
 Some useful Git and Heroku commands are as follows:
 
--   `git remote -v`: list defined remote destinations
-
--   `git remote add NAME URL`: add a new remote destination with `NAME`
+-   `git remote -v`: List defined remote destinations
+-   `git remote add NAME URL`: Add a new remote destination with `NAME`
     and `URL` (usually SSH or HTTPS protocols)
-
--   `heroku start`: start the app in the cloud
-
--   `heroku info`: pull the app’s info
+-   `heroku start`: Start the app in the cloud
+-   `heroku info`: Pull the app’s info
 
 Deploying to Amazon Web Services
 ================================
@@ -220,7 +216,7 @@ Then, to install both Node.js and npm, simply run this command:
 
     sudo yum install nodejs npm --enablerepo=epel
 
-This might take a while. Answer with y as the process goes. In the end, you should see something like this (your results may vary):
+This might take a while. Answer with `y` as the process goes on. In the end, you should see something like this (your results may vary):
 
     Installed:
       nodejs.i686 0:0.10.26-1.el6                   npm.noarch 0:1.3.6-4.el6
@@ -253,7 +249,7 @@ Then install Git, which is needed for delivering source files to the remote mach
 
     sudo yum install git
 
-Last, clone the Node repository straight from GitHub:
+Lastly, clone the Node repository straight from GitHub:
 
     git clone git://github.com/joyent/node.git
 
@@ -267,13 +263,13 @@ and build Node.js:
 
 **Note** For a different version of Node.js, you can list them all with `$ git tag -l` and check out the one you need.
 
-To install npm, run
+To install npm, run:
 
     git clone https://github.com/isaacs/npm.git
     cd npm
     sudo make install
 
-Relax and enjoy the build. The next step is to configure AWS ports / firewall settings. Here's a short example of `server.js`, which outputs "Hello readers" and looks like this:
+Relax and enjoy the build. The next step is to configure AWS ports/firewall settings. Here's a short example of `server.js`, which outputs "Hello readers" and looks like this:
 
 ```js
 const http = require('http')
@@ -296,7 +292,7 @@ $ service iptables stop
 $ chkconfig iptables off
 ```
 
-In the AWS console, find your EC2 instance and apply a proper rule to allow for inbound traffic, as show in Figure 11-3. For example,
+In the AWS console, find your EC2 instance and apply a proper rule to allow for inbound traffic, as shown in Figure 11-3. For example:
 
     Type: HTTP
 
@@ -321,13 +317,13 @@ Now, while the Node.js app is running, executing `$ netstat -apn | grep 80`, the
     tcp        0      0 0.0.0.0:80                  0.0.0.0:*
     LISTEN      1064/node
 
-And from your local machine, i.e., your development computer, you can either use the public IP or the public DNS (the Domain Name System) domain, which is found and copied from the AWS console under that instance's description. For example,
+And from your local machine, i.e., your development computer, you can either use the public IP or the public DNS (the Domain Name System) domain, which is found and copied from the AWS console under that instance's description. For example:
 
     $ curl XXX.XXX.XXX.XXX –v
 
 Or, just open the browser using the public DNS.
 
-For the proper `iptables` setup, please consult experienced development operations engineers and manuals, because this is an important security aspect and it is out of the scope of this book. However, here are some commands to redirect traffic to, say, port 3001:
+For the proper `iptables` setup, please consult experienced development operations engineers and manuals, because this is an important security aspect and covering it properly is out of the scope of this book. However, here are some commands to redirect traffic to, say, port 3001:
 
     sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
     sudo iptables -t nat -A INPUT -p tcp --dport 80 -j REDIRECT --to-ports 3001
@@ -340,7 +336,7 @@ You can also use commands such as the following:
     $ service iptables restart
     $ chkconfig iptables on
 
-It’s worth mentioning that AWS supports many other operating systems via its [AWS Marketplace](https://aws.amazon.com/marketplace) (https://aws.amazon.com/marketplace). Although AWS EC2 is a very popular and affordable choice, some companies opt for special Node.js tools available in the [SmartOS](http://smartos.org/) (http://smartos.org), e.g., [DTrace](http://dtrace.org/blogs/) (http://dtrace.org/blogs), built on top of Solaris by [Joyent](http://www.joyent.com/) (http://www.joyent.com), the company that maintains Node.js.
+It’s worth mentioning that AWS supports many other operating systems via its [AWS Marketplace](https://aws.amazon.com/marketplace) (<https://aws.amazon.com/marketplace>). Although AWS EC2 is a very popular and affordable choice, some companies opt for special Node.js tools available in the [SmartOS](http://smartos.org) (<http://smartos.org>), e.g., [DTrace](http://dtrace.org/blogs) (<http://dtrace.org/blogs>), built on top of Solaris by [Joyent](http://www.joyent.com) (<http://www.joyent.com>), the company that maintains Node.js.
 
 Keeping Node.js Apps Alive with forever, Upstart, and init.d
 ============================================================
@@ -349,11 +345,11 @@ This section relates only to IaaS deployment—another advantage to PaaS deploym
 
 Luckily, there’s no shortage of solutions to monitor and restart our Node.js apps:
 
--   [*forever*](https://github.com/nodejitsu/forever) (https://github.com/nodejitsu/forever): probably the easiest method. The forever module is installed via npm and works on almost any Unix OS. Unfortunately, if the server itself fails (not our Node.js server, but the big Unix server), then nothing resumes forever.
+-   [*forever*](https://github.com/nodejitsu/forever) (<https://github.com/nodejitsu/forever>): Probably the easiest method because the `forever` module is installed via npm and works on almost any Unix OS. Unfortunately, if the server itself fails (not our Node.js server, but the big Unix server), then nothing resumes forever.
 
--   [*Upstart*](http://upstart.ubuntu.com) (http://upstart.ubuntu.com): the most recommended option. It solves the problem of starting daemons on startups, but it requires writing an Upstart script and having the latest Unix OS version support for it. We show you an Upstart script example for CentOS.
+-   [*Upstart*](http://upstart.ubuntu.com) (<http://upstart.ubuntu.com>): The most recommended option. It solves the problem of starting daemons on startups, but it requires writing an Upstart script and having the latest Unix OS version support for it. I'll show you an Upstart script example for CentOS.
 
--   [*init.d*](http://www.unix.com/man-page/opensolaris/4/init.d/) (http://www.unix.com/man-page/opensolaris/4/init.d): an outdated analog of Upstart. init.d contains the last startup script options for systems that don’t have Upstart capabilities.
+-   [*init.d*](http://www.unix.com/man-page/opensolaris/4/init.d/) (<http://www.unix.com/man-page/opensolaris/4/init.d>): An outdated analog of Upstart. init.d contains the last startup script options for systems that don’t have Upstart capabilities.
 
 forever
 -------
@@ -369,15 +365,15 @@ If you're starting from another location, prefix the file name with the abosulte
 
     $ forever start -l forever.log -o output.log -e error.log server.js
 
-To stop the process, type
+To stop the process, run:
 
     $ forever stop server.js
 
-To look up all the programs run by forever, type
+To look up all the programs run by forever, run:
 
     $ forever list
 
-To list all available forever commands, type
+To list all available forever commands, run:
 
     $ forever --help
 
@@ -386,10 +382,9 @@ To list all available forever commands, type
 Upstart Scripts
 ---------------
 
-"Upstart is an event-based replacement for the `/sbin/init` daemon that handles starting of tasks and services during boot…"—[the Upstart web
-site](http://upstart.ubuntu.com/) (http://upstart.ubuntu.com). The latest CentOS (6.2+), as well as Ubuntu and Debian OSs, come with Upstart. If Upstart is missing, try typing `sudo yum install upstart` to install it on CentOS, and try `sudo apt-get install upstart` for Ubuntu.
+"Upstart is an event-based replacement for the `/sbin/init` daemon that handles starting of tasks and services during boot…"—[the Upstart website](http://upstart.ubuntu.com/) (<http://upstart.ubuntu.com>). The latest CentOS (6.2+), as well as Ubuntu and Debian OSes, comes with Upstart. If Upstart is missing, try typing `sudo yum install upstart` to install it on CentOS, and try `sudo apt-get install upstart` for Ubuntu.
 
-A very basic Upstart script—to illustrate its structure—starts with metadata:
+First, we need to create the upstart script. A very basic Upstart script—to illustrate its structure—starts with metadata:
 
     author      "Azat"
     description "practicalnode"
@@ -415,16 +410,16 @@ We include environment variables:
 
     env NODE_ENV=production
 
-Command and file to execute:
+We write the command `exec` and the file to execute:
 
     exec /usr/bin/node /var/practicalnode/webapp.js
 
-A more useful example follows in which from a file in `/etc/init` (e.g., `webapp.conf`):
+Where to place the upstart script? We can save it in a file such as `webapp.conf` in a folder `/etc/init`:
 
     cd /etc/init
     sudo vi webapp.conf
 
-The simplistic content of an Upstart script is as follows:
+Let me know you another Upstart script example that sets multiple env vars:
 
     #!upstart
     description "webapp.js"
@@ -463,26 +458,26 @@ The following tells what to do when we’re stopping the process:
         echo "[`date -u +%Y-%m-%dT%T.%3NZ`] (sys) Stopping" >> /var/log/webapp.log 
     end script
 
-To start/stop the app, use
+To start/stop the app, use:
 
     /sbin/start myapp
     /sbin/stop myapp
 
-To determine the app’s status, type
+To determine the app’s status, type and run:
 
     /sbin/status myapp
 
 **Tip** With Upstart, the Node.js app restarts on an app crash and on server reboots.
 
-The previous example was inspired by [Deploy Nodejs app in Centos 6.2](http://sqllyw.wordpress.com/2012/02/19/deploy-nodejs-app-in-centos-6-2/) (<http://bit.ly/1qwIeTJ>). For more information on Upstart, see [How to Write CentOS Initialization Scripts with Upstart](http://www.openlogic.com/wazi/bid/281586/How-to-write-CentOS-initialization-scripts-with-Upstart) (<http://bit.ly/1pNFlxT>) and [Upstart
+The previous example was inspired by [Deploy Nodejs app in Centos 6.2](http://sqllyw.wordpress.com/2012/02/19/deploy-nodejs-app-in-centos-6-2) (<http://bit.ly/1qwIeTJ>). For more information on Upstart, see [How to Write CentOS Initialization Scripts with Upstart](http://www.openlogic.com/wazi/bid/281586/How-to-write-CentOS-initialization-scripts-with-Upstart) (<http://bit.ly/1pNFlxT>) and [Upstart
 Cookbook](http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf) (<http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf>).
 
 init.d
 ------------------------------------------------------------------------------------------
 
-If Upstart is unavailable, you can create an `init.d` script. init.d is a technology available on most Linux OSs. Usually, development operations engineers resort to init.d when Upstart is not available and when they need something more robust than forever. Without going into too much detail, Upstart is a newer alternative to `init.d` scripts. We put `init.d` scripts into the `/etc/` folder.
+If Upstart is unavailable, you can create an `init.d` script. init.d is a technology available on most Linux OSes. Usually, development operations engineers resort to init.d when Upstart is not available and when they need something more robust than forever. Without going into too much detail, Upstart is a newer alternative to `init.d` scripts. We put `init.d` scripts into the `/etc/` folder.
 
-For example, the following `init.d` script for CentOS starts, stops, and restarts the node process / file `home/nodejs/sample/app.js`:
+For example, the following `init.d` script for CentOS starts, stops, and restarts the node process from the `home/nodejs/sample/app.js` file:
 
     #!/bin/sh
 
@@ -544,18 +539,17 @@ For example, the following `init.d` script for CentOS starts, stops, and restart
 
     exit $RETVAL
 
-The `init.d` script above was borrowed from this [GitHub gist](https://gist.github.com/nariyu/1211413) (<https://gist.github.com/nariyu/1211413>). For more info on `init.d`, see this detailed [tutorial](http://www.novell.com/documentation/suse91/suselinux-adminguide/html/ch13s04.html) (<http://bit.ly/1lDkRGi>).
+The preceding `init.d` script was borrowed from this [GitHub gist](https://gist.github.com/nariyu/1211413) (<https://gist.github.com/nariyu/1211413>). For more info on `init.d`, see this detailed [tutorial](http://www.novell.com/documentation/suse91/suselinux-adminguide/html/ch13s04.html) (<http://bit.ly/1lDkRGi>).
 
 Serving Static Resources Properly with Nginx
 ============================================
 
-Although, it’s fairly easy to serve static files from Node.js applications, and we can use `sendFile` or Express.js static middleware,
-it’s a big no-no for systems that require high performance. In other words, this step is optional but recommended.
+Adding static web servers is optional but recommended. Although, it’s fairly easy to serve static files from Node.js applications, and we can use `sendFile` or Express.js static middleware, it’s a big no-no for systems that require high performance. Let Node.js apps handle interactive and networking tasks only. 
 
-The best option is to use [Nginx](http://nginx.org/) (http://nginx.org), [Amazon S3](http://aws.amazon.com/s3/) (http://aws.amazon.com/s3) or CDNs, e.g., [Akamai](http://www.akamai.com/) (http://www.akamai.com) or [CloudFlare](https://www.cloudflare.com/) (https://www.cloudflare.com), for the purpose for which they were specifically designed, i.e., serving static content, and let Node.js apps handle interactive and networking tasks only. This tactic decreases the load on Node.js processes and improves the efficiency of your system.
+For serving static content, the best option is to use [Nginx](http://nginx.org) (<http://nginx.org>), [Amazon S3](http://aws.amazon.com/s3) (<http://aws.amazon.com/s3>) or CDNs, e.g., [Akamai](http://www.akamai.com) (<http://www.akamai.com>) or [CloudFlare](https://www.cloudflare.com) (<https://www.cloudflare.com>). This is because these technologies were specifically designed for the task. They will allow to decrease the load on Node.js processes and improves the efficiency of your system.
 
 Nginx is a popular choice among development operations engineers. It's an HTTP and reverse-proxy server. To install Nginx on a CentOS system
-(v6.4+), type:
+(v6.4+), type and run the following shell command:
 
     sudo yum install nginx 
 
@@ -583,7 +577,7 @@ If your project uses Express.js or a framework that’s built on top of it, don�
 
     app.set('trust proxy', true);
 
-This little configuration enables Express.js to display true client IPs provided by proxy instead of proxy IPs. The IP address is taken from the `X-Forwarded-For HTTP` header of requests (see next code snippet).
+This little configuration enables Express.js to display true client IPs provided by proxy instead of proxy IPs. The IP address is taken from the `X-Forwarded-For HTTP` header of requests (see the next code snippet).
 
 A more complex example with HTTP headers in the proxy-server directive, and file extensions for static resources, follows:
 
@@ -611,14 +605,14 @@ Alternatively, we can use [upstream try_files](http://wiki.nginx.org/HttpCoreMod
 
     sudo service nginx start
 
-After Nginx is up and running, launch your node app with forever or Upstart on the port number you specified in the proxy-server configurations.
+After Nginx is up and running, launch your Node app with forever or Upstart on the port number you specified in the proxy-server configurations.
 
-To stop and restart Nginx, use
+To stop and restart Nginx, use:
 
     sudo service nginx stop
     sudo service nginx start
 
-<span id="summary" class="anchor"></span>So far, we’ve use Nginx to serve static content while redirecting nonstatic requests to Node.js apps. We can take it a step further and let Nginx serve error pages and use multiple Node.js processes. For example, if we want to serve the 404 page from the `404.html` file, which is located in the `/var/www/webapplog/public` folder, we can add the following line inside the server directive:
+<span id="summary" class="anchor"></span>So far, we’ve used Nginx to serve static content while redirecting non-static requests to Node.js apps. We can take it a step further and let Nginx serve error pages and use multiple Node.js processes. For example, if we want to serve the 404 page from the `404.html` file, which is located in the `/var/www/webapplog/public` folder, we can add the following line inside the server directive:
 
     error_page 404 /404.html;
     location /404.html {
@@ -673,19 +667,19 @@ and build Varnish Cache with the following:
     $ make check
     $ make install
 
-For this example, let’s make only minimal configuration adjustments. In the file `/etc/sysconfig/varnish`, type
+For this example, let’s make only minimal configuration adjustments. In the file `/etc/sysconfig/varnish`, type:
 
     VARNISH_LISTEN_PORT=80
     VARNISH_ADMIN_LISTEN_ADDRESS=127.0.0.1
 
-Then, in `/etc/varnish/default.vcl`, type
+Then, in `/etc/varnish/default.vcl`, type:
 
     backend default {
       .host = "127.0.0.1";
       .port = "8080";
     }
 
-Restart the services with
+Restart the services with:
 
     $ /etc/init.d/varnish restart
     $ /etc/init.d/nginx restart
@@ -694,9 +688,9 @@ Everything should be working by now. To test it, CURL from your local (or anothe
 
     $ curl -I www.varnish-cache.org
 
-If you see “Server: Varnish” this means that requests go through Varnish Cache first, just as we intended.
+If you see “Server: Varnish”, this means that requests go through Varnish Cache first, just as we intended.
 
 Summary
 =======
 
-In this chapter, we covered deployment using the Git and Heroku command-line interfaces to deploy to PaaS. Then, we worked through examples of installing and building a Node.js environment on AWS EC2, running Node.js apps on AWS with CentOS. After that, we explored examples of forever, Upstart, and init.d to keep our apps running. Last, we installed and configured Nginx to serve static content, including error pages, and split traffic between multiple Node.js processes. Then, we added Varnish Cache to lighten the Node.js apps’ loads even more.
+In this chapter, we covered deployment using the Git and Heroku command-line interfaces to deploy to PaaS. Then, we worked through examples of installing and building a Node.js environment on AWS EC2, running Node.js apps on AWS with CentOS. After that, we explored examples of forever, Upstart, and init.d to keep our apps running. Next, we installed and configured Nginx to serve static content, including error pages, and split traffic between multiple Node.js processes. Lastly, we added Varnish Cache to lighten the Node.js apps’ loads even more.
