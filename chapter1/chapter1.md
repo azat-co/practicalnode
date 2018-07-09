@@ -167,7 +167,7 @@ For full, detailed instructions, go to <https://github.com/nodejs/node/blob/mast
 
 ## Multiversion Setup with NVM
 
-If you plan to work on various Node projects, you might have to have to switch between multiple versions of Node.js. To make things easier, I recommend using a version manager that will allow you to install multiple versions and switch between them quickly and without a hassle.
+If you plan to work on various Node projects, you might have to switch between multiple versions of Node.js. To make things easier, I recommend using a version manager that will allow you to install multiple versions and switch between them quickly and without a hassle.
 
 One of the most trusted and battle-tested version managers is nvm (Node Version Manager): <https://github.com/creationix/nvm>. Install NVM as follows:
 
@@ -234,11 +234,11 @@ You should see the latest versions of Node.js and npm that you just downloaded a
 
 ***Figure 1-3.** Checking Node.js and npm installations*
 
-That’s it! You now have Node.js and npm installed, and you should be ready to dig deeper into using the platform. The simplest way to run Node.js is through its virtual environment, which is often called *read–eval–print–loop*, or REPL.
+That’s it! Now you have Node.js and npm installed, and you should be ready to dig deeper into using the platform. The simplest way to run Node.js is through its virtual environment, which is often called *read–eval–print–loop*, or REPL.
 
 ## Node.js Console (REPL)
 
-Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment called read–eval–print–loop (REPL). Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling drones nodecopters (<http://nodecopter.com>) and debugging remote servers (more about that in Chapter 10). To start the console, run the following command in your terminal:
+Like most platforms/languages (e.g., Java, Python, Ruby, and PHP), Node.js comes with a virtual environment called read–eval–print loop (REPL). Using this shell program, we can execute pretty much any Node.js/JavaScript code. It’s even possible to include modules and work with the file system! Other REPL use cases involve controlling drones nodecopters (<http://nodecopter.com>) and debugging remote servers (more about that in Chapter 10). To start the console, run the following command in your terminal:
 
 ```sh
 $ node
@@ -294,33 +294,32 @@ Automatic typecasting works well most of the time. It’s a great feature that s
 - Boolean
 - Undefined
 - Null
-- RegExp
 
-Everything else is an object. Class is an object. Function is an object. Array is an object. Objects are passed by reference whereas primitives are passed by values.
+Everything else is an object. Class is an object. Function is an object. Array is an object. RegExp is an object. Objects are passed by reference whereas primitives are passed by values.
 
 Also, in JavaScript, there are String, Number, and Boolean objects that contain helpers for the primitives, as follows:
 
 ```js
-'a' === new String('a') *//false*
+'a' === new String('a') *// false*
 ```
 
 but
 
 ```js
-'a' === new String('a').toString() *//true*
+'a' === new String('a').toString() *// true*
 ```
 
 or
 
 ```js
-'a' == new String('a') *//true*
+'a' == new String('a') *// true*
 ```
 
 By the way, `==` performs automatic typecasting, whereas `===` does not.
 
 ## Buffer—Node.js Super Data Type
 
-`Buffer` is the data type. It is a Node.js addition to four primitives (boolean, string, number, and RegExp) and all-encompassing objects (arrays and functions are also objects) in front-end JavaScript. Think of buffers as extremely efficient data stores. In fact, Node.js tries to use buffers any time it can, such as when reading from a file system and when receiving packets over the network. 
+`Buffer` is the data type. It is a Node.js addition to five primitives (boolean, string, number, `undefined` and null) and all-encompassing objects (arrays and functions are also objects) in front-end JavaScript. Think of buffers as extremely efficient data stores. In fact, Node.js tries to use buffers any time it can, such as when reading from a file system and when receiving packets over the network. 
 
 Buffer is functionally similar to JavaScript's [ArrayBuffer](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer). We use the class name `Buffer` to work with buffer objects.
 
@@ -819,7 +818,7 @@ That's not it. There's another special Node variable related to paths.
 
 The `cwd` value will be different from `__dirname`, if we started the program from a different folder. For example, for the process `$ node ./code/program.js`, `__dirname` will have `code` but `cwd` wont' because it'll be one folder above in the directory tree.
 
-On POSIX systems (macOS, Linux, and its distributions), Node developers can also use `process.evn.PWD`, which works similarly to `process.cwd`.
+On POSIX systems (macOS, Linux, and its distributions), Node developers can also use `process.env.PWD`, which works similarly to `process.cwd`.
 
 ## Browser Application Programming Interface Helpers
 
@@ -974,7 +973,7 @@ fs.writeFile('message.txt',
 
 ## Streaming Data in Node.js
 
-*Streaming data* means an application processes the data while it’s still receiving it. Node has supports for streams. This feature is useful for extra large datasets, such as video or database migrations.
+*Streaming Data in Node.js* means processing data by Node.js application while transmission is in progress. Node supports streams. This feature is useful for extra large datasets, such as video or database migrations.
 
 Here's a basic example of using streams that reads a file as a stream and outputs the binary file content back to the standard output:
 
@@ -987,7 +986,7 @@ By default, Node.js uses buffers for streams. For more immersive instruction, ta
 
 ## Installing Node.js Modules with npm
 
-npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html) (<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, to import `superagent` first install it with `$ npm install superagent` and then in the `program.js` write: `const superagent = require('superagent')` to import the `superagent` library.
+npm comes with the Node.js platform and allows for seamless Node.js package management. The way `npm install` works is similar to Git in the way [it traverses the working tree to find a current project](https://npmjs.org/doc/files/npm-folders.html) (<https://npmjs.org/doc/files/npm-folders.html>). For starters, keep in mind that we need either the `package.json` file or the `node_modules` folder to install modules locally with `$ npm install name`. For example, to import `superagent` first install it with `$ npm install superagent` and then in the `program.js` write: `const superagent = require('superagent')` to import the `superagent` module.
 
 The best thing about npm is that it keeps all the dependencies local, so if module A uses module B v1.3, and module C uses module B v2.0 (with breaking changes compared with v1.3), both A and C will have their own localized copies of different versions of B. This proves to be a more superior strategy than that of Ruby and other platforms that use global installations by default.
 
@@ -1040,7 +1039,7 @@ const port = 3000
 http.createServer((req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'})
   res.end('Hello World\n')
-}).listen(port, ()=>{
+}).listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
 })
 ```
@@ -1076,7 +1075,7 @@ The `req` and `res` arguments have all the information about a given HTTP reques
 To make the server accept requests, use the following:
 
 ```js
-}).listen(port, ()=>{
+}).listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
 })
 ```
@@ -1103,23 +1102,24 @@ Now, there are amazing environments such as Chrome Developer Tools and Firefox F
 
 ## Core Node.js Debugger
 
-The best debugger is `console.log()`, because it doesn’t break/interrupt the flow, and it is fast and informative. However, to use it, we first need to know where to put it. Sometimes, we just don’t know where to put the logs! Other times, we need to see the call stack and orient ourselves in the async code a bit more. To do this, put `debugger` statements in your code and use `$ node debug program.js` to start [the debugging process](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
+The best debugger is `console.log()`, because it doesn’t break/interrupt the flow, and it is fast and informative. However, to use it, we first need to know where to put it. Sometimes, we just don’t know where to put the logs! Other times, we need to see the call stack and orient ourselves in the async code a bit more. To do this, put `debugger` statements in your code and use `$ node inspect program.js` to start [the debugging process](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
 
 For example, the Hello World from the previous section can be enhanced with `debugger` in two places: when an instance is created and when a request is made (`hello-debug.js`):
 
 ```js
 const http = require('http')
 const port = 3000
+debugger
 http.createServer((req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'})
   debugger  
   res.end('Hello World\n')
-}).listen(3000, ()=>{
+}).listen(3000, () => {
   console.log(`Server running at http://localhost:${port}`)
 })
 ```
 
-Now, if we run the previous snippet (`hello-debug.js`), just like we did earlier (`$ node hello-debug.js`), nothing changes, because we need to use `$ node debug hello-debug.js`. And only then the execution will halt at the first line, and then again on the next `debugger` statement if we use the `cont` command.
+Now, if we run the previous snippet (`hello-debug.js`), just like we did earlier (`$ node hello-debug.js`), nothing changes, because we need to use `$ node inspect hello-debug.js`. And only then the execution will halt at the first line, and then again on the next `debugger` statement if we use the `cont` command.
 
 The main node debug commands are as follows:
 
@@ -1131,7 +1131,7 @@ The main node debug commands are as follows:
 
 The full list of commands is available through the `help` command or on [the official web site](http://nodejs.org/api/debugger.html) (<http://nodejs.org/api/debugger.html>).
 
-So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line, and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at <http://localhost:3000> or execute `$ curl "http://localhost:3000/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can use `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
+So, in our example (`hello-debug.js`), after we start the debugger client and execute `cont` or `c` twice (first for the first line, and second for our debugger on the second line), the server will be up and running. After that, we can open the browser at <http://localhost:3000> or execute `$ curl "http://localhost:3000/"` in the Terminal/Command line, and the debugger client stops inside the request handler (line 5). Now we can type `repl` and `console.log(req)` to inspect the HTTP response object dynamically.
 
 ## Debugging with Node Inspector
 
