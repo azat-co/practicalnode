@@ -212,7 +212,7 @@ For the purpose of saving time, the API listed here is the bare minimum to get b
 
 I'm sure you all enjoyed typing those brackets and parentheses in the terminal just to get a typo somewhere (#sarcasm). That's why I created MongoUI, which is a web-based database admin interface. It allows you to view, edit, search, remove MongoDB documents without typing commands. Check out MongoUI at <https://github.com/azat-co/mongoui>. You can install MongoUI with npm by executing `nmp i -g mongoui` and then start it with `mongoui`. It'll open the app in your default browser and connect to your local DB instance (if there's one). 
 
-MongoUI is a web-based app which you can host on your own application. For an even better desktop tool than my own MongoUI, download Compass at TK. It's built in Node using Electron and React.
+MongoUI is a web-based app which you can host on your own application. For an even better desktop tool than my own MongoUI, download Compass at <https://www.mongodb.com/products/compass>. It's built in Node using Electron and React.
 
 One more useful MongoDB command (script) is `mongoimport`. It allows developers to supply a JSON file that will be imported to a database. Let's say you are migrating a database or have some initial data that you want to use, but the database is empty right now. How do you create multiple records? You can copypasta to MongoDB console, but that's not fun. Use `mongoimport`. Here's an example of how to inject a data from a JSON file with an array of object:
 

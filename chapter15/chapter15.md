@@ -792,7 +792,7 @@ Cluster is the place where AWS runs containers. They use configurations similar 
 * *Key pair:* None
 * *VPC:* New
 
-If you are not familiar with AWS EC2, then I wrote a blog post that TK.
+If you are not familiar with AWS EC2, then I wrote a blog post: <http://bit.ly/2J6rzT0>.
 
 ![](media/aws-ecs-11.png)
 ***Figure 15-14.** "Create Cluster" page with settings not unlike settings of an EC2 instance*
