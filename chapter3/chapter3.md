@@ -104,7 +104,7 @@ Usually, when it comes to choosing a type of framework, there are a few options.
 - [Jest](https://facebook.github.io/jest) (<https://facebook.github.io/jest>): A framework for *mostly* React and browser testing, which is built on Jasmine and has a lot of things included
 - [Jasmine](https://jasmine.github.io): (<https://jasmine.github.io>): A BDD framework for Node and browser testing, which follows Mocha notation
 - [Vows](http://vowsjs.org) (<http://vowsjs.org>): A BDD framework for asynchronous testing
-- [Encyme](http://airbnb.io/enzyme) (<http://airbnb.io/enzyme>): A language *mostly* for React apps, which has a jQuery-like syntax and is used with Mocha, Jasmine, or other test frameworks
+- [Enzyme](http://airbnb.io/enzyme) (<http://airbnb.io/enzyme>): A language *mostly* for React apps, which has a jQuery-like syntax and is used with Mocha, Jasmine, or other test frameworks
 - [Karma](https://karma-runner.github.io/1.0/index.html) (<https://karma-runner.github.io/1.0/index.html>): A testing framework *mostly* for Angular apps
 - [TAP](http://www.node-tap.org) (<http://www.node-tap.org>: A Test-Anything-Protocol library for Node.js, which is simpler and ascetic than Mocha or Jasmine
 
