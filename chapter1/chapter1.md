@@ -395,7 +395,7 @@ const accountService = {
   getUrl() {  // define method without "function"
     return "http://" + this.url + ':' + this.port
   },
-  getAccounts() // define from an outer-scope function
+  getAccounts, // define from an outer-scope function
   toString() { // overwrite proto method
     return JSON.stringify((super.valueOf()))
   },
