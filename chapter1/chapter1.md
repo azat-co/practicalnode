@@ -4,7 +4,7 @@ Chapter 1
 
 # Setting up Node.js and Other Essentials
 
-Many technologies, it’s vital to have the proper foundation set up first, before moving on to solving more complex problems. With Node.js, proper foundation is even more important because of all the bad syntax and quirks that JavaScript brings to Node. In this chapter, we cover the following:
+With many technologies, it’s vital to have the proper foundation set up first, before moving on to solving more complex problems. With Node.js, a proper foundation is even more important because of all the bad syntax and quirks that JavaScript brings to Node. In this chapter, we will cover the following:
 
 - Node.js and npm (Node package manager) installation
 - Node.js script launches
