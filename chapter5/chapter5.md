@@ -115,7 +115,7 @@ If you see anything else, then you probably have one of the two:
 * The `data` or `db` folders are not created or were created with root permissions. The solution is to create them with non-root.
 * The MongoDB folder is not exposed, and `mongod` cannot be found. The solution is to use the correct location or expose the location in PATH.
 
-Please fix the issue(s) if you have any. If you are all set with the "waiting" notice, the let's go and play with the database using Mongo Console.
+Please fix the issue(s) if you have any. If you are all set with the "waiting" notice, then let's go and play with the database using Mongo Console.
 
 # Data Manipulation from the Mongo Console
 
