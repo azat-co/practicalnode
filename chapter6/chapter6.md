@@ -517,8 +517,10 @@ The `logout` route is trivial. We clear the session by calling `destroy()` on `r
 
 ```js
 exports.logout = (req, res, next) => {
-  req.session.destroy()
-  res.redirect('/')
+  req.session.destroy((error) => {
+    if (error) return console.log(error)
+    res.redirect('/')
+  })
 }
 ```
 
