@@ -1,7 +1,7 @@
 const port = process.env.PORT || 3000
 const Hapi = require('hapi')
-server.connection({ port: port, host: 'localhost' })
 const server = new Hapi.Server()
+server.connection({ port: port, host: 'localhost' })
 
 const mongoskin = require('mongoskin')
 
