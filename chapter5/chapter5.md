@@ -820,7 +820,7 @@ if (require.main === module) {
 }
 ```
 
-Again, for your convenience, the full source code of `app.js` is under `ch5/blog-example` folder.
+Again, for your convenience, the full source code of `app.js` is under `ch5/blog-express` folder.
 
 We must add `index.js`, `article.js`, and `user.js` files to the `routes` folder, because we need them in `app.js`. The `user.js` file is bare bones for now (we'll add authentications in Chapter 6).
 
@@ -856,7 +856,7 @@ exports.authenticate = (req, res, next) => {
 }
 ```
 
-The full code of `user.js` is in `code/ch5/blog-example/routes`. We will add more logic to `user.js` later. Now the most database action happens in the `article.js` routes.
+The full code of `user.js` is in `code/ch5/blog-express/routes`. We will add more logic to `user.js` later. Now the most database action happens in the `article.js` routes.
 
 Let&#39;s start with the GET article page where we call `findOne` with the slug from the `req.params` object:
 
@@ -971,7 +971,7 @@ exports.admin = (req, res, next) => {
 
 **Note**  In real production apps that deal with thousands of records, programmers usually use pagination by fetching only a certain number of items at once (5, 10, 100, and so on). To do this, use the `limit` and `skip` options with the `find` method, e.g., HackHall example: <https://github.com/azat-co/hackhall/blob/master/routes/posts.js#L37>.
 
-This time we won't duplicate the code since it's rather long. So for the full code of `article.js`, please refer to the `code/ch5/blog-example/routes`. 
+This time we won't duplicate the code since it's rather long. So for the full code of `article.js`, please refer to the `code/ch5/blog-express/routes`. 
 
 From the project section in Chapter 4, we have the `.pug` files under the `views` folder. Lastly, the `package.json` file looks as follows. Please compare your npm scripts and dependencies.
 
@@ -1089,7 +1089,7 @@ $(document).ready(function () {
 })
 ```
 
-The full source code of the front-end `admin.js` file is in `code/ch5/blog-example/public/js`. And now is the time to run the app!
+The full source code of the front-end `admin.js` file is in `code/ch5/blog-express/public/js`. And now is the time to run the app!
 
 ## Running the App
 
