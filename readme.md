@@ -21,11 +21,11 @@ You can get final 2nd edition (pre-order now or buy when it's ready) at Apress: 
 
 # Book, Rights and Publishing
 
-Practical Node, 2nd Edition is a work-in-open book. It means that the book is written, updated and previewed in this reposition as free-to-read drafts, but are also being professionally edited, typeset, designed, produced, published, printed in soft cover and distributed to physical and electronic stores through the reputable tech publisher Apress Media.
+Practical Node, 2nd Edition is a work-in-open book. It means that the book is written, updated and previewed in this repository as free-to-read drafts, but are also being professionally edited, typeset, designed, produced, published, printed in soft cover and distributed to physical and electronic stores through the reputable tech publisher, Apress Media.
 
-If find the content here useful in any form, prefer print version, prefer professionally produced Kindle, ePUB or PDF, or just want to support me and Apress to create more work-in-open projects like Practical Node, 2nd Edition, please purchase the books once they are available for sale, through your normal physical or electronic book stores
+If you find the content here useful in any form, I request that you get the printed version of the book or a professionally produced Kindle, ePUB or PDF copy of the book. If you want to support me and Apress to create more work-in-open projects like Practical Node, 2nd Edition, please purchase the books once they are available for sale, through your normal physical or electronic book stores.
 
-If you'd like to contribute financially towards the effort (or any of my other open source work) aside from purchasing the books, or hire me as a speaker, write me an message via [my blog](https://webapplog.com/azat), or through [Twitter, Facebook or LinkedIn](http://azat.co).
+If you'd like to contribute financially towards the effort (or any of my other open source work) aside from purchasing the books, or hire me as a speaker, write a message to me via [my blog](https://webapplog.com/azat), or through [Twitter, Facebook or LinkedIn](http://azat.co).
 
 # Practical Node.js, 2nd Edition Table of Contents [NEEDS REVIEW! 👀]
 
@@ -46,7 +46,7 @@ If you'd like to contribute financially towards the effort (or any of my other o
 15. [Node Microservices with Docker and AWS ECS](https://github.com/azat-co/practicalnode/blob/master/chapter15/chapter15.md)  BRAND NEW 
 16. [Serverless Node with AWS Lambda](https://github.com/azat-co/practicalnode/blob/master/chapter16/chapter16.md)  BRAND NEW 
 
-Note: It's work in progress (1st -> 2nd Edition) and the draft will be completed in the end of 2017. See for [2nd Edition] for newer updated content.
+Note: It's work in progress (Transition from 1st to 2nd edition) and the draft will be completed in the end of 2017. Check out [2nd Edition] for newer updated content.
 
 # Help Needed
 
