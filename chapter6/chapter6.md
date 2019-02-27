@@ -286,7 +286,7 @@ app.use(session({secret: '2C44774A-D649-4D44-9535-46E296EF984F'}))
 
 `session()` must be preceded by `cookieParser()` because session depends on cookies to work properly. For more information about these and other Express.js/Connect middleware, refer to *Pro Express.js 4* (Apress, 2014).
 
-Beware of another cookie middleware. It's name is `cookie-sesison` and it's not as secure as `cookie-parser` with `express-session`. This is because `cookie-session` stores all information in the cookie, not on the server. `cookie-session` can be used in some cases but I do not recommend it. The usage is to import the module and to apply it to the Express.js `app`:
+Beware of another cookie middleware. It's name is `cookie-session` and it's not as secure as `cookie-parser` with `express-session`. This is because `cookie-session` stores all information in the cookie, not on the server. `cookie-session` can be used in some cases but I do not recommend it. The usage is to import the module and to apply it to the Express.js `app`:
 
 ```js
 const cookieSession = require('cookie-session')
