@@ -507,7 +507,7 @@ db.messages.findOneAndAddText('hi', (count, id) => {
 })
 ```
 
-Mongoskin is a subset of the native Node.js MongoDB driver, so most of the methods, as you have observed from the latter are available in the former. For example, `find()`, `findOne()`, `update()`, `save()`, and `remove()`. They are from the native MongoDB driver and they are available in the Mongoskin straight up. But there are more methods. Here is the list of the main Mongoskin–only methods:
+Mongoskin is a superset of the native Node.js MongoDB driver, so most of the methods, as you have observed from the latter are available in the former. For example, `find()`, `findOne()`, `update()`, `save()`, and `remove()`. They are from the native MongoDB driver and they are available in the Mongoskin straight up. But there are more methods. Here is the list of the main Mongoskin–only methods:
 
 - `findItems(..., callback)`: Finds elements and returns an array instead of a cursor
 - `findEach(..., callback)`: Iterates through each found element
