@@ -424,7 +424,6 @@ First, let&#39;s copy the Hello World project. It will serve as a foundation for
 
 - `axios` (<https://npmjs.org/package/axios>): A promise and async/await-based library, which works both in Node and browsers (recommended)
 - `node-fetch` (<https://npmjs.org/package/node-fetch>): A port of a native Fetch API from ECMAScript and browsers, which works universally in Node and browsers
-- `request` (<https://npmjs.org/package/request>): A versatile HTTP agent and one of the most downloaded and dependents upon npm module 
 - `http`: A core module, which clunky and very low level
 - `supertest` (<https://npmjs.org/package/supertest>): A superagent-based assertions library
 
