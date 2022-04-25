@@ -4,7 +4,7 @@ Chapter 6
 
 You know that security is an important aspect of any real-world web application. This is especially true nowadays, because our apps don’t function in silos anymore. What if I tell you that you don't have to spend days studying for security certifications or read sketchy dark-web hacker forums to implement a secure Node app? I'll show you a few tricks.
 
-We can makes our apps and communications secure by using various approaches, such as token-based authentication and/or OAuth (<http://oauth.net>). We can leverage numerous third-party services (e.g., Google, Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
+We can make our apps and communications secure by using various approaches, such as token-based authentication and/or OAuth (<http://oauth.net>). We can leverage numerous third-party services (e.g., Google, Twitter, GitHub) or become service providers ourselves (e.g., provide a public API). 
  
  In this practical book, I dedicate the whole chapter to matters of authorization, authentication, OAuth, and best practices. We'll look at the following topics:
 
@@ -217,7 +217,7 @@ Session-based authentication is done via the `session` object in the request obj
 In the main Express.js file, we'll need to import (`require()`) two modules to enable sessions. We need to include and use `cookie-parser` and `express-session`: 
 
 1. `express.cookieParser()`: Allows for parsing of the client/request cookies
-2. `express.session()`: Exposes the `res.session` object in each request handler, and stores data in the app memory or some other persistent store like MongoDB or Redis
+2. `express.session()`: Exposes the `req.session` object in each request handler, and stores data in the app memory or some other persistent store like MongoDB or Redis
 
 Note: in `express-session` version 1.5.0 and higher, there's no need to add the `cookie-parser` middleware. In fact, it might lead to some bad behavior. So it's recommended to use `express-sesison` by itself because it will parse and read cookie by itself.
 
