@@ -173,7 +173,7 @@ updated 1 package in 1.793s
  $ express --version
  ```
 
-Express is used with `require()`, and it's a local project dependency. Let's built a quick Hello World with Express.
+Express is used with `require()`, and it's a local project dependency. Let's build a quick Hello World with Express.
 
 ## Local Express.js
 
