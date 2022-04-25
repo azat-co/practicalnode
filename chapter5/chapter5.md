@@ -462,7 +462,7 @@ As you can see, the Mongoskin method to connect to the database does *not* requi
 
 We can also create our own methods on collections. This might be useful when implementing an model-view-controller-like (MVC-like) architecture by incorporating app-specific logic into these custom methods. See how we can create a custom method `findOneAndAddText()` that takes some text (duh) and executes two MongoDB methods to first find that document and then update it in the database with the passed text. Custom methods are your own project-specific methods and they are great at reusing code.
 
-Did you notice that there's no fat arrow function for the custom method `findOneAndAddText()`? That's because we need to let Mongoskin to pass the collection to use `this`  inside of this method. If we use the fat arrow `()=>{}`, then we can's use `this.findOne()` inside of the custom method:
+Did you notice that there's no fat arrow function for the custom method `findOneAndAddText()`? That's because we need to let Mongoskin to pass the collection to use `this`  inside of this method. If we use the fat arrow `()=>{}`, then we can't use `this.findOne()` inside of the custom method:
 
 ```javascript
 db.bind('messages').bind({
