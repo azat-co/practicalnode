@@ -157,7 +157,7 @@ To install the Express.js Generator as global package, run `$ npm install -g exp
 
 **Note**: For macOS and Linux users, if there is an error installing globally, most likely your system requires root/administrator rights to write to the folder. In this case, `$ sudo npm install -g express-generator@4.15.0` might be needed. Refer to Chapter 1 for more information on changing npm ownership.
 
-Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm i –g express-generator@4.15.5`. But in this case your results might be inconsistent with the book&#39;s examples.
+Of course, we can be more vague and tell npm to install the latest version of `express-generator`: `$ npm i –g express-generator`. But in this case your results might be inconsistent with the book&#39;s examples.
 
 Here are the results of running the aforementioned command:
 
