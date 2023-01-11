@@ -128,7 +128,7 @@ const webapp = require('./lib/webapp.js')({...})
 
 The real-life example of this pattern is the Express.js module ([source code](https://github.com/visionmedia/express/blob/master/lib/express.js#L26)).
 
-The `module.exports` as a class pattern uses the so-called [*pseudoclassical instantiating/inheritance pattern*](http://javascript.info/tutorial/pseudo-classical-pattern), which can be recognized by the use of the `this` and `prototype` keywords:
+The `module.exports` as a class pattern uses the so-called [*pseudoclassical instantiating/inheritance pattern*]([http://javascript.info/tutorial/pseudo-classical-pattern](https://javahubscript.com/pseudo-classical-pattern/)), which can be recognized by the use of the `this` and `prototype` keywords:
 
 ```js
 module.exports = function(options) {
