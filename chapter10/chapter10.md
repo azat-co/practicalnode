@@ -165,7 +165,7 @@ process.addListener('uncaughtException', (err) => {
 })
 ```
 
-You might wonder what to do in the event of these uncaught exceptions (the `server.notify.error()` method). It depends. Typically, at a minimum, we want them to be recorded, most likely in the logs. For this purpose, later we'll cover a more advanced alternative to `console.log`—the Winston library (<https://github.com/flatiron/winston>). 
+You might wonder what to do in the event of these uncaught exceptions (the server.notify.error() method). It depends. Typically, at minimum, we want them recorded, most likely in the logs. For this purpose, later we'll cover a more advanced alternative to console.log - the Winston library (https://github.com/flatiron/winston). 
 
 At a maximum, you can implement text message alerts effortlessly using the Twilio API (<http://www.twilio.com>). The following is an example in which helpers can send [HipChat](https://www.hipchat.com) (<https://www.hipchat.com>) messages via their REST API and send an email containing an error stack:
 
